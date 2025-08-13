@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service | MyToolbox</title>
+    <meta name="description" content="MyToolbox Terms of Service - Legal agreement for using our tools and services">
+    <link href="../../../dist/style.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="font-sans bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
+    <!-- Minimal Header -->
+    <header class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 py-3">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <a href="../index.html" class="flex items-center gap-2">
+                <i class="fas fa-tools text-primary-600 dark:text-primary-400"></i>
+                <span class="font-medium">MyToolbox</span>
+            </a>
+            <a href="../index.html" class="text-sm px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                <i class="fas fa-arrow-left mr-2"></i> Back to Tools
+            </a>
+        </div>
+    </header>
+    
+    <main class="py-8">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <!-- Page Header -->
+            <div class="text-center mb-8">
+                <h1 class="text-2xl md:text-3xl font-bold mb-2">Terms of Service</h1>
+                <p class="text-gray-600 dark:text-gray-400 text-sm">
+                    Last updated: <span id="terms-date"></span>
+                </p>
+            </div>
+            
+            <!-- Terms Content -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                <div class="prose dark:prose-invert max-w-none text-sm">
+                    <section class="mb-6">
+                        <h2 class="text-xl font-bold mb-3">1. Acceptance of Terms</h2>
+                        <p class="mb-4">
+                            By accessing or using MyToolbox ("Service"), you agree to be bound by these Terms. If you disagree, you may not use our Service.
+                        </p>
+                    </section>
+                    
+                    <section class="mb-6">
+                        <h2 class="text-xl font-bold mb-3">2. Description of Service</h2>
+                        <p class="mb-4">
+                            MyToolbox provides free online tools for file conversion, calculations, and other utilities. We reserve the right to modify or discontinue services without notice.
+                        </p>
+                    </section>
+                    
+                    <section class="mb-6">
+                        <h2 class="text-xl font-bold mb-3">3. User Responsibilities</h2>
+                        <p class="mb-2">You agree not to:</p>
+                        <ul class="list-disc pl-6 mb-4">
+                            <li>Use the Service for illegal purposes</li>
+                            <li>Upload harmful or malicious files</li>
+                            <li>Attempt to disrupt service operations</li>
+                            <li>Use automated systems to access the Service excessively</li>
+                        </ul>
+                    </section>
+                    
+                    <section class="mb-6">
+                        <h2 class="text-xl font-bold mb-3">4. Intellectual Property</h2>
+                        <p class="mb-4">
+                            All content and software on this Service are owned by MyToolbox or its licensors. You may not reproduce, modify, or distribute content without permission.
+                        </p>
+                    </section>
+                    
+                    <section class="mb-6">
+                        <h2 class="text-xl font-bold mb-3">5. Disclaimer of Warranties</h2>
+                        <p class="mb-4">
+                            The Service is provided "AS IS". We make no warranties regarding accuracy, reliability, or availability. Use at your own risk.
+                        </p>
+                    </section>
+                    
+                    <section class="mb-6">
+                        <h2 class="text-xl font-bold mb-3">6. Limitation of Liability</h2>
+                        <p class="mb-4">
+                            MyToolbox shall not be liable for any indirect, incidental, or consequential damages resulting from use of the Service.
+                        </p>
+                    </section>
+                    
+                    <section class="mb-6">
+                        <h2 class="text-xl font-bold mb-3">7. Changes to Terms</h2>
+                        <p class="mb-4">
+                            We may modify these Terms at any time. Continued use constitutes acceptance of revised Terms.
+                        </p>
+                    </section>
+                    
+                    <section>
+                        <h2 class="text-xl font-bold mb-3">8. Governing Law</h2>
+                        <p>
+                            These Terms shall be governed by the laws of [Your Country/State] without regard to conflict of law provisions.
+                        </p>
+                    </section>
+                </div>
+            </div>
+            
+            <!-- Back Button -->
+            <div class="mt-8 text-center">
+                <a href="../../../index.html" class="inline-flex items-center px-5 py-2.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm font-medium transition-colors">
+                    <i class="fas fa-arrow-left mr-2"></i> Back to Home
+                </a>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Minimal Footer -->
+    <footer class="bg-gray-100 dark:bg-gray-800/50 border-t border-gray-200 dark:border-gray-700 py-4 text-center text-sm text-gray-600 dark:text-gray-400">
+        <div class="container mx-auto px-4">
+            &copy; <span id="terms-year"></span> MyToolbox. All rights reserved.
+        </div>
+    </footer>
+    
+    <script>
+        // Set current date and year
+        document.getElementById('terms-date').textContent = new Date().toLocaleDateString();
+        document.getElementById('terms-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

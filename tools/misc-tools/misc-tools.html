@@ -1,0 +1,2096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧰 Miscellaneous Utility Tools</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../../dist/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .tool-section {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .tool-section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .screen-ruler {
+            background-image: linear-gradient(to right, #ddd 1px, transparent 1px);
+            background-size: 10px 100%;
+        }
+        .pixel-cell {
+            width: 20px;
+            height: 20px;
+            border: 1px solid #e2e8f0;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <header class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
+    <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+        <!-- Logo -->
+        <div class="flex items-center space-x-2">
+            <i class="fas fa-tools text-2xl text-primary-600 dark:text-primary-400"></i>
+            <a href="#" class="text-xl font-bold text-gray-800 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                My<span class="text-primary-600 dark:text-primary-400">Toolbox</span>
+            </a>
+        </div>
+        
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center space-x-8">
+            <a href="../../index.html" class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</a>
+            
+            <div class="relative group">
+                <button class="flex items-center font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                  Tool Categories <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                </button>
+                <div class="absolute left-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                    <a href="../file-tools/document-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">File Tools</a>
+                    <a href="../image-tools/image-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Image Tools</a>
+                    <a href="../media-tools/mediaTools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Media Tools</a>
+                    <a href="../study-tools/study-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Study Tools</a>
+                    <a href="../calculator-tools/calculators.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Calculators</a>
+                    <a href="../ai-tools/ai-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">AI-Powered Tools</a>
+                    <a href="../design-tools/design-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Design Tools</a>
+                    <a href="../time-tools/time-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Productivity & Time Tools</a>
+                    <a href="../writing-tools/writing-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Writing Tools</a>
+                    <a href="../misc-tools/misc-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">More Useful Tools</a>
+                </div>
+            </div>
+            
+            <a href="src/sections/homePage/about.html" class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">About</a>
+            <a href="src/sections/homePage/contact.html" class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Contact</a>
+        </nav>
+        
+        
+        
+        <!-- Dark Mode Toggle -->
+       <button class="hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+</button>
+<!-- Mobile Menu Button -->
+        <button id="mobile-menu-button" class="md:hidden text-gray-600 dark:text-gray-300">
+            <i class="fas fa-bars text-xl"></i>
+        </button>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
+            <a href="#" class="py-2 font-medium">Home</a>
+            
+            <div class="relative">
+                <button id="mobile-categories-button" class="w-full flex justify-between items-center py-2 font-medium">
+                    Categories <i class="fas fa-chevron-down"></i>
+                </button>
+                <div id="mobile-categories" class="hidden pl-4 mt-1 space-y-2">
+                    <a href="../file-tools/document-tools.html" class="block py-1">File Tools</a>
+                    <a href="../image-tools/image-tools.html" class="block py-1">Image Tools</a>
+                    <a href="../media-tools/mediaTools.html" class="block py-1">Media Tools</a>
+                    <a href="../design-tools/design-tools.html" class="block py-1">Design Tools</a>
+                    <a href="../calculator-tools/calculators.html" class="block py-1">Calculators</a>
+                </div>
+            </div>
+            
+            <a href="src/sections/homePage/about.html" class="py-2 font-medium">About</a>
+            <a href="../../src/sections/homePage/suggest-tool.html" class="py-2 font-medium">Contact</a>
+        </div>
+    </div>
+</header>
+    <div class="container mx-auto px-4 py-8">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-indigo-700 mb-2">Welcome to Your Daily Utility Toolbox</h1>
+            <p class="text-lg text-gray-600">Power up your productivity with these handy tools!</p>
+        </div>
+
+        <div class="flex flex-col md:flex-row gap-6">
+            <!-- Tool Selector Menu -->
+            <div class="md:w-1/4 bg-white rounded-lg shadow-md p-4 sticky top-4 h-fit">
+                <h2 class="text-xl font-semibold mb-4 text-indigo-700 border-b pb-2">Tools Menu</h2>
+                <ul class="space-y-2">
+                    <li>
+                        <button onclick="showTool('qr-generator')" class="tool-btn w-full text-left px-3 py-2 rounded hover:bg-indigo-50 flex items-center gap-2 text-indigo-700">
+                            <i class="fas fa-qrcode"></i> QR Code Generator <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded ml-auto">Popular</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="showTool('barcode-generator')" class="tool-btn w-full text-left px-3 py-2 rounded hover:bg-indigo-50 flex items-center gap-2">
+                            <i class="fas fa-barcode"></i> Barcode Generator
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="showTool('password-generator')" class="tool-btn w-full text-left px-3 py-2 rounded hover:bg-indigo-50 flex items-center gap-2 text-indigo-700">
+                            <i class="fas fa-key"></i> Password Generator <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded ml-auto">New</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="showTool('json-formatter')" class="tool-btn w-full text-left px-3 py-2 rounded hover:bg-indigo-50 flex items-center gap-2">
+                            <i class="fas fa-code"></i> JSON Formatter
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="showTool('base64-converter')" class="tool-btn w-full text-left px-3 py-2 rounded hover:bg-indigo-50 flex items-center gap-2">
+                            <i class="fas fa-lock"></i> Base64 Converter
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="showTool('url-shortener')" class="tool-btn w-full text-left px-3 py-2 rounded hover:bg-indigo-50 flex items-center gap-2">
+                            <i class="fas fa-link"></i> URL Shortener
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="showTool('unit-converter')" class="tool-btn w-full text-left px-3 py-2 rounded hover:bg-indigo-50 flex items-center gap-2">
+                            <i class="fas fa-ruler-combined"></i> Unit Converter
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="showTool('random-number')" class="tool-btn w-full text-left px-3 py-2 rounded hover:bg-indigo-50 flex items-center gap-2">
+                            <i class="fas fa-dice"></i> Random Number
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="showTool('screen-ruler')" class="tool-btn w-full text-left px-3 py-2 rounded hover:bg-indigo-50 flex items-center gap-2">
+                            <i class="fas fa-ruler-horizontal"></i> Screen Ruler
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="showTool('clock-stopwatch')" class="tool-btn w-full text-left px-3 py-2 rounded hover:bg-indigo-50 flex items-center gap-2">
+                            <i class="fas fa-clock"></i> Clock & Stopwatch
+                        </button>
+                    </li>
+                        <!-- Add these new buttons to the tools menu list -->
+    <li>
+        <button onclick="showTool('typing-test')" class="tool-btn w-full text-left px-3 py-2 rounded hover:bg-indigo-50 flex items-center gap-2 text-indigo-700">
+            <i class="fas fa-keyboard"></i> Typing Speed Test <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded ml-auto">New</span>
+        </button>
+    </li>
+    <li>
+        <button onclick="showTool('word-counter')" class="tool-btn w-full text-left px-3 py-2 rounded hover:bg-indigo-50 flex items-center gap-2">
+            <i class="fas fa-font"></i> Word Counter
+        </button>
+    </li>
+    <li>
+        <button onclick="showTool('lorem-ipsum')" class="tool-btn w-full text-left px-3 py-2 rounded hover:bg-indigo-50 flex items-center gap-2">
+            <i class="fas fa-paragraph"></i> Lorem Ipsum Generator
+        </button>
+    </li>
+    <li>
+        <button onclick="showTool('text-converter')" class="tool-btn w-full text-left px-3 py-2 rounded hover:bg-indigo-50 flex items-center gap-2">
+            <i class="fas fa-exchange-alt"></i> Text Converter
+        </button>
+    </li>
+    <li>
+        <button onclick="showTool('palindrome-checker')" class="tool-btn w-full text-left px-3 py-2 rounded hover:bg-indigo-50 flex items-center gap-2">
+            <i class="fas fa-check-double"></i> Palindrome Checker
+        </button>
+    </li>
+                </ul>
+            </div>
+
+            <!-- Tool Content Area -->
+            <div class="md:w-3/4">
+                <!-- QR Code Generator -->
+                <div id="qr-generator" class="tool-section bg-white rounded-lg shadow-md p-6 active">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-2xl font-semibold text-indigo-700 flex items-center gap-2">
+                            <i class="fas fa-qrcode"></i> QR Code Generator
+                        </h2>
+                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Popular</span>
+                    </div>
+                    <p class="text-gray-600 mb-6">Convert any text or URL into a QR code that can be scanned by smartphones.</p>
+                    
+                    <div class="mb-4">
+                        <label for="qr-text" class="block text-sm font-medium text-gray-700 mb-1">Enter text or URL</label>
+                        <input type="text" id="qr-text" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder="https://example.com or any text">
+                    </div>
+                    <div class="flex gap-3 mb-6">
+                        <button onclick="generateQR()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">Generate QR Code</button>
+                        <button onclick="clearQR()" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition">Clear</button>
+                    </div>
+                    
+                    <div id="qr-result" class="text-center hidden">
+                        <div class="mb-4">
+                            <img id="qr-image" src="" alt="QR Code" class="mx-auto border p-2 rounded-lg">
+                        </div>
+                        <button onclick="downloadQR()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+                            <i class="fas fa-download mr-2"></i>Download QR Code
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Barcode Generator -->
+                <div id="barcode-generator" class="tool-section bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-semibold text-indigo-700 mb-4 flex items-center gap-2">
+                        <i class="fas fa-barcode"></i> Barcode Generator
+                    </h2>
+                    <p class="text-gray-600 mb-6">Generate barcodes in various formats for products, inventory, or other uses.</p>
+                    
+                    <div class="mb-4">
+                        <label for="barcode-text" class="block text-sm font-medium text-gray-700 mb-1">Enter text or numbers</label>
+                        <input type="text" id="barcode-text" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder="Product code or numbers">
+                    </div>
+                    <div class="mb-4">
+                        <label for="barcode-type" class="block text-sm font-medium text-gray-700 mb-1">Barcode Type</label>
+                        <select id="barcode-type" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                            <option value="Code128">Code 128</option>
+                            <option value="Code39">Code 39</option>
+                            <option value="EAN13">EAN-13</option>
+                            <option value="UPCA">UPC-A</option>
+                        </select>
+                    </div>
+                    <div class="flex gap-3 mb-6">
+                        <button onclick="generateBarcode()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">Generate Barcode</button>
+                        <button onclick="clearBarcode()" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition">Clear</button>
+                    </div>
+                    
+                    <div id="barcode-result" class="text-center hidden">
+                        <div class="mb-4">
+                            <img id="barcode-image" src="" alt="Barcode" class="mx-auto h-20">
+                        </div>
+                        <button onclick="downloadBarcode()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+                            <i class="fas fa-download mr-2"></i>Download Barcode
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Password Generator -->
+                <div id="password-generator" class="tool-section bg-white rounded-lg shadow-md p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-2xl font-semibold text-indigo-700 flex items-center gap-2">
+                            <i class="fas fa-key"></i> Password Generator
+                        </h2>
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">New</span>
+                    </div>
+                    <p class="text-gray-600 mb-6">Create strong, secure passwords with customizable options.</p>
+                    
+                    <div class="mb-4">
+                        <label for="password-length" class="block text-sm font-medium text-gray-700 mb-1">Password Length: <span id="length-value">12</span></label>
+                        <input type="range" id="password-length" min="6" max="32" value="12" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" oninput="updateLengthValue()">
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <input type="checkbox" id="uppercase" checked class="mr-2">
+                            <label for="uppercase" class="text-sm font-medium text-gray-700">Uppercase (A-Z)</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="lowercase" checked class="mr-2">
+                            <label for="lowercase" class="text-sm font-medium text-gray-700">Lowercase (a-z)</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="numbers" checked class="mr-2">
+                            <label for="numbers" class="text-sm font-medium text-gray-700">Numbers (0-9)</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="symbols" checked class="mr-2">
+                            <label for="symbols" class="text-sm font-medium text-gray-700">Symbols (!@#$%)</label>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-3 mb-6">
+                        <button onclick="generatePassword()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">Generate Password</button>
+                        <button onclick="clearPassword()" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition">Clear</button>
+                    </div>
+                    
+                    <div id="password-result" class="hidden">
+                        <div class="mb-4 flex">
+                            <input type="text" id="generated-password" readonly class="w-full px-4 py-2 border rounded-l-lg bg-gray-50">
+                            <button onclick="copyPassword()" class="px-4 py-2 bg-indigo-600 text-white rounded-r-lg hover:bg-indigo-700 transition">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div id="password-strength" class="h-2 rounded-full w-full"></div>
+                            <span id="strength-text" class="text-sm font-medium"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- JSON Formatter -->
+                <div id="json-formatter" class="tool-section bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-semibold text-indigo-700 mb-4 flex items-center gap-2">
+                        <i class="fas fa-code"></i> JSON Formatter
+                    </h2>
+                    <p class="text-gray-600 mb-6">Beautify and validate your JSON data with proper formatting and syntax highlighting.</p>
+                    
+                    <div class="mb-4">
+                        <label for="json-input" class="block text-sm font-medium text-gray-700 mb-1">Enter JSON</label>
+                        <textarea id="json-input" rows="8" class="w-full px-4 py-2 border rounded-lg font-mono text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder='{"key": "value", "array": [1, 2, 3]}'></textarea>
+                    </div>
+                    <div class="flex gap-3 mb-6">
+                        <button onclick="formatJSON()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">Format JSON</button>
+                        <button onclick="clearJSON()" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition">Clear</button>
+                        <button onclick="minifyJSON()" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">Minify</button>
+                    </div>
+                    
+                    <div id="json-result" class="hidden">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Formatted JSON</label>
+                        <pre id="formatted-json" class="bg-gray-50 p-4 rounded-lg border overflow-x-auto text-sm"></pre>
+                        <div class="flex justify-end mt-2">
+                            <button onclick="copyJSON()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+                                <i class="fas fa-copy mr-2"></i>Copy JSON
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="json-error" class="hidden mt-4 p-4 bg-red-50 text-red-700 rounded-lg border border-red-200"></div>
+                </div>
+
+                <!-- Base64 Converter -->
+                <div id="base64-converter" class="tool-section bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-semibold text-indigo-700 mb-4 flex items-center gap-2">
+                        <i class="fas fa-lock"></i> Base64 Converter
+                    </h2>
+                    <p class="text-gray-600 mb-6">Encode text to Base64 or decode Base64 back to original text.</p>
+                    
+                    <div class="mb-4">
+                        <label for="base64-input" class="block text-sm font-medium text-gray-700 mb-1">Input</label>
+                        <textarea id="base64-input" rows="4" class="w-full px-4 py-2 border rounded-lg font-mono text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder="Enter text to encode or Base64 to decode"></textarea>
+                    </div>
+                    <div class="flex gap-3 mb-6">
+                        <button onclick="encodeBase64()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">Encode</button>
+                        <button onclick="decodeBase64()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">Decode</button>
+                        <button onclick="clearBase64()" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition">Clear</button>
+                    </div>
+                    
+                    <div id="base64-result" class="hidden">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Result</label>
+                        <textarea id="base64-output" rows="4" readonly class="w-full px-4 py-2 border rounded-lg font-mono text-sm bg-gray-50"></textarea>
+                        <div class="flex justify-end mt-2">
+                            <button onclick="copyBase64()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+                                <i class="fas fa-copy mr-2"></i>Copy Result
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- URL Shortener -->
+                <div id="url-shortener" class="tool-section bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-semibold text-indigo-700 mb-4 flex items-center gap-2">
+                        <i class="fas fa-link"></i> URL Shortener
+                    </h2>
+                    <p class="text-gray-600 mb-6">Shorten long URLs to make them easier to share.</p>
+                    
+                    <div class="mb-4">
+                        <label for="url-input" class="block text-sm font-medium text-gray-700 mb-1">Enter URL to shorten</label>
+                        <input type="url" id="url-input" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder="https://example.com/very/long/url">
+                    </div>
+                    <div class="flex gap-3 mb-6">
+                        <button onclick="shortenURL()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">Shorten URL</button>
+                        <button onclick="clearURL()" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition">Clear</button>
+                    </div>
+                    
+                    <div id="url-result" class="hidden">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Shortened URL</label>
+                        <div class="flex mb-4">
+                            <input type="text" id="short-url" readonly class="w-full px-4 py-2 border rounded-l-lg bg-gray-50">
+                            <button onclick="copyURL()" class="px-4 py-2 bg-indigo-600 text-white rounded-r-lg hover:bg-indigo-700 transition">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        <div class="text-sm text-gray-500">
+                            <i class="fas fa-info-circle mr-1"></i> This service uses the TinyURL API to generate short links.
+                        </div>
+                    </div>
+                    
+                    <div id="url-error" class="hidden mt-4 p-4 bg-red-50 text-red-700 rounded-lg border border-red-200"></div>
+                </div>
+
+                <!-- Unit Converter -->
+                <div id="unit-converter" class="tool-section bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-semibold text-indigo-700 mb-4 flex items-center gap-2">
+                        <i class="fas fa-ruler-combined"></i> Unit Converter
+                    </h2>
+                    <p class="text-gray-600 mb-6">Convert between different units of measurement.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="font-medium text-gray-700 mb-3">Length</h3>
+                            <div class="space-y-3">
+                                <div class="flex items-center gap-2">
+                                    <input type="number" id="length-value" class="w-full px-3 py-1 border rounded" placeholder="0" oninput="convertLength()">
+                                    <select id="length-unit" class="px-3 py-1 border rounded" onchange="convertLength()">
+                                        <option value="mm">Millimeters</option>
+                                        <option value="cm">Centimeters</option>
+                                        <option value="m">Meters</option>
+                                        <option value="km">Kilometers</option>
+                                        <option value="in">Inches</option>
+                                        <option value="ft">Feet</option>
+                                        <option value="yd">Yards</option>
+                                        <option value="mi">Miles</option>
+                                    </select>
+                                </div>
+                                <div class="text-sm text-gray-600">
+                                    <div>Millimeters: <span id="mm-result">0</span> mm</div>
+                                    <div>Centimeters: <span id="cm-result">0</span> cm</div>
+                                    <div>Meters: <span id="m-result">0</span> m</div>
+                                    <div>Kilometers: <span id="km-result">0</span> km</div>
+                                    <div>Inches: <span id="in-result">0</span> in</div>
+                                    <div>Feet: <span id="ft-result">0</span> ft</div>
+                                    <div>Yards: <span id="yd-result">0</span> yd</div>
+                                    <div>Miles: <span id="mi-result">0</span> mi</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="font-medium text-gray-700 mb-3">Weight</h3>
+                            <div class="space-y-3">
+                                <div class="flex items-center gap-2">
+                                    <input type="number" id="weight-value" class="w-full px-3 py-1 border rounded" placeholder="0" oninput="convertWeight()">
+                                    <select id="weight-unit" class="px-3 py-1 border rounded" onchange="convertWeight()">
+                                        <option value="mg">Milligrams</option>
+                                        <option value="g">Grams</option>
+                                        <option value="kg">Kilograms</option>
+                                        <option value="oz">Ounces</option>
+                                        <option value="lb">Pounds</option>
+                                    </select>
+                                </div>
+                                <div class="text-sm text-gray-600">
+                                    <div>Milligrams: <span id="mg-result">0</span> mg</div>
+                                    <div>Grams: <span id="g-result">0</span> g</div>
+                                    <div>Kilograms: <span id="kg-result">0</span> kg</div>
+                                    <div>Ounces: <span id="oz-result">0</span> oz</div>
+                                    <div>Pounds: <span id="lb-result">0</span> lb</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="font-medium text-gray-700 mb-3">Temperature</h3>
+                            <div class="space-y-3">
+                                <div class="flex items-center gap-2">
+                                    <input type="number" id="temp-value" class="w-full px-3 py-1 border rounded" placeholder="0" oninput="convertTemp()">
+                                    <select id="temp-unit" class="px-3 py-1 border rounded" onchange="convertTemp()">
+                                        <option value="c">Celsius</option>
+                                        <option value="f">Fahrenheit</option>
+                                        <option value="k">Kelvin</option>
+                                    </select>
+                                </div>
+                                <div class="text-sm text-gray-600">
+                                    <div>Celsius: <span id="c-result">0</span> °C</div>
+                                    <div>Fahrenheit: <span id="f-result">0</span> °F</div>
+                                    <div>Kelvin: <span id="k-result">0</span> K</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Random Number Generator -->
+                <div id="random-number" class="tool-section bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-semibold text-indigo-700 mb-4 flex items-center gap-2">
+                        <i class="fas fa-dice"></i> Random Number Generator
+                    </h2>
+                    <p class="text-gray-600 mb-6">Generate random numbers within a specified range.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <label for="min-value" class="block text-sm font-medium text-gray-700 mb-1">Minimum Value</label>
+                            <input type="number" id="min-value" class="w-full px-4 py-2 border rounded-lg" value="1">
+                        </div>
+                        <div>
+                            <label for="max-value" class="block text-sm font-medium text-gray-700 mb-1">Maximum Value</label>
+                            <input type="number" id="max-value" class="w-full px-4 py-2 border rounded-lg" value="100">
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-3 mb-6">
+                        <button onclick="generateRandomNumber()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">Generate Number</button>
+                        <button onclick="clearRandomNumber()" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition">Clear</button>
+                    </div>
+                    
+                    <div id="random-result" class="hidden text-center">
+                        <div class="text-4xl font-bold text-indigo-700 mb-4" id="random-number-result">0</div>
+                        <button onclick="copyRandomNumber()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+                            <i class="fas fa-copy mr-2"></i>Copy Number
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Screen Ruler -->
+                <div id="screen-ruler" class="tool-section bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-semibold text-indigo-700 mb-4 flex items-center gap-2">
+                        <i class="fas fa-ruler-horizontal"></i> Screen Ruler
+                    </h2>
+                    <p class="text-gray-600 mb-6">Measure screen elements in pixels with this virtual ruler.</p>
+                    
+                    <div class="mb-4">
+                        <label for="ruler-length" class="block text-sm font-medium text-gray-700 mb-1">Ruler Length (px): <span id="ruler-length-value">500</span></label>
+                        <input type="range" id="ruler-length" min="100" max="1000" value="500" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" oninput="updateRuler()">
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="ruler-orientation" class="block text-sm font-medium text-gray-700 mb-1">Orientation</label>
+                        <select id="ruler-orientation" class="w-full px-4 py-2 border rounded-lg" onchange="updateRuler()">
+                            <option value="horizontal">Horizontal</option>
+                            <option value="vertical">Vertical</option>
+                        </select>
+                    </div>
+                    
+                    <div id="ruler-container" class="mb-6 overflow-auto">
+                        <div id="ruler-display" class="screen-ruler h-8 relative">
+                            <div class="absolute top-0 left-0 h-full w-full flex items-center justify-between px-1">
+                                <span class="text-xs">0</span>
+                                <span class="text-xs">100</span>
+                                <span class="text-xs">200</span>
+                                <span class="text-xs">300</span>
+                                <span class="text-xs">400</span>
+                                <span class="text-xs">500</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-sm text-gray-500">
+                        <i class="fas fa-info-circle mr-1"></i> Drag this ruler over elements to measure their size in pixels.
+                    </div>
+                </div>
+
+                <!-- Clock & Stopwatch -->
+                <div id="clock-stopwatch" class="tool-section bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-semibold text-indigo-700 mb-4 flex items-center gap-2">
+                        <i class="fas fa-clock"></i> Clock & Stopwatch
+                    </h2>
+                    <p class="text-gray-600 mb-6">Current time, stopwatch, and timer functionality.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Current Time -->
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="font-medium text-gray-700 mb-3">Current Time</h3>
+                            <div class="text-center">
+                                <div class="text-3xl font-mono font-bold text-indigo-700 mb-2" id="current-time">--:--:--</div>
+                                <div class="text-lg" id="current-date">--- --, ----</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Stopwatch -->
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="font-medium text-gray-700 mb-3">Stopwatch</h3>
+                            <div class="text-center">
+                                <div class="text-3xl font-mono font-bold text-indigo-700 mb-4" id="stopwatch">00:00:00</div>
+                                <div class="flex justify-center gap-2">
+                                    <button onclick="startStopwatch()" id="start-stopwatch" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+                                        <i class="fas fa-play mr-1"></i>Start
+                                    </button>
+                                    <button onclick="stopStopwatch()" id="stop-stopwatch" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition" disabled>
+                                        <i class="fas fa-stop mr-1"></i>Stop
+                                    </button>
+                                    <button onclick="resetStopwatch()" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition">
+                                        <i class="fas fa-redo mr-1"></i>Reset
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Timer -->
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="font-medium text-gray-700 mb-3">Timer</h3>
+                            <div class="text-center">
+                                <div class="text-3xl font-mono font-bold text-indigo-700 mb-2" id="timer-display">00:00:00</div>
+                                <div class="mb-4 grid grid-cols-3 gap-2">
+                                    <div>
+                                        <label class="block text-xs text-gray-600 mb-1">Hours</label>
+                                        <input type="number" id="timer-hours" min="0" max="23" class="w-full px-2 py-1 border rounded text-center" value="0">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs text-gray-600 mb-1">Minutes</label>
+                                        <input type="number" id="timer-minutes" min="0" max="59" class="w-full px-2 py-1 border rounded text-center" value="0">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs text-gray-600 mb-1">Seconds</label>
+                                        <input type="number" id="timer-seconds" min="0" max="59" class="w-full px-2 py-1 border rounded text-center" value="0">
+                                    </div>
+                                </div>
+                                <div class="flex justify-center gap-2">
+                                    <button onclick="startTimer()" id="start-timer" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+                                        <i class="fas fa-play mr-1"></i>Start
+                                    </button>
+                                    <button onclick="pauseTimer()" id="pause-timer" class="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition" disabled>
+                                        <i class="fas fa-pause mr-1"></i>Pause
+                                    </button>
+                                    <button onclick="resetTimer()" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition">
+                                        <i class="fas fa-redo mr-1"></i>Reset
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                    <!-- Add these new tool sections after the existing ones -->
+    
+<!-- Replace the typing-test section with this improved version -->
+<div id="typing-test" class="tool-section bg-white rounded-lg shadow-md p-6">
+    <div class="flex justify-between items-center mb-4">
+        <h2 class="text-2xl font-semibold text-indigo-700 flex items-center gap-2">
+            <i class="fas fa-keyboard"></i> Typing Speed Test
+        </h2>
+        <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">Professional</span>
+    </div>
+    <p class="text-gray-600 mb-6">Test your typing speed (WPM) and accuracy with professional settings.</p>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Test Duration</label>
+            <div class="flex flex-wrap gap-2">
+                <button onclick="setTestDuration(1)" class="duration-btn px-3 py-1 border rounded-lg hover:bg-indigo-50">1 Minute</button>
+                <button onclick="setTestDuration(2)" class="duration-btn px-3 py-1 border rounded-lg hover:bg-indigo-50">2 Minutes</button>
+                <button onclick="setTestDuration(3)" class="duration-btn px-3 py-1 border rounded-lg hover:bg-indigo-50">3 Minutes</button>
+                <button onclick="setTestDuration(5)" class="duration-btn px-3 py-1 border rounded-lg hover:bg-indigo-50">5 Minutes</button>
+            </div>
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Difficulty</label>
+            <div class="flex flex-wrap gap-2">
+                <button onclick="setDifficulty('easy')" class="difficulty-btn px-3 py-1 border rounded-lg hover:bg-indigo-50">Easy</button>
+                <button onclick="setDifficulty('medium')" class="difficulty-btn px-3 py-1 border rounded-lg hover:bg-indigo-50">Medium</button>
+                <button onclick="setDifficulty('hard')" class="difficulty-btn px-3 py-1 border rounded-lg hover:bg-indigo-50">Hard</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mb-6 p-4 bg-gray-50 rounded-lg">
+        <div id="typing-text" class="typing-text mb-4 h-40 overflow-y-auto"></div>
+        <textarea id="typing-input" rows="4" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder="Click 'Start Test' to begin" disabled></textarea>
+    </div>
+    
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <div class="bg-indigo-50 p-3 rounded-lg text-center">
+            <div class="text-sm text-indigo-700">WPM</div>
+            <div class="text-2xl font-bold text-indigo-700" id="wpm">0</div>
+        </div>
+        <div class="bg-green-50 p-3 rounded-lg text-center">
+            <div class="text-sm text-green-700">Accuracy</div>
+            <div class="text-2xl font-bold text-green-700" id="accuracy">0%</div>
+        </div>
+        <div class="bg-blue-50 p-3 rounded-lg text-center">
+            <div class="text-sm text-blue-700">Time Left</div>
+            <div class="text-2xl font-bold text-blue-700" id="typing-time">0:00</div>
+        </div>
+        <div class="bg-purple-50 p-3 rounded-lg text-center">
+            <div class="text-sm text-purple-700">Characters</div>
+            <div class="text-2xl font-bold text-purple-700" id="chars-count">0</div>
+        </div>
+    </div>
+    
+    <div class="flex gap-3">
+        <button onclick="startTypingTest()" id="start-typing" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+            <i class="fas fa-play mr-2"></i>Start Test
+        </button>
+        <button onclick="stopTypingTest()" id="stop-typing" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition" disabled>
+            <i class="fas fa-stop mr-2"></i>Stop
+        </button>
+        <button onclick="resetTypingTest()" id="reset-typing" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition">
+            <i class="fas fa-redo mr-2"></i>Reset
+        </button>
+    </div>
+    
+    <div id="typing-result" class="hidden mt-6 p-4 bg-gray-50 rounded-lg border">
+        <h3 class="text-lg font-semibold mb-2">Test Results</h3>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <div>
+                <div class="text-sm text-gray-600">Final WPM</div>
+                <div class="text-xl font-bold" id="final-wpm">0</div>
+            </div>
+            <div>
+                <div class="text-sm text-gray-600">Accuracy</div>
+                <div class="text-xl font-bold" id="final-accuracy">0%</div>
+            </div>
+            <div>
+                <div class="text-sm text-gray-600">Correct Chars</div>
+                <div class="text-xl font-bold" id="correct-chars">0</div>
+            </div>
+            <div>
+                <div class="text-sm text-gray-600">Wrong Chars</div>
+                <div class="text-xl font-bold" id="wrong-chars">0</div>
+            </div>
+            <div>
+                <div class="text-sm text-gray-600">Time Taken</div>
+                <div class="text-xl font-bold" id="time-taken">0s</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Word Counter -->
+    <div id="word-counter" class="tool-section bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-2xl font-semibold text-indigo-700 mb-4 flex items-center gap-2">
+            <i class="fas fa-font"></i> Word Counter
+        </h2>
+        <p class="text-gray-600 mb-6">Count words, characters, sentences, and paragraphs in your text.</p>
+        
+        <div class="mb-4">
+            <textarea id="word-counter-input" rows="8" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder="Type or paste your text here..."></textarea>
+        </div>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+            <div class="bg-gray-50 p-3 rounded-lg">
+                <div class="text-sm text-gray-600">Words</div>
+                <div class="text-xl font-bold" id="word-count">0</div>
+            </div>
+            <div class="bg-gray-50 p-3 rounded-lg">
+                <div class="text-sm text-gray-600">Characters</div>
+                <div class="text-xl font-bold" id="char-count">0</div>
+            </div>
+            <div class="bg-gray-50 p-3 rounded-lg">
+                <div class="text-sm text-gray-600">Sentences</div>
+                <div class="text-xl font-bold" id="sentence-count">0</div>
+            </div>
+            <div class="bg-gray-50 p-3 rounded-lg">
+                <div class="text-sm text-gray-600">Paragraphs</div>
+                <div class="text-xl font-bold" id="paragraph-count">0</div>
+            </div>
+        </div>
+        
+        <div class="text-sm text-gray-500">
+            <i class="fas fa-info-circle mr-1"></i> Counts update automatically as you type.
+        </div>
+    </div>
+
+    <!-- Lorem Ipsum Generator -->
+    <div id="lorem-ipsum" class="tool-section bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-2xl font-semibold text-indigo-700 mb-4 flex items-center gap-2">
+            <i class="fas fa-paragraph"></i> Lorem Ipsum Generator
+        </h2>
+        <p class="text-gray-600 mb-6">Generate placeholder text for your designs and mockups.</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div>
+                <label for="lorem-type" class="block text-sm font-medium text-gray-700 mb-1">Type</label>
+                <select id="lorem-type" class="w-full px-4 py-2 border rounded-lg">
+                    <option value="paragraphs">Paragraphs</option>
+                    <option value="sentences">Sentences</option>
+                    <option value="words">Words</option>
+                </select>
+            </div>
+            <div>
+                <label for="lorem-amount" class="block text-sm font-medium text-gray-700 mb-1">Amount</label>
+                <input type="number" id="lorem-amount" min="1" max="50" value="3" class="w-full px-4 py-2 border rounded-lg">
+            </div>
+        </div>
+        
+        <div class="flex gap-3 mb-6">
+            <button onclick="generateLoremIpsum()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+                <i class="fas fa-magic mr-2"></i>Generate
+            </button>
+            <button onclick="copyLoremIpsum()" id="copy-lorem" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition" disabled>
+                <i class="fas fa-copy mr-2"></i>Copy
+            </button>
+        </div>
+        
+        <div id="lorem-result" class="border rounded-lg p-4 bg-gray-50 hidden">
+            <div id="lorem-text" class="mb-4"></div>
+            <div class="text-sm text-gray-500">
+                <i class="fas fa-info-circle mr-1"></i> Standard Lorem Ipsum text from Cicero's works.
+            </div>
+        </div>
+    </div>
+
+    <!-- Text Converter -->
+    <div id="text-converter" class="tool-section bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-2xl font-semibold text-indigo-700 mb-4 flex items-center gap-2">
+            <i class="fas fa-exchange-alt"></i> Text Converter
+        </h2>
+        <p class="text-gray-600 mb-6">Convert text between different formats like Binary, Hex, ASCII, etc.</p>
+        
+        <div class="mb-4">
+            <label for="text-to-convert" class="block text-sm font-medium text-gray-700 mb-1">Input Text</label>
+            <textarea id="text-to-convert" rows="4" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder="Enter text to convert"></textarea>
+        </div>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+            <button onclick="convertToBinary()" class="px-3 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition text-sm">
+                To Binary
+            </button>
+            <button onclick="convertToHex()" class="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm">
+                To Hex
+            </button>
+            <button onclick="convertToAscii()" class="px-3 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition text-sm">
+                To ASCII Codes
+            </button>
+            <button onclick="convertToMorse()" class="px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-sm">
+                To Morse Code
+            </button>
+        </div>
+        
+        <div id="conversion-result" class="hidden">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Result</label>
+            <textarea id="converted-text" rows="4" readonly class="w-full px-4 py-2 border rounded-lg bg-gray-50 font-mono"></textarea>
+            <div class="flex justify-end mt-2">
+                <button onclick="copyConvertedText()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+                    <i class="fas fa-copy mr-2"></i>Copy
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Palindrome Checker -->
+    <div id="palindrome-checker" class="tool-section bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-2xl font-semibold text-indigo-700 mb-4 flex items-center gap-2">
+            <i class="fas fa-check-double"></i> Palindrome Checker
+        </h2>
+        <p class="text-gray-600 mb-6">Check if a word, phrase or number reads the same backward as forward.</p>
+        
+        <div class="mb-4">
+            <label for="palindrome-input" class="block text-sm font-medium text-gray-700 mb-1">Enter text or number</label>
+            <input type="text" id="palindrome-input" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder="e.g. madam, racecar, 12321">
+        </div>
+        
+        <div class="flex gap-3 mb-6">
+            <button onclick="checkPalindrome()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+                Check
+            </button>
+            <button onclick="clearPalindrome()" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition">
+                Clear
+            </button>
+        </div>
+        
+        <div id="palindrome-result" class="hidden p-4 rounded-lg text-center">
+            <div id="palindrome-text" class="text-2xl font-bold mb-2"></div>
+            <div id="palindrome-reversed" class="text-gray-600"></div>
+        </div>
+    </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer class="bg-gray-100 dark:bg-gray-800/80 border-t border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- About Column -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">About MyToolbox</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                        An all-in-one platform offering free, easy-to-use tools for your everyday needs.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Tools Column -->
+                <div>
+                    <h3 class="text-lg !text-black font-semibold mb-4">Tools</h3>
+                    <ul class="space-y-2">
+                        <li><a href="../../index.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">All
+                                Tools</a></li>
+                        <li><a href="../../index.html#featured-tools"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Featured
+                                Tools</a></li>
+                        <li><a href="../../index.html#categories"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">New
+                                Tools</a></li>
+                        <li><a href="../../src/sections/homePage/suggest-tool.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Request
+                                a Tool</a></li>
+                    </ul>
+                </div>
+
+                <!-- Resources Column -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Blog</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Tutorials</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">API</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Help
+                                Center</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal Column -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="../../src/sections/homePage/privacy.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Privacy
+                                Policy</a></li>
+                        <li><a href="../../src/sections/homePage/terms.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Terms
+                                of Service</a></li>
+                        <li><a href="../../src/sections/homePage/cookies.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Cookie
+                                Policy</a></li>
+                        <li><a href="../../src/sections/homePage/gdpr.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">GDPR</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="border-t border-gray-200 dark:border-gray-700 my-8"></div>
+
+            <!-- Bottom Footer -->
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                    <i class="fas fa-tools text-primary-600 dark:text-primary-400"></i>
+                    <span class="font-medium">My<span
+                            class="text-primary-600 dark:text-primary-400">Toolbox</span></span>
+                </div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">
+                    &copy; <span id="current-year"></span> MyToolbox. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+const mobileMenu = document.getElementById('mobile-menu');
+const mobileCategoriesButton = document.getElementById('mobile-categories-button');
+const mobileCategories = document.getElementById('mobile-categories');
+
+// Mobile Menu Toggle
+mobileMenuButton.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+});
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', (e) => {
+    if (!mobileMenu.contains(e.target) && !mobileMenuButton.contains(e.target)) {
+        mobileMenu.classList.add('hidden');
+    }
+});
+// Mobile Categories Toggle
+mobileCategoriesButton.addEventListener('click', () => {
+    mobileCategories.classList.toggle('hidden');
+    mobileCategoriesButton.querySelector('i').classList.toggle('fa-chevron-down');
+    mobileCategoriesButton.querySelector('i').classList.toggle('fa-chevron-up');
+});
+
+        // Tool navigation
+        function showTool(toolId) {
+            // Hide all tool sections
+            document.querySelectorAll('.tool-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected tool
+            document.getElementById(toolId).classList.add('active');
+            
+            // Update active button style
+            document.querySelectorAll('.tool-btn').forEach(btn => {
+                btn.classList.remove('text-indigo-700', 'font-medium');
+                btn.classList.add('text-gray-600');
+            });
+            
+            event.currentTarget.classList.remove('text-gray-600');
+            event.currentTarget.classList.add('text-indigo-700', 'font-medium');
+            
+            // Reset some tools when shown
+            if (toolId === 'screen-ruler') {
+                updateRuler();
+            }
+        }
+        
+        // Initialize first tool as active
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('.tool-btn').click();
+            updateClock();
+            setInterval(updateClock, 1000);
+        });
+        
+        // Show toast notification
+        function showToast(message, isSuccess = true) {
+            const toast = document.createElement('div');
+            toast.className = `fixed bottom-4 right-4 px-4 py-2 rounded-lg shadow-lg text-white ${
+                isSuccess ? 'bg-green-600' : 'bg-red-600'
+            } animate-fade-in`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('animate-fade-out');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+        
+        // QR Code Generator
+        function generateQR() {
+            const text = document.getElementById('qr-text').value.trim();
+            if (!text) {
+                showToast('Please enter text or URL', false);
+                return;
+            }
+            
+            const qrImage = document.getElementById('qr-image');
+            qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(text)}&size=200x200`;
+            
+            document.getElementById('qr-result').classList.remove('hidden');
+            showToast('QR code generated successfully');
+        }
+        
+        function clearQR() {
+            document.getElementById('qr-text').value = '';
+            document.getElementById('qr-result').classList.add('hidden');
+        }
+        
+        function downloadQR() {
+            const link = document.createElement('a');
+            link.href = document.getElementById('qr-image').src;
+            link.download = 'qr-code.png';
+            link.click();
+            showToast('QR code downloaded');
+        }
+        
+        // Barcode Generator
+        function generateBarcode() {
+            const text = document.getElementById('barcode-text').value.trim();
+            if (!text) {
+                showToast('Please enter text for barcode', false);
+                return;
+            }
+            
+            const type = document.getElementById('barcode-type').value;
+            const barcodeImage = document.getElementById('barcode-image');
+            barcodeImage.src = `https://barcode.tec-it.com/barcode.ashx?data=${encodeURIComponent(text)}&code=${type}&translate-esc=false`;
+            
+            document.getElementById('barcode-result').classList.remove('hidden');
+            showToast('Barcode generated successfully');
+        }
+        
+        function clearBarcode() {
+            document.getElementById('barcode-text').value = '';
+            document.getElementById('barcode-result').classList.add('hidden');
+        }
+        
+        function downloadBarcode() {
+            const link = document.createElement('a');
+            link.href = document.getElementById('barcode-image').src;
+            link.download = 'barcode.png';
+            link.click();
+            showToast('Barcode downloaded');
+        }
+        
+        // Password Generator
+        function updateLengthValue() {
+            document.getElementById('length-value').textContent = document.getElementById('password-length').value;
+        }
+        
+        function generatePassword() {
+            const length = parseInt(document.getElementById('password-length').value);
+            const uppercase = document.getElementById('uppercase').checked;
+            const lowercase = document.getElementById('lowercase').checked;
+            const numbers = document.getElementById('numbers').checked;
+            const symbols = document.getElementById('symbols').checked;
+            
+            if (!uppercase && !lowercase && !numbers && !symbols) {
+                showToast('Please select at least one character type', false);
+                return;
+            }
+            
+            let charset = '';
+            if (uppercase) charset += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            if (lowercase) charset += 'abcdefghijklmnopqrstuvwxyz';
+            if (numbers) charset += '0123456789';
+            if (symbols) charset += '!@#$%^&*()_+-=[]{}|;:,.<>?';
+            
+            let password = '';
+            for (let i = 0; i < length; i++) {
+                password += charset.charAt(Math.floor(Math.random() * charset.length));
+            }
+            
+            document.getElementById('generated-password').value = password;
+            document.getElementById('password-result').classList.remove('hidden');
+            
+            // Calculate password strength
+            let strength = 0;
+            if (length >= 12) strength += 1;
+            if (uppercase && lowercase) strength += 1;
+            if (numbers) strength += 1;
+            if (symbols) strength += 1;
+            if (length >= 16) strength += 1;
+            
+            const strengthBar = document.getElementById('password-strength');
+            const strengthText = document.getElementById('strength-text');
+            
+            if (strength <= 1) {
+                strengthBar.className = 'h-2 rounded-full w-full bg-red-500';
+                strengthText.textContent = 'Weak';
+                strengthText.className = 'text-sm font-medium text-red-600';
+            } else if (strength <= 3) {
+                strengthBar.className = 'h-2 rounded-full w-full bg-yellow-500';
+                strengthText.textContent = 'Medium';
+                strengthText.className = 'text-sm font-medium text-yellow-600';
+            } else {
+                strengthBar.className = 'h-2 rounded-full w-full bg-green-500';
+                strengthText.textContent = 'Strong';
+                strengthText.className = 'text-sm font-medium text-green-600';
+            }
+            
+            showToast('Password generated');
+        }
+        
+        function clearPassword() {
+            document.getElementById('password-result').classList.add('hidden');
+        }
+        
+        function copyPassword() {
+            const password = document.getElementById('generated-password');
+            password.select();
+            document.execCommand('copy');
+            showToast('Password copied to clipboard');
+        }
+        
+        // JSON Formatter
+        function formatJSON() {
+            const input = document.getElementById('json-input').value.trim();
+            if (!input) {
+                showToast('Please enter JSON to format', false);
+                return;
+            }
+            
+            try {
+                const parsed = JSON.parse(input);
+                const formatted = JSON.stringify(parsed, null, 2);
+                document.getElementById('formatted-json').textContent = formatted;
+                document.getElementById('json-result').classList.remove('hidden');
+                document.getElementById('json-error').classList.add('hidden');
+                showToast('JSON formatted successfully');
+            } catch (e) {
+                document.getElementById('json-error').textContent = `Error: ${e.message}`;
+                document.getElementById('json-error').classList.remove('hidden');
+                showToast('Invalid JSON', false);
+            }
+        }
+        
+        function minifyJSON() {
+            const input = document.getElementById('json-input').value.trim();
+            if (!input) {
+                showToast('Please enter JSON to minify', false);
+                return;
+            }
+            
+            try {
+                const parsed = JSON.parse(input);
+                const minified = JSON.stringify(parsed);
+                document.getElementById('formatted-json').textContent = minified;
+                document.getElementById('json-result').classList.remove('hidden');
+                document.getElementById('json-error').classList.add('hidden');
+                showToast('JSON minified successfully');
+            } catch (e) {
+                document.getElementById('json-error').textContent = `Error: ${e.message}`;
+                document.getElementById('json-error').classList.remove('hidden');
+                showToast('Invalid JSON', false);
+            }
+        }
+        
+        function clearJSON() {
+            document.getElementById('json-input').value = '';
+            document.getElementById('json-result').classList.add('hidden');
+            document.getElementById('json-error').classList.add('hidden');
+        }
+        
+        function copyJSON() {
+            const formattedJson = document.getElementById('formatted-json');
+            const range = document.createRange();
+            range.selectNode(formattedJson);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            document.execCommand('copy');
+            window.getSelection().removeAllRanges();
+            showToast('JSON copied to clipboard');
+        }
+        
+        // Base64 Converter
+        function encodeBase64() {
+            const input = document.getElementById('base64-input').value;
+            if (!input) {
+                showToast('Please enter text to encode', false);
+                return;
+            }
+            
+            const encoded = btoa(unescape(encodeURIComponent(input)));
+            document.getElementById('base64-output').value = encoded;
+            document.getElementById('base64-result').classList.remove('hidden');
+            showToast('Text encoded to Base64');
+        }
+        
+        function decodeBase64() {
+            const input = document.getElementById('base64-input').value.trim();
+            if (!input) {
+                showToast('Please enter Base64 to decode', false);
+                return;
+            }
+            
+            try {
+                const decoded = decodeURIComponent(escape(atob(input)));
+                document.getElementById('base64-output').value = decoded;
+                document.getElementById('base64-result').classList.remove('hidden');
+                showToast('Base64 decoded to text');
+            } catch (e) {
+                showToast('Invalid Base64 input', false);
+            }
+        }
+        
+        function clearBase64() {
+            document.getElementById('base64-input').value = '';
+            document.getElementById('base64-result').classList.add('hidden');
+        }
+        
+        function copyBase64() {
+            const output = document.getElementById('base64-output');
+            output.select();
+            document.execCommand('copy');
+            showToast('Result copied to clipboard');
+        }
+        
+        // URL Shortener
+        async function shortenURL() {
+            const url = document.getElementById('url-input').value.trim();
+            if (!url) {
+                showToast('Please enter a URL to shorten', false);
+                return;
+            }
+            
+            // Basic URL validation
+            try {
+                new URL(url);
+            } catch (e) {
+                showToast('Please enter a valid URL', false);
+                return;
+            }
+            
+            try {
+                const response = await fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(url)}`);
+                if (!response.ok) throw new Error('Failed to shorten URL');
+                
+                const shortUrl = await response.text();
+                document.getElementById('short-url').value = shortUrl;
+                document.getElementById('url-result').classList.remove('hidden');
+                document.getElementById('url-error').classList.add('hidden');
+                showToast('URL shortened successfully');
+            } catch (e) {
+                document.getElementById('url-error').textContent = 'Error: Failed to shorten URL. Please try again.';
+                document.getElementById('url-error').classList.remove('hidden');
+                showToast('Failed to shorten URL', false);
+            }
+        }
+        
+        function clearURL() {
+            document.getElementById('url-input').value = '';
+            document.getElementById('url-result').classList.add('hidden');
+            document.getElementById('url-error').classList.add('hidden');
+        }
+        
+        function copyURL() {
+            const shortUrl = document.getElementById('short-url');
+            shortUrl.select();
+            document.execCommand('copy');
+            showToast('Short URL copied to clipboard');
+        }
+        
+        // Unit Converter
+        function convertLength() {
+            const value = parseFloat(document.getElementById('length-value').value) || 0;
+            const unit = document.getElementById('length-unit').value;
+            
+            let mm, cm, m, km, inches, feet, yards, miles;
+            
+            switch (unit) {
+                case 'mm':
+                    mm = value;
+                    cm = value / 10;
+                    m = value / 1000;
+                    km = value / 1000000;
+                    inches = value / 25.4;
+                    feet = inches / 12;
+                    yards = feet / 3;
+                    miles = feet / 5280;
+                    break;
+                case 'cm':
+                    cm = value;
+                    mm = value * 10;
+                    m = value / 100;
+                    km = value / 100000;
+                    inches = value / 2.54;
+                    feet = inches / 12;
+                    yards = feet / 3;
+                    miles = feet / 5280;
+                    break;
+                case 'm':
+                    m = value;
+                    cm = value * 100;
+                    mm = value * 1000;
+                    km = value / 1000;
+                    inches = value * 39.3701;
+                    feet = inches / 12;
+                    yards = feet / 3;
+                    miles = feet / 5280;
+                    break;
+                case 'km':
+                    km = value;
+                    m = value * 1000;
+                    cm = value * 100000;
+                    mm = value * 1000000;
+                    inches = value * 39370.1;
+                    feet = inches / 12;
+                    yards = feet / 3;
+                    miles = feet / 5280;
+                    break;
+                case 'in':
+                    inches = value;
+                    feet = value / 12;
+                    yards = feet / 3;
+                    miles = feet / 5280;
+                    mm = value * 25.4;
+                    cm = mm / 10;
+                    m = cm / 100;
+                    km = m / 1000;
+                    break;
+                case 'ft':
+                    feet = value;
+                    inches = value * 12;
+                    yards = value / 3;
+                    miles = value / 5280;
+                    mm = inches * 25.4;
+                    cm = mm / 10;
+                    m = cm / 100;
+                    km = m / 1000;
+                    break;
+                case 'yd':
+                    yards = value;
+                    feet = value * 3;
+                    inches = feet * 12;
+                    miles = feet / 5280;
+                    mm = inches * 25.4;
+                    cm = mm / 10;
+                    m = cm / 100;
+                    km = m / 1000;
+                    break;
+                case 'mi':
+                    miles = value;
+                    feet = value * 5280;
+                    yards = feet / 3;
+                    inches = feet * 12;
+                    mm = inches * 25.4;
+                    cm = mm / 10;
+                    m = cm / 100;
+                    km = m / 1000;
+                    break;
+            }
+            
+            document.getElementById('mm-result').textContent = mm.toFixed(2);
+            document.getElementById('cm-result').textContent = cm.toFixed(2);
+            document.getElementById('m-result').textContent = m.toFixed(2);
+            document.getElementById('km-result').textContent = km.toFixed(4);
+            document.getElementById('in-result').textContent = inches.toFixed(2);
+            document.getElementById('ft-result').textContent = feet.toFixed(2);
+            document.getElementById('yd-result').textContent = yards.toFixed(2);
+            document.getElementById('mi-result').textContent = miles.toFixed(4);
+        }
+        
+        function convertWeight() {
+            const value = parseFloat(document.getElementById('weight-value').value) || 0;
+            const unit = document.getElementById('weight-unit').value;
+            
+            let mg, g, kg, oz, lb;
+            
+            switch (unit) {
+                case 'mg':
+                    mg = value;
+                    g = value / 1000;
+                    kg = value / 1000000;
+                    oz = value / 28349.5;
+                    lb = oz / 16;
+                    break;
+                case 'g':
+                    g = value;
+                    mg = value * 1000;
+                    kg = value / 1000;
+                    oz = value / 28.3495;
+                    lb = oz / 16;
+                    break;
+                case 'kg':
+                    kg = value;
+                    g = value * 1000;
+                    mg = value * 1000000;
+                    oz = value * 35.274;
+                    lb = oz / 16;
+                    break;
+                case 'oz':
+                    oz = value;
+                    lb = value / 16;
+                    g = value * 28.3495;
+                    mg = g * 1000;
+                    kg = g / 1000;
+                    break;
+                case 'lb':
+                    lb = value;
+                    oz = value * 16;
+                    g = oz * 28.3495;
+                    mg = g * 1000;
+                    kg = g / 1000;
+                    break;
+            }
+            
+            document.getElementById('mg-result').textContent = mg.toFixed(2);
+            document.getElementById('g-result').textContent = g.toFixed(2);
+            document.getElementById('kg-result').textContent = kg.toFixed(4);
+            document.getElementById('oz-result').textContent = oz.toFixed(2);
+            document.getElementById('lb-result').textContent = lb.toFixed(2);
+        }
+        
+        function convertTemp() {
+            const value = parseFloat(document.getElementById('temp-value').value) || 0;
+            const unit = document.getElementById('temp-unit').value;
+            
+            let c, f, k;
+            
+            switch (unit) {
+                case 'c':
+                    c = value;
+                    f = (value * 9/5) + 32;
+                    k = value + 273.15;
+                    break;
+                case 'f':
+                    f = value;
+                    c = (value - 32) * 5/9;
+                    k = c + 273.15;
+                    break;
+                case 'k':
+                    k = value;
+                    c = value - 273.15;
+                    f = (c * 9/5) + 32;
+                    break;
+            }
+            
+            document.getElementById('c-result').textContent = c.toFixed(2);
+            document.getElementById('f-result').textContent = f.toFixed(2);
+            document.getElementById('k-result').textContent = k.toFixed(2);
+        }
+        
+        // Random Number Generator
+        function generateRandomNumber() {
+            const min = parseInt(document.getElementById('min-value').value) || 0;
+            const max = parseInt(document.getElementById('max-value').value) || 100;
+            
+            if (min >= max) {
+                showToast('Minimum must be less than maximum', false);
+                return;
+            }
+            
+            const randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
+            document.getElementById('random-number-result').textContent = randomNum;
+            document.getElementById('random-result').classList.remove('hidden');
+        }
+        
+        function clearRandomNumber() {
+            document.getElementById('random-result').classList.add('hidden');
+        }
+        
+        function copyRandomNumber() {
+            const randomNum = document.getElementById('random-number-result').textContent;
+            navigator.clipboard.writeText(randomNum);
+            showToast('Number copied to clipboard');
+        }
+        
+        // Screen Ruler
+        function updateRuler() {
+            const length = document.getElementById('ruler-length').value;
+            const orientation = document.getElementById('ruler-orientation').value;
+            
+            document.getElementById('ruler-length-value').textContent = length;
+            
+            const ruler = document.getElementById('ruler-display');
+            const container = document.getElementById('ruler-container');
+            
+            if (orientation === 'horizontal') {
+                ruler.className = 'screen-ruler h-8 relative';
+                ruler.style.width = `${length}px`;
+                container.className = 'mb-6 overflow-auto';
+                
+                // Update ruler marks
+                let marksHtml = '';
+                for (let i = 0; i <= length; i += 100) {
+                    marksHtml += `<span class="absolute top-0 text-xs" style="left: ${i}px">${i}</span>`;
+                }
+                ruler.innerHTML = marksHtml;
+            } else {
+                ruler.className = 'screen-ruler w-8 h-full relative';
+                ruler.style.height = `${length}px`;
+                container.className = 'mb-6 overflow-auto h-96';
+                
+                // Update ruler marks
+                let marksHtml = '';
+                for (let i = 0; i <= length; i += 100) {
+                    marksHtml += `<span class="absolute left-0 text-xs" style="top: ${i}px">${i}</span>`;
+                }
+                ruler.innerHTML = marksHtml;
+            }
+        }
+        
+        // Clock & Stopwatch
+        function updateClock() {
+            const now = new Date();
+            const time = now.toLocaleTimeString();
+            const date = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            
+            document.getElementById('current-time').textContent = time;
+            document.getElementById('current-date').textContent = date;
+        }
+        
+        // Stopwatch functionality
+        let stopwatchInterval;
+        let stopwatchSeconds = 0;
+        
+        function startStopwatch() {
+            document.getElementById('start-stopwatch').disabled = true;
+            document.getElementById('stop-stopwatch').disabled = false;
+            
+            stopwatchInterval = setInterval(() => {
+                stopwatchSeconds++;
+                updateStopwatchDisplay();
+            }, 1000);
+        }
+        
+        function stopStopwatch() {
+            clearInterval(stopwatchInterval);
+            document.getElementById('start-stopwatch').disabled = false;
+            document.getElementById('stop-stopwatch').disabled = true;
+        }
+        
+        function resetStopwatch() {
+            clearInterval(stopwatchInterval);
+            stopwatchSeconds = 0;
+            updateStopwatchDisplay();
+            document.getElementById('start-stopwatch').disabled = false;
+            document.getElementById('stop-stopwatch').disabled = true;
+        }
+        
+        function updateStopwatchDisplay() {
+            const hours = Math.floor(stopwatchSeconds / 3600);
+            const minutes = Math.floor((stopwatchSeconds % 3600) / 60);
+            const seconds = stopwatchSeconds % 60;
+            
+            document.getElementById('stopwatch').textContent = 
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        // Timer functionality
+        let timerInterval;
+        let timerSeconds = 0;
+        let isTimerRunning = false;
+        
+        function startTimer() {
+            if (isTimerRunning) return;
+            
+            const hours = parseInt(document.getElementById('timer-hours').value) || 0;
+            const minutes = parseInt(document.getElementById('timer-minutes').value) || 0;
+            const seconds = parseInt(document.getElementById('timer-seconds').value) || 0;
+            
+            timerSeconds = hours * 3600 + minutes * 60 + seconds;
+            
+            if (timerSeconds <= 0) {
+                showToast('Please set a valid time', false);
+                return;
+            }
+            
+            isTimerRunning = true;
+            document.getElementById('start-timer').disabled = true;
+            document.getElementById('pause-timer').disabled = false;
+            
+            updateTimerDisplay();
+            
+            timerInterval = setInterval(() => {
+                timerSeconds--;
+                updateTimerDisplay();
+                
+                if (timerSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    isTimerRunning = false;
+                    showToast('Timer finished!');
+                    document.getElementById('start-timer').disabled = false;
+                    document.getElementById('pause-timer').disabled = true;
+                }
+            }, 1000);
+        }
+        
+        function pauseTimer() {
+            clearInterval(timerInterval);
+            isTimerRunning = false;
+            document.getElementById('start-timer').disabled = false;
+            document.getElementById('pause-timer').disabled = true;
+        }
+        
+        function resetTimer() {
+            clearInterval(timerInterval);
+            isTimerRunning = false;
+            timerSeconds = 0;
+            document.getElementById('timer-hours').value = '0';
+            document.getElementById('timer-minutes').value = '0';
+            document.getElementById('timer-seconds').value = '0';
+            document.getElementById('timer-display').textContent = '00:00:00';
+            document.getElementById('start-timer').disabled = false;
+            document.getElementById('pause-timer').disabled = true;
+        }
+        
+        function updateTimerDisplay() {
+            const hours = Math.floor(timerSeconds / 3600);
+            const minutes = Math.floor((timerSeconds % 3600) / 60);
+            const seconds = timerSeconds % 60;
+            
+            document.getElementById('timer-display').textContent = 
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+
+
+
+
+
+
+
+
+
+
+    // Typing Test - Professional Version
+    let typingStartTime;
+    let typingInterval;
+    let testDuration = 1; // minutes (default)
+    let difficulty = 'medium'; // easy/medium/hard
+    let currentText = '';
+    let currentCharIndex = 0;
+    let correctChars = 0;
+    let wrongChars = 0;
+    let isTypingTestActive = false;
+    let totalTime = 0;
+    
+    // Different text samples by difficulty
+    const textSamples = {
+        easy: [
+            "The quick brown fox jumps over the lazy dog.",
+            "Pack my box with five dozen liquor jugs.",
+            "How vexingly quick daft zebras jump!",
+            "Bright vixens jump; dozy fowl quack.",
+            "The five boxing wizards jump quickly."
+        ],
+        medium: [
+            "The journey of a thousand miles begins with a single step. Success is not final, failure is not fatal: It is the courage to continue that counts.",
+            "In the middle of difficulty lies opportunity. The only way to do great work is to love what you do.",
+            "Life is what happens when you're busy making other plans. Strive not to be a success, but rather to be of value.",
+            "The future belongs to those who believe in the beauty of their dreams. It does not matter how slowly you go as long as you do not stop.",
+            "The only limit to our realization of tomorrow is our doubts of today. Do what you can, with what you have, where you are."
+        ],
+        hard: [
+            "The juxtaposition of quantum mechanics and general relativity presents one of the most profound challenges in contemporary theoretical physics.",
+            "Pneumonoultramicroscopicsilicovolcanoconiosis, a lung disease caused by inhaling very fine silicate or quartz dust, is often cited as the longest word in English dictionaries.",
+            "The epistemological foundations of postmodernism challenge traditional notions of objectivity and absolute truth, advocating instead for a multiplicity of perspectives.",
+            "Cryptocurrencies leverage blockchain technology to achieve decentralization, transparency, and immutability in financial transactions.",
+            "Antidisestablishmentarianism originally referred to opposition to the withdrawal of state support from an established church, particularly in 19th-century England."
+        ]
+    };
+    
+    // Set test duration
+    function setTestDuration(minutes) {
+        testDuration = minutes;
+        document.querySelectorAll('.duration-btn').forEach(btn => {
+            btn.classList.remove('bg-indigo-100', 'border-indigo-300');
+        });
+        event.target.classList.add('bg-indigo-100', 'border-indigo-300');
+    }
+    
+    // Set difficulty level
+    function setDifficulty(level) {
+        difficulty = level;
+        document.querySelectorAll('.difficulty-btn').forEach(btn => {
+            btn.classList.remove('bg-indigo-100', 'border-indigo-300');
+        });
+        event.target.classList.add('bg-indigo-100', 'border-indigo-300');
+    }
+    
+    // Generate text based on duration and difficulty
+    function generateText() {
+        const samples = textSamples[difficulty];
+        let text = '';
+        const targetLength = difficulty === 'easy' ? 300 : 
+                          difficulty === 'medium' ? 500 : 700;
+        
+        // Combine samples until we reach target length
+        while (text.length < targetLength * testDuration) {
+            const randomSample = samples[Math.floor(Math.random() * samples.length)];
+            text += randomSample + ' ';
+        }
+        
+        return text.trim();
+    }
+    
+    function startTypingTest() {
+        currentText = generateText();
+        document.getElementById('typing-text').innerHTML = '';
+        document.getElementById('typing-input').value = '';
+        document.getElementById('typing-input').disabled = false;
+        document.getElementById('typing-input').focus();
+        
+        // Display the text to type with first character highlighted
+        let html = '';
+        for (let i = 0; i < currentText.length; i++) {
+            if (i === 0) {
+                html += `<span class="current-char">${currentText[i]}</span>`;
+            } else {
+                html += currentText[i];
+            }
+        }
+        document.getElementById('typing-text').innerHTML = html;
+        
+        currentCharIndex = 0;
+        correctChars = 0;
+        wrongChars = 0;
+        totalTime = testDuration * 60; // Convert to seconds
+        typingStartTime = new Date();
+        isTypingTestActive = true;
+        
+        // Update timer immediately
+        updateTypingStats();
+        
+        // Start intervals
+        typingInterval = setInterval(updateTypingStats, 100);
+        
+        // Enable/disable buttons
+        document.getElementById('start-typing').disabled = true;
+        document.getElementById('stop-typing').disabled = false;
+        document.getElementById('reset-typing').disabled = false;
+        document.getElementById('typing-result').classList.add('hidden');
+    }
+    
+    function stopTypingTest() {
+        finishTypingTest();
+        showToast('Test stopped by user');
+    }
+    
+    function resetTypingTest() {
+        clearInterval(typingInterval);
+        document.getElementById('typing-text').innerHTML = '';
+        document.getElementById('typing-input').value = '';
+        document.getElementById('typing-input').disabled = true;
+        document.getElementById('wpm').textContent = '0';
+        document.getElementById('accuracy').textContent = '0%';
+        document.getElementById('typing-time').textContent = `${testDuration}:00`;
+        document.getElementById('chars-count').textContent = '0';
+        document.getElementById('start-typing').disabled = false;
+        document.getElementById('stop-typing').disabled = true;
+        document.getElementById('reset-typing').disabled = true;
+        document.getElementById('typing-result').classList.add('hidden');
+        isTypingTestActive = false;
+    }
+    
+    function updateTypingStats() {
+        if (!isTypingTestActive) return;
+        
+        const now = new Date();
+        const elapsedSeconds = (now - typingStartTime) / 1000;
+        const remainingSeconds = Math.max(0, totalTime - elapsedSeconds);
+        
+        // Update timer display (MM:SS format)
+        const minutes = Math.floor(remainingSeconds / 60);
+        const seconds = Math.floor(remainingSeconds % 60);
+        document.getElementById('typing-time').textContent = 
+            `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        
+        // Calculate WPM (5 characters = 1 word)
+        const words = correctChars / 5;
+        const minutesTyped = elapsedSeconds / 60;
+        const wpm = Math.round(words / minutesTyped) || 0;
+        
+        // Calculate accuracy
+        const totalTyped = correctChars + wrongChars;
+        const accuracy = totalTyped > 0 
+            ? Math.round((correctChars / totalTyped) * 100) 
+            : 0;
+        
+        // Update stats
+        document.getElementById('wpm').textContent = wpm;
+        document.getElementById('accuracy').textContent = `${accuracy}%`;
+        document.getElementById('chars-count').textContent = correctChars + wrongChars;
+        
+        // Check if time is up
+        if (remainingSeconds <= 0) {
+            finishTypingTest();
+        }
+    }
+    
+    function finishTypingTest() {
+        clearInterval(typingInterval);
+        isTypingTestActive = false;
+        document.getElementById('typing-input').disabled = true;
+        document.getElementById('stop-typing').disabled = true;
+        
+        // Calculate final stats
+        const now = new Date();
+        const elapsedSeconds = (now - typingStartTime) / 1000;
+        const minutesTyped = elapsedSeconds / 60;
+        const words = correctChars / 5;
+        const wpm = Math.round(words / minutesTyped) || 0;
+        const totalTyped = correctChars + wrongChars;
+        const accuracy = totalTyped > 0 
+            ? Math.round((correctChars / totalTyped) * 100) 
+            : 0;
+        
+        // Show final results
+        document.getElementById('final-wpm').textContent = wpm;
+        document.getElementById('final-accuracy').textContent = `${accuracy}%`;
+        document.getElementById('correct-chars').textContent = correctChars;
+        document.getElementById('wrong-chars').textContent = wrongChars;
+        document.getElementById('time-taken').textContent = 
+            `${Math.floor(elapsedSeconds / 60)}m ${Math.floor(elapsedSeconds % 60)}s`;
+        document.getElementById('typing-result').classList.remove('hidden');
+    }
+    
+    document.getElementById('typing-input').addEventListener('input', function(e) {
+        if (!isTypingTestActive) return;
+        
+        const inputText = this.value;
+        const inputLength = inputText.length;
+        
+        // If user pressed backspace, adjust counters
+        if (inputLength < currentCharIndex) {
+            const diff = currentCharIndex - inputLength;
+            currentCharIndex = inputLength;
+            
+            // For simplicity, we'll just recount all characters
+            // This is more reliable than trying to track backspaces
+            recountCorrectChars(inputText);
+            return;
+        }
+        
+        // Get the newly typed characters
+        const newChars = inputText.slice(currentCharIndex);
+        
+        // Compare each new character
+        for (let i = 0; i < newChars.length; i++) {
+            const inputChar = newChars[i];
+            const expectedChar = currentText[currentCharIndex + i];
+            
+            if (inputChar === expectedChar) {
+                correctChars++;
+            } else {
+                wrongChars++;
+            }
+        }
+        
+        currentCharIndex = inputLength;
+        
+        // Update the display
+        updateTypingDisplay(inputText);
+    });
+    
+    function recountCorrectChars(inputText) {
+        correctChars = 0;
+        wrongChars = 0;
+        
+        for (let i = 0; i < inputText.length; i++) {
+            if (inputText[i] === currentText[i]) {
+                correctChars++;
+            } else {
+                wrongChars++;
+            }
+        }
+        
+        updateTypingDisplay(inputText);
+    }
+    
+    function updateTypingDisplay(inputText) {
+        let html = '';
+        for (let i = 0; i < currentText.length; i++) {
+            if (i < inputText.length) {
+                const isCorrect = currentText[i] === inputText[i];
+                html += `<span class="${isCorrect ? 'correct-char' : 'incorrect-char'}">${currentText[i]}</span>`;
+            } else if (i === inputText.length) {
+                html += `<span class="current-char">${currentText[i]}</span>`;
+            } else {
+                html += currentText[i];
+            }
+        }
+        document.getElementById('typing-text').innerHTML = html;
+        
+        // Scroll to keep current character visible
+        const currentCharElement = document.querySelector('.current-char');
+        if (currentCharElement) {
+            currentCharElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+    
+    // Initialize with default duration selected
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('.duration-btn').click();
+        document.querySelector('.difficulty-btn:nth-child(2)').click();
+    });
+
+
+        // Word Counter
+        document.getElementById('word-counter-input').addEventListener('input', function() {
+            const text = this.value;
+            
+            // Word count (split by whitespace and filter out empty strings)
+            const words = text.trim() ? text.trim().split(/\s+/).filter(word => word.length > 0) : [];
+            document.getElementById('word-count').textContent = words.length;
+            
+            // Character count
+            document.getElementById('char-count').textContent = text.length;
+            
+            // Sentence count (split by .!? followed by space or end)
+            const sentences = text.trim() ? text.split(/[.!?]+(?=\s|$)/).filter(s => s.trim().length > 0) : [];
+            document.getElementById('sentence-count').textContent = sentences.length;
+            
+            // Paragraph count (split by newlines)
+            const paragraphs = text.trim() ? text.split(/\n+/).filter(p => p.trim().length > 0) : [];
+            document.getElementById('paragraph-count').textContent = paragraphs.length;
+        });
+
+        // Lorem Ipsum Generator
+        const loremText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+
+        function generateLoremIpsum() {
+            const type = document.getElementById('lorem-type').value;
+            const amount = parseInt(document.getElementById('lorem-amount').value);
+            let result = '';
+            
+            if (type === 'paragraphs') {
+                for (let i = 0; i < amount; i++) {
+                    result += `<p>${loremText}</p>`;
+                }
+            } else if (type === 'sentences') {
+                const sentences = loremText.match(/[^\.!?]+[\.!?]+/g) || [];
+                for (let i = 0; i < Math.min(amount, sentences.length); i++) {
+                    result += sentences[i] + ' ';
+                }
+            } else if (type === 'words') {
+                const words = loremText.split(' ');
+                for (let i = 0; i < Math.min(amount, words.length); i++) {
+                    result += words[i] + ' ';
+                }
+            }
+            
+            document.getElementById('lorem-text').innerHTML = result;
+            document.getElementById('lorem-result').classList.remove('hidden');
+            document.getElementById('copy-lorem').disabled = false;
+        }
+
+        function copyLoremIpsum() {
+            const text = document.getElementById('lorem-text').textContent;
+            navigator.clipboard.writeText(text);
+            showToast('Lorem Ipsum copied to clipboard');
+        }
+
+        // Text Converter
+        function convertToBinary() {
+            const text = document.getElementById('text-to-convert').value;
+            let binary = '';
+            
+            for (let i = 0; i < text.length; i++) {
+                binary += text[i].charCodeAt(0).toString(2) + ' ';
+            }
+            
+            document.getElementById('converted-text').value = binary.trim();
+            document.getElementById('conversion-result').classList.remove('hidden');
+        }
+
+        function convertToHex() {
+            const text = document.getElementById('text-to-convert').value;
+            let hex = '';
+            
+            for (let i = 0; i < text.length; i++) {
+                hex += text[i].charCodeAt(0).toString(16) + ' ';
+            }
+            
+            document.getElementById('converted-text').value = hex.trim();
+            document.getElementById('conversion-result').classList.remove('hidden');
+        }
+
+        function convertToAscii() {
+            const text = document.getElementById('text-to-convert').value;
+            let ascii = '';
+            
+            for (let i = 0; i < text.length; i++) {
+                ascii += text[i].charCodeAt(0) + ' ';
+            }
+            
+            document.getElementById('converted-text').value = ascii.trim();
+            document.getElementById('conversion-result').classList.remove('hidden');
+        }
+
+        function convertToMorse() {
+            const text = document.getElementById('text-to-convert').value.toUpperCase();
+            const morseCode = {
+                'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
+                'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
+                'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.',
+                'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
+                'Y': '-.--', 'Z': '--..', '0': '-----', '1': '.----', '2': '..---',
+                '3': '...--', '4': '....-', '5': '.....', '6': '-....', '7': '--...',
+                '8': '---..', '9': '----.', ' ': '/'
+            };
+            
+            let morse = '';
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                morse += (morseCode[char] || char) + ' ';
+            }
+            
+            document.getElementById('converted-text').value = morse.trim();
+            document.getElementById('conversion-result').classList.remove('hidden');
+        }
+
+        function copyConvertedText() {
+            const text = document.getElementById('converted-text').value;
+            navigator.clipboard.writeText(text);
+            showToast('Converted text copied to clipboard');
+        }
+
+        // Palindrome Checker
+        function checkPalindrome() {
+            const input = document.getElementById('palindrome-input').value.trim();
+            if (!input) {
+                showToast('Please enter text to check', false);
+                return;
+            }
+            
+            // Remove all non-alphanumeric characters and convert to lowercase
+            const cleanStr = input.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+            const reversedStr = cleanStr.split('').reverse().join('');
+            
+            const isPalindrome = cleanStr === reversedStr;
+            const resultDiv = document.getElementById('palindrome-result');
+            
+            if (isPalindrome) {
+                resultDiv.className = 'hidden p-4 rounded-lg text-center bg-green-50 border border-green-200';
+                document.getElementById('palindrome-text').textContent = '"' + input + '" is a palindrome!';
+                document.getElementById('palindrome-text').className = 'text-2xl font-bold mb-2 text-green-700';
+            } else {
+                resultDiv.className = 'hidden p-4 rounded-lg text-center bg-red-50 border border-red-200';
+                document.getElementById('palindrome-text').textContent = '"' + input + '" is NOT a palindrome';
+                document.getElementById('palindrome-text').className = 'text-2xl font-bold mb-2 text-red-700';
+            }
+            
+            document.getElementById('palindrome-reversed').textContent = 'Reversed: ' + reversedStr;
+            resultDiv.classList.remove('hidden');
+        }
+
+        function clearPalindrome() {
+            document.getElementById('palindrome-input').value = '';
+            document.getElementById('palindrome-result').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,2276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Calculators & Converters | Smart Tools</title>
+    <link rel="stylesheet" href="../../../dist/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .tool-btn {
+            transition: all 0.2s ease;
+            min-width: 100px;
+        }
+        .tool-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(79, 70, 229, 0.1);
+        }
+        .tool-btn.active {
+            background-color: #4f46e5;
+            color: white;
+        }
+        .calculator-btn {
+            transition: all 0.1s ease;
+        }
+        .calculator-btn:hover {
+            background-color: #e0e7ff;
+        }
+        .calculator-btn.operator {
+            background-color: #e0e7ff;
+            color: #4f46e5;
+        }
+        .calculator-btn.operator:hover {
+            background-color: #c7d2fe;
+        }
+        .calculator-btn.equals {
+            background-color: #4f46e5;
+            color: white;
+        }
+        .calculator-btn.equals:hover {
+            background-color: #4338ca;
+        }
+        .tool-card {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .tool-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        #currencyResult.loading:after {
+            content: "...";
+            animation: dots 1.5s steps(5, end) infinite;
+        }
+        @keyframes dots {
+            0%, 20% { content: "."; }
+            40% { content: ".."; }
+            60%, 100% { content: "..."; }
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .bmi-meter {
+            height: 10px;
+            background: linear-gradient(to right, #3b82f6, #10b981, #f59e0b, #ef4444);
+            border-radius: 5px;
+            margin-top: 8px;
+        }
+        .bmi-pointer {
+            width: 2px;
+            height: 15px;
+            background-color: black;
+            position: relative;
+            top: -2px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+    <!-- Header -->
+    <header
+        class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-tools text-2xl text-primary-600 dark:text-primary-400"></i>
+                <a href="#"
+                    class="text-xl font-bold text-gray-800 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                    My<span class="text-primary-600 dark:text-primary-400">Toolbox</span>
+                </a>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="../../../index.html"
+                    class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</a>
+
+                <div class="relative group">
+                    <button
+                        class="flex items-center font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                        Categories <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                    </button>
+                    <div
+                        class="absolute left-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                    <a href="../file-tools/document-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">File Tools</a>
+                    <a href="../image-tools/image-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Image Tools</a>
+                    <a href="../media-tools/mediaTools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Media Tools</a>
+                    <a href="../study-tools/study-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Study Tools</a>
+                    <a href="../calculator-tools/calculators.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Calculators</a>
+                    <a href="../ai-tools/ai-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">AI-Powered Tools</a>
+                    <a href="../design-tools/design-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Design Tools</a>
+                    <a href="../time-tools/time-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Productivity & Time Tools</a>
+                    <a href="../writing-tools/writing-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Writing Tools</a>
+                    <a href="../misc-tools/misc-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">More Useful Tools</a>
+                    </div>
+                </div>
+
+                <a href="#"
+                    class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">About</a>
+                <a href="#"
+                    class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Contact</a>
+            </nav>
+
+
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden text-gray-600 dark:text-gray-300">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu"
+            class="hidden md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+            <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
+                <a href="#" class="py-2 font-medium">Home</a>
+
+                <div class="relative">
+                    <button id="mobile-categories-button"
+                        class="w-full flex justify-between items-center py-2 font-medium">
+                        Categories <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div id="mobile-categories" class="hidden pl-4 mt-1 space-y-2">
+                        <a href="../../index.html" class="block py-1">File Tools</a>
+                    <a href="../image-tools/image-tools.html" class="block py-1">Image Tools</a>
+                    <a href="../media-tools/mediaTools.html" class="block py-1">Media Tools</a>
+                    <a href="../design-tools/design-tools.html" class="block py-1">Design Tools</a>
+                    <a href="../calculator-tools/calculators.html" class="block py-1">Calculators</a>
+                    </div>
+                </div>
+
+                <a href="src/sections/homePage/about.html" class="py-2 font-medium">About</a>
+                <a href="#" class="py-2 font-medium">Contact</a>
+            </div>
+        </div>
+    </header>
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <!-- Welcome Section -->
+        <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl p-6 mb-8 text-white">
+            <h1 class="text-3xl md:text-4xl font-bold mb-3">🧮 Ultimate Calculators & Converters</h1>
+            <p class="text-xl mb-4">Your all-in-one solution for everyday calculations!</p>
+            <p class="mb-2">✔ 100% free with no signup required</p>
+            <p class="mb-2">✔ Fast, accurate results in real-time</p>
+            <p class="mb-2">✔ Works offline for most tools</p>
+            <p class="text-sm opacity-80 mt-3">Bookmark this page for quick access to 15+ essential tools!</p>
+        </div>
+
+        <!-- Quick Tips -->
+        <div class="bg-white rounded-lg shadow-md p-4 mb-8 flex flex-wrap items-center">
+            <div class="flex items-center mr-4 mb-2 md:mb-0">
+                <div class="bg-indigo-100 p-2 rounded-full mr-2">
+                    <i class="fas fa-lightbulb text-indigo-600"></i>
+                </div>
+                <span class="text-sm">Tip: Click any tool to start calculating</span>
+            </div>
+            <div class="flex items-center mr-4 mb-2 md:mb-0">
+                <div class="bg-indigo-100 p-2 rounded-full mr-2">
+                    <i class="fas fa-bolt text-indigo-600"></i>
+                </div>
+                <span class="text-sm">Pro: Use keyboard for faster input</span>
+            </div>
+            <div class="flex items-center">
+                <div class="bg-indigo-100 p-2 rounded-full mr-2">
+                    <i class="fas fa-history text-indigo-600"></i>
+                </div>
+                <span class="text-sm">Your last used tool is remembered</span>
+            </div>
+        </div>
+
+        <!-- Tools Navigation -->
+        <div class="mb-8">
+            <h2 class="text-xl font-semibold mb-3 text-gray-700">Choose Your Tool:</h2>
+            <div class="flex overflow-x-auto pb-2 hide-scrollbar gap-2">
+                <button onclick="showTool('simple-calculator')" class="tool-btn active flex-shrink-0 bg-white rounded-lg px-4 py-2 shadow-sm border border-gray-200 flex items-center" data-tool="simple-calculator">
+                    <i class="fas fa-calculator mr-2"></i>
+                    <span>Simple Calc</span>
+                </button>
+                <button onclick="showTool('scientific-calculator')" class="tool-btn flex-shrink-0 bg-white rounded-lg px-4 py-2 shadow-sm border border-gray-200 flex items-center" data-tool="scientific-calculator">
+                    <i class="fas fa-square-root-alt mr-2"></i>
+                    <span>Scientific</span>
+                </button>
+                <button onclick="showTool('age-calculator')" class="tool-btn flex-shrink-0 bg-white rounded-lg px-4 py-2 shadow-sm border border-gray-200 flex items-center" data-tool="age-calculator">
+                    <i class="fas fa-birthday-cake mr-2"></i>
+                    <span>Age</span>
+                </button>
+                <button onclick="showTool('bmi-calculator')" class="tool-btn flex-shrink-0 bg-white rounded-lg px-4 py-2 shadow-sm border border-gray-200 flex items-center" data-tool="bmi-calculator">
+                    <i class="fas fa-weight mr-2"></i>
+                    <span>BMI</span>
+                </button>
+                <button onclick="showTool('loan-calculator')" class="tool-btn flex-shrink-0 bg-white rounded-lg px-4 py-2 shadow-sm border border-gray-200 flex items-center" data-tool="loan-calculator">
+                    <i class="fas fa-hand-holding-usd mr-2"></i>
+                    <span>Loan</span>
+                </button>
+                <button onclick="showTool('currency-converter')" class="tool-btn flex-shrink-0 bg-white rounded-lg px-4 py-2 shadow-sm border border-gray-200 flex items-center" data-tool="currency-converter">
+                    <i class="fas fa-exchange-alt mr-2"></i>
+                    <span>Currency</span>
+                </button>
+                <button onclick="showTool('temperature-converter')" class="tool-btn flex-shrink-0 bg-white rounded-lg px-4 py-2 shadow-sm border border-gray-200 flex items-center" data-tool="temperature-converter">
+                    <i class="fas fa-thermometer-half mr-2"></i>
+                    <span>Temperature</span>
+                </button>
+                <button onclick="showTool('length-converter')" class="tool-btn flex-shrink-0 bg-white rounded-lg px-4 py-2 shadow-sm border border-gray-200 flex items-center" data-tool="length-converter">
+                    <i class="fas fa-ruler-combined mr-2"></i>
+                    <span>Length</span>
+                </button>
+                <button onclick="showTool('weight-converter')" class="tool-btn flex-shrink-0 bg-white rounded-lg px-4 py-2 shadow-sm border border-gray-200 flex items-center" data-tool="weight-converter">
+                    <i class="fas fa-weight-hanging mr-2"></i>
+                    <span>Weight</span>
+                </button>
+                <button onclick="showTool('date-difference')" class="tool-btn flex-shrink-0 bg-white rounded-lg px-4 py-2 shadow-sm border border-gray-200 flex items-center" data-tool="date-difference">
+                    <i class="far fa-calendar-alt mr-2"></i>
+                    <span>Date Diff</span>
+                </button>
+                <button onclick="showTool('discount-calculator')" class="tool-btn flex-shrink-0 bg-white rounded-lg px-4 py-2 shadow-sm border border-gray-200 flex items-center" data-tool="discount-calculator">
+                    <i class="fas fa-tag mr-2"></i>
+                    <span>Discount</span>
+                </button>
+                <button onclick="showTool('percentage-calculator')" class="tool-btn flex-shrink-0 bg-white rounded-lg px-4 py-2 shadow-sm border border-gray-200 flex items-center" data-tool="percentage-calculator">
+                    <i class="fas fa-percent mr-2"></i>
+                    <span>Percentage</span>
+                </button>
+                <button onclick="showTool('time-calculator')" class="tool-btn flex-shrink-0 bg-white rounded-lg px-4 py-2 shadow-sm border border-gray-200 flex items-center" data-tool="time-calculator">
+                    <i class="far fa-clock mr-2"></i>
+                    <span>Time</span>
+                </button>
+                <button onclick="showTool('password-generator')" class="tool-btn flex-shrink-0 bg-white rounded-lg px-4 py-2 shadow-sm border border-gray-200 flex items-center" data-tool="password-generator">
+                    <i class="fas fa-key mr-2"></i>
+                    <span>Password</span>
+                </button>
+                <button onclick="showTool('tip-calculator')" class="tool-btn flex-shrink-0 bg-white rounded-lg px-4 py-2 shadow-sm border border-gray-200 flex items-center" data-tool="tip-calculator">
+                    <i class="fas fa-utensils mr-2"></i>
+                    <span>Tip</span>
+                </button>
+                <button onclick="showTool('fuel-calculator')" class="tool-btn flex-shrink-0 bg-white rounded-lg px-4 py-2 shadow-sm border border-gray-200 flex items-center" data-tool="fuel-calculator">
+                    <i class="fas fa-gas-pump mr-2"></i>
+                    <span>Fuel</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tools Container -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden p-6 mb-10">
+            <!-- Simple Calculator -->
+            <div id="simple-calculator" class="tool-section">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-indigo-600 flex items-center">
+                        <i class="fas fa-calculator mr-2"></i> Simple Calculator
+                    </h2>
+                    <span class="text-sm bg-indigo-100 text-indigo-800 px-2 py-1 rounded">Tip: Use keyboard numbers</span>
+                </div>
+                
+                <div class="max-w-md mx-auto">
+                    <div class="bg-gray-50 rounded-lg p-4 mb-4">
+                        <div class="bg-white rounded-lg shadow-inner p-3 mb-4">
+                            <input type="text" id="simpleCalcDisplay" class="w-full text-right text-2xl font-semibold p-2 border-0 focus:ring-0 bg-transparent" readonly>
+                        </div>
+                        <div class="grid grid-cols-4 gap-2">
+                            <button onclick="simpleCalcClear()" class="calculator-btn bg-red-100 text-red-600 font-bold py-3 rounded-lg hover:bg-red-200">C</button>
+                            <button onclick="simpleCalcBackspace()" class="calculator-btn bg-gray-100 text-gray-700 font-bold py-3 rounded-lg hover:bg-gray-200">⌫</button>
+                            <button onclick="simpleCalcPercent()" class="calculator-btn bg-gray-100 text-gray-700 font-bold py-3 rounded-lg hover:bg-gray-200">%</button>
+                            <button onclick="simpleCalcOperator('/')" class="calculator-btn operator font-bold py-3 rounded-lg">÷</button>
+                            
+                            <button onclick="simpleCalcNumber('7')" class="calculator-btn bg-gray-50 text-gray-700 font-bold py-3 rounded-lg">7</button>
+                            <button onclick="simpleCalcNumber('8')" class="calculator-btn bg-gray-50 text-gray-700 font-bold py-3 rounded-lg">8</button>
+                            <button onclick="simpleCalcNumber('9')" class="calculator-btn bg-gray-50 text-gray-700 font-bold py-3 rounded-lg">9</button>
+                            <button onclick="simpleCalcOperator('*')" class="calculator-btn operator font-bold py-3 rounded-lg">×</button>
+                            
+                            <button onclick="simpleCalcNumber('4')" class="calculator-btn bg-gray-50 text-gray-700 font-bold py-3 rounded-lg">4</button>
+                            <button onclick="simpleCalcNumber('5')" class="calculator-btn bg-gray-50 text-gray-700 font-bold py-3 rounded-lg">5</button>
+                            <button onclick="simpleCalcNumber('6')" class="calculator-btn bg-gray-50 text-gray-700 font-bold py-3 rounded-lg">6</button>
+                            <button onclick="simpleCalcOperator('-')" class="calculator-btn operator font-bold py-3 rounded-lg">-</button>
+                            
+                            <button onclick="simpleCalcNumber('1')" class="calculator-btn bg-gray-50 text-gray-700 font-bold py-3 rounded-lg">1</button>
+                            <button onclick="simpleCalcNumber('2')" class="calculator-btn bg-gray-50 text-gray-700 font-bold py-3 rounded-lg">2</button>
+                            <button onclick="simpleCalcNumber('3')" class="calculator-btn bg-gray-50 text-gray-700 font-bold py-3 rounded-lg">3</button>
+                            <button onclick="simpleCalcOperator('+')" class="calculator-btn operator font-bold py-3 rounded-lg">+</button>
+                            
+                            <button onclick="simpleCalcNumber('0')" class="calculator-btn bg-gray-50 text-gray-700 font-bold py-3 rounded-lg col-span-2">0</button>
+                            <button onclick="simpleCalcDecimal()" class="calculator-btn bg-gray-50 text-gray-700 font-bold py-3 rounded-lg">.</button>
+                            <button onclick="simpleCalcCalculate()" class="calculator-btn equals font-bold py-3 rounded-lg">=</button>
+                        </div>
+                    </div>
+                    <div class="text-center text-sm text-gray-500">
+                        <p>Basic operations: +, -, ×, ÷, % with clear and backspace functions</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scientific Calculator -->
+            <div id="scientific-calculator" class="tool-section hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-indigo-600 flex items-center">
+                        <i class="fas fa-square-root-alt mr-2"></i> Scientific Calculator
+                    </h2>
+                    <span class="text-sm bg-indigo-100 text-indigo-800 px-2 py-1 rounded">Tip: Use keyboard for faster input</span>
+                </div>
+                
+                <div class="max-w-md mx-auto">
+                    <div class="bg-gray-50 rounded-lg p-4 mb-4">
+                        <div class="bg-white rounded-lg shadow-inner p-3 mb-4">
+                            <input type="text" id="sciCalcDisplay" class="w-full text-right text-2xl font-semibold p-2 border-0 focus:ring-0 bg-transparent" readonly>
+                        </div>
+                        <div class="grid grid-cols-5 gap-2">
+                            <button onclick="sciCalcFunction('sin')" class="calculator-btn bg-purple-100 text-purple-700 font-bold py-2 rounded-lg text-sm hover:bg-purple-200">sin</button>
+                            <button onclick="sciCalcFunction('cos')" class="calculator-btn bg-purple-100 text-purple-700 font-bold py-2 rounded-lg text-sm hover:bg-purple-200">cos</button>
+                            <button onclick="sciCalcFunction('tan')" class="calculator-btn bg-purple-100 text-purple-700 font-bold py-2 rounded-lg text-sm hover:bg-purple-200">tan</button>
+                            <button onclick="sciCalcFunction('log')" class="calculator-btn bg-purple-100 text-purple-700 font-bold py-2 rounded-lg text-sm hover:bg-purple-200">log</button>
+                            <button onclick="sciCalcFunction('ln')" class="calculator-btn bg-purple-100 text-purple-700 font-bold py-2 rounded-lg text-sm hover:bg-purple-200">ln</button>
+                            
+                            <button onclick="sciCalcFunction('asin')" class="calculator-btn bg-purple-100 text-purple-700 font-bold py-2 rounded-lg text-sm hover:bg-purple-200">sin⁻¹</button>
+                            <button onclick="sciCalcFunction('acos')" class="calculator-btn bg-purple-100 text-purple-700 font-bold py-2 rounded-lg text-sm hover:bg-purple-200">cos⁻¹</button>
+                            <button onclick="sciCalcFunction('atan')" class="calculator-btn bg-purple-100 text-purple-700 font-bold py-2 rounded-lg text-sm hover:bg-purple-200">tan⁻¹</button>
+                            <button onclick="sciCalcFunction('sqrt')" class="calculator-btn bg-purple-100 text-purple-700 font-bold py-2 rounded-lg text-sm hover:bg-purple-200">√</button>
+                            <button onclick="sciCalcFunction('pow')" class="calculator-btn bg-purple-100 text-purple-700 font-bold py-2 rounded-lg text-sm hover:bg-purple-200">x^y</button>
+                            
+                            <button onclick="sciCalcFunction('pi')" class="calculator-btn bg-blue-100 text-blue-700 font-bold py-2 rounded-lg text-sm hover:bg-blue-200">π</button>
+                            <button onclick="sciCalcFunction('e')" class="calculator-btn bg-blue-100 text-blue-700 font-bold py-2 rounded-lg text-sm hover:bg-blue-200">e</button>
+                            <button onclick="sciCalcFunction('(')" class="calculator-btn bg-blue-100 text-blue-700 font-bold py-2 rounded-lg text-sm hover:bg-blue-200">(</button>
+                            <button onclick="sciCalcFunction(')')" class="calculator-btn bg-blue-100 text-blue-700 font-bold py-2 rounded-lg text-sm hover:bg-blue-200">)</button>
+                            <button onclick="sciCalcFunction('fact')" class="calculator-btn bg-blue-100 text-blue-700 font-bold py-2 rounded-lg text-sm hover:bg-blue-200">n!</button>
+                            
+                            <button onclick="sciCalcClear()" class="calculator-btn bg-red-100 text-red-600 font-bold py-2 rounded-lg hover:bg-red-200">C</button>
+                            <button onclick="sciCalcBackspace()" class="calculator-btn bg-gray-100 text-gray-700 font-bold py-2 rounded-lg hover:bg-gray-200">⌫</button>
+                            <button onclick="sciCalcPercent()" class="calculator-btn bg-gray-100 text-gray-700 font-bold py-2 rounded-lg hover:bg-gray-200">%</button>
+                            <button onclick="sciCalcOperator('/')" class="calculator-btn operator font-bold py-2 rounded-lg">÷</button>
+                            <button onclick="sciCalcOperator('*')" class="calculator-btn operator font-bold py-2 rounded-lg">×</button>
+                            
+                            <button onclick="sciCalcNumber('7')" class="calculator-btn bg-gray-50 text-gray-700 font-bold py-2 rounded-lg">7</button>
+                            <button onclick="sciCalcNumber('8')" class="calculator-btn bg-gray-50 text-gray-700 font-bold py-2 rounded-lg">8</button>
+                            <button onclick="sciCalcNumber('9')" class="calculator-btn bg-gray-50 text-gray-700 font-bold py-2 rounded-lg">9</button>
+                            <button onclick="sciCalcOperator('-')" class="calculator-btn operator font-bold py-2 rounded-lg">-</button>
+                            <button onclick="sciCalcOperator('+')" class="calculator-btn operator font-bold py-2 rounded-lg">+</button>
+                            
+                            <button onclick="sciCalcNumber('4')" class="calculator-btn bg-gray-50 text-gray-700 font-bold py-2 rounded-lg">4</button>
+                            <button onclick="sciCalcNumber('5')" class="calculator-btn bg-gray-50 text-gray-700 font-bold py-2 rounded-lg">5</button>
+                            <button onclick="sciCalcNumber('6')" class="calculator-btn bg-gray-50 text-gray-700 font-bold py-2 rounded-lg">6</button>
+                            <button onclick="sciCalcDecimal()" class="calculator-btn bg-gray-50 text-gray-700 font-bold py-2 rounded-lg">.</button>
+                            <button onclick="sciCalcCalculate()" class="calculator-btn equals font-bold py-2 rounded-lg">=</button>
+                            
+                            <button onclick="sciCalcNumber('1')" class="calculator-btn bg-gray-50 text-gray-700 font-bold py-2 rounded-lg">1</button>
+                            <button onclick="sciCalcNumber('2')" class="calculator-btn bg-gray-50 text-gray-700 font-bold py-2 rounded-lg">2</button>
+                            <button onclick="sciCalcNumber('3')" class="calculator-btn bg-gray-50 text-gray-700 font-bold py-2 rounded-lg">3</button>
+                            <button onclick="sciCalcFunction('pow2')" class="calculator-btn bg-purple-100 text-purple-700 font-bold py-2 rounded-lg text-sm hover:bg-purple-200">x²</button>
+                            <button onclick="sciCalcFunction('pow3')" class="calculator-btn bg-purple-100 text-purple-700 font-bold py-2 rounded-lg text-sm hover:bg-purple-200">x³</button>
+                            
+                            <button onclick="sciCalcNumber('0')" class="calculator-btn bg-gray-50 text-gray-700 font-bold py-2 rounded-lg hover:bg-gray-100 col-span-2">0</button>
+                            <button onclick="sciCalcFunction('1/x')" class="calculator-btn bg-purple-100 text-purple-700 font-bold py-2 rounded-lg text-sm hover:bg-purple-200">1/x</button>
+                            <button onclick="sciCalcFunction('abs')" class="calculator-btn bg-purple-100 text-purple-700 font-bold py-2 rounded-lg text-sm hover:bg-purple-200">|x|</button>
+                        </div>
+                    </div>
+                    <div class="text-center text-sm text-gray-500">
+                        <p>Trigonometric functions use degrees. Includes log, ln, powers, roots, and more.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Age Calculator -->
+            <div id="age-calculator" class="tool-section hidden">
+                <h2 class="text-2xl font-bold text-indigo-600 mb-6 flex items-center">
+                    <i class="fas fa-birthday-cake mr-2"></i> Age Calculator
+                </h2>
+                <div class="bg-gray-50 rounded-lg p-6">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">Date of Birth</label>
+                        <input type="date" id="dobInput" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">Age at the Date of</label>
+                        <input type="date" id="ageAtDate" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                    </div>
+                    <button onclick="calculateAge()" class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 font-semibold mb-4">
+                        Calculate Age
+                    </button>
+                    <div id="ageResult" class="bg-white p-4 rounded-lg shadow-inner text-center">
+                        <p class="text-gray-500">Your age will appear here</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BMI Calculator -->
+            <div id="bmi-calculator" class="tool-section hidden">
+                <h2 class="text-2xl font-bold text-indigo-600 mb-6 flex items-center">
+                    <i class="fas fa-weight mr-2"></i> BMI Calculator
+                </h2>
+                <div class="bg-gray-50 rounded-lg p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="block text-gray-700 mb-2">Height (cm)</label>
+                            <input type="number" id="bmiHeight" placeholder="Enter height in cm" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">Weight (kg)</label>
+                            <input type="number" id="bmiWeight" placeholder="Enter weight in kg" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                        </div>
+                    </div>
+                    <button onclick="calculateBMI()" class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 font-semibold mb-4">
+                        Calculate BMI
+                    </button>
+                    <div id="bmiResult" class="bg-white p-4 rounded-lg shadow-inner text-center">
+                        <div class="bmi-meter">
+                            <div class="bmi-pointer" style="left: 25%;"></div>
+                        </div>
+                        <p class="text-gray-500 mt-4">Your BMI will appear here</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loan Calculator -->
+            <div id="loan-calculator" class="tool-section hidden">
+                <h2 class="text-2xl font-bold text-indigo-600 mb-6 flex items-center">
+                    <i class="fas fa-hand-holding-usd mr-2"></i> Loan Calculator
+                </h2>
+                <div class="bg-gray-50 rounded-lg p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                        <div>
+                            <label class="block text-gray-700 mb-2">Loan Amount ($)</label>
+                            <input type="number" id="loanAmount" placeholder="e.g. 10000" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">Interest Rate (%)</label>
+                            <input type="number" id="loanInterest" placeholder="e.g. 5.5" step="0.1" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">Loan Term (years)</label>
+                            <input type="number" id="loanTerm" placeholder="e.g. 5" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                        </div>
+                    </div>
+                    <button onclick="calculateLoan()" class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 font-semibold mb-4">
+                        Calculate EMI
+                    </button>
+                    <div id="loanResult" class="bg-white p-4 rounded-lg shadow-inner">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <p class="text-gray-500 text-sm">Monthly Payment</p>
+                                <p id="monthlyPayment" class="text-xl font-semibold">-</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-sm">Total Interest</p>
+                                <p id="totalInterest" class="text-xl font-semibold">-</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-sm">Total Payment</p>
+                                <p id="totalPayment" class="text-xl font-semibold">-</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-sm">Loan Term</p>
+                                <p id="loanTermResult" class="text-xl font-semibold">-</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Currency Converter -->
+            <div id="currency-converter" class="tool-section hidden">
+                <h2 class="text-2xl font-bold text-indigo-600 mb-6 flex items-center">
+                    <i class="fas fa-exchange-alt mr-2"></i> Currency Converter
+                </h2>
+                <div class="bg-gray-50 rounded-lg p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                        <div>
+                            <label class="block text-gray-700 mb-2">Amount</label>
+                            <input type="number" id="currencyAmount" placeholder="Enter amount" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">From</label>
+                            <select id="currencyFrom" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                                <option value="USD">USD - US Dollar</option>
+                                <option value="EUR">EUR - Euro</option>
+                                <option value="GBP">GBP - British Pound</option>
+                                <option value="JPY">JPY - Japanese Yen</option>
+                                <option value="AUD">AUD - Australian Dollar</option>
+                                <option value="CAD">CAD - Canadian Dollar</option>
+                                <option value="CHF">CHF - Swiss Franc</option>
+                                <option value="CNY">CNY - Chinese Yuan</option>
+                                <option value="INR">INR - Indian Rupee</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">To</label>
+                            <select id="currencyTo" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                                <option value="EUR">EUR - Euro</option>
+                                <option value="USD">USD - US Dollar</option>
+                                <option value="GBP">GBP - British Pound</option>
+                                <option value="JPY">JPY - Japanese Yen</option>
+                                <option value="AUD">AUD - Australian Dollar</option>
+                                <option value="CAD">CAD - Canadian Dollar</option>
+                                <option value="CHF">CHF - Swiss Franc</option>
+                                <option value="CNY">CNY - Chinese Yuan</option>
+                                <option value="INR">INR - Indian Rupee</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button onclick="convertCurrency()" class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 font-semibold mb-4">
+                        Convert
+                    </button>
+                    <div id="currencyResult" class="bg-white p-4 rounded-lg shadow-inner text-center">
+                        <p class="text-gray-500">Conversion result will appear here</p>
+                    </div>
+                    <div class="mt-4 text-sm text-gray-500">
+                        <p><strong>Note:</strong> Using free ExchangeRate-API. Rates update daily.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Temperature Converter -->
+            <div id="temperature-converter" class="tool-section hidden">
+                <h2 class="text-2xl font-bold text-indigo-600 mb-6 flex items-center">
+                    <i class="fas fa-thermometer-half mr-2"></i> Temperature Converter
+                </h2>
+                <div class="bg-gray-50 rounded-lg p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="block text-gray-700 mb-2">From</label>
+                            <select id="tempFrom" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                                <option value="celsius">Celsius (°C)</option>
+                                <option value="fahrenheit">Fahrenheit (°F)</option>
+                                <option value="kelvin">Kelvin (K)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">To</label>
+                            <select id="tempTo" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                                <option value="fahrenheit">Fahrenheit (°F)</option>
+                                <option value="celsius">Celsius (°C)</option>
+                                <option value="kelvin">Kelvin (K)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">Temperature Value</label>
+                        <input type="number" id="tempValue" placeholder="Enter temperature" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                    </div>
+                    <button onclick="convertTemperature()" class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 font-semibold mb-4">
+                        Convert
+                    </button>
+                    <div id="tempResult" class="bg-white p-4 rounded-lg shadow-inner text-center">
+                        <p class="text-gray-500">Conversion result will appear here</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Length Converter -->
+            <div id="length-converter" class="tool-section hidden">
+                <h2 class="text-2xl font-bold text-indigo-600 mb-6 flex items-center">
+                    <i class="fas fa-ruler-combined mr-2"></i> Length Converter
+                </h2>
+                <div class="bg-gray-50 rounded-lg p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="block text-gray-700 mb-2">From</label>
+                            <select id="lengthFrom" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                                <option value="meter">Meter (m)</option>
+                                <option value="kilometer">Kilometer (km)</option>
+                                <option value="centimeter">Centimeter (cm)</option>
+                                <option value="millimeter">Millimeter (mm)</option>
+                                <option value="mile">Mile (mi)</option>
+                                <option value="yard">Yard (yd)</option>
+                                <option value="foot">Foot (ft)</option>
+                                <option value="inch">Inch (in)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">To</label>
+                            <select id="lengthTo" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                                <option value="foot">Foot (ft)</option>
+                                <option value="meter">Meter (m)</option>
+                                <option value="kilometer">Kilometer (km)</option>
+                                <option value="centimeter">Centimeter (cm)</option>
+                                <option value="millimeter">Millimeter (mm)</option>
+                                <option value="mile">Mile (mi)</option>
+                                <option value="yard">Yard (yd)</option>
+                                <option value="inch">Inch (in)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">Length Value</label>
+                        <input type="number" id="lengthValue" placeholder="Enter length" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                    </div>
+                    <button onclick="convertLength()" class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 font-semibold mb-4">
+                        Convert
+                    </button>
+                    <div id="lengthResult" class="bg-white p-4 rounded-lg shadow-inner text-center">
+                        <p class="text-gray-500">Conversion result will appear here</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weight Converter -->
+            <div id="weight-converter" class="tool-section hidden">
+                <h2 class="text-2xl font-bold text-indigo-600 mb-6 flex items-center">
+                    <i class="fas fa-weight-hanging mr-2"></i> Weight Converter
+                </h2>
+                <div class="bg-gray-50 rounded-lg p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="block text-gray-700 mb-2">From</label>
+                            <select id="weightFrom" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                                <option value="kilogram">Kilogram (kg)</option>
+                                <option value="gram">Gram (g)</option>
+                                <option value="milligram">Milligram (mg)</option>
+                                <option value="pound">Pound (lb)</option>
+                                <option value="ounce">Ounce (oz)</option>
+                                <option value="ton">Ton (t)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">To</label>
+                            <select id="weightTo" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                                <option value="pound">Pound (lb)</option>
+                                <option value="kilogram">Kilogram (kg)</option>
+                                <option value="gram">Gram (g)</option>
+                                <option value="milligram">Milligram (mg)</option>
+                                <option value="ounce">Ounce (oz)</option>
+                                <option value="ton">Ton (t)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">Weight Value</label>
+                        <input type="number" id="weightValue" placeholder="Enter weight" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                    </div>
+                    <button onclick="convertWeight()" class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 font-semibold mb-4">
+                        Convert
+                    </button>
+                    <div id="weightResult" class="bg-white p-4 rounded-lg shadow-inner text-center">
+                        <p class="text-gray-500">Conversion result will appear here</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Date Difference Calculator -->
+            <div id="date-difference" class="tool-section hidden">
+                <h2 class="text-2xl font-bold text-indigo-600 mb-6 flex items-center">
+                    <i class="far fa-calendar-alt mr-2"></i> Date Difference Calculator
+                </h2>
+                <div class="bg-gray-50 rounded-lg p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="block text-gray-700 mb-2">From Date</label>
+                            <input type="date" id="dateFrom" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">To Date</label>
+                            <input type="date" id="dateTo" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                        </div>
+                    </div>
+                    <button onclick="calculateDateDifference()" class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 font-semibold mb-4">
+                        Calculate Difference
+                    </button>
+                    <div id="dateDiffResult" class="bg-white p-4 rounded-lg shadow-inner">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <p class="text-gray-500 text-sm">Total Days</p>
+                                <p id="totalDays" class="text-xl font-semibold">-</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-sm">Total Months</p>
+                                <p id="totalMonths" class="text-xl font-semibold">-</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-sm">Total Years</p>
+                                <p id="totalYears" class="text-xl font-semibold">-</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-sm">Weeks & Days</p>
+                                <p id="weeksDays" class="text-xl font-semibold">-</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Discount/Tax Calculator -->
+            <div id="discount-calculator" class="tool-section hidden">
+                <h2 class="text-2xl font-bold text-indigo-600 mb-6 flex items-center">
+                    <i class="fas fa-tag mr-2"></i> Discount & Tax Calculator
+                </h2>
+                <div class="bg-gray-50 rounded-lg p-6">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">Original Price ($)</label>
+                        <input type="number" id="originalPrice" placeholder="Enter original price" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="block text-gray-700 mb-2">Discount (%)</label>
+                            <input type="number" id="discountPercent" placeholder="Enter discount %" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">Tax (%)</label>
+                            <input type="number" id="taxPercent" placeholder="Enter tax %" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                        </div>
+                    </div>
+                    <button onclick="calculateDiscountTax()" class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 font-semibold mb-4">
+                        Calculate Final Price
+                    </button>
+                    <div id="discountResult" class="bg-white p-4 rounded-lg shadow-inner">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <p class="text-gray-500 text-sm">Discount Amount</p>
+                                <p id="discountAmount" class="text-xl font-semibold">-</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-sm">Tax Amount</p>
+                                <p id="taxAmount" class="text-xl font-semibold">-</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-sm">Price After Discount</p>
+                                <p id="priceAfterDiscount" class="text-xl font-semibold">-</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-sm">Final Price</p>
+                                <p id="finalPrice" class="text-xl font-semibold">-</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Percentage Calculator -->
+            <div id="percentage-calculator" class="tool-section hidden">
+                <h2 class="text-2xl font-bold text-indigo-600 mb-6 flex items-center">
+                    <i class="fas fa-percent mr-2"></i> Percentage Calculator
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-gray-50 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold mb-4 text-indigo-600">What is X% of Y?</h3>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2">Percentage (X)</label>
+                            <input type="number" id="percentX" placeholder="Enter percentage" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2">Number (Y)</label>
+                            <input type="number" id="numberY" placeholder="Enter number" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                        </div>
+                        <button onclick="calculatePercentageOf()" class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 font-semibold mb-4">
+                            Calculate
+                        </button>
+                        <div id="percentageOfResult" class="bg-white p-4 rounded-lg shadow-inner text-center">
+                            <p class="text-gray-500">Result will appear here</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-50 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold mb-4 text-indigo-600">X is what % of Y?</h3>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2">Number (X)</label>
+                            <input type="number" id="numberX" placeholder="Enter number" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2">Number (Y)</label>
+                            <input type="number" id="numberY2" placeholder="Enter number" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                        </div>
+                        <button onclick="calculateWhatPercentage()" class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 font-semibold mb-4">
+                            Calculate
+                        </button>
+                        <div id="whatPercentageResult" class="bg-white p-4 rounded-lg shadow-inner text-center">
+                            <p class="text-gray-500">Result will appear here</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Time Calculator -->
+            <div id="time-calculator" class="tool-section hidden">
+                <h2 class="text-2xl font-bold text-indigo-600 mb-6 flex items-center">
+                    <i class="far fa-clock mr-2"></i> Time Calculator
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-gray-50 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold mb-4 text-indigo-600">Add/Subtract Time</h3>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2">Start Time</label>
+                            <input type="time" id="startTime" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                        </div>
+                        <div class="grid grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <label class="block text-gray-700 mb-2">Hours</label>
+                                <input type="number" id="timeHours" placeholder="0" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-2">Minutes</label>
+                                <input type="number" id="timeMinutes" placeholder="0" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-2">Seconds</label>
+                                <input type="number" id="timeSeconds" placeholder="0" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <button onclick="addTime()" class="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 font-semibold">
+                                Add Time
+                            </button>
+                            <button onclick="subtractTime()" class="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 font-semibold">
+                                Subtract Time
+                            </button>
+                        </div>
+                        <div id="timeResult" class="bg-white p-4 rounded-lg shadow-inner text-center">
+                            <p class="text-gray-500">Result will appear here</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-50 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold mb-4 text-indigo-600">Time Difference</h3>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2">Start Time</label>
+                            <input type="time" id="timeDiffStart" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2">End Time</label>
+                            <input type="time" id="timeDiffEnd" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                        </div>
+                        <button onclick="calculateTimeDifference()" class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 font-semibold mb-4">
+                            Calculate Difference
+                        </button>
+                        <div id="timeDiffResult" class="bg-white p-4 rounded-lg shadow-inner text-center">
+                            <p class="text-gray-500">Result will appear here</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Password Generator -->
+            <div id="password-generator" class="tool-section hidden">
+                <h2 class="text-2xl font-bold text-indigo-600 mb-6 flex items-center">
+                    <i class="fas fa-key mr-2"></i> Password Generator
+                </h2>
+                <div class="bg-gray-50 rounded-lg p-6 max-w-md mx-auto">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">Password Length</label>
+                        <input type="range" id="passwordLength" min="6" max="32" value="12" class="w-full mb-2">
+                        <div class="flex justify-between">
+                            <span>6</span>
+                            <span id="lengthValue">12</span>
+                            <span>32</span>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="flex items-center mb-2">
+                            <input type="checkbox" id="includeUppercase" checked class="mr-2">
+                            <span>Include Uppercase Letters (A-Z)</span>
+                        </label>
+                        <label class="flex items-center mb-2">
+                            <input type="checkbox" id="includeLowercase" checked class="mr-2">
+                            <span>Include Lowercase Letters (a-z)</span>
+                        </label>
+                        <label class="flex items-center mb-2">
+                            <input type="checkbox" id="includeNumbers" checked class="mr-2">
+                            <span>Include Numbers (0-9)</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" id="includeSymbols" checked class="mr-2">
+                            <span>Include Symbols (!@#$%^&*)</span>
+                        </label>
+                    </div>
+                    <button onclick="generatePassword()" class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 font-semibold mb-4">
+                        Generate Password
+                    </button>
+                    <div id="passwordResult" class="bg-white p-4 rounded-lg shadow-inner text-center">
+                        <input type="text" id="generatedPassword" readonly class="w-full text-center font-mono text-lg p-2 border-0 focus:ring-0 bg-transparent">
+                        <button onclick="copyPassword()" class="mt-2 text-sm bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded">
+                            <i class="fas fa-copy mr-1"></i> Copy to Clipboard
+                        </button>
+                        <div id="passwordStrength" class="mt-3">
+                            <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                                <div id="strengthMeter" class="h-full bg-red-500 w-0"></div>
+                            </div>
+                            <p id="strengthText" class="text-xs mt-1">Strength: Very Weak</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tip Calculator -->
+            <div id="tip-calculator" class="tool-section hidden">
+                <h2 class="text-2xl font-bold text-indigo-600 mb-6 flex items-center">
+                    <i class="fas fa-utensils mr-2"></i> Tip Calculator
+                </h2>
+                <div class="bg-gray-50 rounded-lg p-6 max-w-md mx-auto">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">Bill Amount ($)</label>
+                        <input type="number" id="billAmount" placeholder="Enter bill amount" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">Tip Percentage</label>
+                        <input type="range" id="tipPercentage" min="0" max="30" value="15" class="w-full mb-2">
+                        <div class="flex justify-between">
+                            <span>0%</span>
+                            <span id="tipPercentageValue">15%</span>
+                            <span>30%</span>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">Number of People</label>
+                        <input type="number" id="numPeople" min="1" value="1" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                    </div>
+                    <button onclick="calculateTip()" class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 font-semibold mb-4">
+                        Calculate Tip
+                    </button>
+                    <div id="tipResult" class="bg-white p-4 rounded-lg shadow-inner">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <p class="text-gray-500 text-sm">Tip Amount</p>
+                                <p id="tipAmount" class="text-xl font-semibold">-</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-sm">Total Bill</p>
+                                <p id="totalBill" class="text-xl font-semibold">-</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-sm">Tip Per Person</p>
+                                <p id="tipPerPerson" class="text-xl font-semibold">-</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-sm">Total Per Person</p>
+                                <p id="totalPerPerson" class="text-xl font-semibold">-</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fuel Calculator -->
+            <div id="fuel-calculator" class="tool-section hidden">
+                <h2 class="text-2xl font-bold text-indigo-600 mb-6 flex items-center">
+                    <i class="fas fa-gas-pump mr-2"></i> Fuel Cost Calculator
+                </h2>
+                <div class="bg-gray-50 rounded-lg p-6 max-w-md mx-auto">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">Distance (miles or km)</label>
+                        <input type="number" id="fuelDistance" placeholder="Enter distance" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">Fuel Efficiency</label>
+                        <div class="flex">
+                            <input type="number" id="fuelEfficiency" placeholder="e.g. 25" class="flex-1 p-3 border border-gray-300 rounded-l-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                            <select id="efficiencyUnit" class="p-3 border border-gray-300 rounded-r-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                                <option value="mpg">MPG</option>
+                                <option value="lpk">L/100km</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">Fuel Price per Unit</label>
+                        <div class="flex">
+                            <span class="inline-flex items-center px-3 text-gray-500 bg-gray-50 border border-r-0 border-gray-300 rounded-l-lg">$</span>
+                            <input type="number" id="fuelPrice" placeholder="e.g. 3.50" step="0.01" class="flex-1 p-3 border border-gray-300 rounded-r-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
+                        </div>
+                    </div>
+                    <button onclick="calculateFuelCost()" class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 font-semibold mb-4">
+                        Calculate Cost
+                    </button>
+                    <div id="fuelResult" class="bg-white p-4 rounded-lg shadow-inner text-center">
+                        <p class="text-gray-500">Fuel cost will appear here</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Engagement Section -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden p-6 mb-10">
+            <h2 class="text-2xl font-bold text-indigo-600 mb-4">Why Use Our Calculators?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-indigo-50 p-4 rounded-lg">
+                    <div class="bg-indigo-100 p-3 rounded-full w-12 h-12 flex items-center justify-center mb-3">
+                        <i class="fas fa-bolt text-indigo-600"></i>
+                    </div>
+                    <h3 class="font-semibold mb-2">Lightning Fast</h3>
+                    <p class="text-gray-600 text-sm">Get instant results without any delays or loading times for most tools.</p>
+                </div>
+                <div class="bg-indigo-50 p-4 rounded-lg">
+                    <div class="bg-indigo-100 p-3 rounded-full w-12 h-12 flex items-center justify-center mb-3">
+                        <i class="fas fa-shield-alt text-indigo-600"></i>
+                    </div>
+                    <h3 class="font-semibold mb-2">Privacy Focused</h3>
+                    <p class="text-gray-600 text-sm">All calculations happen in your browser - we don't store your data.</p>
+                </div>
+                <div class="bg-indigo-50 p-4 rounded-lg">
+                    <div class="bg-indigo-100 p-3 rounded-full w-12 h-12 flex items-center justify-center mb-3">
+                        <i class="fas fa-mobile-alt text-indigo-600"></i>
+                    </div>
+                    <h3 class="font-semibold mb-2">Works Everywhere</h3>
+                    <p class="text-gray-600 text-sm">Fully responsive design that works on phones, tablets and desktops.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feedback Section -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden p-6">
+            <h2 class="text-2xl font-bold text-indigo-600 mb-4">We Value Your Feedback</h2>
+            <p class="text-gray-600 mb-4">Help us improve by sharing your experience or suggesting new tools.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-gray-700 mb-2">Your Feedback</label>
+                    <textarea id="userFeedback" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 h-32" placeholder="What do you like or what can we improve?"></textarea>
+                </div>
+                <div>
+                    <label class="block text-gray-700 mb-2">Tool Suggestion</label>
+                    <input type="text" id="toolSuggestion" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 mb-4" placeholder="What calculator would you like to see?">
+                    <button onclick="submitFeedback()" class="bg-indigo-600 text-white py-2 px-6 rounded-lg hover:bg-indigo-700 font-semibold">
+                        Submit Feedback
+                    </button>
+                    <p id="feedbackThankYou" class="text-green-600 mt-2 hidden">Thank you for your feedback!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer class="bg-gray-100 dark:bg-gray-800/80 border-t border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- About Column -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">About MyToolbox</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                        An all-in-one platform offering free, easy-to-use tools for your everyday needs.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Tools Column -->
+                <div>
+                    <h3 class="text-lg !text-black font-semibold mb-4">Tools</h3>
+                    <ul class="space-y-2">
+                        <li><a href="../../index.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">All
+                                Tools</a></li>
+                        <li><a href="../../index.html#featured-tools"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Featured
+                                Tools</a></li>
+                        <li><a href="../../index.html#categories"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">New
+                                Tools</a></li>
+                        <li><a href="../../src/sections/homePage/suggest-tool.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Request
+                                a Tool</a></li>
+                    </ul>
+                </div>
+
+                <!-- Resources Column -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Blog</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Tutorials</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">API</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Help
+                                Center</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal Column -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="../../src/sections/homePage/privacy.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Privacy
+                                Policy</a></li>
+                        <li><a href="../../src/sections/homePage/terms.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Terms
+                                of Service</a></li>
+                        <li><a href="../../src/sections/homePage/cookies.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Cookie
+                                Policy</a></li>
+                        <li><a href="../../src/sections/homePage/gdpr.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">GDPR</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="border-t border-gray-200 dark:border-gray-700 my-8"></div>
+
+            <!-- Bottom Footer -->
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                    <i class="fas fa-tools text-primary-600 dark:text-primary-400"></i>
+                    <span class="font-medium">My<span
+                            class="text-primary-600 dark:text-primary-400">Toolbox</span></span>
+                </div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">
+                    &copy; <span id="current-year"></span> MyToolbox. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+ <script>
+// ========== DOM Elements ==========
+const mobileMenuButton = document.getElementById('mobile-menu-button');
+const mobileMenu = document.getElementById('mobile-menu');
+const mobileCategoriesButton = document.getElementById('mobile-categories-button');
+const mobileCategories = document.getElementById('mobile-categories');
+
+// ========== Mobile Menu Handling ==========
+mobileMenuButton.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+});
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', (e) => {
+    if (!mobileMenu.contains(e.target) && !mobileMenuButton.contains(e.target)) {
+        mobileMenu.classList.add('hidden');
+    }
+});
+
+// Mobile Categories Toggle
+mobileCategoriesButton.addEventListener('click', () => {
+    mobileCategories.classList.toggle('hidden');
+    const icon = mobileCategoriesButton.querySelector('i');
+    icon.classList.toggle('fa-chevron-down');
+    icon.classList.toggle('fa-chevron-up');
+});
+
+// ========== Tool Navigation ==========
+function showTool(toolId) {
+    // Hide all tool sections
+    document.querySelectorAll('.tool-section').forEach(section => {
+        section.classList.add('hidden');
+    });
+    
+    // Show the selected tool
+    const toolElement = document.getElementById(toolId);
+    if (toolElement) {
+        toolElement.classList.remove('hidden');
+        
+        // Update active button styling
+        document.querySelectorAll('.tool-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        
+        // Find the button that matches the toolId (data-tool attribute)
+        const activeButton = document.querySelector(`.tool-btn[data-tool="${toolId}"]`);
+        if (activeButton) {
+            activeButton.classList.add('active');
+        }
+        
+        // Save to localStorage
+        localStorage.setItem('lastTool', toolId);
+        
+        // Scroll to the tool section smoothly
+        toolElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+        console.error(`Tool element with ID ${toolId} not found`);
+    }
+}
+
+// Initialize with last used tool
+document.addEventListener('DOMContentLoaded', function() {
+    // Set current year in footer
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+    
+    const lastTool = localStorage.getItem('lastTool') || 'simple-calculator';
+    showTool(lastTool);
+    
+    // Initialize date inputs with today's date
+    const today = new Date().toISOString().split('T')[0];
+    const dateInputs = ['dateFrom', 'dateTo', 'dobInput', 'ageAtDate'];
+    dateInputs.forEach(id => {
+        const element = document.getElementById(id);
+        if (element) element.value = today;
+    });
+    
+    // Initialize password length display
+    const passwordLength = document.getElementById('passwordLength');
+    if (passwordLength) {
+        passwordLength.addEventListener('input', function() {
+            document.getElementById('lengthValue').textContent = this.value;
+        });
+    }
+    
+    // Initialize tip percentage display
+    const tipPercentage = document.getElementById('tipPercentage');
+    if (tipPercentage) {
+        tipPercentage.addEventListener('input', function() {
+            document.getElementById('tipPercentageValue').textContent = this.value + '%';
+        });
+    }
+    
+    // Initialize keyboard support for simple calculator
+    document.addEventListener('keydown', function(e) {
+        if (document.getElementById('simple-calculator').classList.contains('hidden')) return;
+        
+        if (e.key >= '0' && e.key <= '9') {
+            simpleCalcInputNumber(e.key);
+        } else if (e.key === '.') {
+            simpleCalcInputDecimal();
+        } else if (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/') {
+            simpleCalcInputOperator(e.key);
+        } else if (e.key === 'Enter') {
+            simpleCalcPerformCalculation();
+        } else if (e.key === 'Escape') {
+            simpleCalcClearAll();
+        } else if (e.key === 'Backspace') {
+            simpleCalcBackspace();
+        } else if (e.key === '%') {
+            simpleCalcPercentage();
+        }
+    });
+});
+
+// ========== Simple Calculator ==========
+const simpleCalcDisplay = document.getElementById('simpleCalcDisplay');
+let simpleCalcCurrentInput = '0';
+let simpleCalcFirstOperand = null;
+let simpleCalcCurrentOperator = null;
+let simpleCalcWaitingForSecondOperand = false;
+
+function simpleCalcUpdateDisplay() {
+    simpleCalcDisplay.value = simpleCalcCurrentInput;
+}
+
+function simpleCalcNumber(number) {
+    if (simpleCalcWaitingForSecondOperand) {
+        simpleCalcCurrentInput = number;
+        simpleCalcWaitingForSecondOperand = false;
+    } else {
+        simpleCalcCurrentInput = simpleCalcCurrentInput === '0' ? number : simpleCalcCurrentInput + number;
+    }
+    simpleCalcUpdateDisplay();
+}
+
+function simpleCalcInputNumber(number) {
+    simpleCalcNumber(number);
+}
+
+function simpleCalcDecimal() {
+    if (simpleCalcWaitingForSecondOperand) {
+        simpleCalcCurrentInput = '0.';
+        simpleCalcWaitingForSecondOperand = false;
+        simpleCalcUpdateDisplay();
+        return;
+    }
+    
+    if (!simpleCalcCurrentInput.includes('.')) {
+        simpleCalcCurrentInput += '.';
+        simpleCalcUpdateDisplay();
+    }
+}
+
+function simpleCalcInputDecimal() {
+    simpleCalcDecimal();
+}
+
+function simpleCalcOperator(op) {
+    const inputValue = parseFloat(simpleCalcCurrentInput);
+    
+    if (simpleCalcCurrentOperator && simpleCalcWaitingForSecondOperand) {
+        simpleCalcCurrentOperator = op;
+        return;
+    }
+    
+    if (simpleCalcFirstOperand === null) {
+        simpleCalcFirstOperand = inputValue;
+    } else if (simpleCalcCurrentOperator) {
+        const result = simpleCalcPerformOperation(simpleCalcFirstOperand, inputValue, simpleCalcCurrentOperator);
+        simpleCalcCurrentInput = String(result);
+        simpleCalcFirstOperand = result;
+        simpleCalcUpdateDisplay();
+    }
+    
+    simpleCalcWaitingForSecondOperand = true;
+    simpleCalcCurrentOperator = op;
+}
+
+function simpleCalcInputOperator(op) {
+    simpleCalcOperator(op);
+}
+
+function simpleCalcPerformOperation(firstOperand, secondOperand, operator) {
+    switch (operator) {
+        case '+': return firstOperand + secondOperand;
+        case '-': return firstOperand - secondOperand;
+        case '*': return firstOperand * secondOperand;
+        case '/': 
+            if (secondOperand === 0) {
+                showErrorAlert("Cannot divide by zero");
+                return 0;
+            }
+            return firstOperand / secondOperand;
+        case '%': return firstOperand % secondOperand;
+        default: return secondOperand;
+    }
+}
+
+function simpleCalcClear() {
+    simpleCalcCurrentInput = '0';
+    simpleCalcFirstOperand = null;
+    simpleCalcCurrentOperator = null;
+    simpleCalcWaitingForSecondOperand = false;
+    simpleCalcUpdateDisplay();
+}
+
+function simpleCalcClearAll() {
+    simpleCalcClear();
+}
+
+function simpleCalcBackspace() {
+    if (simpleCalcCurrentInput.length === 1) {
+        simpleCalcCurrentInput = '0';
+    } else {
+        simpleCalcCurrentInput = simpleCalcCurrentInput.slice(0, -1);
+    }
+    simpleCalcUpdateDisplay();
+}
+
+function simpleCalcPercent() {
+    const inputValue = parseFloat(simpleCalcCurrentInput);
+    simpleCalcCurrentInput = String(inputValue / 100);
+    simpleCalcUpdateDisplay();
+}
+
+function simpleCalcPercentage() {
+    simpleCalcPercent();
+}
+
+function simpleCalcCalculate() {
+    if (simpleCalcCurrentOperator === null || simpleCalcWaitingForSecondOperand) return;
+    
+    const inputValue = parseFloat(simpleCalcCurrentInput);
+    const result = simpleCalcPerformOperation(simpleCalcFirstOperand, inputValue, simpleCalcCurrentOperator);
+    
+    simpleCalcCurrentInput = String(result);
+    simpleCalcFirstOperand = null;
+    simpleCalcCurrentOperator = null;
+    simpleCalcWaitingForSecondOperand = false;
+    
+    simpleCalcUpdateDisplay();
+}
+
+function simpleCalcPerformCalculation() {
+    simpleCalcCalculate();
+}
+
+// ========== Scientific Calculator ==========
+const sciCalcDisplay = document.getElementById('sciCalcDisplay');
+let sciCalcCurrentInput = '0';
+let sciCalcFirstOperand = null;
+let sciCalcCurrentOperator = null;
+let sciCalcWaitingForSecondOperand = false;
+let sciCalcMemory = 0;
+
+function sciCalcUpdateDisplay() {
+    sciCalcDisplay.value = sciCalcCurrentInput;
+}
+
+function sciCalcNumber(number) {
+    if (sciCalcWaitingForSecondOperand) {
+        sciCalcCurrentInput = number;
+        sciCalcWaitingForSecondOperand = false;
+    } else {
+        sciCalcCurrentInput = sciCalcCurrentInput === '0' ? number : sciCalcCurrentInput + number;
+    }
+    sciCalcUpdateDisplay();
+}
+
+function sciCalcDecimal() {
+    if (sciCalcWaitingForSecondOperand) {
+        sciCalcCurrentInput = '0.';
+        sciCalcWaitingForSecondOperand = false;
+        sciCalcUpdateDisplay();
+        return;
+    }
+    
+    if (!sciCalcCurrentInput.includes('.')) {
+        sciCalcCurrentInput += '.';
+        sciCalcUpdateDisplay();
+    }
+}
+
+function sciCalcFunction(func) {
+    const inputValue = parseFloat(sciCalcCurrentInput);
+    let result;
+    
+    switch (func) {
+        case 'sin': result = Math.sin(inputValue * Math.PI / 180); break;
+        case 'cos': result = Math.cos(inputValue * Math.PI / 180); break;
+        case 'tan': result = Math.tan(inputValue * Math.PI / 180); break;
+        case 'asin': result = Math.asin(inputValue) * 180 / Math.PI; break;
+        case 'acos': result = Math.acos(inputValue) * 180 / Math.PI; break;
+        case 'atan': result = Math.atan(inputValue) * 180 / Math.PI; break;
+        case 'log': result = Math.log10(inputValue); break;
+        case 'ln': result = Math.log(inputValue); break;
+        case 'sqrt': result = Math.sqrt(inputValue); break;
+        case 'pow': 
+            sciCalcFirstOperand = inputValue;
+            sciCalcCurrentOperator = '^';
+            sciCalcWaitingForSecondOperand = true;
+            sciCalcCurrentInput = '0';
+            sciCalcUpdateDisplay();
+            return;
+        case 'pow2': result = Math.pow(inputValue, 2); break;
+        case 'pow3': result = Math.pow(inputValue, 3); break;
+        case '1/x': result = 1 / inputValue; break;
+        case 'abs': result = Math.abs(inputValue); break;
+        case 'pi': 
+            sciCalcCurrentInput = String(Math.PI);
+            sciCalcUpdateDisplay();
+            return;
+        case 'e': 
+            sciCalcCurrentInput = String(Math.E);
+            sciCalcUpdateDisplay();
+            return;
+        case 'fact':
+            result = 1;
+            for (let i = 2; i <= inputValue; i++) {
+                result *= i;
+            }
+            break;
+        case '(':
+        case ')':
+            // For future expansion of expression parsing
+            return;
+        default: return;
+    }
+    
+    sciCalcCurrentInput = String(result);
+    sciCalcUpdateDisplay();
+}
+
+function sciCalcCalculate(firstOperand, secondOperand, operator) {
+    switch (operator) {
+        case '+': return firstOperand + secondOperand;
+        case '-': return firstOperand - secondOperand;
+        case '*': return firstOperand * secondOperand;
+        case '/': return firstOperand / secondOperand;
+        case '%': return firstOperand % secondOperand;
+        case '^': return Math.pow(firstOperand, secondOperand);
+        default: return secondOperand;
+    }
+}
+
+function sciCalcClear() {
+    sciCalcCurrentInput = '0';
+    sciCalcFirstOperand = null;
+    sciCalcCurrentOperator = null;
+    sciCalcWaitingForSecondOperand = false;
+    sciCalcUpdateDisplay();
+}
+
+function sciCalcBackspace() {
+    if (sciCalcCurrentInput.length === 1) {
+        sciCalcCurrentInput = '0';
+    } else {
+        sciCalcCurrentInput = sciCalcCurrentInput.slice(0, -1);
+    }
+    sciCalcUpdateDisplay();
+}
+
+function sciCalcPercent() {
+    const inputValue = parseFloat(sciCalcCurrentInput);
+    sciCalcCurrentInput = String(inputValue / 100);
+    sciCalcUpdateDisplay();
+}
+
+function sciCalcCalculateResult() {
+    if (sciCalcCurrentOperator === null || sciCalcWaitingForSecondOperand) return;
+    
+    const inputValue = parseFloat(sciCalcCurrentInput);
+    const result = sciCalcCalculate(sciCalcFirstOperand, inputValue, sciCalcCurrentOperator);
+    
+    sciCalcCurrentInput = String(result);
+    sciCalcFirstOperand = null;
+    sciCalcCurrentOperator = null;
+    sciCalcWaitingForSecondOperand = false;
+    
+    sciCalcUpdateDisplay();
+}
+
+// ========== Age Calculator ==========
+function calculateAge() {
+    const dobInput = document.getElementById('dobInput').value;
+    const ageAtDateInput = document.getElementById('ageAtDate').value;
+    
+    if (!dobInput || !ageAtDateInput) {
+        showErrorInElement('ageResult', 'Please select both dates');
+        return;
+    }
+    
+    const dob = new Date(dobInput);
+    const ageAtDate = new Date(ageAtDateInput);
+    
+    if (dob > ageAtDate) {
+        showErrorInElement('ageResult', 'Date of birth must be before the age at date');
+        return;
+    }
+    
+    let ageYears = ageAtDate.getFullYear() - dob.getFullYear();
+    let ageMonths = ageAtDate.getMonth() - dob.getMonth();
+    let ageDays = ageAtDate.getDate() - dob.getDate();
+    
+    if (ageDays < 0) {
+        ageMonths--;
+        // Get the last day of the previous month
+        const lastDayOfMonth = new Date(ageAtDate.getFullYear(), ageAtDate.getMonth(), 0).getDate();
+        ageDays += lastDayOfMonth;
+    }
+    
+    if (ageMonths < 0) {
+        ageYears--;
+        ageMonths += 12;
+    }
+    
+    const totalDays = Math.floor((ageAtDate - dob) / (1000 * 60 * 60 * 24));
+    const totalMonths = ageYears * 12 + ageMonths;
+    const totalWeeks = Math.floor(totalDays / 7);
+    const remainingDays = totalDays % 7;
+    
+    document.getElementById('ageResult').innerHTML = `
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <p class="text-gray-500 text-sm">Years</p>
+                <p class="text-xl font-semibold">${ageYears}</p>
+            </div>
+            <div>
+                <p class="text-gray-500 text-sm">Months</p>
+                <p class="text-xl font-semibold">${ageMonths}</p>
+            </div>
+            <div>
+                <p class="text-gray-500 text-sm">Days</p>
+                <p class="text-xl font-semibold">${ageDays}</p>
+            </div>
+            <div>
+                <p class="text-gray-500 text-sm">Total Days</p>
+                <p class="text-xl font-semibold">${totalDays}</p>
+            </div>
+        </div>
+        <p class="text-gray-600 mt-4">Born on ${dob.toDateString()}</p>
+        <p class="text-gray-600">Age on ${ageAtDate.toDateString()}</p>
+    `;
+}
+
+// ========== BMI Calculator ==========
+function calculateBMI() {
+    const height = parseFloat(document.getElementById('bmiHeight').value);
+    const weight = parseFloat(document.getElementById('bmiWeight').value);
+    
+    if (isNaN(height) || isNaN(weight) || height <= 0 || weight <= 0) {
+        showErrorInElement('bmiResult', 'Please enter valid height and weight');
+        return;
+    }
+    
+    const heightInMeters = height / 100;
+    const bmi = weight / (heightInMeters * heightInMeters);
+    let category, color;
+    
+    // Position the BMI pointer on the meter
+    let pointerPosition;
+    if (bmi < 16) {
+        category = 'Severe Thinness';
+        color = 'text-red-600';
+        pointerPosition = '5%';
+    } else if (bmi < 17) {
+        category = 'Moderate Thinness';
+        color = 'text-red-500';
+        pointerPosition = '10%';
+    } else if (bmi < 18.5) {
+        category = 'Mild Thinness';
+        color = 'text-yellow-500';
+        pointerPosition = '20%';
+    } else if (bmi < 25) {
+        category = 'Normal';
+        color = 'text-green-600';
+        pointerPosition = '45%';
+    } else if (bmi < 30) {
+        category = 'Overweight';
+        color = 'text-yellow-600';
+        pointerPosition = '65%';
+    } else if (bmi < 35) {
+        category = 'Obese Class I';
+        color = 'text-orange-600';
+        pointerPosition = '80%';
+    } else if (bmi < 40) {
+        category = 'Obese Class II';
+        color = 'text-red-600';
+        pointerPosition = '90%';
+    } else {
+        category = 'Obese Class III';
+        color = 'text-red-700';
+        pointerPosition = '95%';
+    }
+    
+    document.getElementById('bmiResult').innerHTML = `
+        <p class="text-3xl font-bold ${color} mb-2">${bmi.toFixed(1)}</p>
+        <p class="text-lg font-semibold ${color}">${category}</p>
+        <div class="bmi-meter">
+            <div class="bmi-pointer" style="left: ${pointerPosition};"></div>
+        </div>
+        <p class="text-gray-600 mt-4">Height: ${height} cm | Weight: ${weight} kg</p>
+        <div class="mt-4 grid grid-cols-2 gap-2 text-sm">
+            <p class="text-left">Underweight (&lt;18.5)</p>
+            <p class="text-right">Normal (18.5-24.9)</p>
+            <p class="text-left">Overweight (25-29.9)</p>
+            <p class="text-right">Obese (&gt;30)</p>
+        </div>
+    `;
+}
+
+// ========== Loan Calculator ==========
+function calculateLoan() {
+    const amount = parseFloat(document.getElementById('loanAmount').value);
+    const interestRate = parseFloat(document.getElementById('loanInterest').value);
+    const termYears = parseFloat(document.getElementById('loanTerm').value);
+    
+    if (isNaN(amount) || isNaN(interestRate) || isNaN(termYears) || 
+        amount <= 0 || interestRate <= 0 || termYears <= 0) {
+        showErrorInElement('loanResult', 'Please enter valid loan details');
+        return;
+    }
+    
+    const monthlyInterestRate = interestRate / 100 / 12;
+    const termMonths = termYears * 12;
+    
+    // Calculate monthly payment
+    const monthlyPayment = 
+        (amount * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, termMonths)) / 
+        (Math.pow(1 + monthlyInterestRate, termMonths) - 1);
+    
+    const totalPayment = monthlyPayment * termMonths;
+    const totalInterest = totalPayment - amount;
+    
+    document.getElementById('monthlyPayment').textContent = '$' + monthlyPayment.toFixed(2);
+    document.getElementById('totalInterest').textContent = '$' + totalInterest.toFixed(2);
+    document.getElementById('totalPayment').textContent = '$' + totalPayment.toFixed(2);
+    document.getElementById('loanTermResult').textContent = termMonths + ' months (' + termYears + ' years)';
+}
+
+// ========== Currency Converter ==========
+async function convertCurrency() {
+    const amount = parseFloat(document.getElementById('currencyAmount').value);
+    const fromCurrency = document.getElementById('currencyFrom').value;
+    const toCurrency = document.getElementById('currencyTo').value;
+    
+    if (isNaN(amount) || amount <= 0) {
+        showErrorInElement('currencyResult', 'Please enter a valid amount');
+        return;
+    }
+    
+    if (fromCurrency === toCurrency) {
+        document.getElementById('currencyResult').innerHTML = `
+            <p class="text-xl font-semibold">${amount.toFixed(2)} ${fromCurrency}</p>
+            <p class="text-gray-600">Same currency selected</p>
+        `;
+        return;
+    }
+    
+    document.getElementById('currencyResult').className = 'bg-white p-4 rounded-lg shadow-inner text-center loading';
+    document.getElementById('currencyResult').innerHTML = '<p>Fetching exchange rate...</p>';
+    
+    try {
+        // Using free API (no key required)
+        const response = await fetch(`https://api.exchangerate-api.com/v4/latest/${fromCurrency}`);
+        const data = await response.json();
+        
+        if (!data.rates || !data.rates[toCurrency]) {
+            throw new Error('Invalid response from API');
+        }
+        
+        const rate = data.rates[toCurrency];
+        const convertedAmount = amount * rate;
+        
+        document.getElementById('currencyResult').className = 'bg-white p-4 rounded-lg shadow-inner text-center';
+        document.getElementById('currencyResult').innerHTML = `
+            <p class="text-2xl font-bold text-indigo-600">${amount.toFixed(2)} ${fromCurrency} = ${convertedAmount.toFixed(2)} ${toCurrency}</p>
+            <p class="text-gray-600">1 ${fromCurrency} = ${rate.toFixed(6)} ${toCurrency}</p>
+            <p class="text-sm text-gray-500 mt-2">Rates from exchangerate-api.com (updated daily)</p>
+        `;
+    } catch (error) {
+        console.error('Currency conversion error:', error);
+        document.getElementById('currencyResult').className = 'bg-white p-4 rounded-lg shadow-inner text-center';
+        document.getElementById('currencyResult').innerHTML = `
+            <p class="text-red-500">Failed to fetch live rates. Using fallback rates.</p>
+            <p class="text-gray-600">Note: Fallback rates may not be current</p>
+        `;
+        
+        // Fallback rates (static, may be outdated)
+        const fallbackRates = {
+            USD: { EUR: 0.92, GBP: 0.79, JPY: 151.30, AUD: 1.52, CAD: 1.37, CHF: 0.90, CNY: 7.24, INR: 83.30 },
+            EUR: { USD: 1.09, GBP: 0.86, JPY: 164.50, AUD: 1.65, CAD: 1.49, CHF: 0.98, CNY: 7.87, INR: 90.60 },
+            GBP: { USD: 1.27, EUR: 1.16, JPY: 191.20, AUD: 1.92, CAD: 1.73, CHF: 1.14, CNY: 9.15, INR: 105.40 },
+            JPY: { USD: 0.0066, EUR: 0.0061, GBP: 0.0052, AUD: 0.010, CAD: 0.0090, CHF: 0.0059, CNY: 0.048, INR: 0.55 },
+            AUD: { USD: 0.66, EUR: 0.61, GBP: 0.52, JPY: 99.50, CAD: 0.90, CHF: 0.59, CNY: 4.76, INR: 54.80 },
+            CAD: { USD: 0.73, EUR: 0.67, GBP: 0.58, JPY: 110.60, AUD: 1.11, CHF: 0.66, CNY: 5.29, INR: 60.90 },
+            CHF: { USD: 1.11, EUR: 1.02, GBP: 0.88, JPY: 168.30, AUD: 1.69, CAD: 1.52, CNY: 8.05, INR: 92.70 },
+            CNY: { USD: 0.14, EUR: 0.13, GBP: 0.11, JPY: 20.90, AUD: 0.21, CAD: 0.19, CHF: 0.12, INR: 11.50 },
+            INR: { USD: 0.012, EUR: 0.011, GBP: 0.0095, JPY: 1.82, AUD: 0.018, CAD: 0.016, CHF: 0.011, CNY: 0.087 }
+        };
+        
+        if (fallbackRates[fromCurrency] && fallbackRates[fromCurrency][toCurrency]) {
+            const rate = fallbackRates[fromCurrency][toCurrency];
+            const convertedAmount = amount * rate;
+            
+            document.getElementById('currencyResult').innerHTML += `
+                <p class="mt-4 text-lg font-semibold">Fallback result: ${amount.toFixed(2)} ${fromCurrency} ≈ ${convertedAmount.toFixed(2)} ${toCurrency}</p>
+                <p class="text-sm text-gray-500">Rate: 1 ${fromCurrency} ≈ ${rate.toFixed(6)} ${toCurrency}</p>
+            `;
+        }
+    }
+}
+
+// ========== Temperature Converter ==========
+function convertTemperature() {
+    const fromUnit = document.getElementById('tempFrom').value;
+    const toUnit = document.getElementById('tempTo').value;
+    const value = parseFloat(document.getElementById('tempValue').value);
+    
+    if (isNaN(value)) {
+        showErrorInElement('tempResult', 'Please enter a valid temperature');
+        return;
+    }
+    
+    let result;
+    let convertedValue;
+    
+    // Convert to Celsius first
+    switch (fromUnit) {
+        case 'celsius':
+            convertedValue = value;
+            break;
+        case 'fahrenheit':
+            convertedValue = (value - 32) * 5/9;
+            break;
+        case 'kelvin':
+            convertedValue = value - 273.15;
+            break;
+    }
+    
+    // Then convert from Celsius to target unit
+    switch (toUnit) {
+        case 'celsius':
+            result = convertedValue;
+            break;
+        case 'fahrenheit':
+            result = (convertedValue * 9/5) + 32;
+            break;
+        case 'kelvin':
+            result = convertedValue + 273.15;
+            break;
+    }
+    
+    const fromSymbol = fromUnit === 'celsius' ? '°C' : fromUnit === 'fahrenheit' ? '°F' : 'K';
+    const toSymbol = toUnit === 'celsius' ? '°C' : toUnit === 'fahrenheit' ? '°F' : 'K';
+    
+    document.getElementById('tempResult').innerHTML = `
+        <p class="text-2xl font-bold text-indigo-600">${value.toFixed(2)} ${fromSymbol} = ${result.toFixed(2)} ${toSymbol}</p>
+        <p class="text-gray-600 mt-2">${getTemperatureFormula(fromUnit, toUnit)}</p>
+    `;
+}
+
+function getTemperatureFormula(fromUnit, toUnit) {
+    if (fromUnit === toUnit) return 'Same units selected';
+    
+    if (fromUnit === 'celsius' && toUnit === 'fahrenheit') return 'Formula: (°C × 9/5) + 32 = °F';
+    if (fromUnit === 'fahrenheit' && toUnit === 'celsius') return 'Formula: (°F − 32) × 5/9 = °C';
+    if (fromUnit === 'celsius' && toUnit === 'kelvin') return 'Formula: °C + 273.15 = K';
+    if (fromUnit === 'kelvin' && toUnit === 'celsius') return 'Formula: K − 273.15 = °C';
+    if (fromUnit === 'fahrenheit' && toUnit === 'kelvin') return 'Formula: (°F − 32) × 5/9 + 273.15 = K';
+    if (fromUnit === 'kelvin' && toUnit === 'fahrenheit') return 'Formula: (K − 273.15) × 9/5 + 32 = °F';
+}
+
+// ========== Length Converter ==========
+function convertLength() {
+    const fromUnit = document.getElementById('lengthFrom').value;
+    const toUnit = document.getElementById('lengthTo').value;
+    const value = parseFloat(document.getElementById('lengthValue').value);
+    
+    if (isNaN(value)) {
+        showErrorInElement('lengthResult', 'Please enter a valid length');
+        return;
+    }
+    
+    // Convert to meters first
+    let meters;
+    switch (fromUnit) {
+        case 'meter': meters = value; break;
+        case 'kilometer': meters = value * 1000; break;
+        case 'centimeter': meters = value / 100; break;
+        case 'millimeter': meters = value / 1000; break;
+        case 'mile': meters = value * 1609.344; break;
+        case 'yard': meters = value * 0.9144; break;
+        case 'foot': meters = value * 0.3048; break;
+        case 'inch': meters = value * 0.0254; break;
+    }
+    
+    // Then convert from meters to target unit
+    let result;
+    switch (toUnit) {
+        case 'meter': result = meters; break;
+        case 'kilometer': result = meters / 1000; break;
+        case 'centimeter': result = meters * 100; break;
+        case 'millimeter': result = meters * 1000; break;
+        case 'mile': result = meters / 1609.344; break;
+        case 'yard': result = meters / 0.9144; break;
+        case 'foot': result = meters / 0.3048; break;
+        case 'inch': result = meters / 0.0254; break;
+    }
+    
+    const fromText = getUnitText(fromUnit);
+    const toText = getUnitText(toUnit);
+    
+    document.getElementById('lengthResult').innerHTML = `
+        <p class="text-2xl font-bold text-indigo-600">${value.toFixed(6)} ${fromText} = ${result.toFixed(6)} ${toText}</p>
+        <p class="text-gray-600 mt-2">1 ${fromText} = ${(result/value).toFixed(6)} ${toText}</p>
+    `;
+}
+
+function getUnitText(unit) {
+    switch (unit) {
+        case 'meter': return 'meters';
+        case 'kilometer': return 'kilometers';
+        case 'centimeter': return 'centimeters';
+        case 'millimeter': return 'millimeters';
+        case 'mile': return 'miles';
+        case 'yard': return 'yards';
+        case 'foot': return 'feet';
+        case 'inch': return 'inches';
+        default: return unit;
+    }
+}
+
+// ========== Weight Converter ==========
+function convertWeight() {
+    const fromUnit = document.getElementById('weightFrom').value;
+    const toUnit = document.getElementById('weightTo').value;
+    const value = parseFloat(document.getElementById('weightValue').value);
+    
+    if (isNaN(value)) {
+        showErrorInElement('weightResult', 'Please enter a valid weight');
+        return;
+    }
+    
+    // Convert to kilograms first
+    let kilograms;
+    switch (fromUnit) {
+        case 'kilogram': kilograms = value; break;
+        case 'gram': kilograms = value / 1000; break;
+        case 'milligram': kilograms = value / 1000000; break;
+        case 'pound': kilograms = value * 0.453592; break;
+        case 'ounce': kilograms = value * 0.0283495; break;
+        case 'ton': kilograms = value * 1000; break;
+    }
+    
+    // Then convert from kilograms to target unit
+    let result;
+    switch (toUnit) {
+        case 'kilogram': result = kilograms; break;
+        case 'gram': result = kilograms * 1000; break;
+        case 'milligram': result = kilograms * 1000000; break;
+        case 'pound': result = kilograms / 0.453592; break;
+        case 'ounce': result = kilograms / 0.0283495; break;
+        case 'ton': result = kilograms / 1000; break;
+    }
+    
+    const fromText = getWeightUnitText(fromUnit);
+    const toText = getWeightUnitText(toUnit);
+    
+    document.getElementById('weightResult').innerHTML = `
+        <p class="text-2xl font-bold text-indigo-600">${value.toFixed(6)} ${fromText} = ${result.toFixed(6)} ${toText}</p>
+        <p class="text-gray-600 mt-2">1 ${fromText} = ${(result/value).toFixed(6)} ${toText}</p>
+    `;
+}
+
+function getWeightUnitText(unit) {
+    switch (unit) {
+        case 'kilogram': return 'kg';
+        case 'gram': return 'g';
+        case 'milligram': return 'mg';
+        case 'pound': return 'lb';
+        case 'ounce': return 'oz';
+        case 'ton': return 'tons';
+        default: return unit;
+    }
+}
+
+// ========== Date Difference Calculator ==========
+function calculateDateDifference() {
+    const fromDate = new Date(document.getElementById('dateFrom').value);
+    const toDate = new Date(document.getElementById('dateTo').value);
+    
+    if (isNaN(fromDate.getTime()) || isNaN(toDate.getTime())) {
+        showErrorInElement('dateDiffResult', 'Please select valid dates');
+        return;
+    }
+    
+    if (fromDate > toDate) {
+        showErrorInElement('dateDiffResult', 'End date must be after start date');
+        return;
+    }
+    
+    // Calculate difference in milliseconds
+    const diffMs = toDate - fromDate;
+    
+    // Convert to days
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    
+    // Calculate years, months, days
+    let years = toDate.getFullYear() - fromDate.getFullYear();
+    let months = toDate.getMonth() - fromDate.getMonth();
+    let days = toDate.getDate() - fromDate.getDate();
+    
+    if (days < 0) {
+        months--;
+        // Get the last day of the previous month
+        const lastDayOfMonth = new Date(toDate.getFullYear(), toDate.getMonth(), 0).getDate();
+        days += lastDayOfMonth;
+    }
+    
+    if (months < 0) {
+        years--;
+        months += 12;
+    }
+    
+    // Calculate weeks and remaining days
+    const weeks = Math.floor(diffDays / 7);
+    const remainingDays = diffDays % 7;
+    
+    document.getElementById('totalDays').textContent = diffDays;
+    document.getElementById('totalMonths').textContent = (years * 12) + months;
+    document.getElementById('totalYears').textContent = years;
+    document.getElementById('weeksDays').textContent = `${weeks} weeks, ${remainingDays} days`;
+}
+
+// ========== Discount/Tax Calculator ==========
+function calculateDiscountTax() {
+    const originalPrice = parseFloat(document.getElementById('originalPrice').value);
+    const discountPercent = parseFloat(document.getElementById('discountPercent').value) || 0;
+    const taxPercent = parseFloat(document.getElementById('taxPercent').value) || 0;
+    
+    if (isNaN(originalPrice) || originalPrice <= 0) {
+        showErrorInElement('discountResult', 'Please enter a valid price');
+        return;
+    }
+    
+    const discountAmount = originalPrice * (discountPercent / 100);
+    const priceAfterDiscount = originalPrice - discountAmount;
+    const taxAmount = priceAfterDiscount * (taxPercent / 100);
+    const finalPrice = priceAfterDiscount + taxAmount;
+    
+    document.getElementById('discountAmount').textContent = '$' + discountAmount.toFixed(2);
+    document.getElementById('taxAmount').textContent = '$' + taxAmount.toFixed(2);
+    document.getElementById('priceAfterDiscount').textContent = '$' + priceAfterDiscount.toFixed(2);
+    document.getElementById('finalPrice').textContent = '$' + finalPrice.toFixed(2);
+}
+
+// ========== Percentage Calculator ==========
+function calculatePercentageOf() {
+    const percent = parseFloat(document.getElementById('percentX').value);
+    const number = parseFloat(document.getElementById('numberY').value);
+    
+    if (isNaN(percent) || isNaN(number)) {
+        showErrorInElement('percentageOfResult', 'Please enter valid numbers');
+        return;
+    }
+    
+    const result = (percent / 100) * number;
+    document.getElementById('percentageOfResult').innerHTML = `
+        <p class="text-xl font-bold text-indigo-600">${percent}% of ${number} = ${result.toFixed(2)}</p>
+        <p class="text-gray-600 mt-1">Calculation: (${percent} ÷ 100) × ${number} = ${result.toFixed(2)}</p>
+    `;
+}
+
+function calculateWhatPercentage() {
+    const numberX = parseFloat(document.getElementById('numberX').value);
+    const numberY = parseFloat(document.getElementById('numberY2').value);
+    
+    if (isNaN(numberX) || isNaN(numberY) || numberY === 0) {
+        showErrorInElement('whatPercentageResult', 'Please enter valid numbers');
+        return;
+    }
+    
+    const result = (numberX / numberY) * 100;
+    document.getElementById('whatPercentageResult').innerHTML = `
+        <p class="text-xl font-bold text-indigo-600">${numberX} is ${result.toFixed(2)}% of ${numberY}</p>
+        <p class="text-gray-600 mt-1">Calculation: (${numberX} ÷ ${numberY}) × 100 = ${result.toFixed(2)}%</p>
+    `;
+}
+
+// ========== Time Calculator ==========
+function addTime() {
+    const startTime = document.getElementById('startTime').value;
+    const hours = parseInt(document.getElementById('timeHours').value) || 0;
+    const minutes = parseInt(document.getElementById('timeMinutes').value) || 0;
+    const seconds = parseInt(document.getElementById('timeSeconds').value) || 0;
+    
+    if (!startTime) {
+        showErrorInElement('timeResult', 'Please enter a start time');
+        return;
+    }
+    
+    const [startHours, startMinutes] = startTime.split(':').map(Number);
+    let totalSeconds = startHours * 3600 + startMinutes * 60;
+    totalSeconds += hours * 3600 + minutes * 60 + seconds;
+    
+    // Handle overflow (more than 24 hours)
+    totalSeconds = totalSeconds % 86400;
+    if (totalSeconds < 0) totalSeconds += 86400;
+    
+    const resultHours = Math.floor(totalSeconds / 3600);
+    const remainingSeconds = totalSeconds % 3600;
+    const resultMinutes = Math.floor(remainingSeconds / 60);
+    const resultSeconds = remainingSeconds % 60;
+    
+    const resultTime = `${String(resultHours).padStart(2, '0')}:${String(resultMinutes).padStart(2, '0')}:${String(resultSeconds).padStart(2, '0')}`;
+    document.getElementById('timeResult').innerHTML = `
+        <p class="text-xl font-bold text-indigo-600">Result: ${resultTime}</p>
+        <p class="text-gray-600 mt-1">Added ${hours}h ${minutes}m ${seconds}s</p>
+    `;
+}
+
+function subtractTime() {
+    const startTime = document.getElementById('startTime').value;
+    const hours = parseInt(document.getElementById('timeHours').value) || 0;
+    const minutes = parseInt(document.getElementById('timeMinutes').value) || 0;
+    const seconds = parseInt(document.getElementById('timeSeconds').value) || 0;
+    
+    if (!startTime) {
+        showErrorInElement('timeResult', 'Please enter a start time');
+        return;
+    }
+    
+    const [startHours, startMinutes] = startTime.split(':').map(Number);
+    let totalSeconds = startHours * 3600 + startMinutes * 60;
+    totalSeconds -= (hours * 3600 + minutes * 60 + seconds);
+    
+    // Handle underflow (negative time)
+    totalSeconds = totalSeconds % 86400;
+    if (totalSeconds < 0) totalSeconds += 86400;
+    
+    const resultHours = Math.floor(totalSeconds / 3600);
+    const remainingSeconds = totalSeconds % 3600;
+    const resultMinutes = Math.floor(remainingSeconds / 60);
+    const resultSeconds = remainingSeconds % 60;
+    
+    const resultTime = `${String(resultHours).padStart(2, '0')}:${String(resultMinutes).padStart(2, '0')}:${String(resultSeconds).padStart(2, '0')}`;
+    document.getElementById('timeResult').innerHTML = `
+        <p class="text-xl font-bold text-indigo-600">Result: ${resultTime}</p>
+        <p class="text-gray-600 mt-1">Subtracted ${hours}h ${minutes}m ${seconds}s</p>
+    `;
+}
+
+function calculateTimeDifference() {
+    const startTime = document.getElementById('timeDiffStart').value;
+    const endTime = document.getElementById('timeDiffEnd').value;
+    
+    if (!startTime || !endTime) {
+        showErrorInElement('timeDiffResult', 'Please enter both times');
+        return;
+    }
+    
+    const [startHours, startMinutes] = startTime.split(':').map(Number);
+    const [endHours, endMinutes] = endTime.split(':').map(Number);
+    
+    let diffHours = endHours - startHours;
+    let diffMinutes = endMinutes - startMinutes;
+    
+    if (diffMinutes < 0) {
+        diffHours--;
+        diffMinutes += 60;
+    }
+    
+    if (diffHours < 0) {
+        diffHours += 24;
+    }
+    
+    const totalMinutes = diffHours * 60 + diffMinutes;
+    document.getElementById('timeDiffResult').innerHTML = `
+        <p class="text-xl font-bold text-indigo-600">Difference: ${diffHours}h ${diffMinutes}m</p>
+        <p class="text-gray-600 mt-1">Total: ${totalMinutes} minutes</p>
+    `;
+}
+
+// ========== Password Generator ==========
+function generatePassword() {
+    const length = parseInt(document.getElementById('passwordLength').value);
+    const includeUppercase = document.getElementById('includeUppercase').checked;
+    const includeLowercase = document.getElementById('includeLowercase').checked;
+    const includeNumbers = document.getElementById('includeNumbers').checked;
+    const includeSymbols = document.getElementById('includeSymbols').checked;
+    
+    if (!includeUppercase && !includeLowercase && !includeNumbers && !includeSymbols) {
+        document.getElementById('generatedPassword').value = "Select at least one option";
+        return;
+    }
+    
+    let charset = '';
+    if (includeUppercase) charset += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    if (includeLowercase) charset += 'abcdefghijklmnopqrstuvwxyz';
+    if (includeNumbers) charset += '0123456789';
+    if (includeSymbols) charset += '!@#$%^&*()_+-=[]{}|;:,.<>?';
+    
+    let password = '';
+    for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * charset.length);
+        password += charset[randomIndex];
+    }
+    
+    document.getElementById('generatedPassword').value = password;
+    evaluatePasswordStrength(password);
+}
+
+function copyPassword() {
+    const passwordField = document.getElementById('generatedPassword');
+    passwordField.select();
+    document.execCommand('copy');
+    
+    // Show temporary feedback
+    const copyButton = passwordField.nextElementSibling;
+    const originalText = copyButton.innerHTML;
+    copyButton.innerHTML = '<i class="fas fa-check mr-1"></i> Copied!';
+    setTimeout(() => {
+        copyButton.innerHTML = originalText;
+    }, 2000);
+}
+
+function evaluatePasswordStrength(password) {
+    let strength = 0;
+    
+    // Length contributes up to 50% of strength
+    strength += Math.min(password.length / 32 * 50, 50);
+    
+    // Character variety contributes the rest
+    const hasLowercase = /[a-z]/.test(password);
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasNumbers = /[0-9]/.test(password);
+    const hasSymbols = /[^a-zA-Z0-9]/.test(password);
+    
+    const varietyCount = [hasLowercase, hasUppercase, hasNumbers, hasSymbols].filter(Boolean).length;
+    strength += (varietyCount / 4) * 50;
+    
+    // Update UI
+    const meter = document.getElementById('strengthMeter');
+    const text = document.getElementById('strengthText');
+    
+    meter.style.width = `${strength}%`;
+    
+    if (strength < 30) {
+        meter.className = 'h-full bg-red-500';
+        text.textContent = 'Strength: Very Weak';
+    } else if (strength < 60) {
+        meter.className = 'h-full bg-yellow-500';
+        text.textContent = 'Strength: Weak';
+    } else if (strength < 80) {
+        meter.className = 'h-full bg-blue-500';
+        text.textContent = 'Strength: Good';
+    } else {
+        meter.className = 'h-full bg-green-500';
+        text.textContent = 'Strength: Strong';
+    }
+}
+
+// ========== Tip Calculator ==========
+function calculateTip() {
+    const billAmount = parseFloat(document.getElementById('billAmount').value);
+    const tipPercentage = parseInt(document.getElementById('tipPercentage').value);
+    const numPeople = parseInt(document.getElementById('numPeople').value) || 1;
+    
+    if (isNaN(billAmount) || billAmount <= 0) {
+        showErrorInElement('tipResult', 'Please enter a valid bill amount');
+        return;
+    }
+    
+    const tipAmount = billAmount * (tipPercentage / 100);
+    const totalBill = billAmount + tipAmount;
+    const tipPerPerson = tipAmount / numPeople;
+    const totalPerPerson = totalBill / numPeople;
+    
+    document.getElementById('tipAmount').textContent = '$' + tipAmount.toFixed(2);
+    document.getElementById('totalBill').textContent = '$' + totalBill.toFixed(2);
+    document.getElementById('tipPerPerson').textContent = '$' + tipPerPerson.toFixed(2);
+    document.getElementById('totalPerPerson').textContent = '$' + totalPerPerson.toFixed(2);
+}
+
+// ========== Fuel Calculator ==========
+function calculateFuelCost() {
+    const distance = parseFloat(document.getElementById('fuelDistance').value);
+    const efficiency = parseFloat(document.getElementById('fuelEfficiency').value);
+    const efficiencyUnit = document.getElementById('efficiencyUnit').value;
+    const price = parseFloat(document.getElementById('fuelPrice').value);
+    
+    if (isNaN(distance) || isNaN(efficiency) || isNaN(price) || 
+        distance <= 0 || efficiency <= 0 || price <= 0) {
+        showErrorInElement('fuelResult', 'Please enter valid values');
+        return;
+    }
+    
+    let fuelUsed;
+    if (efficiencyUnit === 'mpg') {
+        // Miles per gallon - convert to gallons used
+        fuelUsed = distance / efficiency;
+    } else {
+        // Liters per 100km - convert to liters used
+        fuelUsed = (distance * efficiency) / 100;
+    }
+    
+    const totalCost = fuelUsed * price;
+    
+    document.getElementById('fuelResult').innerHTML = `
+        <p class="text-xl font-bold text-indigo-600">Total Fuel Cost: $${totalCost.toFixed(2)}</p>
+        <p class="text-gray-600 mt-1">Fuel used: ${fuelUsed.toFixed(2)} ${efficiencyUnit === 'mpg' ? 'gallons' : 'liters'}</p>
+        <p class="text-gray-600">Distance: ${distance} ${efficiencyUnit === 'mpg' ? 'miles' : 'km'}</p>
+        <p class="text-gray-600">Efficiency: ${efficiency} ${efficiencyUnit === 'mpg' ? 'mpg' : 'L/100km'}</p>
+    `;
+}
+
+// ========== Feedback Submission ==========
+function submitFeedback() {
+    const feedback = document.getElementById('userFeedback').value;
+    const suggestion = document.getElementById('toolSuggestion').value;
+    
+    // In a real app, you would send this to your server
+    console.log('User Feedback:', feedback);
+    console.log('Tool Suggestion:', suggestion);
+    
+    // Show thank you message
+    document.getElementById('feedbackThankYou').classList.remove('hidden');
+    document.getElementById('userFeedback').value = '';
+    document.getElementById('toolSuggestion').value = '';
+    
+    // Hide message after 5 seconds
+    setTimeout(() => {
+        document.getElementById('feedbackThankYou').classList.add('hidden');
+    }, 5000);
+}
+
+// ========== Helper Functions ==========
+function showErrorInElement(elementId, message) {
+    const element = document.getElementById(elementId);
+    if (element) {
+        element.innerHTML = `<p class="text-red-500">${message}</p>`;
+    }
+}
+
+function showErrorAlert(message) {
+    alert(message);
+}
+</script>
+</body>
+</html>

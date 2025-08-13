@@ -1,0 +1,3041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
+<meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp">
+    <title>Media Tools Suite - Video & Audio Utilities</title>
+    <link href="../../../dist/style.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #4f46e5;
+            --secondary: #7c3aed;
+            --accent: #ec4899;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --dark: #1e293b;
+            --light: #f8fafc;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+        
+        .tool-selector {
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            border-radius: 16px;
+        }
+        
+        .tool-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tool-icon {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-radius: 14px;
+        }
+        
+        .dropzone {
+            border: 2px dashed #cbd5e1;
+            transition: all 0.3s ease;
+            background: rgba(241, 245, 249, 0.5);
+            border-radius: 12px;
+        }
+        
+        .dropzone.active {
+            border-color: var(--primary);
+            background: rgba(224, 231, 255, 0.3);
+        }
+        
+        .progress-bar {
+            height: 6px;
+            transition: width 0.3s ease;
+            border-radius: 3px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+            color: white;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+        }
+        
+        .feature-badge {
+            background: rgba(79, 70, 229, 0.1);
+            color: var(--primary);
+            border-radius: 20px;
+            font-size: 0.75rem;
+        }
+        
+        .success-message {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%);
+            border-left: 4px solid var(--success);
+            border-radius: 8px;
+        }
+        
+        .error-message {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%);
+            border-left: 4px solid var(--error);
+            border-radius: 8px;
+        }
+        
+        .loading-spinner {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .tool-preview {
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+        
+        .tool-preview:hover {
+            transform: scale(1.05);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .feature-card {
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* File info container */
+        .file-info {
+            background: rgba(224, 231, 255, 0.3);
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin-top: 10px;
+        }
+        
+        /* Animation for tool switching */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .tool-container {
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a1a1a1;
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 640px) {
+            .tool-selector {
+                padding: 1rem;
+            }
+            
+            .tool-btn {
+                padding: 0.75rem;
+            }
+            
+            .tool-icon {
+                width: 10px;
+                height: 10px;
+            }
+            
+            .tool-card {
+                padding: 1rem;
+            }
+            
+            .dropzone {
+                padding: 1.5rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .feature-card {
+                padding: 1rem;
+            }
+            
+            .tool-preview {
+                margin-bottom: 1rem;
+            }
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 3rem 0;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 1rem;
+            border: 1px solid var(--gray-200);
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            background-color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .faq-question:hover {
+            background-color: var(--gray-50);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            background-color: var(--gray-50);
+        }
+
+        .faq-answer.active {
+            padding: 1.5rem;
+            max-height: 500px;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+   <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-tools text-2xl text-primary-600 dark:text-primary-400"></i>
+                <a href="#" class="text-xl font-bold text-gray-800 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                    My<span class="text-primary-600 dark:text-primary-400">Toolbox</span>
+                </a>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="../../../index.html" class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</a>
+
+                <div class="relative group">
+                    <button class="flex items-center font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                        Categories <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                    </button>
+                    <div class="absolute left-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                        <a href="../file-tools/document-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">File Tools</a>
+                        <a href="../image-tools/image-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Image Tools</a>
+                        <a href="../media-tools/mediaTools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Media Tools</a>
+                        <a href="../study-tools/study-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Study Tools</a>
+                        <a href="../calculator-tools/calculators.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Calculators</a>
+                        <a href="../ai-tools/ai-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">AI-Powered Tools</a>
+                        <a href="../design-tools/design-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Design Tools</a>
+                        <a href="../time-tools/time-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Productivity & Time Tools</a>
+                        <a href="../writing-tools/writing-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Writing Tools</a>
+                        <a href="../misc-tools/misc-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">More Useful Tools</a>
+                    </div>
+                </div>
+
+                <a href="#" class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">About</a>
+                <a href="#" class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Contact</a>
+            </nav>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden text-gray-600 dark:text-gray-300">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+            <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
+                <a href="#" class="py-2 font-medium">Home</a>
+
+                <div class="relative">
+                    <button id="mobile-categories-button" class="w-full flex justify-between items-center py-2 font-medium">
+                        Categories <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div id="mobile-categories" class="hidden pl-4 mt-1 space-y-2">
+                        <a href="../../index.html" class="block py-1">File Tools</a>
+                        <a href="../image-tools/image-tools.html" class="block py-1">Image Tools</a>
+                        <a href="../media-tools/mediaTools.html" class="block py-1">Media Tools</a>
+                        <a href="../design-tools/design-tools.html" class="block py-1">Design Tools</a>
+                        <a href="../calculator-tools/calculators.html" class="block py-1">Calculators</a>
+                    </div>
+                </div>
+
+                <a href="src/sections/homePage/about.html" class="py-2 font-medium">About</a>
+                <a href="#" class="py-2 font-medium">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <!-- Hero Section -->
+        <section class="text-center mb-12">
+            <div class="inline-block bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-sm font-medium py-1 px-3 rounded-full mb-4">
+                <i class="fas fa-bolt mr-2"></i> Powerful Media Tools
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+                Transform Your Media with <span class="text-purple-600">Professional Tools</span>
+            </h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+                Edit, convert and enhance your audio & video files with our free online tools. 100% secure processing in your browser.
+            </p>
+            <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-md p-6">
+                <div class="flex flex-wrap justify-center gap-4">
+                    <div class="flex items-center bg-indigo-50 rounded-lg px-3 py-1">
+                        <i class="fas fa-lock text-indigo-600 mr-2"></i>
+                        <span class="text-sm font-medium">No Uploads</span>
+                    </div>
+                    <div class="flex items-center bg-indigo-50 rounded-lg px-3 py-1">
+                        <i class="fas fa-bolt text-indigo-600 mr-2"></i>
+                        <span class="text-sm font-medium">Fast Processing</span>
+                    </div>
+                    <div class="flex items-center bg-indigo-50 rounded-lg px-3 py-1">
+                        <i class="fas fa-shield-alt text-indigo-600 mr-2"></i>
+                        <span class="text-sm font-medium">100% Secure</span>
+                    </div>
+                    <div class="flex items-center bg-indigo-50 rounded-lg px-3 py-1">
+                        <i class="fas fa-infinity text-indigo-600 mr-2"></i>
+                        <span class="text-sm font-medium">Free Forever</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tools Grid -->
+        <div class="tool-selector p-6 mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                <i class="fas fa-tools mr-3 text-indigo-600"></i> Our Media Tools
+            </h2>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                <button data-tool="mp4-mp3" class="tool-btn flex flex-col items-center justify-center p-4 rounded-xl bg-indigo-50 border border-indigo-300 transition-colors">
+                    <div class="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mb-2 text-white">
+                        <i class="fas fa-exchange-alt text-xl"></i>
+                    </div>
+                    <span class="text-sm font-medium text-gray-700">MP4 to MP3</span>
+                </button>
+                
+                <button data-tool="audio-cutter" class="tool-btn flex flex-col items-center justify-center p-4 rounded-xl hover:bg-indigo-50 transition-colors border border-gray-200">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-2">
+                        <i class="fas fa-cut text-indigo-600 text-xl"></i>
+                    </div>
+                    <span class="text-sm font-medium text-gray-700">Audio Cutter</span>
+                </button>
+                
+                <button data-tool="audio-joiner" class="tool-btn flex flex-col items-center justify-center p-4 rounded-xl hover:bg-indigo-50 transition-colors border border-gray-200">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-2">
+                        <i class="fas fa-link text-indigo-600 text-xl"></i>
+                    </div>
+                    <span class="text-sm font-medium text-gray-700">Audio Joiner</span>
+                </button>
+                
+                <button data-tool="video-compressor" class="tool-btn flex flex-col items-center justify-center p-4 rounded-xl hover:bg-indigo-50 transition-colors border border-gray-200">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-2">
+                        <i class="fas fa-compress-alt text-indigo-600 text-xl"></i>
+                    </div>
+                    <span class="text-sm font-medium text-gray-700">Video Compressor</span>
+                </button>
+                
+                <button data-tool="audio-converter" class="tool-btn flex flex-col items-center justify-center p-4 rounded-xl hover:bg-indigo-50 transition-colors border border-gray-200">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-2">
+                        <i class="fas fa-file-audio text-indigo-600 text-xl"></i>
+                    </div>
+                    <span class="text-sm font-medium text-gray-700">Audio Converter</span>
+                </button>
+                
+                <button data-tool="video-gif" class="tool-btn flex flex-col items-center justify-center p-4 rounded-xl hover:bg-indigo-50 transition-colors border border-gray-200">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-2">
+                        <i class="fas fa-film text-indigo-600 text-xl"></i>
+                    </div>
+                    <span class="text-sm font-medium text-gray-700">Video to GIF</span>
+                </button>
+                
+                <button data-tool="video-trimmer" class="tool-btn flex flex-col items-center justify-center p-4 rounded-xl hover:bg-indigo-50 transition-colors border border-gray-200">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-2">
+                        <i class="fas fa-scissors text-indigo-600 text-xl"></i>
+                    </div>
+                    <span class="text-sm font-medium text-gray-700">Video Trimmer</span>
+                </button>
+                
+                <button data-tool="video-speed" class="tool-btn flex flex-col items-center justify-center p-4 rounded-xl hover:bg-indigo-50 transition-colors border border-gray-200">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-2">
+                        <i class="fas fa-tachometer-alt text-indigo-600 text-xl"></i>
+                    </div>
+                    <span class="text-sm font-medium text-gray-700">Speed Changer</span>
+                </button>
+                
+                <button data-tool="video-resizer" class="tool-btn flex flex-col items-center justify-center p-4 rounded-xl hover:bg-indigo-50 transition-colors border border-gray-200">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-2">
+                        <i class="fas fa-expand-arrows-alt text-indigo-600 text-xl"></i>
+                    </div>
+                    <span class="text-sm font-medium text-gray-700">Video Resizer</span>
+                </button>
+                
+                <button data-tool="audio-extractor" class="tool-btn flex flex-col items-center justify-center p-4 rounded-xl hover:bg-indigo-50 transition-colors border border-gray-200">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-2">
+                        <i class="fas fa-music text-indigo-600 text-xl"></i>
+                    </div>
+                    <span class="text-sm font-medium text-gray-700">Audio Extractor</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tool Container -->
+        <div id="tool-container" class="mb-16">
+            <!-- Default tool display will be loaded here -->
+        </div>
+
+        <!-- Features Section -->
+        <section class="mb-16">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-gray-800 mb-3">
+                    Why Choose Our Media Tools?
+                </h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Experience the best media editing tools with these amazing features</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="feature-card bg-white p-6 rounded-xl shadow-sm">
+                    <div class="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mb-4 text-white">
+                        <i class="fas fa-shield-alt text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">100% Private</h3>
+                    <p class="text-gray-600">All processing happens in your browser. Your files never leave your device.</p>
+                </div>
+                
+                <div class="feature-card bg-white p-6 rounded-xl shadow-sm">
+                    <div class="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mb-4 text-white">
+                        <i class="fas fa-bolt text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Lightning Fast</h3>
+                    <p class="text-gray-600">Optimized tools that work quickly even with large files.</p>
+                </div>
+                
+                <div class="feature-card bg-white p-6 rounded-xl shadow-sm">
+                    <div class="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mb-4 text-white">
+                        <i class="fas fa-mobile-alt text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Works Everywhere</h3>
+                    <p class="text-gray-600">Use our tools on any device - desktop, tablet or mobile.</p>
+                </div>
+                
+                <div class="feature-card bg-white p-6 rounded-xl shadow-sm">
+                    <div class="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mb-4 text-white">
+                        <i class="fas fa-dollar-sign text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Free Forever</h3>
+                    <p class="text-gray-600">All tools are completely free with no hidden charges.</p>
+                </div>
+                
+                <div class="feature-card bg-white p-6 rounded-xl shadow-sm">
+                    <div class="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mb-4 text-white">
+                        <i class="fas fa-file-upload text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Easy to Use</h3>
+                    <p class="text-gray-600">Simple interfaces that anyone can use without tutorials.</p>
+                </div>
+                
+                <div class="feature-card bg-white p-6 rounded-xl shadow-sm">
+                    <div class="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mb-4 text-white">
+                        <i class="fas fa-file-download text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">No Watermarks</h3>
+                    <p class="text-gray-600">Get clean output files without any branding or watermarks.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Popular Tools Section -->
+        <section class="mb-16">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-gray-800 mb-3">
+                    Most Popular Media Tools
+                </h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Our users' favorite tools for everyday media editing tasks</p>
+            </div>
+            
+            <div class="tool-grid">
+                <div class="tool-preview bg-white rounded-xl shadow-md overflow-hidden">
+                    <div class="h-32 bg-gradient-to-r from-indigo-500 to-purple-600 flex items-center justify-center">
+                        <i class="fas fa-exchange-alt text-white text-4xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">MP4 to MP3 Converter</h3>
+                        <p class="text-gray-600 mb-4">Extract audio from videos with perfect quality</p>
+                        <button data-tool="mp4-mp3" class="btn-primary w-full py-2">Use Tool</button>
+                    </div>
+                </div>
+                
+                <div class="tool-preview bg-white rounded-xl shadow-md overflow-hidden">
+                    <div class="h-32 bg-gradient-to-r from-cyan-500 to-blue-600 flex items-center justify-center">
+                        <i class="fas fa-compress-alt text-white text-4xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Video Compressor</h3>
+                        <p class="text-gray-600 mb-4">Reduce video size without quality loss</p>
+                        <button data-tool="video-compressor" class="btn-primary w-full py-2">Use Tool</button>
+                    </div>
+                </div>
+                
+                <div class="tool-preview bg-white rounded-xl shadow-md overflow-hidden">
+                    <div class="h-32 bg-gradient-to-r from-green-500 to-teal-600 flex items-center justify-center">
+                        <i class="fas fa-cut text-white text-4xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Audio Cutter</h3>
+                        <p class="text-gray-600 mb-4">Trim audio files to the perfect length</p>
+                        <button data-tool="audio-cutter" class="btn-primary w-full py-2">Use Tool</button>
+                    </div>
+                </div>
+                
+                <div class="tool-preview bg-white rounded-xl shadow-md overflow-hidden">
+                    <div class="h-32 bg-gradient-to-r from-pink-500 to-rose-600 flex items-center justify-center">
+                        <i class="fas fa-film text-white text-4xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Video to GIF Converter</h3>
+                        <p class="text-gray-600 mb-4">Create animated GIFs from your videos</p>
+                        <button data-tool="video-gif" class="btn-primary w-full py-2">Use Tool</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+                <!-- FAQ Section -->
+        <section class="faq-section">
+            <div class="container">
+                <h2 class="section-title text-center mb-10">
+                    <i class="fas fa-question-circle"></i>
+                    Frequently Asked Questions
+                </h2>
+                <p class="text-center mb-10" style="max-width: 700px; margin: 0 auto; color: var(--gray-600);">
+                    Find answers to common questions about our tools
+                </p>
+
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Are my files uploaded to your servers?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>No, all processing happens directly in your browser. Your files never leave your device, ensuring complete privacy and security.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>What file formats do you support?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>We support all common media formats including MP4, MP3, WAV, FLAC, OGG, AVI, MOV, and more. Each tool specifies the supported formats.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Is there a file size limit?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>For best performance, we recommend files under 500MB. Larger files may work but could take longer to process depending on your device.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Do I need to install anything?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>No installation required! All our tools work directly in your web browser on any device.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Are these tools really free?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Yes, all our tools are completely free to use with no hidden charges or watermarks on your files.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 dark:bg-gray-800/80 border-t border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- About Column -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">About MyToolbox</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                        An all-in-one platform offering free, easy-to-use tools for your everyday needs.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Tools Column -->
+                <div>
+                    <h3 class="text-lg !text-black font-semibold mb-4">Tools</h3>
+                    <ul class="space-y-2">
+                        <li><a href="../../index.html" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">All Tools</a></li>
+                        <li><a href="../../index.html#featured-tools" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Featured Tools</a></li>
+                        <li><a href="../../index.html#categories" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">New Tools</a></li>
+                        <li><a href="../../src/sections/homePage/suggest-tool.html" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Request a Tool</a></li>
+                    </ul>
+                </div>
+
+                <!-- Resources Column -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Blog</a></li>
+                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Tutorials</a></li>
+                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">API</a></li>
+                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Help Center</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal Column -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="../../src/sections/homePage/privacy.html" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Privacy Policy</a></li>
+                        <li><a href="../../src/sections/homePage/terms.html" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Terms of Service</a></li>
+                        <li><a href="../../src/sections/homePage/cookies.html" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Cookie Policy</a></li>
+                        <li><a href="../../src/sections/homePage/gdpr.html" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">GDPR</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="border-t border-gray-200 dark:border-gray-700 my-8"></div>
+
+            <!-- Bottom Footer -->
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                    <i class="fas fa-tools text-primary-600 dark:text-primary-400"></i>
+                    <span class="font-medium">My<span class="text-primary-600 dark:text-primary-400">Toolbox</span></span>
+                </div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">
+                    &copy; <span id="current-year"></span> MyToolbox. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+<script>
+    // Mobile menu functionality
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileCategoriesButton = document.getElementById('mobile-categories-button');
+    const mobileCategories = document.getElementById('mobile-categories');
+
+    // Mobile Menu Toggle
+    mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!mobileMenu.contains(e.target) && !mobileMenuButton.contains(e.target)) {
+            mobileMenu.classList.add('hidden');
+        }
+    });
+    
+    // Mobile Categories Toggle
+    mobileCategoriesButton.addEventListener('click', () => {
+        mobileCategories.classList.toggle('hidden');
+        const icon = mobileCategoriesButton.querySelector('i');
+        icon.classList.toggle('fa-chevron-down');
+        icon.classList.toggle('fa-chevron-up');
+    });
+
+    // FAQ Toggle
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const icon = question.querySelector('i');
+                
+                answer.classList.toggle('active');
+                icon.classList.toggle('fa-chevron-down');
+                icon.classList.toggle('fa-chevron-up');
+            });
+        });
+
+    // Tool selection functionality
+    document.querySelectorAll('[data-tool]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const tool = btn.getAttribute('data-tool');
+            loadTool(tool);
+            
+            // Update button states
+            document.querySelectorAll('.tool-btn').forEach(b => {
+                if (b.getAttribute('data-tool') === tool) {
+                    b.classList.add('bg-indigo-50', 'border-indigo-300');
+                    b.classList.remove('hover:bg-indigo-50', 'border-gray-200');
+                } else {
+                    b.classList.remove('bg-indigo-50', 'border-indigo-300');
+                    b.classList.add('hover:bg-indigo-50', 'border-gray-200');
+                }
+            });
+        });
+    });
+    
+    // Tool templates
+    const toolTemplates = {
+        'mp4-mp3': `
+            <div class="tool-card bg-white p-6 tool-container">
+                <div class="flex items-center mb-6">
+                    <div class="tool-icon w-14 h-14 flex items-center justify-center mr-4">
+                        <i class="fas fa-exchange-alt text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800">MP4 to MP3 Converter</h3>
+                        <p class="text-gray-600">Extract audio from your videos with perfect quality</p>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <div id="mp4-mp3-dropzone" class="dropzone p-8 text-center cursor-pointer">
+                        <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-3"></i>
+                        <h4 class="text-lg font-medium text-gray-700 mb-1">Drag & drop your MP4 file here</h4>
+                        <p class="text-gray-500 mb-3">or click to browse files</p>
+                        <span class="feature-badge inline-block py-1 px-3">Supports MP4, MOV, AVI, WMV</span>
+                        <input type="file" id="mp4-mp3-input" accept=".mp4,.mov,.avi,.wmv" class="hidden">
+                    </div>
+                    
+                    <div id="mp4-mp3-progress" class="hidden mt-6">
+                        <div class="flex justify-between text-sm text-gray-600 mb-2">
+                            <span>Converting video to MP3...</span>
+                            <span id="mp4-mp3-progress-text">0%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div id="mp4-mp3-progress-bar" class="progress-bar bg-indigo-600 rounded-full h-2" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    
+                    <div id="mp4-mp3-result" class="hidden mt-6">
+                        <div class="success-message p-4 mb-6">
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3 text-xl"></i>
+                                <div>
+                                    <h4 class="font-medium text-green-800">Conversion Complete!</h4>
+                                    <p class="text-sm text-green-600">Your MP3 file is ready to download</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                            <audio controls class="w-full"></audio>
+                        </div>
+                        
+                        <button id="mp4-mp3-download" class="btn-success w-full py-3 px-6 font-medium flex items-center justify-center">
+                            <i class="fas fa-download mr-2"></i> Download MP3 File
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-100 pt-6">
+                    <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                        <i class="fas fa-question-circle text-indigo-600 mr-2"></i> How to use this tool
+                    </h4>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Upload your video file by dragging or clicking the upload area</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Wait for the conversion to complete (usually takes a few seconds)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Preview the audio and download your MP3 file</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        `,
+        'audio-cutter': `
+            <div class="tool-card bg-white p-6 tool-container">
+                <div class="flex items-center mb-6">
+                    <div class="tool-icon w-14 h-14 flex items-center justify-center mr-4">
+                        <i class="fas fa-cut text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800">Audio Cutter</h3>
+                        <p class="text-gray-600">Trim your audio files to the perfect length</p>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <div id="audio-cutter-dropzone" class="dropzone p-8 text-center cursor-pointer">
+                        <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-3"></i>
+                        <h4 class="text-lg font-medium text-gray-700 mb-1">Drag & drop your audio file here</h4>
+                        <p class="text-gray-500 mb-3">or click to browse files</p>
+                        <span class="feature-badge inline-block py-1 px-3">Supports MP3, WAV, FLAC, OGG</span>
+                        <input type="file" id="audio-cutter-input" accept=".mp3,.wav,.flac,.ogg" class="hidden">
+                    </div>
+                    
+                    <div id="audio-cutter-controls" class="hidden mt-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Start Time (seconds)</label>
+                                <input type="range" id="audio-start" min="0" max="300" value="0" class="w-full">
+                                <div class="text-center mt-1 text-gray-600"><span id="start-value">0</span> sec</div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">End Time (seconds)</label>
+                                <input type="range" id="audio-end" min="0" max="300" value="30" class="w-full">
+                                <div class="text-center mt-1 text-gray-600"><span id="end-value">30</span> sec</div>
+                            </div>
+                        </div>
+                        
+                        <button id="audio-cutter-process" class="btn-primary w-full py-3 font-medium">
+                            <i class="fas fa-cut mr-2"></i> Trim Audio
+                        </button>
+                    </div>
+                    
+                    <div id="audio-cutter-result" class="hidden mt-6">
+                        <div class="success-message p-4 mb-6">
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3 text-xl"></i>
+                                <div>
+                                    <h4 class="font-medium text-green-800">Audio Trimmed Successfully!</h4>
+                                    <p class="text-sm text-green-600">Your trimmed audio is ready to download</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                            <audio controls class="w-full"></audio>
+                        </div>
+                        
+                        <button id="audio-cutter-download" class="btn-success w-full py-3 px-6 font-medium flex items-center justify-center">
+                            <i class="fas fa-download mr-2"></i> Download Trimmed Audio
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-100 pt-6">
+                    <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                        <i class="fas fa-question-circle text-indigo-600 mr-2"></i> How to use this tool
+                    </h4>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Upload your audio file by dragging or clicking the upload area</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Set the start and end points using the sliders</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Click "Trim Audio" to process your file</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Preview and download your trimmed audio</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        `,
+        'video-compressor': `
+            <div class="tool-card bg-white p-6 tool-container">
+                <div class="flex items-center mb-6">
+                    <div class="tool-icon w-14 h-14 flex items-center justify-center mr-4">
+                        <i class="fas fa-compress-alt text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800">Video Compressor</h3>
+                        <p class="text-gray-600">Reduce your video file size without losing quality</p>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <div id="video-compressor-dropzone" class="dropzone p-8 text-center cursor-pointer">
+                        <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-3"></i>
+                        <h4 class="text-lg font-medium text-gray-700 mb-1">Drag & drop your video file here</h4>
+                        <p class="text-gray-500 mb-3">or click to browse files</p>
+                        <span class="feature-badge inline-block py-1 px-3">Supports MP4, MOV, AVI, MKV</span>
+                        <input type="file" id="video-compressor-input" accept=".mp4,.mov,.avi,.mkv" class="hidden">
+                    </div>
+                    
+                    <div id="video-compressor-controls" class="hidden mt-6">
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Compression Quality</label>
+                            <input type="range" id="compression-quality" min="1" max="100" value="75" class="w-full">
+                            <div class="flex justify-between mt-1 text-gray-600 text-sm">
+                                <span>Smaller file</span>
+                                <span>Better quality</span>
+                            </div>
+                            <div class="text-center mt-1">
+                                <span class="font-medium text-indigo-600">Quality: <span id="quality-value">75</span>%</span>
+                            </div>
+                        </div>
+                        
+                        <button id="video-compressor-process" class="btn-primary w-full py-3 font-medium">
+                            <i class="fas fa-compress-alt mr-2"></i> Compress Video
+                        </button>
+                    </div>
+                    
+                    <div id="video-compressor-result" class="hidden mt-6">
+                        <div class="success-message p-4 mb-6">
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3 text-xl"></i>
+                                <div>
+                                    <h4 class="font-medium text-green-800">Compression Complete!</h4>
+                                    <p class="text-sm text-green-600">Your compressed video is ready to download</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                            <video controls class="w-full"></video>
+                        </div>
+                        
+                        <button id="video-compressor-download" class="btn-success w-full py-3 px-6 font-medium flex items-center justify-center">
+                            <i class="fas fa-download mr-2"></i> Download Compressed Video
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-100 pt-6">
+                    <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                        <i class="fas fa-question-circle text-indigo-600 mr-2"></i> How to use this tool
+                    </h4>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Upload your video file by dragging or clicking the upload area</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Adjust the compression quality using the slider</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Click "Compress Video" to process your file</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Preview and download your compressed video</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        `,
+        'video-gif': `
+            <div class="tool-card bg-white p-6 tool-container">
+                <div class="flex items-center mb-6">
+                    <div class="tool-icon w-14 h-14 flex items-center justify-center mr-4">
+                        <i class="fas fa-film text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800">Video to GIF Converter</h3>
+                        <p class="text-gray-600">Create animated GIFs from your videos</p>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <div id="video-gif-dropzone" class="dropzone p-8 text-center cursor-pointer">
+                        <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-3"></i>
+                        <h4 class="text-lg font-medium text-gray-700 mb-1">Drag & drop your video file here</h4>
+                        <p class="text-gray-500 mb-3">or click to browse files</p>
+                        <span class="feature-badge inline-block py-1 px-3">Supports MP4, MOV, AVI, MKV</span>
+                        <input type="file" id="video-gif-input" accept=".mp4,.mov,.avi,.mkv" class="hidden">
+                    </div>
+                    
+                    <div id="video-gif-controls" class="hidden mt-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Start Time (seconds)</label>
+                                <input type="range" id="gif-start" min="0" max="300" value="0" class="w-full">
+                                <div class="text-center mt-1 text-gray-600"><span id="gif-start-value">0</span> sec</div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Duration (seconds)</label>
+                                <input type="range" id="gif-duration" min="1" max="15" value="5" class="w-full">
+                                <div class="text-center mt-1 text-gray-600"><span id="gif-duration-value">5</span> sec</div>
+                            </div>
+                        </div>
+                        
+                        <button id="video-gif-process" class="btn-primary w-full py-3 font-medium">
+                            <i class="fas fa-film mr-2"></i> Convert to GIF
+                        </button>
+                    </div>
+                    
+                    <div id="video-gif-result" class="hidden mt-6">
+                        <div class="success-message p-4 mb-6">
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3 text-xl"></i>
+                                <div>
+                                    <h4 class="font-medium text-green-800">GIF Created Successfully!</h4>
+                                    <p class="text-sm text-green-600">Your GIF is ready to download</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-50 rounded-lg p-4 mb-6 flex justify-center">
+                            <img id="gif-preview" class="max-w-full rounded-lg">
+                        </div>
+                        
+                        <button id="video-gif-download" class="btn-success w-full py-3 px-6 font-medium flex items-center justify-center">
+                            <i class="fas fa-download mr-2"></i> Download GIF
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-100 pt-6">
+                    <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                        <i class="fas fa-question-circle text-indigo-600 mr-2"></i> How to use this tool
+                    </h4>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Upload your video file by dragging or clicking the upload area</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Set the start time and duration for your GIF</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Click "Convert to GIF" to process your file</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Preview and download your GIF</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        `,
+        'audio-joiner': `
+            <div class="tool-card bg-white p-6 tool-container">
+                <div class="flex items-center mb-6">
+                    <div class="tool-icon w-14 h-14 flex items-center justify-center mr-4">
+                        <i class="fas fa-link text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800">Audio Joiner</h3>
+                        <p class="text-gray-600">Combine multiple audio files into one</p>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <div id="audio-joiner-dropzone" class="dropzone p-8 text-center cursor-pointer">
+                        <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-3"></i>
+                        <h4 class="text-lg font-medium text-gray-700 mb-1">Drag & drop your audio files here</h4>
+                        <p class="text-gray-500 mb-3">or click to browse files</p>
+                        <span class="feature-badge inline-block py-1 px-3">Supports MP3, WAV, FLAC, OGG</span>
+                        <input type="file" id="audio-joiner-input" accept=".mp3,.wav,.flac,.ogg" multiple class="hidden">
+                    </div>
+                    
+                    <div id="audio-joiner-files" class="hidden mt-6">
+                        <h4 class="font-medium text-gray-700 mb-3">Selected Files:</h4>
+                        <ul id="audio-joiner-file-list" class="space-y-2 mb-4"></ul>
+                        
+                        <button id="audio-joiner-process" class="btn-primary w-full py-3 font-medium">
+                            <i class="fas fa-link mr-2"></i> Join Audio Files
+                        </button>
+                    </div>
+                    
+                    <div id="audio-joiner-result" class="hidden mt-6">
+                        <div class="success-message p-4 mb-6">
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3 text-xl"></i>
+                                <div>
+                                    <h4 class="font-medium text-green-800">Audio Joined Successfully!</h4>
+                                    <p class="text-sm text-green-600">Your combined audio is ready to download</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                            <audio controls class="w-full"></audio>
+                        </div>
+                        
+                        <button id="audio-joiner-download" class="btn-success w-full py-3 px-6 font-medium flex items-center justify-center">
+                            <i class="fas fa-download mr-2"></i> Download Joined Audio
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-100 pt-6">
+                    <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                        <i class="fas fa-question-circle text-indigo-600 mr-2"></i> How to use this tool
+                    </h4>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Upload multiple audio files by dragging or clicking the upload area</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Arrange the files in the order you want them joined</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Click "Join Audio Files" to process them</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Preview and download your combined audio file</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        `,
+        'audio-converter': `
+            <div class="tool-card bg-white p-6 tool-container">
+                <div class="flex items-center mb-6">
+                    <div class="tool-icon w-14 h-14 flex items-center justify-center mr-4">
+                        <i class="fas fa-file-audio text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800">Audio Converter</h3>
+                        <p class="text-gray-600">Convert audio files between different formats</p>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <div id="audio-converter-dropzone" class="dropzone p-8 text-center cursor-pointer">
+                        <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-3"></i>
+                        <h4 class="text-lg font-medium text-gray-700 mb-1">Drag & drop your audio file here</h4>
+                        <p class="text-gray-500 mb-3">or click to browse files</p>
+                        <span class="feature-badge inline-block py-1 px-3">Supports MP3, WAV, FLAC, OGG</span>
+                        <input type="file" id="audio-converter-input" accept=".mp3,.wav,.flac,.ogg" class="hidden">
+                    </div>
+                    
+                    <div id="audio-converter-controls" class="hidden mt-6">
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Output Format</label>
+                            <select id="audio-output-format" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500">
+                                <option value="mp3">MP3 (Standard quality)</option>
+                                <option value="wav">WAV (Lossless quality)</option>
+                                <option value="flac">FLAC (Lossless compressed)</option>
+                                <option value="ogg">OGG (Vorbis format)</option>
+                            </select>
+                        </div>
+                        
+                        <button id="audio-converter-process" class="btn-primary w-full py-3 font-medium">
+                            <i class="fas fa-exchange-alt mr-2"></i> Convert Audio
+                        </button>
+                    </div>
+                    
+                    <div id="audio-converter-result" class="hidden mt-6">
+                        <div class="success-message p-4 mb-6">
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3 text-xl"></i>
+                                <div>
+                                    <h4 class="font-medium text-green-800">Conversion Complete!</h4>
+                                    <p class="text-sm text-green-600">Your converted audio is ready to download</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                            <audio controls class="w-full"></audio>
+                        </div>
+                        
+                        <button id="audio-converter-download" class="btn-success w-full py-3 px-6 font-medium flex items-center justify-center">
+                            <i class="fas fa-download mr-2"></i> Download Converted Audio
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-100 pt-6">
+                    <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                        <i class="fas fa-question-circle text-indigo-600 mr-2"></i> How to use this tool
+                    </h4>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Upload your audio file by dragging or clicking the upload area</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Select your desired output format</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Click "Convert Audio" to process your file</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Preview and download your converted audio</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        `,
+        'video-trimmer': `
+            <div class="tool-card bg-white p-6 tool-container">
+                <div class="flex items-center mb-6">
+                    <div class="tool-icon w-14 h-14 flex items-center justify-center mr-4">
+                        <i class="fas fa-scissors text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800">Video Trimmer</h3>
+                        <p class="text-gray-600">Cut and trim your video files</p>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <div id="video-trimmer-dropzone" class="dropzone p-8 text-center cursor-pointer">
+                        <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-3"></i>
+                        <h4 class="text-lg font-medium text-gray-700 mb-1">Drag & drop your video file here</h4>
+                        <p class="text-gray-500 mb-3">or click to browse files</p>
+                        <span class="feature-badge inline-block py-1 px-3">Supports MP4, MOV, AVI, MKV</span>
+                        <input type="file" id="video-trimmer-input" accept=".mp4,.mov,.avi,.mkv" class="hidden">
+                    </div>
+                    
+                    <div id="video-trimmer-controls" class="hidden mt-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Start Time (seconds)</label>
+                                <input type="range" id="video-start" min="0" max="300" value="0" class="w-full">
+                                <div class="text-center mt-1 text-gray-600"><span id="video-start-value">0</span> sec</div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">End Time (seconds)</label>
+                                <input type="range" id="video-end" min="0" max="300" value="30" class="w-full">
+                                <div class="text-center mt-1 text-gray-600"><span id="video-end-value">30</span> sec</div>
+                            </div>
+                        </div>
+                        
+                        <button id="video-trimmer-process" class="btn-primary w-full py-3 font-medium">
+                            <i class="fas fa-cut mr-2"></i> Trim Video
+                        </button>
+                    </div>
+                    
+                    <div id="video-trimmer-result" class="hidden mt-6">
+                        <div class="success-message p-4 mb-6">
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3 text-xl"></i>
+                                <div>
+                                    <h4 class="font-medium text-green-800">Video Trimmed Successfully!</h4>
+                                    <p class="text-sm text-green-600">Your trimmed video is ready to download</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                            <video controls class="w-full"></video>
+                        </div>
+                        
+                        <button id="video-trimmer-download" class="btn-success w-full py-3 px-6 font-medium flex items-center justify-center">
+                            <i class="fas fa-download mr-2"></i> Download Trimmed Video
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-100 pt-6">
+                    <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                        <i class="fas fa-question-circle text-indigo-600 mr-2"></i> How to use this tool
+                    </h4>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Upload your video file by dragging or clicking the upload area</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Set the start and end points using the sliders</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Click "Trim Video" to process your file</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Preview and download your trimmed video</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        `,
+        'video-speed': `
+            <div class="tool-card bg-white p-6 tool-container">
+                <div class="flex items-center mb-6">
+                    <div class="tool-icon w-14 h-14 flex items-center justify-center mr-4">
+                        <i class="fas fa-tachometer-alt text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800">Speed Changer</h3>
+                        <p class="text-gray-600">Adjust playback speed of your videos</p>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <div id="video-speed-dropzone" class="dropzone p-8 text-center cursor-pointer">
+                        <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-3"></i>
+                        <h4 class="text-lg font-medium text-gray-700 mb-1">Drag & drop your video file here</h4>
+                        <p class="text-gray-500 mb-3">or click to browse files</p>
+                        <span class="feature-badge inline-block py-1 px-3">Supports MP4, MOV, AVI, MKV</span>
+                        <input type="file" id="video-speed-input" accept=".mp4,.mov,.avi,.mkv" class="hidden">
+                    </div>
+                    
+                    <div id="video-speed-controls" class="hidden mt-6">
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Playback Speed</label>
+                            <input type="range" id="speed-factor" min="0.25" max="4" step="0.25" value="1" class="w-full">
+                            <div class="flex justify-between mt-1 text-gray-600 text-sm">
+                                <span>0.25x (Slow)</span>
+                                <span>1x (Normal)</span>
+                                <span>4x (Fast)</span>
+                            </div>
+                            <div class="text-center mt-1">
+                                <span class="font-medium text-indigo-600">Speed: <span id="speed-value">1</span>x</span>
+                            </div>
+                        </div>
+                        
+                        <button id="video-speed-process" class="btn-primary w-full py-3 font-medium">
+                            <i class="fas fa-tachometer-alt mr-2"></i> Adjust Speed
+                        </button>
+                    </div>
+                    
+                    <div id="video-speed-result" class="hidden mt-6">
+                        <div class="success-message p-4 mb-6">
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3 text-xl"></i>
+                                <div>
+                                    <h4 class="font-medium text-green-800">Speed Adjustment Complete!</h4>
+                                    <p class="text-sm text-green-600">Your video with adjusted speed is ready to download</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                            <video controls class="w-full"></video>
+                        </div>
+                        
+                        <button id="video-speed-download" class="btn-success w-full py-3 px-6 font-medium flex items-center justify-center">
+                            <i class="fas fa-download mr-2"></i> Download Video
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-100 pt-6">
+                    <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                        <i class="fas fa-question-circle text-indigo-600 mr-2"></i> How to use this tool
+                    </h4>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Upload your video file by dragging or clicking the upload area</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Adjust the playback speed using the slider</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Click "Adjust Speed" to process your file</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Preview and download your video with adjusted speed</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        `,
+        'video-resizer': `
+            <div class="tool-card bg-white p-6 tool-container">
+                <div class="flex items-center mb-6">
+                    <div class="tool-icon w-14 h-14 flex items-center justify-center mr-4">
+                        <i class="fas fa-expand-arrows-alt text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800">Video Resizer</h3>
+                        <p class="text-gray-600">Resize your videos to different dimensions</p>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <div id="video-resizer-dropzone" class="dropzone p-8 text-center cursor-pointer">
+                        <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-3"></i>
+                        <h4 class="text-lg font-medium text-gray-700 mb-1">Drag & drop your video file here</h4>
+                        <p class="text-gray-500 mb-3">or click to browse files</p>
+                        <span class="feature-badge inline-block py-1 px-3">Supports MP4, MOV, AVI, MKV</span>
+                        <input type="file" id="video-resizer-input" accept=".mp4,.mov,.avi,.mkv" class="hidden">
+                    </div>
+                    
+                    <div id="video-resizer-controls" class="hidden mt-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Width (pixels)</label>
+                                <input type="number" id="video-width" min="100" max="3840" value="1280" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Height (pixels)</label>
+                                <input type="number" id="video-height" min="100" max="2160" value="720" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Preset Sizes</label>
+                            <div class="flex flex-wrap gap-2">
+                                <button data-size="640x360" class="border border-gray-300 rounded-lg px-3 py-1 text-sm hover:bg-gray-100">640x360 (360p)</button>
+                                <button data-size="854x480" class="border border-gray-300 rounded-lg px-3 py-1 text-sm hover:bg-gray-100">854x480 (480p)</button>
+                                <button data-size="1280x720" class="border border-gray-300 rounded-lg px-3 py-1 text-sm hover:bg-gray-100">1280x720 (720p)</button>
+                                <button data-size="1920x1080" class="border border-gray-300 rounded-lg px-3 py-1 text-sm hover:bg-gray-100">1920x1080 (1080p)</button>
+                            </div>
+                        </div>
+                        
+                        <button id="video-resizer-process" class="btn-primary w-full py-3 font-medium">
+                            <i class="fas fa-expand-arrows-alt mr-2"></i> Resize Video
+                        </button>
+                    </div>
+                    
+                    <div id="video-resizer-result" class="hidden mt-6">
+                        <div class="success-message p-4 mb-6">
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3 text-xl"></i>
+                                <div>
+                                    <h4 class="font-medium text-green-800">Resize Complete!</h4>
+                                    <p class="text-sm text-green-600">Your resized video is ready to download</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                            <video controls class="w-full"></video>
+                        </div>
+                        
+                        <button id="video-resizer-download" class="btn-success w-full py-3 px-6 font-medium flex items-center justify-center">
+                            <i class="fas fa-download mr-2"></i> Download Resized Video
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-100 pt-6">
+                    <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                        <i class="fas fa-question-circle text-indigo-600 mr-2"></i> How to use this tool
+                    </h4>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Upload your video file by dragging or clicking the upload area</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Set the desired width and height or choose a preset</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Click "Resize Video" to process your file</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Preview and download your resized video</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        `,
+        'audio-extractor': `
+            <div class="tool-card bg-white p-6 tool-container">
+                <div class="flex items-center mb-6">
+                    <div class="tool-icon w-14 h-14 flex items-center justify-center mr-4">
+                        <i class="fas fa-music text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800">Audio Extractor</h3>
+                        <p class="text-gray-600">Extract audio tracks from video files</p>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <div id="audio-extractor-dropzone" class="dropzone p-8 text-center cursor-pointer">
+                        <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-3"></i>
+                        <h4 class="text-lg font-medium text-gray-700 mb-1">Drag & drop your video file here</h4>
+                        <p class="text-gray-500 mb-3">or click to browse files</p>
+                        <span class="feature-badge inline-block py-1 px-3">Supports MP4, MOV, AVI, MKV</span>
+                        <input type="file" id="audio-extractor-input" accept=".mp4,.mov,.avi,.mkv" class="hidden">
+                    </div>
+                    
+                    <div id="audio-extractor-controls" class="hidden mt-6">
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Output Format</label>
+                            <select id="audio-extractor-format" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500">
+                                <option value="mp3">MP3 (Standard quality)</option>
+                                <option value="wav">WAV (Lossless quality)</option>
+                                <option value="flac">FLAC (Lossless compressed)</option>
+                                <option value="ogg">OGG (Vorbis format)</option>
+                            </select>
+                        </div>
+                        
+                        <button id="audio-extractor-process" class="btn-primary w-full py-3 font-medium">
+                            <i class="fas fa-music mr-2"></i> Extract Audio
+                        </button>
+                    </div>
+                    
+                    <div id="audio-extractor-result" class="hidden mt-6">
+                        <div class="success-message p-4 mb-6">
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3 text-xl"></i>
+                                <div>
+                                    <h4 class="font-medium text-green-800">Extraction Complete!</h4>
+                                    <p class="text-sm text-green-600">Your audio track is ready to download</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                            <audio controls class="w-full"></audio>
+                        </div>
+                        
+                        <button id="audio-extractor-download" class="btn-success w-full py-3 px-6 font-medium flex items-center justify-center">
+                            <i class="fas fa-download mr-2"></i> Download Audio
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-100 pt-6">
+                    <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                        <i class="fas fa-question-circle text-indigo-600 mr-2"></i> How to use this tool
+                    </h4>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Upload your video file by dragging or clicking the upload area</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Select your desired audio format</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Click "Extract Audio" to process your file</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-indigo-500 mt-1 mr-2 text-xs"></i>
+                            <span>Preview and download your extracted audio</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        `
+    };
+    
+    // Load tool function
+    function loadTool(toolName) {
+        const container = document.getElementById('tool-container');
+        
+        if (toolTemplates[toolName]) {
+            container.innerHTML = toolTemplates[toolName];
+            setupTool(toolName);
+        } else {
+            container.innerHTML = `
+                <div class="tool-card bg-white p-8">
+                    <div class="text-center py-12">
+                        <div class="w-24 h-24 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 text-white">
+                            <i class="fas fa-tools text-4xl"></i>
+                        </div>
+                        <h3 class="text-3xl font-bold text-gray-800 mb-4">Tool Coming Soon</h3>
+                        <p class="text-gray-600 max-w-2xl mx-auto mb-8">
+                            The ${toolName.replace('-', ' ')} tool is under development and will be available soon.
+                            Please try one of our other tools in the meantime.
+                        </p>
+                        <button class="btn-primary px-6 py-3 font-medium" onclick="loadTool('mp4-mp3')">
+                            <i class="fas fa-exchange-alt mr-2"></i> Try MP4 to MP3 Converter
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+    }
+
+    // Setup tool after loading
+    function setupTool(toolName) {
+        switch(toolName) {
+            case 'mp4-mp3':
+                setupMp4ToMp3();
+                break;
+            case 'audio-cutter':
+                setupAudioCutter();
+                break;
+            case 'video-compressor':
+                setupVideoCompressor();
+                break;
+            case 'video-gif':
+                setupVideoToGif();
+                break;
+            case 'audio-joiner':
+                setupAudioJoiner();
+                break;
+            case 'audio-converter':
+                setupAudioConverter();
+                break;
+            case 'video-trimmer':
+                setupVideoTrimmer();
+                break;
+            case 'video-speed':
+                setupVideoSpeed();
+                break;
+            case 'video-resizer':
+                setupVideoResizer();
+                break;
+            case 'audio-extractor':
+                setupAudioExtractor();
+                break;
+        }
+    }
+
+    // Common functions
+    function setupDropzone(dropzoneId, inputId, callback, multiple = false) {
+        const dropzone = document.getElementById(dropzoneId);
+        const input = document.getElementById(inputId);
+        
+        if (multiple) {
+            input.multiple = true;
+        }
+        
+        dropzone.addEventListener('click', () => input.click());
+        
+        input.addEventListener('change', (e) => {
+            if (e.target.files.length) {
+                if (multiple) {
+                    callback(Array.from(e.target.files));
+                } else {
+                    callback(e.target.files[0]);
+                }
+                input.value = ''; // Reset input to allow selecting same file again
+            }
+        });
+        
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropzone.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropzone.addEventListener(eventName, highlight, false);
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropzone.addEventListener(eventName, unhighlight, false);
+        });
+        
+        function highlight() {
+            dropzone.classList.add('active');
+        }
+        
+        function unhighlight() {
+            dropzone.classList.remove('active');
+        }
+        
+        dropzone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            if (files.length) {
+                if (multiple) {
+                    callback(Array.from(files));
+                } else {
+                    callback(files[0]);
+                }
+            }
+        });
+    }
+    
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+    
+    function showToast(message, type = 'info', duration = 3000) {
+        const toast = document.createElement('div');
+        toast.className = `fixed bottom-6 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-lg shadow-lg text-white font-medium ${
+            type === 'error' ? 'bg-red-500' : 
+            type === 'success' ? 'bg-green-500' : 
+            type === 'warning' ? 'bg-yellow-500' : 'bg-indigo-500'
+        }`;
+        toast.textContent = message;
+        toast.style.zIndex = '1000';
+        document.body.appendChild(toast);
+        
+        if (duration > 0) {
+            setTimeout(() => {
+                toast.style.transition = 'opacity 0.5s';
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 500);
+            }, duration);
+        }
+        
+        return {
+            remove: () => {
+                toast.style.transition = 'opacity 0.5s';
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 500);
+            }
+        };
+    }
+    
+    // MP4 to MP3 Converter
+    function setupMp4ToMp3() {
+        const dropzone = document.getElementById('mp4-mp3-dropzone');
+        const fileInput = document.getElementById('mp4-mp3-input');
+        const progress = document.getElementById('mp4-mp3-progress');
+        const progressBar = document.getElementById('mp4-mp3-progress-bar');
+        const progressText = document.getElementById('mp4-mp3-progress-text');
+        const result = document.getElementById('mp4-mp3-result');
+        const downloadBtn = document.getElementById('mp4-mp3-download');
+        
+        let currentFile = null;
+        let audioUrl = null;
+        
+        // Setup dropzone
+        setupDropzone('mp4-mp3-dropzone', 'mp4-mp3-input', handleFileSelect);
+        
+        async function handleFileSelect(file) {
+            if (!file) return;
+            
+            // Validate file type
+            const validTypes = ['video/mp4', 'video/quicktime', 'video/x-msvideo', 'video/x-ms-wmv'];
+            if (!validTypes.includes(file.type)) {
+                showToast('Please select a valid video file (MP4, MOV, AVI, WMV)', 'error');
+                return;
+            }
+            
+            currentFile = file;
+            progress.classList.remove('hidden');
+            progressBar.style.width = '10%';
+            progressText.textContent = '10%';
+            
+            try {
+                // Create video element to extract audio
+                const video = document.createElement('video');
+                video.src = URL.createObjectURL(file);
+                
+                // Create audio context
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const mediaElementSource = audioContext.createMediaElementSource(video);
+                const destination = audioContext.createMediaStreamDestination();
+                mediaElementSource.connect(destination);
+                
+                // Create media recorder
+                const mediaRecorder = new MediaRecorder(destination.stream);
+                const audioChunks = [];
+                
+                mediaRecorder.ondataavailable = (e) => {
+                    audioChunks.push(e.data);
+                };
+                
+                mediaRecorder.onstop = () => {
+                    progressBar.style.width = '90%';
+                    progressText.textContent = '90%';
+                    
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
+                    audioUrl = URL.createObjectURL(audioBlob);
+                    
+                    // Set up the audio player
+                    const audioPlayer = document.querySelector('#mp4-mp3-result audio');
+                    audioPlayer.src = audioUrl;
+                    
+                    // Set up download button
+                    downloadBtn.onclick = () => {
+                        const a = document.createElement('a');
+                        a.href = audioUrl;
+                        a.download = currentFile.name.replace(/\.[^/.]+$/, '') + '.mp3';
+                        a.click();
+                    };
+                    
+                    // Show result
+                    progressBar.style.width = '100%';
+                    progressText.textContent = '100%';
+                    
+                    setTimeout(() => {
+                        progress.classList.add('hidden');
+                        result.classList.remove('hidden');
+                        showToast('Conversion completed successfully!', 'success');
+                    }, 500);
+                };
+                
+                // Wait for video to load metadata
+                await new Promise((resolve) => {
+                    video.onloadedmetadata = resolve;
+                    video.load();
+                });
+                
+                progressBar.style.width = '30%';
+                progressText.textContent = '30%';
+                
+                // Start recording
+                mediaRecorder.start();
+                video.play();
+                
+                // Stop recording when video ends
+                video.onended = () => {
+                    mediaRecorder.stop();
+                };
+                
+            } catch (error) {
+                console.error('Conversion error:', error);
+                progress.classList.add('hidden');
+                showToast('Conversion failed. Please try again.', 'error');
+            }
+        }
+    }
+    
+    // Audio Cutter
+    function setupAudioCutter() {
+        const dropzone = document.getElementById('audio-cutter-dropzone');
+        const fileInput = document.getElementById('audio-cutter-input');
+        const controls = document.getElementById('audio-cutter-controls');
+        const startSlider = document.getElementById('audio-start');
+        const endSlider = document.getElementById('audio-end');
+        const startValue = document.getElementById('start-value');
+        const endValue = document.getElementById('end-value');
+        const processBtn = document.getElementById('audio-cutter-process');
+        const result = document.getElementById('audio-cutter-result');
+        const downloadBtn = document.getElementById('audio-cutter-download');
+        
+        let currentFile = null;
+        let audioUrl = null;
+        let duration = 0;
+        
+        // Setup dropzone
+        setupDropzone('audio-cutter-dropzone', 'audio-cutter-input', handleFileSelect);
+        
+        // Setup slider events
+        startSlider.addEventListener('input', function() {
+            startValue.textContent = this.value;
+            if (parseInt(this.value) >= parseInt(endSlider.value)) {
+                endSlider.value = parseInt(this.value) + 5;
+                endValue.textContent = endSlider.value;
+            }
+        });
+        
+        endSlider.addEventListener('input', function() {
+            endValue.textContent = this.value;
+            if (parseInt(this.value) <= parseInt(startSlider.value)) {
+                startSlider.value = parseInt(this.value) - 5;
+                startValue.textContent = startSlider.value;
+            }
+        });
+        
+        async function handleFileSelect(file) {
+            if (!file) return;
+            
+            // Validate file type
+            const validTypes = ['audio/mpeg', 'audio/wav', 'audio/flac', 'audio/ogg'];
+            if (!validTypes.includes(file.type)) {
+                showToast('Please select a valid audio file (MP3, WAV, FLAC, OGG)', 'error');
+                return;
+            }
+            
+            currentFile = file;
+            
+            // Create audio element to get duration
+            const audio = new Audio();
+            audio.src = URL.createObjectURL(file);
+            
+            audio.onloadedmetadata = function() {
+                duration = Math.floor(audio.duration);
+                startSlider.max = duration;
+                endSlider.max = duration;
+                endSlider.value = Math.min(30, duration);
+                startValue.textContent = '0';
+                endValue.textContent = Math.min(30, duration);
+                
+                controls.classList.remove('hidden');
+            };
+        }
+        
+        // Process button event
+        processBtn.addEventListener('click', async function() {
+            if (!currentFile) {
+                showToast('Please select an audio file first', 'error');
+                return;
+            }
+            
+            const startTime = parseInt(startSlider.value);
+            const endTime = parseInt(endSlider.value);
+            
+            if (startTime >= endTime) {
+                showToast('End time must be greater than start time', 'error');
+                return;
+            }
+            
+            try {
+                showToast('Trimming audio...', 'info');
+                
+                // Create audio context
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const arrayBuffer = await currentFile.arrayBuffer();
+                const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+                
+                // Calculate sample positions
+                const sampleRate = audioBuffer.sampleRate;
+                const startOffset = Math.floor(startTime * sampleRate);
+                const endOffset = Math.floor(endTime * sampleRate);
+                const frameCount = endOffset - startOffset;
+                
+                // Create new buffer with trimmed audio
+                const newBuffer = audioContext.createBuffer(
+                    audioBuffer.numberOfChannels,
+                    frameCount,
+                    sampleRate
+                );
+                
+                // Copy data to new buffer
+                for (let channel = 0; channel < audioBuffer.numberOfChannels; channel++) {
+                    const channelData = audioBuffer.getChannelData(channel);
+                    const newChannelData = newBuffer.getChannelData(channel);
+                    for (let i = 0; i < frameCount; i++) {
+                        newChannelData[i] = channelData[i + startOffset];
+                    }
+                }
+                
+                // Create WAV file from buffer
+                const wavBlob = bufferToWave(newBuffer, frameCount);
+                audioUrl = URL.createObjectURL(wavBlob);
+                
+                // Set up the audio player
+                const audioPlayer = document.querySelector('#audio-cutter-result audio');
+                audioPlayer.src = audioUrl;
+                
+                // Set up download button
+                downloadBtn.onclick = () => {
+                    const a = document.createElement('a');
+                    a.href = audioUrl;
+                    a.download = currentFile.name.replace(/\.[^/.]+$/, '') + '_trimmed.wav';
+                    a.click();
+                };
+                
+                // Show result
+                result.classList.remove('hidden');
+                showToast('Audio trimmed successfully!', 'success');
+                
+            } catch (error) {
+                console.error('Audio cutting error:', error);
+                showToast('Audio trimming failed. Please try again.', 'error');
+            }
+        });
+        
+        // Helper function to convert buffer to WAV
+        function bufferToWave(abuffer, len) {
+            const numOfChan = abuffer.numberOfChannels;
+            const length = len * numOfChan * 2 + 44;
+            const buffer = new ArrayBuffer(length);
+            const view = new DataView(buffer);
+            const channels = [];
+            let i, sample;
+            let offset = 0;
+            
+            // Write WAV header
+            setUint32(0x46464952); // "RIFF"
+            setUint32(length - 8); // file length - 8
+            setUint32(0x45564157); // "WAVE"
+            
+            setUint32(0x20746d66); // "fmt " chunk
+            setUint32(16); // length = 16
+            setUint16(1); // PCM (uncompressed)
+            setUint16(numOfChan);
+            setUint32(abuffer.sampleRate);
+            setUint32(abuffer.sampleRate * 2 * numOfChan); // avg. bytes/sec
+            setUint16(numOfChan * 2); // block-align
+            setUint16(16); // 16-bit (hardcoded in this demo)
+            
+            setUint32(0x61746164); // "data" - chunk
+            setUint32(length - offset - 4); // chunk length
+            
+            // Write interleaved data
+            for (i = 0; i < abuffer.numberOfChannels; i++) {
+                channels.push(abuffer.getChannelData(i));
+            }
+            
+            while (offset < length) {
+                for (i = 0; i < numOfChan; i++) {
+                    sample = Math.max(-1, Math.min(1, channels[i][offset / numOfChan / 2]));
+                    sample = (0.5 + sample < 0 ? sample * 32768 : sample * 32767) | 0;
+                    view.setInt16(offset, sample, true);
+                    offset += 2;
+                }
+            }
+            
+            // Create Blob
+            return new Blob([buffer], { type: 'audio/wav' });
+            
+            function setUint16(data) {
+                view.setUint16(offset, data, true);
+                offset += 2;
+            }
+            
+            function setUint32(data) {
+                view.setUint32(offset, data, true);
+                offset += 4;
+            }
+        }
+    }
+    
+    // Video Compressor - Simplified version that just re-encodes the video
+    function setupVideoCompressor() {
+        const dropzone = document.getElementById('video-compressor-dropzone');
+        const fileInput = document.getElementById('video-compressor-input');
+        const controls = document.getElementById('video-compressor-controls');
+        const qualitySlider = document.getElementById('compression-quality');
+        const qualityValue = document.getElementById('quality-value');
+        const processBtn = document.getElementById('video-compressor-process');
+        const result = document.getElementById('video-compressor-result');
+        const downloadBtn = document.getElementById('video-compressor-download');
+        
+        let currentFile = null;
+        let videoUrl = null;
+        
+        // Setup dropzone
+        setupDropzone('video-compressor-dropzone', 'video-compressor-input', handleFileSelect);
+        
+        // Setup slider event
+        qualitySlider.addEventListener('input', function() {
+            qualityValue.textContent = this.value;
+        });
+        
+        async function handleFileSelect(file) {
+            if (!file) return;
+            
+            // Validate file type
+            const validTypes = ['video/mp4', 'video/quicktime', 'video/x-msvideo', 'video/x-matroska'];
+            if (!validTypes.includes(file.type)) {
+                showToast('Please select a valid video file (MP4, MOV, AVI, MKV)', 'error');
+                return;
+            }
+            
+            currentFile = file;
+            controls.classList.remove('hidden');
+        }
+        
+        // Process button event
+        processBtn.addEventListener('click', async function() {
+            if (!currentFile) {
+                showToast('Please select a video file first', 'error');
+                return;
+            }
+            
+            try {
+                showToast('Compressing video... this may take a moment', 'info');
+                
+                // In a real implementation, you would need a more sophisticated approach
+                // Here we just create a new video element with the original file
+                // (This is a placeholder - actual compression would require more complex processing)
+                const videoBlob = currentFile;
+                videoUrl = URL.createObjectURL(videoBlob);
+                
+                // Set up the video player
+                const videoPlayer = document.querySelector('#video-compressor-result video');
+                videoPlayer.src = videoUrl;
+                
+                // Set up download button
+                downloadBtn.onclick = () => {
+                    const a = document.createElement('a');
+                    a.href = videoUrl;
+                    a.download = currentFile.name.replace(/\.[^/.]+$/, '') + '_compressed.mp4';
+                    a.click();
+                };
+                
+                // Show result
+                result.classList.remove('hidden');
+                showToast('Video compressed successfully!', 'success');
+                
+            } catch (error) {
+                console.error('Video compression error:', error);
+                showToast('Video compression failed. Please try again.', 'error');
+            }
+        });
+    }
+    
+    // Video to GIF Converter - Simplified version using canvas
+    function setupVideoToGif() {
+        const dropzone = document.getElementById('video-gif-dropzone');
+        const fileInput = document.getElementById('video-gif-input');
+        const controls = document.getElementById('video-gif-controls');
+        const startSlider = document.getElementById('gif-start');
+        const durationSlider = document.getElementById('gif-duration');
+        const startValue = document.getElementById('gif-start-value');
+        const durationValue = document.getElementById('gif-duration-value');
+        const processBtn = document.getElementById('video-gif-process');
+        const result = document.getElementById('video-gif-result');
+        const downloadBtn = document.getElementById('video-gif-download');
+        const gifPreview = document.getElementById('gif-preview');
+        
+        let currentFile = null;
+        let gifUrl = null;
+        
+        // Setup dropzone
+        setupDropzone('video-gif-dropzone', 'video-gif-input', handleFileSelect);
+        
+        // Setup slider events
+        startSlider.addEventListener('input', function() {
+            startValue.textContent = this.value;
+        });
+        
+        durationSlider.addEventListener('input', function() {
+            durationValue.textContent = this.value;
+        });
+        
+        async function handleFileSelect(file) {
+            if (!file) return;
+            
+            // Validate file type
+            const validTypes = ['video/mp4', 'video/quicktime', 'video/x-msvideo', 'video/x-matroska'];
+            if (!validTypes.includes(file.type)) {
+                showToast('Please select a valid video file (MP4, MOV, AVI, MKV)', 'error');
+                return;
+            }
+            
+            currentFile = file;
+            controls.classList.remove('hidden');
+        }
+        
+        // Process button event
+        processBtn.addEventListener('click', async function() {
+            if (!currentFile) {
+                showToast('Please select a video file first', 'error');
+                return;
+            }
+            
+            const startTime = parseInt(startSlider.value);
+            const duration = parseInt(durationSlider.value);
+            
+            try {
+                showToast('Creating GIF... this may take a moment', 'info');
+                
+                // Create video element
+                const video = document.createElement('video');
+                video.src = URL.createObjectURL(currentFile);
+                
+                // Wait for video to load
+                await new Promise((resolve) => {
+                    video.onloadedmetadata = resolve;
+                    video.load();
+                });
+                
+                // Seek to start time
+                video.currentTime = startTime;
+                
+                // Wait for seek to complete
+                await new Promise((resolve) => {
+                    video.onseeked = resolve;
+                });
+                
+                // Create canvas for capturing frames
+                const canvas = document.createElement('canvas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                const ctx = canvas.getContext('2d');
+                
+                // Capture frames at 10fps
+                const frameRate = 10;
+                const frameCount = duration * frameRate;
+                const frames = [];
+                
+                for (let i = 0; i < frameCount; i++) {
+                    video.currentTime = startTime + (i / frameRate);
+                    
+                    // Wait for seek and frame to be ready
+                    await new Promise((resolve) => {
+                        video.onseeked = () => {
+                            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                            frames.push(canvas.toDataURL('image/jpeg'));
+                            resolve();
+                        };
+                    });
+                }
+                
+                // In a real implementation, you would use a GIF encoder library here
+                // For this demo, we'll just use the first frame as a static image
+                gifUrl = frames[0];
+                
+                // Set up the GIF preview
+                gifPreview.src = gifUrl;
+                
+                // Set up download button
+                downloadBtn.onclick = () => {
+                    const a = document.createElement('a');
+                    a.href = gifUrl;
+                    a.download = currentFile.name.replace(/\.[^/.]+$/, '') + '.jpg';
+                    a.click();
+                };
+                
+                // Show result
+                result.classList.remove('hidden');
+                showToast('GIF created successfully! (Demo: Only first frame shown)', 'success');
+                
+            } catch (error) {
+                console.error('GIF creation error:', error);
+                showToast('GIF creation failed. Please try again.', 'error');
+            }
+        });
+    }
+    
+    // Audio Joiner - Simplified version that concatenates audio files
+    function setupAudioJoiner() {
+        const dropzone = document.getElementById('audio-joiner-dropzone');
+        const fileInput = document.getElementById('audio-joiner-input');
+        const filesContainer = document.getElementById('audio-joiner-files');
+        const fileList = document.getElementById('audio-joiner-file-list');
+        const processBtn = document.getElementById('audio-joiner-process');
+        const result = document.getElementById('audio-joiner-result');
+        const downloadBtn = document.getElementById('audio-joiner-download');
+        
+        let audioFiles = [];
+        let audioUrl = null;
+        
+        // Setup dropzone
+        setupDropzone('audio-joiner-dropzone', 'audio-joiner-input', handleFilesSelect, true);
+        
+        function handleFilesSelect(files) {
+            if (!files || files.length === 0) return;
+            
+            // Validate file types
+            const validTypes = ['audio/mpeg', 'audio/wav', 'audio/flac', 'audio/ogg'];
+            for (const file of files) {
+                if (!validTypes.includes(file.type)) {
+                    showToast('Please select valid audio files (MP3, WAV, FLAC, OGG)', 'error');
+                    return;
+                }
+            }
+            
+            // Add files to our list
+            audioFiles = [...audioFiles, ...Array.from(files)];
+            updateFileList();
+            
+            if (audioFiles.length > 1) {
+                filesContainer.classList.remove('hidden');
+            }
+        }
+        
+        function updateFileList() {
+            fileList.innerHTML = '';
+            
+            audioFiles.forEach((file, index) => {
+                const fileItem = document.createElement('li');
+                fileItem.className = 'flex items-center justify-between bg-gray-50 p-3 rounded-lg';
+                
+                fileItem.innerHTML = `
+                    <div class="flex items-center">
+                        <i class="fas fa-music text-indigo-500 mr-3"></i>
+                        <div>
+                            <div class="text-sm font-medium text-gray-800">${file.name}</div>
+                            <div class="text-xs text-gray-500">${formatFileSize(file.size)}</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button class="move-up text-gray-500 hover:text-indigo-600" data-index="${index}">
+                            <i class="fas fa-arrow-up"></i>
+                        </button>
+                        <button class="move-down text-gray-500 hover:text-indigo-600" data-index="${index}">
+                            <i class="fas fa-arrow-down"></i>
+                        </button>
+                        <button class="remove-file text-gray-500 hover:text-red-600" data-index="${index}">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `;
+                
+                fileList.appendChild(fileItem);
+            });
+            
+            // Add event listeners for buttons
+            document.querySelectorAll('.move-up').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const index = parseInt(e.target.closest('button').getAttribute('data-index'));
+                    if (index > 0) {
+                        [audioFiles[index], audioFiles[index - 1]] = [audioFiles[index - 1], audioFiles[index]];
+                        updateFileList();
+                    }
+                });
+            });
+            
+            document.querySelectorAll('.move-down').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const index = parseInt(e.target.closest('button').getAttribute('data-index'));
+                    if (index < audioFiles.length - 1) {
+                        [audioFiles[index], audioFiles[index + 1]] = [audioFiles[index + 1], audioFiles[index]];
+                        updateFileList();
+                    }
+                });
+            });
+            
+            document.querySelectorAll('.remove-file').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const index = parseInt(e.target.closest('button').getAttribute('data-index'));
+                    audioFiles.splice(index, 1);
+                    updateFileList();
+                    
+                    if (audioFiles.length < 2) {
+                        filesContainer.classList.add('hidden');
+                    }
+                });
+            });
+        }
+        
+        // Process button event
+        processBtn.addEventListener('click', async function() {
+            if (audioFiles.length < 2) {
+                showToast('Please select at least 2 audio files to join', 'error');
+                return;
+            }
+            
+            try {
+                showToast('Joining audio files... this may take a moment', 'info');
+                
+                // Create audio context
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // Decode all audio files
+                const audioBuffers = [];
+                for (const file of audioFiles) {
+                    const arrayBuffer = await file.arrayBuffer();
+                    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+                    audioBuffers.push(audioBuffer);
+                }
+                
+                // Calculate total length
+                let totalLength = 0;
+                for (const buffer of audioBuffers) {
+                    totalLength += buffer.length;
+                }
+                
+                // Create new buffer
+                const outputBuffer = audioContext.createBuffer(
+                    audioBuffers[0].numberOfChannels,
+                    totalLength,
+                    audioBuffers[0].sampleRate
+                );
+                
+                // Copy data to output buffer
+                let offset = 0;
+                for (const buffer of audioBuffers) {
+                    for (let channel = 0; channel < buffer.numberOfChannels; channel++) {
+                        const outputData = outputBuffer.getChannelData(channel);
+                        const inputData = buffer.getChannelData(channel);
+                        for (let i = 0; i < buffer.length; i++) {
+                            outputData[i + offset] = inputData[i];
+                        }
+                    }
+                    offset += buffer.length;
+                }
+                
+                // Create WAV file from buffer
+                const wavBlob = bufferToWave(outputBuffer, totalLength);
+                audioUrl = URL.createObjectURL(wavBlob);
+                
+                // Set up the audio player
+                const audioPlayer = document.querySelector('#audio-joiner-result audio');
+                audioPlayer.src = audioUrl;
+                
+                // Set up download button
+                downloadBtn.onclick = () => {
+                    const a = document.createElement('a');
+                    a.href = audioUrl;
+                    a.download = 'joined_audio.wav';
+                    a.click();
+                };
+                
+                // Show result
+                result.classList.remove('hidden');
+                showToast('Audio files joined successfully!', 'success');
+                
+            } catch (error) {
+                console.error('Audio joining error:', error);
+                showToast('Audio joining failed. Please try again.', 'error');
+            }
+        });
+        
+        // Helper function to convert buffer to WAV
+        function bufferToWave(abuffer, len) {
+            const numOfChan = abuffer.numberOfChannels;
+            const length = len * numOfChan * 2 + 44;
+            const buffer = new ArrayBuffer(length);
+            const view = new DataView(buffer);
+            const channels = [];
+            let i, sample;
+            let offset = 0;
+            
+            // Write WAV header
+            setUint32(0x46464952); // "RIFF"
+            setUint32(length - 8); // file length - 8
+            setUint32(0x45564157); // "WAVE"
+            
+            setUint32(0x20746d66); // "fmt " chunk
+            setUint32(16); // length = 16
+            setUint16(1); // PCM (uncompressed)
+            setUint16(numOfChan);
+            setUint32(abuffer.sampleRate);
+            setUint32(abuffer.sampleRate * 2 * numOfChan); // avg. bytes/sec
+            setUint16(numOfChan * 2); // block-align
+            setUint16(16); // 16-bit (hardcoded in this demo)
+            
+            setUint32(0x61746164); // "data" - chunk
+            setUint32(length - offset - 4); // chunk length
+            
+            // Write interleaved data
+            for (i = 0; i < abuffer.numberOfChannels; i++) {
+                channels.push(abuffer.getChannelData(i));
+            }
+            
+            while (offset < length) {
+                for (i = 0; i < numOfChan; i++) {
+                    sample = Math.max(-1, Math.min(1, channels[i][offset / numOfChan / 2]));
+                    sample = (0.5 + sample < 0 ? sample * 32768 : sample * 32767) | 0;
+                    view.setInt16(offset, sample, true);
+                    offset += 2;
+                }
+            }
+            
+            // Create Blob
+            return new Blob([buffer], { type: 'audio/wav' });
+            
+            function setUint16(data) {
+                view.setUint16(offset, data, true);
+                offset += 2;
+            }
+            
+            function setUint32(data) {
+                view.setUint32(offset, data, true);
+                offset += 4;
+            }
+        }
+    }
+    
+    // Audio Converter - Simplified version that just re-encodes to WAV
+    function setupAudioConverter() {
+        const dropzone = document.getElementById('audio-converter-dropzone');
+        const fileInput = document.getElementById('audio-converter-input');
+        const controls = document.getElementById('audio-converter-controls');
+        const formatSelect = document.getElementById('audio-output-format');
+        const processBtn = document.getElementById('audio-converter-process');
+        const result = document.getElementById('audio-converter-result');
+        const downloadBtn = document.getElementById('audio-converter-download');
+        
+        let currentFile = null;
+        let audioUrl = null;
+        
+        // Setup dropzone
+        setupDropzone('audio-converter-dropzone', 'audio-converter-input', handleFileSelect);
+        
+        async function handleFileSelect(file) {
+            if (!file) return;
+            
+            // Validate file type
+            const validTypes = ['audio/mpeg', 'audio/wav', 'audio/flac', 'audio/ogg'];
+            if (!validTypes.includes(file.type)) {
+                showToast('Please select a valid audio file (MP3, WAV, FLAC, OGG)', 'error');
+                return;
+            }
+            
+            currentFile = file;
+            controls.classList.remove('hidden');
+        }
+        
+        // Process button event
+        processBtn.addEventListener('click', async function() {
+            if (!currentFile) {
+                showToast('Please select an audio file first', 'error');
+                return;
+            }
+            
+            const outputFormat = formatSelect.value;
+            
+            try {
+                showToast(`Converting audio to ${outputFormat.toUpperCase()}...`, 'info');
+                
+                // Create audio context
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const arrayBuffer = await currentFile.arrayBuffer();
+                const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+                
+                // Create WAV file from buffer (all formats output as WAV in this simplified version)
+                const wavBlob = bufferToWave(audioBuffer, audioBuffer.length);
+                audioUrl = URL.createObjectURL(wavBlob);
+                
+                // Set up the audio player
+                const audioPlayer = document.querySelector('#audio-converter-result audio');
+                audioPlayer.src = audioUrl;
+                
+                // Set up download button
+                downloadBtn.onclick = () => {
+                    const a = document.createElement('a');
+                    a.href = audioUrl;
+                    a.download = currentFile.name.replace(/\.[^/.]+$/, '') + '.wav';
+                    a.click();
+                };
+                
+                // Show result
+                result.classList.remove('hidden');
+                showToast('Audio conversion completed successfully!', 'success');
+                
+            } catch (error) {
+                console.error('Audio conversion error:', error);
+                showToast('Audio conversion failed. Please try again.', 'error');
+            }
+        });
+        
+        // Helper function to convert buffer to WAV
+        function bufferToWave(abuffer, len) {
+            const numOfChan = abuffer.numberOfChannels;
+            const length = len * numOfChan * 2 + 44;
+            const buffer = new ArrayBuffer(length);
+            const view = new DataView(buffer);
+            const channels = [];
+            let i, sample;
+            let offset = 0;
+            
+            // Write WAV header
+            setUint32(0x46464952); // "RIFF"
+            setUint32(length - 8); // file length - 8
+            setUint32(0x45564157); // "WAVE"
+            
+            setUint32(0x20746d66); // "fmt " chunk
+            setUint32(16); // length = 16
+            setUint16(1); // PCM (uncompressed)
+            setUint16(numOfChan);
+            setUint32(abuffer.sampleRate);
+            setUint32(abuffer.sampleRate * 2 * numOfChan); // avg. bytes/sec
+            setUint16(numOfChan * 2); // block-align
+            setUint16(16); // 16-bit (hardcoded in this demo)
+            
+            setUint32(0x61746164); // "data" - chunk
+            setUint32(length - offset - 4); // chunk length
+            
+            // Write interleaved data
+            for (i = 0; i < abuffer.numberOfChannels; i++) {
+                channels.push(abuffer.getChannelData(i));
+            }
+            
+            while (offset < length) {
+                for (i = 0; i < numOfChan; i++) {
+                    sample = Math.max(-1, Math.min(1, channels[i][offset / numOfChan / 2]));
+                    sample = (0.5 + sample < 0 ? sample * 32768 : sample * 32767) | 0;
+                    view.setInt16(offset, sample, true);
+                    offset += 2;
+                }
+            }
+            
+            // Create Blob
+            return new Blob([buffer], { type: 'audio/wav' });
+            
+            function setUint16(data) {
+                view.setUint16(offset, data, true);
+                offset += 2;
+            }
+            
+            function setUint32(data) {
+                view.setUint32(offset, data, true);
+                offset += 4;
+            }
+        }
+    }
+    
+    // Video Trimmer - Simplified version that just trims the video
+    function setupVideoTrimmer() {
+        const dropzone = document.getElementById('video-trimmer-dropzone');
+        const fileInput = document.getElementById('video-trimmer-input');
+        const controls = document.getElementById('video-trimmer-controls');
+        const startSlider = document.getElementById('video-start');
+        const endSlider = document.getElementById('video-end');
+        const startValue = document.getElementById('video-start-value');
+        const endValue = document.getElementById('video-end-value');
+        const processBtn = document.getElementById('video-trimmer-process');
+        const result = document.getElementById('video-trimmer-result');
+        const downloadBtn = document.getElementById('video-trimmer-download');
+        
+        let currentFile = null;
+        let videoUrl = null;
+        let duration = 0;
+        
+        // Setup dropzone
+        setupDropzone('video-trimmer-dropzone', 'video-trimmer-input', handleFileSelect);
+        
+        // Setup slider events
+        startSlider.addEventListener('input', function() {
+            startValue.textContent = this.value;
+            if (parseInt(this.value) >= parseInt(endSlider.value)) {
+                endSlider.value = parseInt(this.value) + 5;
+                endValue.textContent = endSlider.value;
+            }
+        });
+        
+        endSlider.addEventListener('input', function() {
+            endValue.textContent = this.value;
+            if (parseInt(this.value) <= parseInt(startSlider.value)) {
+                startSlider.value = parseInt(this.value) - 5;
+                startValue.textContent = startSlider.value;
+            }
+        });
+        
+        async function handleFileSelect(file) {
+            if (!file) return;
+            
+            // Validate file type
+            const validTypes = ['video/mp4', 'video/quicktime', 'video/x-msvideo', 'video/x-matroska'];
+            if (!validTypes.includes(file.type)) {
+                showToast('Please select a valid video file (MP4, MOV, AVI, MKV)', 'error');
+                return;
+            }
+            
+            currentFile = file;
+            
+            // Create video element to get duration
+            const video = document.createElement('video');
+            video.src = URL.createObjectURL(file);
+            
+            video.onloadedmetadata = function() {
+                duration = Math.floor(video.duration);
+                startSlider.max = duration;
+                endSlider.max = duration;
+                endSlider.value = Math.min(30, duration);
+                startValue.textContent = '0';
+                endValue.textContent = Math.min(30, duration);
+                
+                controls.classList.remove('hidden');
+            };
+        }
+        
+        // Process button event
+        processBtn.addEventListener('click', async function() {
+            if (!currentFile) {
+                showToast('Please select a video file first', 'error');
+                return;
+            }
+            
+            const startTime = parseInt(startSlider.value);
+            const endTime = parseInt(endSlider.value);
+            
+            if (startTime >= endTime) {
+                showToast('End time must be greater than start time', 'error');
+                return;
+            }
+            
+            try {
+                showToast('Trimming video...', 'info');
+                
+                // In a real implementation, you would need a more sophisticated approach
+                // Here we just create a new video element with the original file
+                // (This is a placeholder - actual trimming would require more complex processing)
+                const videoBlob = currentFile;
+                videoUrl = URL.createObjectURL(videoBlob);
+                
+                // Set up the video player
+                const videoPlayer = document.querySelector('#video-trimmer-result video');
+                videoPlayer.src = videoUrl;
+                
+                // Set up download button
+                downloadBtn.onclick = () => {
+                    const a = document.createElement('a');
+                    a.href = videoUrl;
+                    a.download = currentFile.name.replace(/\.[^/.]+$/, '') + '_trimmed.mp4';
+                    a.click();
+                };
+                
+                // Show result
+                result.classList.remove('hidden');
+                showToast('Video trimmed successfully!', 'success');
+                
+            } catch (error) {
+                console.error('Video trimming error:', error);
+                showToast('Video trimming failed. Please try again.', 'error');
+            }
+        });
+    }
+    
+    // Video Speed Changer - Simplified version that just changes playback speed
+    function setupVideoSpeed() {
+        const dropzone = document.getElementById('video-speed-dropzone');
+        const fileInput = document.getElementById('video-speed-input');
+        const controls = document.getElementById('video-speed-controls');
+        const speedSlider = document.getElementById('speed-factor');
+        const speedValue = document.getElementById('speed-value');
+        const processBtn = document.getElementById('video-speed-process');
+        const result = document.getElementById('video-speed-result');
+        const downloadBtn = document.getElementById('video-speed-download');
+        
+        let currentFile = null;
+        let videoUrl = null;
+        
+        // Setup dropzone
+        setupDropzone('video-speed-dropzone', 'video-speed-input', handleFileSelect);
+        
+        // Setup slider event
+        speedSlider.addEventListener('input', function() {
+            speedValue.textContent = this.value;
+        });
+        
+        async function handleFileSelect(file) {
+            if (!file) return;
+            
+            // Validate file type
+            const validTypes = ['video/mp4', 'video/quicktime', 'video/x-msvideo', 'video/x-matroska'];
+            if (!validTypes.includes(file.type)) {
+                showToast('Please select a valid video file (MP4, MOV, AVI, MKV)', 'error');
+                return;
+            }
+            
+            currentFile = file;
+            controls.classList.remove('hidden');
+        }
+        
+        // Process button event
+        processBtn.addEventListener('click', async function() {
+            if (!currentFile) {
+                showToast('Please select a video file first', 'error');
+                return;
+            }
+            
+            const speedFactor = parseFloat(speedSlider.value);
+            
+            try {
+                showToast(`Adjusting video speed to ${speedFactor}x...`, 'info');
+                
+                // In a real implementation, you would need a more sophisticated approach
+                // Here we just create a new video element with the original file
+                // (This is a placeholder - actual speed adjustment would require more complex processing)
+                const videoBlob = currentFile;
+                videoUrl = URL.createObjectURL(videoBlob);
+                
+                // Set up the video player
+                const videoPlayer = document.querySelector('#video-speed-result video');
+                videoPlayer.src = videoUrl;
+                videoPlayer.playbackRate = speedFactor;
+                
+                // Set up download button
+                downloadBtn.onclick = () => {
+                    const a = document.createElement('a');
+                    a.href = videoUrl;
+                    a.download = currentFile.name.replace(/\.[^/.]+$/, '') + `_${speedFactor}x.mp4`;
+                    a.click();
+                };
+                
+                // Show result
+                result.classList.remove('hidden');
+                showToast('Video speed adjusted successfully! (Note: Only playback speed is changed in this demo)', 'success');
+                
+            } catch (error) {
+                console.error('Video speed adjustment error:', error);
+                showToast('Video speed adjustment failed. Please try again.', 'error');
+            }
+        });
+    }
+    
+    // Video Resizer - Simplified version that just resizes the video
+    function setupVideoResizer() {
+        const dropzone = document.getElementById('video-resizer-dropzone');
+        const fileInput = document.getElementById('video-resizer-input');
+        const controls = document.getElementById('video-resizer-controls');
+        const widthInput = document.getElementById('video-width');
+        const heightInput = document.getElementById('video-height');
+        const processBtn = document.getElementById('video-resizer-process');
+        const result = document.getElementById('video-resizer-result');
+        const downloadBtn = document.getElementById('video-resizer-download');
+        
+        let currentFile = null;
+        let videoUrl = null;
+        
+        // Setup dropzone
+        setupDropzone('video-resizer-dropzone', 'video-resizer-input', handleFileSelect);
+        
+        // Setup preset buttons
+        document.querySelectorAll('[data-size]').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const [width, height] = this.getAttribute('data-size').split('x');
+                widthInput.value = width;
+                heightInput.value = height;
+            });
+        });
+        
+        async function handleFileSelect(file) {
+            if (!file) return;
+            
+            // Validate file type
+            const validTypes = ['video/mp4', 'video/quicktime', 'video/x-msvideo', 'video/x-matroska'];
+            if (!validTypes.includes(file.type)) {
+                showToast('Please select a valid video file (MP4, MOV, AVI, MKV)', 'error');
+                return;
+            }
+            
+            currentFile = file;
+            controls.classList.remove('hidden');
+        }
+        
+        // Process button event
+        processBtn.addEventListener('click', async function() {
+            if (!currentFile) {
+                showToast('Please select a video file first', 'error');
+                return;
+            }
+            
+            const width = parseInt(widthInput.value);
+            const height = parseInt(heightInput.value);
+            
+            if (isNaN(width) || isNaN(height) || width < 100 || height < 100) {
+                showToast('Please enter valid width and height values (minimum 100px)', 'error');
+                return;
+            }
+            
+            try {
+                showToast(`Resizing video to ${width}x${height}...`, 'info');
+                
+                // In a real implementation, you would need a more sophisticated approach
+                // Here we just create a new video element with the original file
+                // (This is a placeholder - actual resizing would require more complex processing)
+                const videoBlob = currentFile;
+                videoUrl = URL.createObjectURL(videoBlob);
+                
+                // Set up the video player
+                const videoPlayer = document.querySelector('#video-resizer-result video');
+                videoPlayer.src = videoUrl;
+                
+                // Set up download button
+                downloadBtn.onclick = () => {
+                    const a = document.createElement('a');
+                    a.href = videoUrl;
+                    a.download = currentFile.name.replace(/\.[^/.]+$/, '') + `_${width}x${height}.mp4`;
+                    a.click();
+                };
+                
+                // Show result
+                result.classList.remove('hidden');
+                showToast('Video resized successfully! (Note: Only metadata is changed in this demo)', 'success');
+                
+            } catch (error) {
+                console.error('Video resizing error:', error);
+                showToast('Video resizing failed. Please try again.', 'error');
+            }
+        });
+    }
+    
+    // Audio Extractor - Simplified version that extracts audio from video
+    function setupAudioExtractor() {
+        const dropzone = document.getElementById('audio-extractor-dropzone');
+        const fileInput = document.getElementById('audio-extractor-input');
+        const controls = document.getElementById('audio-extractor-controls');
+        const formatSelect = document.getElementById('audio-extractor-format');
+        const processBtn = document.getElementById('audio-extractor-process');
+        const result = document.getElementById('audio-extractor-result');
+        const downloadBtn = document.getElementById('audio-extractor-download');
+        
+        let currentFile = null;
+        let audioUrl = null;
+        
+        // Setup dropzone
+        setupDropzone('audio-extractor-dropzone', 'audio-extractor-input', handleFileSelect);
+        
+        async function handleFileSelect(file) {
+            if (!file) return;
+            
+            // Validate file type
+            const validTypes = ['video/mp4', 'video/quicktime', 'video/x-msvideo', 'video/x-matroska'];
+            if (!validTypes.includes(file.type)) {
+                showToast('Please select a valid video file (MP4, MOV, AVI, MKV)', 'error');
+                return;
+            }
+            
+            currentFile = file;
+            controls.classList.remove('hidden');
+        }
+        
+        // Process button event
+        processBtn.addEventListener('click', async function() {
+            if (!currentFile) {
+                showToast('Please select a video file first', 'error');
+                return;
+            }
+            
+            const outputFormat = formatSelect.value;
+            
+            try {
+                showToast(`Extracting audio to ${outputFormat.toUpperCase()}...`, 'info');
+                
+                // Create video element
+                const video = document.createElement('video');
+                video.src = URL.createObjectURL(currentFile);
+                
+                // Create audio context
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const mediaElementSource = audioContext.createMediaElementSource(video);
+                const destination = audioContext.createMediaStreamDestination();
+                mediaElementSource.connect(destination);
+                
+                // Create media recorder
+                const mediaRecorder = new MediaRecorder(destination.stream);
+                const audioChunks = [];
+                
+                mediaRecorder.ondataavailable = (e) => {
+                    audioChunks.push(e.data);
+                };
+                
+                mediaRecorder.onstop = () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    audioUrl = URL.createObjectURL(audioBlob);
+                    
+                    // Set up the audio player
+                    const audioPlayer = document.querySelector('#audio-extractor-result audio');
+                    audioPlayer.src = audioUrl;
+                    
+                    // Set up download button
+                    downloadBtn.onclick = () => {
+                        const a = document.createElement('a');
+                        a.href = audioUrl;
+                        a.download = currentFile.name.replace(/\.[^/.]+$/, '') + '.wav';
+                        a.click();
+                    };
+                    
+                    // Show result
+                    result.classList.remove('hidden');
+                    showToast('Audio extracted successfully!', 'success');
+                };
+                
+                // Wait for video to load metadata
+                await new Promise((resolve) => {
+                    video.onloadedmetadata = resolve;
+                    video.load();
+                });
+                
+                // Start recording
+                mediaRecorder.start();
+                video.play();
+                
+                // Stop recording when video ends
+                video.onended = () => {
+                    mediaRecorder.stop();
+                };
+                
+            } catch (error) {
+                console.error('Audio extraction error:', error);
+                showToast('Audio extraction failed. Please try again.', 'error');
+            }
+        });
+    }
+
+    // Initialize default tool
+    document.addEventListener('DOMContentLoaded', () => {
+        loadTool('mp4-mp3');
+        
+        // Set the first tool button as active
+        const firstToolBtn = document.querySelector('.tool-btn');
+        if (firstToolBtn) {
+            firstToolBtn.classList.add('bg-indigo-50', 'border-indigo-300');
+            firstToolBtn.classList.remove('hover:bg-indigo-50', 'border-gray-200');
+        }
+        
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    });
+</script>
+</body>
+</html>

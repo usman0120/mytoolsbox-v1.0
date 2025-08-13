@@ -1,0 +1,2978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productivity & Time Tools</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../../dist/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom styles and animations */
+        .tool-card {
+            transition: all 0.3s ease;
+        }
+        .tool-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .slide-in {
+            animation: slideIn 0.3s ease-out;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(10px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        /* Pulse animation for active timers */
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+    <header class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
+    <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+        <!-- Logo -->
+        <div class="flex items-center space-x-2">
+            <i class="fas fa-tools text-2xl text-primary-600 dark:text-primary-400"></i>
+            <a href="#" class="text-xl font-bold text-gray-800 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                My<span class="text-primary-600 dark:text-primary-400">Toolbox</span>
+            </a>
+        </div>
+        
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center space-x-8">
+            <a href="../../index.html" class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</a>
+            
+            <div class="relative group">
+                <button class="flex items-center font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                  Tool Categories <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                </button>
+                <div class="absolute left-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                    <a href="../file-tools/document-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">File Tools</a>
+                    <a href="../image-tools/image-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Image Tools</a>
+                    <a href="../media-tools/mediaTools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Media Tools</a>
+                    <a href="../study-tools/study-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Study Tools</a>
+                    <a href="../calculator-tools/calculators.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Calculators</a>
+                    <a href="../ai-tools/ai-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">AI-Powered Tools</a>
+                    <a href="../design-tools/design-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Design Tools</a>
+                    <a href="../time-tools/time-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Productivity & Time Tools</a>
+                    <a href="../writing-tools/writing-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Writing Tools</a>
+                    <a href="../misc-tools/misc-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">More Useful Tools</a>
+                </div>
+            </div>
+            
+            <a href="src/sections/homePage/about.html" class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">About</a>
+            <a href="src/sections/homePage/contact.html" class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Contact</a>
+        </nav>
+        
+        
+        
+        <!-- Dark Mode Toggle -->
+       <button class="hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+</button>
+<!-- Mobile Menu Button -->
+        <button id="mobile-menu-button" class="md:hidden text-gray-600 dark:text-gray-300">
+            <i class="fas fa-bars text-xl"></i>
+        </button>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
+            <a href="#" class="py-2 font-medium">Home</a>
+            
+            <div class="relative">
+                <button id="mobile-categories-button" class="w-full flex justify-between items-center py-2 font-medium">
+                    Categories <i class="fas fa-chevron-down"></i>
+                </button>
+                <div id="mobile-categories" class="hidden pl-4 mt-1 space-y-2">
+                    <a href="../file-tools/document-tools.html" class="block py-1">File Tools</a>
+                    <a href="../image-tools/image-tools.html" class="block py-1">Image Tools</a>
+                    <a href="../media-tools/mediaTools.html" class="block py-1">Media Tools</a>
+                    <a href="../design-tools/design-tools.html" class="block py-1">Design Tools</a>
+                    <a href="../calculator-tools/calculators.html" class="block py-1">Calculators</a>
+                </div>
+            </div>
+            
+            <a href="src/sections/homePage/about.html" class="py-2 font-medium">About</a>
+            <a href="../../src/sections/homePage/suggest-tool.html" class="py-2 font-medium">Contact</a>
+        </div>
+    </div>
+</header>
+    <div class="container mx-auto px-4 py-8">
+        <!-- Main Heading -->
+        <div class="text-center mb-10 fade-in">
+            <h1 class="text-4xl font-bold text-indigo-700 mb-3">Productivity & Time Tools</h1>
+            <p class="text-xl text-gray-600">Your all-in-one daily productivity dashboard</p>
+            <p class="text-lg text-gray-500 mt-2">Organize, Focus, and Succeed</p>
+        </div>
+
+        <!-- Dashboard Layout -->
+        <div class="flex flex-col lg:flex-row gap-6">
+            <!-- Tools Navigation Sidebar -->
+            <div class="w-full lg:w-1/4 bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="p-4 bg-indigo-600 text-white">
+                    <h2 class="text-xl font-semibold">Productivity Tools</h2>
+                </div>
+                <div class="divide-y divide-gray-200 max-h-[600px] overflow-y-auto">
+                    <!-- Tool Navigation Items -->
+                    <button onclick="showTool('pomodoro')" class="w-full text-left p-4 hover:bg-indigo-50 flex items-center gap-3 tool-nav active-tool" data-tool="pomodoro">
+                        <i class="fas fa-clock text-indigo-600"></i>
+                        <span>Pomodoro Timer</span>
+                    </button>
+                    <button onclick="showTool('todo')" class="w-full text-left p-4 hover:bg-indigo-50 flex items-center gap-3 tool-nav" data-tool="todo">
+                        <i class="fas fa-tasks text-indigo-600"></i>
+                        <span>Daily To-Do List</span>
+                    </button>
+                    <button onclick="showTool('habit')" class="w-full text-left p-4 hover:bg-indigo-50 flex items-center gap-3 tool-nav" data-tool="habit">
+                        <i class="fas fa-calendar-check text-indigo-600"></i>
+                        <span>Habit Tracker</span>
+                    </button>
+                    <button onclick="showTool('notepad')" class="w-full text-left p-4 hover:bg-indigo-50 flex items-center gap-3 tool-nav" data-tool="notepad">
+                        <i class="fas fa-edit text-indigo-600"></i>
+                        <span>Online Notepad</span>
+                    </button>
+                    <button onclick="showTool('sounds')" class="w-full text-left p-4 hover:bg-indigo-50 flex items-center gap-3 tool-nav" data-tool="sounds">
+                        <i class="fas fa-headphones text-indigo-600"></i>
+                        <span>Focus Sound Generator</span>
+                    </button>
+                    <button onclick="showTool('tracker')" class="w-full text-left p-4 hover:bg-indigo-50 flex items-center gap-3 tool-nav" data-tool="tracker">
+                        <i class="fas fa-stopwatch text-indigo-600"></i>
+                        <span>Time Tracker</span>
+                    </button>
+                    <button onclick="showTool('scheduler')" class="w-full text-left p-4 hover:bg-indigo-50 flex items-center gap-3 tool-nav" data-tool="scheduler">
+                        <i class="fas fa-bell text-indigo-600"></i>
+                        <span>Task Scheduler</span>
+                    </button>
+                    <button onclick="showTool('countdown')" class="w-full text-left p-4 hover:bg-indigo-50 flex items-center gap-3 tool-nav" data-tool="countdown">
+                        <i class="fas fa-hourglass-end text-indigo-600"></i>
+                        <span>Countdown Timer</span>
+                    </button>
+                    <button onclick="showTool('quotes')" class="w-full text-left p-4 hover:bg-indigo-50 flex items-center gap-3 tool-nav" data-tool="quotes">
+                        <i class="fas fa-quote-right text-indigo-600"></i>
+                        <span>Daily Quotes</span>
+                    </button>
+                    <!-- New Tools Added -->
+                    <button onclick="showTool('bookmarks')" class="w-full text-left p-4 hover:bg-indigo-50 flex items-center gap-3 tool-nav" data-tool="bookmarks">
+                        <i class="fas fa-bookmark text-indigo-600"></i>
+                        <span>Quick Bookmarks</span>
+                    </button>
+                    <button onclick="showTool('expenses')" class="w-full text-left p-4 hover:bg-indigo-50 flex items-center gap-3 tool-nav" data-tool="expenses">
+                        <i class="fas fa-wallet text-indigo-600"></i>
+                        <span>Expense Tracker</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Content Area - Tools Display -->
+            <div class="w-full lg:w-3/4">
+                <!-- Welcome Card -->
+                <div id="welcome-message" class="bg-white rounded-xl shadow-md p-6 mb-6 fade-in">
+                    <h2 class="text-2xl font-bold text-indigo-700 mb-3">Boost your productivity here!</h2>
+                    <p class="text-gray-600 mb-4">Select a tool from the sidebar to get started. Each tool is designed to help you organize your time, focus better, and achieve more.</p>
+                    <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4">
+                        <p class="text-indigo-700"><i class="fas fa-lightbulb mr-2"></i> <strong>Tip:</strong> Try the Pomodoro technique for focused work sessions followed by short breaks.</p>
+                    </div>
+                </div>
+
+                <!-- Tool Containers (initially hidden) -->
+                
+                <!-- Pomodoro Timer -->
+                <div id="pomodoro-tool" class="tool-container hidden bg-white rounded-xl shadow-md p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-indigo-700">Pomodoro Timer</h2>
+                        <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded">Autosaved locally</span>
+                    </div>
+                    
+                    <div class="flex flex-col items-center">
+                        <div class="relative w-64 h-64 mb-6">
+                            <svg class="w-full h-full" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="45" fill="none" stroke="#e6e6e6" stroke-width="8"/>
+                                <circle id="pomodoro-progress" cx="50" cy="50" r="45" fill="none" stroke="#4f46e5" stroke-width="8" stroke-linecap="round" transform="rotate(-90 50 50)" stroke-dasharray="283" stroke-dashoffset="0"/>
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center flex-col">
+                                <div id="pomodoro-time" class="text-4xl font-bold text-gray-800">25:00</div>
+                                <div id="pomodoro-phase" class="text-lg text-gray-600 mt-2">Work</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-4 mb-6">
+                            <button id="pomodoro-start" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-medium">
+                                <i class="fas fa-play mr-2"></i>Start
+                            </button>
+                            <button id="pomodoro-pause" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-2 rounded-lg font-medium hidden">
+                                <i class="fas fa-pause mr-2"></i>Pause
+                            </button>
+                            <button id="pomodoro-reset" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-2 rounded-lg font-medium">
+                                <i class="fas fa-redo mr-2"></i>Reset
+                            </button>
+                        </div>
+                        
+                        <div class="w-full max-w-md bg-gray-50 rounded-lg p-4">
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="font-medium">Session Count: <span id="pomodoro-session-count">0</span>/4</span>
+                                <div class="flex items-center">
+                                    <label for="pomodoro-sound" class="mr-2 text-sm font-medium text-gray-700">Sound:</label>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" id="pomodoro-sound" class="sr-only peer" checked>
+                                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label for="work-duration" class="block text-sm font-medium text-gray-700 mb-1">Work Duration (min)</label>
+                                    <input type="number" id="work-duration" min="1" max="60" value="25" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                </div>
+                                <div>
+                                    <label for="break-duration" class="block text-sm font-medium text-gray-700 mb-1">Break Duration (min)</label>
+                                    <input type="number" id="break-duration" min="1" max="30" value="5" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 bg-indigo-50 border-l-4 border-indigo-500 p-4">
+                        <p class="text-indigo-700"><i class="fas fa-lightbulb mr-2"></i> <strong>Pro Tip:</strong> Use this timer for deep focus sessions. The 25-minute work blocks help maintain concentration.</p>
+                    </div>
+                </div>
+
+                <!-- Daily To-Do List -->
+                <div id="todo-tool" class="tool-container hidden bg-white rounded-xl shadow-md p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-indigo-700">Daily To-Do List</h2>
+                        <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded">Autosaved locally</span>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <div class="flex gap-2">
+                            <input type="text" id="todo-input" placeholder="Add a new task..." class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <button id="todo-add" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium">
+                                <i class="fas fa-plus mr-2"></i>Add
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-3 mb-6">
+                        <div id="todo-list" class="divide-y divide-gray-200">
+                            <!-- Tasks will be added here dynamically -->
+                        </div>
+                        <div id="todo-empty" class="text-center py-8 text-gray-500">
+                            <i class="fas fa-clipboard-list text-4xl mb-3"></i>
+                            <p>Your to-do list is empty. Add some tasks to get started!</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between items-center text-sm text-gray-500">
+                        <span id="todo-count">0 tasks</span>
+                        <button id="todo-clear" class="text-red-500 hover:text-red-700">
+                            <i class="fas fa-trash-alt mr-1"></i>Clear completed
+                        </button>
+                    </div>
+                    
+                    <div class="mt-6 bg-indigo-50 border-l-4 border-indigo-500 p-4">
+                        <p class="text-indigo-700"><i class="fas fa-lightbulb mr-2"></i> <strong>Pro Tip:</strong> Break large tasks into smaller, actionable items for better progress tracking.</p>
+                    </div>
+                </div>
+
+                <!-- Habit Tracker -->
+                <div id="habit-tool" class="tool-container hidden bg-white rounded-xl shadow-md p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-indigo-700">Habit Tracker</h2>
+                        <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded">Autosaved locally</span>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <div class="flex gap-2">
+                            <input type="text" id="habit-input" placeholder="Add a new habit to track..." class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <button id="habit-add" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium">
+                                <i class="fas fa-plus mr-2"></i>Add
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <div id="habit-container">
+                            <!-- Habit grid will be generated here -->
+                            <div class="text-center py-8 text-gray-500" id="habit-empty">
+                                <i class="fas fa-calendar-plus text-4xl mb-3"></i>
+                                <p>No habits added yet. Start by adding a habit you want to track!</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 bg-indigo-50 border-l-4 border-indigo-500 p-4">
+                        <p class="text-indigo-700"><i class="fas fa-lightbulb mr-2"></i> <strong>Pro Tip:</strong> Focus on building one habit at a time. Consistency is key to forming lasting habits.</p>
+                    </div>
+                </div>
+
+                <!-- Online Notepad -->
+                <div id="notepad-tool" class="tool-container hidden bg-white rounded-xl shadow-md p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-indigo-700">Online Notepad</h2>
+                        <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded">Autosaved locally</span>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <input type="text" id="note-title" placeholder="Note title..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-2">
+                        <div class="flex gap-2 mb-2">
+                            <button id="note-bold" class="p-2 rounded hover:bg-gray-200" title="Bold">
+                                <i class="fas fa-bold"></i>
+                            </button>
+                            <button id="note-italic" class="p-2 rounded hover:bg-gray-200" title="Italic">
+                                <i class="fas fa-italic"></i>
+                            </button>
+                            <button id="note-underline" class="p-2 rounded hover:bg-gray-200" title="Underline">
+                                <i class="fas fa-underline"></i>
+                            </button>
+                            <button id="note-list" class="p-2 rounded hover:bg-gray-200" title="Bullet List">
+                                <i class="fas fa-list-ul"></i>
+                            </button>
+                            <button id="note-numbered" class="p-2 rounded hover:bg-gray-200" title="Numbered List">
+                                <i class="fas fa-list-ol"></i>
+                            </button>
+                            <button id="note-link" class="p-2 rounded hover:bg-gray-200" title="Insert Link">
+                                <i class="fas fa-link"></i>
+                            </button>
+                            <button id="note-clear" class="p-2 rounded hover:bg-gray-200" title="Clear Formatting">
+                                <i class="fas fa-eraser"></i>
+                            </button>
+                        </div>
+                        <div id="note-editor" class="min-h-[300px] p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" contenteditable="true"></div>
+                    </div>
+                    
+                    <div class="flex justify-between">
+                        <div>
+                            <button id="note-new" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg font-medium mr-2">
+                                <i class="fas fa-file-alt mr-2"></i>New
+                            </button>
+                            <button id="note-save" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium">
+                                <i class="fas fa-save mr-2"></i>Save
+                            </button>
+                        </div>
+                        <div id="note-status" class="text-sm text-gray-500 flex items-center">
+                            <i class="fas fa-info-circle mr-1"></i> Changes saved automatically
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 bg-indigo-50 border-l-4 border-indigo-500 p-4">
+                        <p class="text-indigo-700"><i class="fas fa-lightbulb mr-2"></i> <strong>Pro Tip:</strong> Use this notepad for quick thoughts, meeting notes, or drafting content. Formatting is preserved.</p>
+                    </div>
+                </div>
+
+                <!-- Focus Sound Generator - Enhanced Version -->
+                <div id="sounds-tool" class="tool-container hidden bg-white rounded-xl shadow-md p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-indigo-700">Focus Sound Generator</h2>
+                        <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded">Using free sound samples</span>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6" id="sound-cards-container">
+                        <!-- Sound cards will be added here dynamically -->
+                    </div>
+                    
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="font-medium text-gray-700">Mix Your Soundscape</h3>
+                            <button id="stop-all-sounds" class="text-sm bg-red-100 hover:bg-red-200 text-red-700 px-3 py-1 rounded">
+                                <i class="fas fa-stop mr-1"></i>Stop All
+                            </button>
+                        </div>
+                        <div id="sound-mixer" class="space-y-4">
+                            <!-- Active sounds will appear here -->
+                            <div id="no-sounds-message" class="text-center py-4 text-gray-500">
+                                <i class="fas fa-sliders-h text-2xl mb-2"></i>
+                                <p>No sounds active. Click on sound cards above to add them to your mix.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 bg-indigo-50 border-l-4 border-indigo-500 p-4">
+                        <p class="text-indigo-700"><i class="fas fa-lightbulb mr-2"></i> <strong>Pro Tip:</strong> Combine nature sounds with white noise for optimal concentration. Adjust volumes to find your perfect mix.</p>
+                    </div>
+                </div>
+
+                 <!-- Time Tracker -->
+                <div id="tracker-tool" class="tool-container hidden bg-white rounded-xl shadow-md p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-indigo-700">Time Tracker</h2>
+                        <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded">Autosaved locally</span>
+                    </div>
+                    
+                    <div class="flex flex-col md:flex-row gap-6 mb-8">
+                        <div class="flex-1 bg-gray-50 rounded-lg p-6">
+                            <div class="flex justify-center mb-6">
+                                <div class="relative w-48 h-48">
+                                    <svg class="w-full h-full" viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="45" fill="none" stroke="#e6e6e6" stroke-width="8"/>
+                                        <circle id="tracker-progress" cx="50" cy="50" r="45" fill="none" stroke="#4f46e5" stroke-width="8" stroke-linecap="round" transform="rotate(-90 50 50)" stroke-dasharray="283" stroke-dashoffset="0"/>
+                                    </svg>
+                                    <div class="absolute inset-0 flex items-center justify-center flex-col">
+                                        <div id="tracker-time" class="text-3xl font-bold text-gray-800">00:00:00</div>
+                                        <div id="tracker-task" class="text-lg text-gray-600 mt-2">No active task</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-center gap-4">
+                                <button id="tracker-start" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-medium">
+                                    <i class="fas fa-play mr-2"></i>Start
+                                </button>
+                                <button id="tracker-pause" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-2 rounded-lg font-medium hidden">
+                                    <i class="fas fa-pause mr-2"></i>Pause
+                                </button>
+                                <button id="tracker-stop" class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg font-medium">
+                                    <i class="fas fa-stop mr-2"></i>Stop
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="flex-1">
+                            <div class="mb-4">
+                                <label for="tracker-task-input" class="block text-sm font-medium text-gray-700 mb-1">Task Name</label>
+                                <input type="text" id="tracker-task-input" placeholder="What are you working on?" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="tracker-category" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                                <select id="tracker-category" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                    <option value="work">Work</option>
+                                    <option value="study">Study</option>
+                                    <option value="personal">Personal</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            
+                            <button id="tracker-save" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium w-full">
+                                <i class="fas fa-save mr-2"></i>Save Task
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h3 class="text-lg font-medium text-gray-700 mb-3">Today's Time Log</h3>
+                        <div id="tracker-log" class="divide-y divide-gray-200">
+                            <!-- Time log entries will appear here -->
+                            <div class="py-4 text-center text-gray-500">
+                                <i class="fas fa-clock text-2xl mb-2"></i>
+                                <p>No time entries yet. Start tracking to see your log.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 bg-indigo-50 border-l-4 border-indigo-500 p-4">
+                        <p class="text-indigo-700"><i class="fas fa-lightbulb mr-2"></i> <strong>Pro Tip:</strong> Track all your activities for a few days to identify time sinks and optimize your schedule.</p>
+                    </div>
+                </div>
+
+                <!-- Task Scheduler -->
+                <div id="scheduler-tool" class="tool-container hidden bg-white rounded-xl shadow-md p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-indigo-700">Task Scheduler</h2>
+                        <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded">Autosaved locally</span>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-gray-50 rounded-lg p-6">
+                            <h3 class="text-lg font-medium text-gray-700 mb-4">Add New Task</h3>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <label for="scheduler-title" class="block text-sm font-medium text-gray-700 mb-1">Task Title</label>
+                                    <input type="text" id="scheduler-title" placeholder="Task description" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                </div>
+                                
+                                <div>
+                                    <label for="scheduler-date" class="block text-sm font-medium text-gray-700 mb-1">Date</label>
+                                    <input type="date" id="scheduler-date" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                </div>
+                                
+                                <div>
+                                    <label for="scheduler-time" class="block text-sm font-medium text-gray-700 mb-1">Time</label>
+                                    <input type="time" id="scheduler-time" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                </div>
+                                
+                                <div>
+                                    <label for="scheduler-repeat" class="block text-sm font-medium text-gray-700 mb-1">Repeat</label>
+                                    <select id="scheduler-repeat" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                        <option value="none">Does not repeat</option>
+                                        <option value="daily">Daily</option>
+                                        <option value="weekly">Weekly</option>
+                                        <option value="monthly">Monthly</option>
+                                        <option value="yearly">Yearly</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label for="scheduler-priority" class="block text-sm font-medium text-gray-700 mb-1">Priority</label>
+                                    <select id="scheduler-priority" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                        <option value="low">Low</option>
+                                        <option value="medium" selected>Medium</option>
+                                        <option value="high">High</option>
+                                    </select>
+                                </div>
+                                
+                                <button id="scheduler-add" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium">
+                                    <i class="fas fa-plus-circle mr-2"></i>Add Task
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-700 mb-4">Scheduled Tasks</h3>
+                            <div id="scheduler-tasks" class="space-y-3">
+                                <!-- Tasks will be added here -->
+                                <div class="text-center py-8 text-gray-500">
+                                    <i class="fas fa-calendar-plus text-2xl mb-2"></i>
+                                    <p>No tasks scheduled yet. Add your first task to get started!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 bg-indigo-50 border-l-4 border-indigo-500 p-4">
+                        <p class="text-indigo-700"><i class="fas fa-lightbulb mr-2"></i> <strong>Pro Tip:</strong> Schedule recurring tasks to automate your routine. Set reminders for important deadlines.</p>
+                    </div>
+                </div>
+
+                <!-- Countdown Timer -->
+                <div id="countdown-tool" class="tool-container hidden bg-white rounded-xl shadow-md p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-indigo-700">Countdown Timer</h2>
+                        <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded">Alerts supported</span>
+                    </div>
+                    
+                    <div class="flex flex-col items-center mb-8">
+                        <div class="relative w-64 h-64 mb-6">
+                            <svg class="w-full h-full" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="45" fill="none" stroke="#e6e6e6" stroke-width="8"/>
+                                <circle id="countdown-progress" cx="50" cy="50" r="45" fill="none" stroke="#4f46e5" stroke-width="8" stroke-linecap="round" transform="rotate(-90 50 50)" stroke-dasharray="283" stroke-dashoffset="0"/>
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center flex-col">
+                                <div id="countdown-time" class="text-4xl font-bold text-gray-800">00:00:00</div>
+                                <div id="countdown-event" class="text-lg text-gray-600 mt-2">No event set</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-4 mb-6">
+                            <button id="countdown-start" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-medium">
+                                <i class="fas fa-play mr-2"></i>Start
+                            </button>
+                            <button id="countdown-pause" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-2 rounded-lg font-medium hidden">
+                                <i class="fas fa-pause mr-2"></i>Pause
+                            </button>
+                            <button id="countdown-reset" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-2 rounded-lg font-medium">
+                                <i class="fas fa-redo mr-2"></i>Reset
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-gray-50 rounded-lg p-6">
+                            <h3 class="text-lg font-medium text-gray-700 mb-4">Set Countdown</h3>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <label for="countdown-event-input" class="block text-sm font-medium text-gray-700 mb-1">Event Name</label>
+                                    <input type="text" id="countdown-event-input" placeholder="e.g., Vacation, Deadline" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                </div>
+                                
+                                <div>
+                                    <label for="countdown-date" class="block text-sm font-medium text-gray-700 mb-1">Date & Time</label>
+                                    <input type="datetime-local" id="countdown-date" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                </div>
+                                
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="countdown-alert" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                                    <label for="countdown-alert" class="ml-2 block text-sm text-gray-700">Alert when time is up</label>
+                                </div>
+                                
+                                <button id="countdown-set" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium">
+                                    <i class="fas fa-calendar-check mr-2"></i>Set Countdown
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-700 mb-4">Saved Countdowns</h3>
+                            <div id="countdown-list" class="space-y-3">
+                                <!-- Saved countdowns will appear here -->
+                                <div class="text-center py-8 text-gray-500">
+                                    <i class="fas fa-hourglass-half text-2xl mb-2"></i>
+                                    <p>No saved countdowns. Set your first countdown to track an important event!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 bg-indigo-50 border-l-4 border-indigo-500 p-4">
+                        <p class="text-indigo-700"><i class="fas fa-lightbulb mr-2"></i> <strong>Pro Tip:</strong> Use countdowns for important deadlines or events. The visual progress helps build anticipation.</p>
+                    </div>
+                </div>
+
+                <!-- Daily Quotes - Enhanced Version -->
+                <div id="quotes-tool" class="tool-container hidden bg-white rounded-xl shadow-md p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-indigo-700">Daily Quotes</h2>
+                        <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded">Using Free Quotes API</span>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="flex gap-2 mb-4">
+                            <select id="quote-category" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="motivational">Motivational</option>
+                                <option value="inspirational">Inspirational</option>
+                                <option value="islamic">Islamic</option>
+                                <option value="urdu">Urdu</option>
+                                <option value="success">Success</option>
+                            </select>
+                            <button id="quote-load-category" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium">
+                                <i class="fas fa-filter mr-2"></i>Filter
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col items-center">
+                        <div id="quote-container" class="bg-indigo-50 rounded-xl p-8 mb-8 w-full max-w-2xl text-center">
+                            <div class="flex justify-center mb-4">
+                                <i class="fas fa-quote-left text-4xl text-indigo-200"></i>
+                            </div>
+                            <p id="quote-text" class="text-xl font-medium text-gray-700 mb-4">Click the button below to get an inspirational quote!</p>
+                            <p id="quote-author" class="text-lg text-indigo-600 font-semibold"></p>
+                        </div>
+                        
+                        <div class="flex gap-4">
+                            <button id="quote-new" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-medium">
+                                <i class="fas fa-sync-alt mr-2"></i>New Quote
+                            </button>
+                            <button id="quote-copy" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-2 rounded-lg font-medium">
+                                <i class="fas fa-copy mr-2"></i>Copy
+                            </button>
+                            <button id="quote-tweet" class="bg-blue-400 hover:bg-blue-500 text-white px-6 py-2 rounded-lg font-medium">
+                                <i class="fab fa-twitter mr-2"></i>Tweet
+                            </button>
+                            <button id="quote-save" class="bg-pink-500 hover:bg-pink-600 text-white px-6 py-2 rounded-lg font-medium">
+                                <i class="fas fa-heart mr-2"></i>Save
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <h3 class="text-lg font-medium text-gray-700 mb-4">Favorite Quotes</h3>
+                        <div id="favorite-quotes" class="space-y-4">
+                            <!-- Favorite quotes will appear here -->
+                            <div class="text-center py-8 text-gray-500">
+                                <i class="fas fa-heart text-2xl mb-2"></i>
+                                <p>No favorite quotes yet. Save some quotes you love!</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 bg-indigo-50 border-l-4 border-indigo-500 p-4">
+                        <p class="text-indigo-700"><i class="fas fa-lightbulb mr-2"></i> <strong>Pro Tip:</strong> Start your day with an inspirational quote to set a positive tone for your work.</p>
+                    </div>
+                </div>
+
+                <!-- New Tools Added -->
+                
+                <!-- Quick Bookmarks -->
+                <div id="bookmarks-tool" class="tool-container hidden bg-white rounded-xl shadow-md p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-indigo-700">Quick Bookmarks</h2>
+                        <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded">Autosaved locally</span>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <div class="flex gap-2">
+                            <input type="text" id="bookmark-title" placeholder="Title" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <input type="text" id="bookmark-url" placeholder="URL (https://...)" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <button id="bookmark-add" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium">
+                                <i class="fas fa-plus mr-2"></i>Add
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-3 mb-6">
+                        <div id="bookmark-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <!-- Bookmarks will be added here dynamically -->
+                            <div id="bookmark-empty" class="col-span-full text-center py-8 text-gray-500">
+                                <i class="fas fa-bookmark text-4xl mb-3"></i>
+                                <p>Your bookmark list is empty. Add some frequently visited links!</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 bg-indigo-50 border-l-4 border-indigo-500 p-4">
+                        <p class="text-indigo-700"><i class="fas fa-lightbulb mr-2"></i> <strong>Pro Tip:</strong> Save your most used websites here for quick access during work sessions.</p>
+                    </div>
+                </div>
+
+                <!-- Expense Tracker -->
+                <div id="expenses-tool" class="tool-container hidden bg-white rounded-xl shadow-md p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-indigo-700">Expense Tracker</h2>
+                        <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded">Autosaved locally</span>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                        <div class="bg-gray-50 rounded-lg p-6">
+                            <h3 class="text-lg font-medium text-gray-700 mb-4">Add New Expense</h3>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <label for="expense-title" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                                    <input type="text" id="expense-title" placeholder="What did you spend on?" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                </div>
+                                
+                                <div>
+                                    <label for="expense-amount" class="block text-sm font-medium text-gray-700 mb-1">Amount</label>
+                                    <input type="number" id="expense-amount" placeholder="0.00" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                </div>
+                                
+                                <div>
+                                    <label for="expense-category" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                                    <select id="expense-category" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                        <option value="food">Food & Dining</option>
+                                        <option value="transport">Transportation</option>
+                                        <option value="shopping">Shopping</option>
+                                        <option value="entertainment">Entertainment</option>
+                                        <option value="bills">Bills & Utilities</option>
+                                        <option value="health">Health & Fitness</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label for="expense-date" class="block text-sm font-medium text-gray-700 mb-1">Date</label>
+                                    <input type="date" id="expense-date" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                </div>
+                                
+                                <button id="expense-add" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium">
+                                    <i class="fas fa-plus-circle mr-2"></i>Add Expense
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="md:col-span-2">
+                            <h3 class="text-lg font-medium text-gray-700 mb-4">Recent Expenses</h3>
+                            <div id="expense-list" class="space-y-3">
+                                <!-- Expenses will be added here -->
+                                <div class="text-center py-8 text-gray-500">
+                                    <i class="fas fa-receipt text-2xl mb-2"></i>
+                                    <p>No expenses recorded yet. Add your first expense to get started!</p>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6 bg-white rounded-lg shadow-sm p-4">
+                                <h4 class="font-medium text-gray-700 mb-3">Monthly Summary</h4>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                    <div class="bg-blue-50 p-3 rounded-lg">
+                                        <p class="text-sm text-blue-600">Total Spent</p>
+                                        <p class="text-xl font-bold" id="expense-total">$0.00</p>
+                                    </div>
+                                    <div class="bg-green-50 p-3 rounded-lg">
+                                        <p class="text-sm text-green-600">Daily Average</p>
+                                        <p class="text-xl font-bold" id="expense-daily">$0.00</p>
+                                    </div>
+                                    <div class="bg-yellow-50 p-3 rounded-lg">
+                                        <p class="text-sm text-yellow-600">Top Category</p>
+                                        <p class="text-xl font-bold" id="expense-category-top">-</p>
+                                    </div>
+                                    <div class="bg-red-50 p-3 rounded-lg">
+                                        <p class="text-sm text-red-600">Biggest Expense</p>
+                                        <p class="text-xl font-bold" id="expense-biggest">$0.00</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 bg-indigo-50 border-l-4 border-indigo-500 p-4">
+                        <p class="text-indigo-700"><i class="fas fa-lightbulb mr-2"></i> <strong>Pro Tip:</strong> Track all your expenses for a month to identify spending patterns and optimize your budget.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer class="bg-gray-100 dark:bg-gray-800/80 border-t border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- About Column -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">About MyToolbox</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                        An all-in-one platform offering free, easy-to-use tools for your everyday needs.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Tools Column -->
+                <div>
+                    <h3 class="text-lg !text-black font-semibold mb-4">Tools</h3>
+                    <ul class="space-y-2">
+                        <li><a href="../../index.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">All
+                                Tools</a></li>
+                        <li><a href="../../index.html#featured-tools"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Featured
+                                Tools</a></li>
+                        <li><a href="../../index.html#categories"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">New
+                                Tools</a></li>
+                        <li><a href="../../src/sections/homePage/suggest-tool.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Request
+                                a Tool</a></li>
+                    </ul>
+                </div>
+
+                <!-- Resources Column -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Blog</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Tutorials</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">API</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Help
+                                Center</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal Column -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="../../src/sections/homePage/privacy.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Privacy
+                                Policy</a></li>
+                        <li><a href="../../src/sections/homePage/terms.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Terms
+                                of Service</a></li>
+                        <li><a href="../../src/sections/homePage/cookies.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Cookie
+                                Policy</a></li>
+                        <li><a href="../../src/sections/homePage/gdpr.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">GDPR</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="border-t border-gray-200 dark:border-gray-700 my-8"></div>
+
+            <!-- Bottom Footer -->
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                    <i class="fas fa-tools text-primary-600 dark:text-primary-400"></i>
+                    <span class="font-medium">My<span
+                            class="text-primary-600 dark:text-primary-400">Toolbox</span></span>
+                </div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">
+                    &copy; <span id="current-year"></span> MyToolbox. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+const mobileMenu = document.getElementById('mobile-menu');
+const mobileCategoriesButton = document.getElementById('mobile-categories-button');
+const mobileCategories = document.getElementById('mobile-categories');
+
+// Mobile Menu Toggle
+mobileMenuButton.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+});
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', (e) => {
+    if (!mobileMenu.contains(e.target) && !mobileMenuButton.contains(e.target)) {
+        mobileMenu.classList.add('hidden');
+    }
+});
+// Mobile Categories Toggle
+mobileCategoriesButton.addEventListener('click', () => {
+    mobileCategories.classList.toggle('hidden');
+    mobileCategoriesButton.querySelector('i').classList.toggle('fa-chevron-down');
+    mobileCategoriesButton.querySelector('i').classList.toggle('fa-chevron-up');
+});
+
+        // Document ready function
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show welcome message by default
+            showTool('welcome');
+            
+            // Initialize all tools
+            initPomodoro();
+            initTodoList();
+            initHabitTracker();
+            initNotepad();
+            initSoundGenerator(); // Enhanced sound generator
+            initTimeTracker();
+            initTaskScheduler();
+            initCountdownTimer();
+            initDailyQuotes(); // Enhanced quotes tool
+            initBookmarks(); // New bookmarks tool
+            initExpenseTracker(); // New expense tracker
+        });
+
+        // Tool navigation function
+        function showTool(toolId) {
+            // Hide all tool containers and welcome message
+            document.querySelectorAll('.tool-container').forEach(el => {
+                el.classList.add('hidden');
+            });
+            document.getElementById('welcome-message').classList.add('hidden');
+            
+            // Remove active class from all nav buttons
+            document.querySelectorAll('.tool-nav').forEach(el => {
+                el.classList.remove('active-tool');
+            });
+            
+            // Show selected tool or welcome message
+            if (toolId === 'welcome') {
+                document.getElementById('welcome-message').classList.remove('hidden');
+            } else {
+                document.getElementById(`${toolId}-tool`).classList.remove('hidden');
+                document.querySelector(`.tool-nav[data-tool="${toolId}"]`).classList.add('active-tool');
+            }
+        }
+
+    // ======================
+        // 1. POMODORO TIMER
+        // ======================
+        function initPomodoro() {
+            const timerDisplay = document.getElementById('pomodoro-time');
+            const phaseDisplay = document.getElementById('pomodoro-phase');
+            const sessionCount = document.getElementById('pomodoro-session-count');
+            const progressCircle = document.getElementById('pomodoro-progress');
+            const startBtn = document.getElementById('pomodoro-start');
+            const pauseBtn = document.getElementById('pomodoro-pause');
+            const resetBtn = document.getElementById('pomodoro-reset');
+            const soundToggle = document.getElementById('pomodoro-sound');
+            const workDuration = document.getElementById('work-duration');
+            const breakDuration = document.getElementById('break-duration');
+            
+            let timeLeft = 25 * 60; // 25 minutes in seconds
+            let isWorkPhase = true;
+            let sessionsCompleted = 0;
+            let timerInterval;
+            let totalTime = 25 * 60;
+            
+            // Audio for alerts
+            const alarmSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3');
+            
+            // Update timer display
+            function updateDisplay() {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                // Update progress circle
+                const offset = 283 - (283 * (timeLeft / totalTime));
+                progressCircle.style.strokeDashoffset = offset;
+            }
+            
+            // Start timer
+            function startTimer() {
+                if (timerInterval) clearInterval(timerInterval);
+                
+                startBtn.classList.add('hidden');
+                pauseBtn.classList.remove('hidden');
+                
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    updateDisplay();
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        timerComplete();
+                    }
+                }, 1000);
+            }
+            
+            // Pause timer
+            function pauseTimer() {
+                clearInterval(timerInterval);
+                startBtn.classList.remove('hidden');
+                pauseBtn.classList.add('hidden');
+            }
+            
+            // Reset timer
+            function resetTimer() {
+                pauseTimer();
+                isWorkPhase = true;
+                totalTime = parseInt(workDuration.value) * 60;
+                timeLeft = totalTime;
+                phaseDisplay.textContent = 'Work';
+                updateDisplay();
+            }
+            
+            // Timer completed
+            function timerComplete() {
+                if (soundToggle.checked) {
+                    alarmSound.play();
+                }
+                
+                if (isWorkPhase) {
+                    sessionsCompleted++;
+                    sessionCount.textContent = sessionsCompleted;
+                    
+                    if (sessionsCompleted % 4 === 0) {
+                        // Long break after 4 sessions
+                        timeLeft = parseInt(breakDuration.value) * 2 * 60;
+                        phaseDisplay.textContent = 'Long Break';
+                    } else {
+                        // Regular break
+                        timeLeft = parseInt(breakDuration.value) * 60;
+                        phaseDisplay.textContent = 'Break';
+                    }
+                    isWorkPhase = false;
+                } else {
+                    // Back to work
+                    timeLeft = parseInt(workDuration.value) * 60;
+                    phaseDisplay.textContent = 'Work';
+                    isWorkPhase = true;
+                }
+                
+                totalTime = timeLeft;
+                updateDisplay();
+                startTimer();
+            }
+            
+            // Event listeners
+            startBtn.addEventListener('click', startTimer);
+            pauseBtn.addEventListener('click', pauseTimer);
+            resetBtn.addEventListener('click', resetTimer);
+            
+            // Update timer when durations change
+            workDuration.addEventListener('change', function() {
+                if (isWorkPhase && !timerInterval) {
+                    timeLeft = parseInt(this.value) * 60;
+                    totalTime = timeLeft;
+                    updateDisplay();
+                }
+            });
+            
+            breakDuration.addEventListener('change', function() {
+                if (!isWorkPhase && !timerInterval) {
+                    const isLongBreak = sessionsCompleted % 4 === 0;
+                    timeLeft = parseInt(this.value) * (isLongBreak ? 2 : 1) * 60;
+                    totalTime = timeLeft;
+                    updateDisplay();
+                }
+            });
+            
+            // Initialize
+            updateDisplay();
+        }
+
+        // ======================
+        // 2. DAILY TO-DO LIST
+        // ======================
+        function initTodoList() {
+            const todoInput = document.getElementById('todo-input');
+            const todoAdd = document.getElementById('todo-add');
+            const todoList = document.getElementById('todo-list');
+            const todoEmpty = document.getElementById('todo-empty');
+            const todoCount = document.getElementById('todo-count');
+            const todoClear = document.getElementById('todo-clear');
+            
+            let todos = JSON.parse(localStorage.getItem('todos')) || [];
+            
+            // Render todos
+            function renderTodos() {
+                todoList.innerHTML = '';
+                
+                if (todos.length === 0) {
+                    todoEmpty.classList.remove('hidden');
+                    todoCount.textContent = '0 tasks';
+                    return;
+                }
+                
+                todoEmpty.classList.add('hidden');
+                
+                const incompleteCount = todos.filter(todo => !todo.completed).length;
+                todoCount.textContent = `${incompleteCount} ${incompleteCount === 1 ? 'task' : 'tasks'} remaining`;
+                
+                todos.forEach((todo, index) => {
+                    const todoItem = document.createElement('div');
+                    todoItem.className = 'flex items-center py-3 px-2 hover:bg-gray-50 rounded-lg';
+                    
+                    todoItem.innerHTML = `
+                        <div class="flex items-center flex-1">
+                            <input type="checkbox" ${todo.completed ? 'checked' : ''} 
+                                class="h-5 w-5 text-indigo-600 rounded focus:ring-indigo-500 mr-3 todo-check" 
+                                data-index="${index}">
+                            <span class="${todo.completed ? 'line-through text-gray-400' : 'text-gray-700'}">${todo.text}</span>
+                        </div>
+                        <button class="text-gray-400 hover:text-red-500 todo-delete" data-index="${index}">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    
+                    todoList.appendChild(todoItem);
+                });
+            }
+            
+            // Add new todo
+            function addTodo() {
+                const text = todoInput.value.trim();
+                if (text === '') return;
+                
+                todos.unshift({ text, completed: false });
+                saveTodos();
+                todoInput.value = '';
+                renderTodos();
+            }
+            
+            // Toggle todo completion
+            function toggleTodo(index) {
+                todos[index].completed = !todos[index].completed;
+                saveTodos();
+                renderTodos();
+            }
+            
+            // Delete todo
+            function deleteTodo(index) {
+                todos.splice(index, 1);
+                saveTodos();
+                renderTodos();
+            }
+            
+            // Clear completed todos
+            function clearCompleted() {
+                todos = todos.filter(todo => !todo.completed);
+                saveTodos();
+                renderTodos();
+            }
+            
+            // Save todos to localStorage
+            function saveTodos() {
+                localStorage.setItem('todos', JSON.stringify(todos));
+            }
+            
+            // Event listeners
+            todoAdd.addEventListener('click', addTodo);
+            todoInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') addTodo();
+            });
+            
+            todoList.addEventListener('click', function(e) {
+                if (e.target.classList.contains('todo-check') || e.target.closest('.todo-check')) {
+                    const checkbox = e.target.classList.contains('todo-check') ? e.target : e.target.closest('.todo-check');
+                    toggleTodo(parseInt(checkbox.dataset.index));
+                }
+                
+                if (e.target.classList.contains('todo-delete') || e.target.closest('.todo-delete')) {
+                    const btn = e.target.classList.contains('todo-delete') ? e.target : e.target.closest('.todo-delete');
+                    deleteTodo(parseInt(btn.dataset.index));
+                }
+            });
+            
+            todoClear.addEventListener('click', clearCompleted);
+            
+            // Initialize
+            renderTodos();
+        }
+
+        // ======================
+        // 3. HABIT TRACKER
+        // ======================
+        function initHabitTracker() {
+            const habitInput = document.getElementById('habit-input');
+            const habitAdd = document.getElementById('habit-add');
+            const habitContainer = document.getElementById('habit-container');
+            const habitEmpty = document.getElementById('habit-empty');
+            
+            let habits = JSON.parse(localStorage.getItem('habits')) || [];
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            
+            // Render habits
+            function renderHabits() {
+                habitContainer.innerHTML = '';
+                
+                if (habits.length === 0) {
+                    habitEmpty.classList.remove('hidden');
+                    return;
+                }
+                
+                habitEmpty.classList.add('hidden');
+                
+                // Get current week's dates
+                const today = new Date();
+                const currentDay = today.getDay(); // 0 (Sun) to 6 (Sat)
+                const weekDates = [];
+                
+                for (let i = 0; i < 7; i++) {
+                    const date = new Date(today);
+                    date.setDate(today.getDate() - currentDay + i);
+                    weekDates.push(date);
+                }
+                
+                // Create habit grid
+                habits.forEach((habit, habitIndex) => {
+                    const habitEl = document.createElement('div');
+                    habitEl.className = 'mb-6';
+                    
+                    // Habit header
+                    const habitHeader = document.createElement('div');
+                    habitHeader.className = 'flex justify-between items-center mb-2';
+                    habitHeader.innerHTML = `
+                        <h4 class="font-medium text-gray-700">${habit.name}</h4>
+                        <button class="text-red-400 hover:text-red-600 habit-delete" data-index="${habitIndex}">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    `;
+                    habitEl.appendChild(habitHeader);
+                    
+                    // Streak counter
+                    const streak = calculateStreak(habit.dates);
+                    const streakEl = document.createElement('div');
+                    streakEl.className = 'text-sm mb-3';
+                    streakEl.innerHTML = `
+                        <span class="inline-block px-2 py-1 rounded ${streak > 0 ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}">
+                            Streak: ${streak} ${streak === 1 ? 'day' : 'days'}
+                        </span>
+                    `;
+                    habitEl.appendChild(streakEl);
+                    
+                    // Days grid
+                    const daysGrid = document.createElement('div');
+                    daysGrid.className = 'grid grid-cols-8 gap-1';
+                    
+                    // Empty cell for alignment
+                    const emptyCell = document.createElement('div');
+                    daysGrid.appendChild(emptyCell);
+                    
+                    // Day headers
+                    days.forEach((day, i) => {
+                        const dayHeader = document.createElement('div');
+                        dayHeader.className = 'text-center text-xs font-medium text-gray-500';
+                        dayHeader.textContent = `${day}\n${weekDates[i].getDate()}`;
+                        daysGrid.appendChild(dayHeader);
+                    });
+                    
+                    // Checkboxes for each day
+                    weekDates.forEach((date, dayIndex) => {
+                        const dateStr = date.toISOString().split('T')[0];
+                        const isChecked = habit.dates.includes(dateStr);
+                        
+                        const checkboxCell = document.createElement('div');
+                        checkboxCell.className = 'flex justify-center';
+                        
+                        const checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.className = 'habit-check h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500';
+                        checkbox.dataset.habitIndex = habitIndex;
+                        checkbox.dataset.date = dateStr;
+                        checkbox.checked = isChecked;
+                        
+                        checkboxCell.appendChild(checkbox);
+                        daysGrid.appendChild(checkboxCell);
+                    });
+                    
+                    habitEl.appendChild(daysGrid);
+                    habitContainer.appendChild(habitEl);
+                });
+            }
+            
+            // Calculate current streak
+            function calculateStreak(dates) {
+                if (dates.length === 0) return 0;
+                
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                
+                // Sort dates in descending order
+                const sortedDates = [...dates].sort().reverse();
+                let streak = 0;
+                let prevDate = new Date(today);
+                
+                for (const dateStr of sortedDates) {
+                    const currentDate = new Date(dateStr);
+                    currentDate.setHours(0, 0, 0, 0);
+                    
+                    // Check if consecutive
+                    const diffTime = prevDate - currentDate;
+                    const diffDays = diffTime / (1000 * 60 * 60 * 24);
+                    
+                    if (diffDays === 0) {
+                        // Same day, skip
+                        continue;
+                    } else if (diffDays === 1 || (streak === 0 && diffDays >= 0)) {
+                        // Consecutive day or today's first check
+                        streak++;
+                        prevDate = currentDate;
+                    } else {
+                        // Streak broken
+                        break;
+                    }
+                }
+                
+                return streak;
+            }
+            
+            // Add new habit
+            function addHabit() {
+                const name = habitInput.value.trim();
+                if (name === '') return;
+                
+                habits.push({ name, dates: [] });
+                saveHabits();
+                habitInput.value = '';
+                renderHabits();
+            }
+            
+            // Toggle habit date
+            function toggleHabitDate(habitIndex, dateStr) {
+                const habit = habits[habitIndex];
+                const dateIndex = habit.dates.indexOf(dateStr);
+                
+                if (dateIndex === -1) {
+                    habit.dates.push(dateStr);
+                } else {
+                    habit.dates.splice(dateIndex, 1);
+                }
+                
+                saveHabits();
+                renderHabits();
+            }
+            
+            // Delete habit
+            function deleteHabit(index) {
+                habits.splice(index, 1);
+                saveHabits();
+                renderHabits();
+            }
+            
+            // Save habits to localStorage
+            function saveHabits() {
+                localStorage.setItem('habits', JSON.stringify(habits));
+            }
+            
+            // Event listeners
+            habitAdd.addEventListener('click', addHabit);
+            habitInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') addHabit();
+            });
+            
+            habitContainer.addEventListener('click', function(e) {
+                if (e.target.classList.contains('habit-check')) {
+                    const checkbox = e.target;
+                    toggleHabitDate(
+                        parseInt(checkbox.dataset.habitIndex),
+                        checkbox.dataset.date
+                    );
+                }
+                
+                if (e.target.classList.contains('habit-delete') || e.target.closest('.habit-delete')) {
+                    const btn = e.target.classList.contains('habit-delete') ? e.target : e.target.closest('.habit-delete');
+                    deleteHabit(parseInt(btn.dataset.index));
+                }
+            });
+            
+            // Initialize
+            renderHabits();
+        }
+
+        // ======================
+        // 4. ONLINE NOTEPAD
+        // ======================
+        function initNotepad() {
+            const noteEditor = document.getElementById('note-editor');
+            const noteTitle = document.getElementById('note-title');
+            const noteSave = document.getElementById('note-save');
+            const noteNew = document.getElementById('note-new');
+            const noteStatus = document.getElementById('note-status');
+            
+            // Formatting buttons
+            const noteBold = document.getElementById('note-bold');
+            const noteItalic = document.getElementById('note-italic');
+            const noteUnderline = document.getElementById('note-underline');
+            const noteList = document.getElementById('note-list');
+            const noteNumbered = document.getElementById('note-numbered');
+            const noteLink = document.getElementById('note-link');
+            const noteClear = document.getElementById('note-clear');
+            
+            let currentNoteId = 'default';
+            let saveTimeout;
+            
+            // Load note from localStorage
+            function loadNote() {
+                const notes = JSON.parse(localStorage.getItem('notes')) || {};
+                const note = notes[currentNoteId] || { title: '', content: '' };
+                
+                noteTitle.value = note.title;
+                noteEditor.innerHTML = note.content;
+                
+                updateStatus('Note loaded');
+            }
+            
+            // Save note to localStorage
+            function saveNote() {
+                const notes = JSON.parse(localStorage.getItem('notes')) || {};
+                
+                notes[currentNoteId] = {
+                    title: noteTitle.value.trim(),
+                    content: noteEditor.innerHTML
+                };
+                
+                localStorage.setItem('notes', JSON.stringify(notes));
+                updateStatus('Note saved');
+            }
+            
+            // Create new note
+            function newNote() {
+                // Auto-save current note first
+                saveNote();
+                
+                // Generate new ID
+                currentNoteId = `note-${Date.now()}`;
+                noteTitle.value = '';
+                noteEditor.innerHTML = '';
+                
+                updateStatus('New note created');
+            }
+            
+            // Update status message
+            function updateStatus(message) {
+                noteStatus.innerHTML = `<i class="fas fa-info-circle mr-1"></i> ${message}`;
+                
+                // Clear previous timeout if exists
+                if (saveTimeout) clearTimeout(saveTimeout);
+                
+                // Reset to default message after 3 seconds
+                saveTimeout = setTimeout(() => {
+                    noteStatus.innerHTML = '<i class="fas fa-info-circle mr-1"></i> Changes saved automatically';
+                }, 3000);
+            }
+            
+            // Apply formatting
+            function formatText(command, value = null) {
+                document.execCommand(command, false, value);
+                noteEditor.focus();
+            }
+            
+            // Insert link
+            function insertLink() {
+                const url = prompt('Enter the URL:');
+                if (url) {
+                    formatText('createLink', url);
+                }
+            }
+            
+            // Event listeners
+            noteTitle.addEventListener('input', saveNote);
+            noteEditor.addEventListener('input', saveNote);
+            
+            noteSave.addEventListener('click', saveNote);
+            noteNew.addEventListener('click', newNote);
+            
+            // Formatting buttons
+            noteBold.addEventListener('click', () => formatText('bold'));
+            noteItalic.addEventListener('click', () => formatText('italic'));
+            noteUnderline.addEventListener('click', () => formatText('underline'));
+            noteList.addEventListener('click', () => formatText('insertUnorderedList'));
+            noteNumbered.addEventListener('click', () => formatText('insertOrderedList'));
+            noteLink.addEventListener('click', insertLink);
+            noteClear.addEventListener('click', () => formatText('removeFormat'));
+            
+            // Initialize
+            loadNote();
+        }
+
+ 
+
+        // ======================
+        // 5. FOCUS SOUND GENERATOR - ENHANCED
+        // ======================
+        function initSoundGenerator() {
+            const soundContainer = document.getElementById('sound-cards-container');
+            const soundMixer = document.getElementById('sound-mixer');
+            const noSoundsMessage = document.getElementById('no-sounds-message');
+            const stopAllBtn = document.getElementById('stop-all-sounds');
+            
+            // Enhanced Sound library with working audio samples
+            const sounds = [
+                {
+                    id: 'rain',
+                    name: 'Rain',
+                    icon: 'cloud-rain',
+                    audio: new Audio('https://assets.mixkit.co/sfx/preview/mixkit-rain-forest-1246.mp3'),
+                    volume: 0.5,
+                    color: 'bg-blue-100'
+                },
+                {
+                    id: 'forest',
+                    name: 'Forest',
+                    icon: 'tree',
+                    audio: new Audio('https://assets.mixkit.co/sfx/preview/mixkit-forest-birds-1553.mp3'),
+                    volume: 0.5,
+                    color: 'bg-green-100'
+                },
+                {
+                    id: 'waves',
+                    name: 'Ocean Waves',
+                    icon: 'water',
+                    audio: new Audio('https://assets.mixkit.co/sfx/preview/mixkit-waves-coming-to-shore-1744.mp3'),
+                    volume: 0.5,
+                    color: 'bg-cyan-100'
+                },
+                {
+                    id: 'fire',
+                    name: 'Crackling Fire',
+                    icon: 'fire',
+                    audio: new Audio('https://assets.mixkit.co/sfx/preview/mixkit-crackling-fireplace-1686.mp3'),
+                    volume: 0.5,
+                    color: 'bg-orange-100'
+                },
+                {
+                    id: 'cafe',
+                    name: 'Coffee Shop',
+                    icon: 'coffee',
+                    audio: new Audio('https://assets.mixkit.co/sfx/preview/mixkit-busy-coffee-shop-1253.mp3'),
+                    volume: 0.5,
+                    color: 'bg-amber-100'
+                },
+                {
+                    id: 'white-noise',
+                    name: 'White Noise',
+                    icon: 'fan',
+                    audio: new Audio('https://assets.mixkit.co/sfx/preview/mixkit-constant-white-noise-252.mp3'),
+                    volume: 0.5,
+                    color: 'bg-gray-100'
+                },
+                {
+                    id: 'thunder',
+                    name: 'Thunderstorm',
+                    icon: 'bolt',
+                    audio: new Audio('https://assets.mixkit.co/sfx/preview/mixkit-thunder-storm-1499.mp3'),
+                    volume: 0.3,
+                    color: 'bg-purple-100'
+                },
+                {
+                    id: 'night',
+                    name: 'Night Sounds',
+                    icon: 'moon',
+                    audio: new Audio('https://assets.mixkit.co/sfx/preview/mixkit-night-ambience-1247.mp3'),
+                    volume: 0.5,
+                    color: 'bg-indigo-100'
+                }
+            ];
+            
+            // Active sounds
+            let activeSounds = [];
+            
+            // Render sound cards
+            function renderSoundCards() {
+                soundContainer.innerHTML = '';
+                
+                sounds.forEach(sound => {
+                    const soundCard = document.createElement('div');
+                    soundCard.className = `bg-white rounded-lg shadow-sm p-4 flex flex-col items-center cursor-pointer hover:bg-indigo-50 transition-colors sound-card ${activeSounds.includes(sound.id) ? 'ring-2 ring-indigo-500' : ''}`;
+                    soundCard.dataset.soundId = sound.id;
+                    
+                    soundCard.innerHTML = `
+                        <div class="w-16 h-16 ${sound.color} rounded-full flex items-center justify-center mb-3">
+                            <i class="fas fa-${sound.icon} text-2xl text-indigo-600"></i>
+                        </div>
+                        <h4 class="font-medium text-gray-700 mb-2">${sound.name}</h4>
+                        <div class="flex items-center">
+                            <i class="fas fa-volume-down text-gray-400 mr-2"></i>
+                            <input type="range" min="0" max="1" step="0.01" value="${sound.volume}" 
+                                class="w-20 sound-volume" data-sound-id="${sound.id}">
+                        </div>
+                    `;
+                    
+                    soundContainer.appendChild(soundCard);
+                });
+            }
+            
+            // Toggle sound
+            function toggleSound(soundId) {
+                const sound = sounds.find(s => s.id === soundId);
+                
+                if (!sound) return;
+                
+                const isActive = activeSounds.includes(soundId);
+                
+                if (isActive) {
+                    // Stop sound
+                    sound.audio.pause();
+                    sound.audio.currentTime = 0;
+                    activeSounds = activeSounds.filter(id => id !== soundId);
+                } else {
+                    // Start sound
+                    sound.audio.loop = true;
+                    sound.audio.volume = sound.volume;
+                    sound.audio.play().catch(e => console.error('Error playing sound:', e));
+                    activeSounds.push(soundId);
+                }
+                
+                renderSoundCards();
+                updateMixer();
+            }
+            
+            // Update volume for a sound
+            function updateVolume(soundId, volume) {
+                const sound = sounds.find(s => s.id === soundId);
+                if (!sound) return;
+                
+                sound.volume = parseFloat(volume);
+                if (activeSounds.includes(soundId)) {
+                    sound.audio.volume = sound.volume;
+                }
+                
+                // Update the volume slider in the mixer if it exists
+                const mixerSlider = document.querySelector(`.sound-volume-mixer[data-sound-id="${soundId}"]`);
+                if (mixerSlider) {
+                    mixerSlider.value = sound.volume;
+                }
+            }
+            
+            // Update sound mixer display
+            function updateMixer() {
+                soundMixer.innerHTML = '';
+                
+                if (activeSounds.length === 0) {
+                    noSoundsMessage.classList.remove('hidden');
+                    return;
+                }
+                
+                noSoundsMessage.classList.add('hidden');
+                
+                activeSounds.forEach(soundId => {
+                    const sound = sounds.find(s => s.id === soundId);
+                    if (!sound) return;
+                    
+                    const mixerItem = document.createElement('div');
+                    mixerItem.className = 'flex items-center justify-between p-3 bg-white rounded-lg shadow-sm';
+                    
+                    mixerItem.innerHTML = `
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 ${sound.color} rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-${sound.icon} text-indigo-600"></i>
+                            </div>
+                            <span class="font-medium">${sound.name}</span>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="range" min="0" max="1" step="0.01" value="${sound.volume}" 
+                                class="w-24 mr-3 sound-volume-mixer" data-sound-id="${sound.id}">
+                            <button class="text-red-400 hover:text-red-600 sound-remove" data-sound-id="${sound.id}">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    `;
+                    
+                    soundMixer.appendChild(mixerItem);
+                });
+            }
+            
+            // Stop all sounds
+            function stopAllSounds() {
+                activeSounds.forEach(soundId => {
+                    const sound = sounds.find(s => s.id === soundId);
+                    if (sound) {
+                        sound.audio.pause();
+                        sound.audio.currentTime = 0;
+                    }
+                });
+                
+                activeSounds = [];
+                renderSoundCards();
+                updateMixer();
+            }
+            
+            // Event listeners
+            soundContainer.addEventListener('click', function(e) {
+                const soundCard = e.target.closest('.sound-card');
+                if (soundCard) {
+                    toggleSound(soundCard.dataset.soundId);
+                }
+            });
+            
+            soundContainer.addEventListener('input', function(e) {
+                if (e.target.classList.contains('sound-volume')) {
+                    updateVolume(e.target.dataset.soundId, e.target.value);
+                }
+            });
+            
+            soundMixer.addEventListener('input', function(e) {
+                if (e.target.classList.contains('sound-volume-mixer')) {
+                    updateVolume(e.target.dataset.soundId, e.target.value);
+                    
+                    // Also update the volume in the main card
+                    const soundId = e.target.dataset.soundId;
+                    const sound = sounds.find(s => s.id === soundId);
+                    if (sound) {
+                        const mainVolumeInput = document.querySelector(`.sound-volume[data-sound-id="${soundId}"]`);
+                        if (mainVolumeInput) {
+                            mainVolumeInput.value = sound.volume;
+                        }
+                    }
+                }
+            });
+            
+            soundMixer.addEventListener('click', function(e) {
+                if (e.target.classList.contains('sound-remove') || e.target.closest('.sound-remove')) {
+                    const btn = e.target.classList.contains('sound-remove') ? e.target : e.target.closest('.sound-remove');
+                    toggleSound(btn.dataset.soundId);
+                }
+            });
+            
+            stopAllBtn.addEventListener('click', stopAllSounds);
+            
+            // Initialize
+            renderSoundCards();
+        }
+
+        // ======================
+        // 6. TIME TRACKER
+        // ======================
+        function initTimeTracker() {
+            const trackerTime = document.getElementById('tracker-time');
+            const trackerTask = document.getElementById('tracker-task');
+            const trackerProgress = document.getElementById('tracker-progress');
+            const trackerStart = document.getElementById('tracker-start');
+            const trackerPause = document.getElementById('tracker-pause');
+            const trackerStop = document.getElementById('tracker-stop');
+            const trackerTaskInput = document.getElementById('tracker-task-input');
+            const trackerCategory = document.getElementById('tracker-category');
+            const trackerSave = document.getElementById('tracker-save');
+            const trackerLog = document.getElementById('tracker-log');
+            
+            let startTime = null;
+            let elapsedTime = 0;
+            let timerInterval;
+            let isRunning = false;
+            let currentTask = null;
+            
+            // Format time (hh:mm:ss)
+            function formatTime(seconds) {
+                const hrs = Math.floor(seconds / 3600);
+                const mins = Math.floor((seconds % 3600) / 60);
+                const secs = seconds % 60;
+                
+                return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }
+            
+            // Update display
+            function updateDisplay() {
+                trackerTime.textContent = formatTime(elapsedTime);
+                
+                // Update progress circle
+                const hours = elapsedTime / 3600;
+                const progress = Math.min(hours / 8, 1); // Max 8 hours for full circle
+                const offset = 283 - (283 * progress);
+                trackerProgress.style.strokeDashoffset = offset;
+            }
+            
+            // Start timer
+            function startTimer() {
+                if (isRunning) return;
+                
+                if (trackerTaskInput.value.trim() === '') {
+                    alert('Please enter a task name');
+                    return;
+                }
+                
+                isRunning = true;
+                startTime = new Date();
+                
+                trackerStart.classList.add('hidden');
+                trackerPause.classList.remove('hidden');
+                trackerTaskInput.disabled = true;
+                trackerCategory.disabled = true;
+                
+                currentTask = {
+                    name: trackerTaskInput.value.trim(),
+                    category: trackerCategory.value,
+                    startTime: startTime.toISOString()
+                };
+                
+                trackerTask.textContent = currentTask.name;
+                
+                timerInterval = setInterval(() => {
+                    elapsedTime++;
+                    updateDisplay();
+                }, 1000);
+            }
+            
+            // Pause timer
+            function pauseTimer() {
+                if (!isRunning) return;
+                
+                isRunning = false;
+                clearInterval(timerInterval);
+                
+                trackerPause.classList.add('hidden');
+                trackerStart.classList.remove('hidden');
+            }
+            
+            // Stop timer and save task
+            function stopTimer() {
+                if (isRunning) {
+                    clearInterval(timerInterval);
+                    isRunning = false;
+                }
+                
+                if (!currentTask) return;
+                
+                // Add end time to current task
+                currentTask.endTime = new Date().toISOString();
+                currentTask.duration = elapsedTime;
+                
+                // Save to localStorage
+                const tasks = JSON.parse(localStorage.getItem('timeTrackerTasks')) || [];
+                tasks.unshift(currentTask);
+                localStorage.setItem('timeTrackerTasks', JSON.stringify(tasks));
+                
+                // Reset
+                elapsedTime = 0;
+                startTime = null;
+                currentTask = null;
+                
+                trackerStart.classList.remove('hidden');
+                trackerPause.classList.add('hidden');
+                trackerTaskInput.disabled = false;
+                trackerCategory.disabled = false;
+                trackerTaskInput.value = '';
+                trackerTask.textContent = 'No active task';
+                
+                updateDisplay();
+                renderLog();
+            }
+            
+            // Render time log
+            function renderLog() {
+                const tasks = JSON.parse(localStorage.getItem('timeTrackerTasks')) || [];
+                trackerLog.innerHTML = '';
+                
+                if (tasks.length === 0) {
+                    trackerLog.innerHTML = `
+                        <div class="py-4 text-center text-gray-500">
+                            <i class="fas fa-clock text-2xl mb-2"></i>
+                            <p>No time entries yet. Start tracking to see your log.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Get today's tasks
+                const today = new Date().toISOString().split('T')[0];
+                const todayTasks = tasks.filter(task => task.startTime.includes(today));
+                
+                if (todayTasks.length === 0) {
+                    trackerLog.innerHTML = `
+                        <div class="py-4 text-center text-gray-500">
+                            <i class="fas fa-clock text-2xl mb-2"></i>
+                            <p>No time entries for today. Start tracking to see your log.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                todayTasks.forEach(task => {
+                    const taskEl = document.createElement('div');
+                    taskEl.className = 'py-3 px-2 hover:bg-gray-50 rounded-lg';
+                    
+                    const startTime = new Date(task.startTime);
+                    const endTime = task.endTime ? new Date(task.endTime) : null;
+                    
+                    taskEl.innerHTML = `
+                        <div class="flex justify-between items-start mb-1">
+                            <span class="font-medium">${task.name}</span>
+                            <span class="text-sm ${getCategoryColor(task.category)} px-2 py-1 rounded">
+                                ${task.category}
+                            </span>
+                        </div>
+                        <div class="flex justify-between text-sm text-gray-500">
+                            <span>${formatTime(task.duration)}</span>
+                            <span>${startTime.toLocaleTimeString()} - ${endTime ? endTime.toLocaleTimeString() : '?'}</span>
+                        </div>
+                    `;
+                    
+                    trackerLog.appendChild(taskEl);
+                });
+            }
+            
+            // Get color for category
+            function getCategoryColor(category) {
+                switch (category) {
+                    case 'work': return 'bg-blue-100 text-blue-800';
+                    case 'study': return 'bg-purple-100 text-purple-800';
+                    case 'personal': return 'bg-green-100 text-green-800';
+                    default: return 'bg-gray-100 text-gray-800';
+                }
+            }
+            
+            // Event listeners
+            trackerStart.addEventListener('click', startTimer);
+            trackerPause.addEventListener('click', pauseTimer);
+            trackerStop.addEventListener('click', stopTimer);
+            trackerSave.addEventListener('click', stopTimer);
+            
+            // Initialize
+            updateDisplay();
+            renderLog();
+        }
+
+        // ======================
+        // 7. TASK SCHEDULER
+        // ======================
+        function initTaskScheduler() {
+            const schedulerTitle = document.getElementById('scheduler-title');
+            const schedulerDate = document.getElementById('scheduler-date');
+            const schedulerTime = document.getElementById('scheduler-time');
+            const schedulerRepeat = document.getElementById('scheduler-repeat');
+            const schedulerPriority = document.getElementById('scheduler-priority');
+            const schedulerAdd = document.getElementById('scheduler-add');
+            const schedulerTasks = document.getElementById('scheduler-tasks');
+            
+            // Set default date to today
+            const today = new Date();
+            schedulerDate.valueAsDate = today;
+            
+            // Set default time to next hour
+            const nextHour = new Date(today);
+            nextHour.setHours(today.getHours() + 1, 0, 0, 0);
+            schedulerTime.value = `${nextHour.getHours().toString().padStart(2, '0')}:00`;
+            
+            let tasks = JSON.parse(localStorage.getItem('scheduledTasks')) || [];
+            
+            // Render tasks
+            function renderTasks() {
+                schedulerTasks.innerHTML = '';
+                
+                if (tasks.length === 0) {
+                    schedulerTasks.innerHTML = `
+                        <div class="text-center py-8 text-gray-500">
+                            <i class="fas fa-calendar-plus text-2xl mb-2"></i>
+                            <p>No tasks scheduled yet. Add your first task to get started!</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Sort tasks by date/time
+                tasks.sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime));
+                
+                tasks.forEach((task, index) => {
+                    const taskEl = document.createElement('div');
+                    taskEl.className = 'bg-white rounded-lg shadow-sm p-4 mb-3';
+                    
+                    const taskDate = new Date(task.dateTime);
+                    const now = new Date();
+                    const isPast = taskDate < now;
+                    
+                    taskEl.innerHTML = `
+                        <div class="flex justify-between items-start mb-2">
+                            <h4 class="font-medium ${isPast ? 'text-gray-400' : 'text-gray-700'}">${task.title}</h4>
+                            <span class="text-xs ${getPriorityColor(task.priority)} px-2 py-1 rounded">
+                                ${task.priority}
+                            </span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm ${isPast ? 'text-gray-400' : 'text-gray-500'}">
+                            <div>
+                                <i class="far fa-clock mr-1"></i>
+                                ${formatTaskDateTime(task.dateTime, task.repeat)}
+                            </div>
+                            <button class="text-red-400 hover:text-red-600 scheduler-delete" data-index="${index}">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    `;
+                    
+                    schedulerTasks.appendChild(taskEl);
+                });
+            }
+            
+            // Format task date/time display
+            function formatTaskDateTime(dateTime, repeat) {
+                const date = new Date(dateTime);
+                const now = new Date();
+                const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                const tomorrow = new Date(today);
+                tomorrow.setDate(today.getDate() + 1);
+                
+                let dateStr;
+                
+                if (repeat === 'daily') {
+                    dateStr = 'Daily';
+                } else if (repeat === 'weekly') {
+                    dateStr = 'Weekly';
+                } else if (repeat === 'monthly') {
+                    dateStr = 'Monthly';
+                } else if (repeat === 'yearly') {
+                    dateStr = 'Yearly';
+                } else {
+                    // Single occurrence
+                    if (date >= today && date < tomorrow) {
+                        dateStr = 'Today';
+                    } else {
+                        const options = { month: 'short', day: 'numeric' };
+                        dateStr = date.toLocaleDateString(undefined, options);
+                    }
+                }
+                
+                const timeStr = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                
+                return `${dateStr} at ${timeStr}`;
+            }
+            
+            // Get color for priority
+            function getPriorityColor(priority) {
+                switch (priority) {
+                    case 'high': return 'bg-red-100 text-red-800';
+                    case 'medium': return 'bg-yellow-100 text-yellow-800';
+                    case 'low': return 'bg-green-100 text-green-800';
+                    default: return 'bg-gray-100 text-gray-800';
+                }
+            }
+            
+            // Add new task
+            function addTask() {
+                const title = schedulerTitle.value.trim();
+                if (title === '') {
+                    alert('Please enter a task title');
+                    return;
+                }
+                
+                const date = schedulerDate.value;
+                const time = schedulerTime.value;
+                const dateTime = `${date}T${time}`;
+                
+                // Validate date/time
+                if (new Date(dateTime) < new Date() && schedulerRepeat.value === 'none') {
+                    if (!confirm('This task is scheduled in the past. Are you sure you want to add it?')) {
+                        return;
+                    }
+                }
+                
+                const newTask = {
+                    title,
+                    dateTime,
+                    repeat: schedulerRepeat.value,
+                    priority: schedulerPriority.value
+                };
+                
+                tasks.push(newTask);
+                saveTasks();
+                
+                // Reset form
+                schedulerTitle.value = '';
+                schedulerDate.valueAsDate = today;
+                schedulerTime.value = `${nextHour.getHours().toString().padStart(2, '0')}:00`;
+                schedulerPriority.value = 'medium';
+                
+                renderTasks();
+            }
+            
+            // Delete task
+            function deleteTask(index) {
+                tasks.splice(index, 1);
+                saveTasks();
+                renderTasks();
+            }
+            
+            // Save tasks to localStorage
+            function saveTasks() {
+                localStorage.setItem('scheduledTasks', JSON.stringify(tasks));
+            }
+            
+            // Event listeners
+            schedulerAdd.addEventListener('click', addTask);
+            schedulerTasks.addEventListener('click', function(e) {
+                if (e.target.classList.contains('scheduler-delete') || e.target.closest('.scheduler-delete')) {
+                    const btn = e.target.classList.contains('scheduler-delete') ? e.target : e.target.closest('.scheduler-delete');
+                    deleteTask(parseInt(btn.dataset.index));
+                }
+            });
+            
+            // Initialize
+            renderTasks();
+        }
+
+        // ======================
+        // 8. COUNTDOWN TIMER
+        // ======================
+        function initCountdownTimer() {
+            const countdownTime = document.getElementById('countdown-time');
+            const countdownEvent = document.getElementById('countdown-event');
+            const countdownProgress = document.getElementById('countdown-progress');
+            const countdownStart = document.getElementById('countdown-start');
+            const countdownPause = document.getElementById('countdown-pause');
+            const countdownReset = document.getElementById('countdown-reset');
+            const countdownEventInput = document.getElementById('countdown-event-input');
+            const countdownDate = document.getElementById('countdown-date');
+            const countdownAlert = document.getElementById('countdown-alert');
+            const countdownSet = document.getElementById('countdown-set');
+            const countdownList = document.getElementById('countdown-list');
+            
+            let targetDate = null;
+            let countdownInterval;
+            let isRunning = false;
+            let savedCountdowns = JSON.parse(localStorage.getItem('countdowns')) || [];
+            
+            // Format time (dd:hh:mm:ss)
+            function formatTime(seconds) {
+                const days = Math.floor(seconds / (3600 * 24));
+                const hours = Math.floor((seconds % (3600 * 24)) / 3600);
+                const mins = Math.floor((seconds % 3600) / 60);
+                const secs = seconds % 60;
+                
+                return `${days.toString().padStart(2, '0')}:${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }
+            
+            // Update countdown display
+            function updateCountdown() {
+                if (!targetDate) return;
+                
+                const now = new Date();
+                const diff = targetDate - now;
+                
+                if (diff <= 0) {
+                    // Countdown complete
+                    clearInterval(countdownInterval);
+                    countdownTime.textContent = '00:00:00:00';
+                    countdownProgress.style.strokeDashoffset = 0;
+                    
+                    if (countdownAlert.checked) {
+                        // Play alert sound
+                        const alarmSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3');
+                        alarmSound.play();
+                        
+                        // Show alert if tab is active
+                        if (!document.hidden) {
+                            alert(`Countdown complete: ${countdownEventInput.value}`);
+                        }
+                    }
+                    
+                    isRunning = false;
+                    countdownStart.classList.remove('hidden');
+                    countdownPause.classList.add('hidden');
+                    return;
+                }
+                
+                const totalSeconds = Math.floor(diff / 1000);
+                countdownTime.textContent = formatTime(totalSeconds);
+                
+                // Update progress circle (based on a 30-day max)
+                const maxSeconds = 30 * 24 * 3600;
+                const progress = Math.min(totalSeconds / maxSeconds, 1);
+                const offset = 283 - (283 * progress);
+                countdownProgress.style.strokeDashoffset = offset;
+            }
+            
+            // Start countdown
+            function startCountdown() {
+                if (!targetDate) {
+                    alert('Please set a countdown first');
+                    return;
+                }
+                
+                if (isRunning) return;
+                
+                isRunning = true;
+                countdownStart.classList.add('hidden');
+                countdownPause.classList.remove('hidden');
+                
+                updateCountdown();
+                countdownInterval = setInterval(updateCountdown, 1000);
+            }
+            
+            // Pause countdown
+            function pauseCountdown() {
+                if (!isRunning) return;
+                
+                isRunning = false;
+                clearInterval(countdownInterval);
+                
+                countdownPause.classList.add('hidden');
+                countdownStart.classList.remove('hidden');
+            }
+            
+            // Reset countdown
+            function resetCountdown() {
+                pauseCountdown();
+                updateCountdown();
+            }
+            
+            // Set new countdown
+            function setCountdown() {
+                const eventName = countdownEventInput.value.trim();
+                if (eventName === '') {
+                    alert('Please enter an event name');
+                    return;
+                }
+                
+                const dateTime = countdownDate.value;
+                if (!dateTime) {
+                    alert('Please select a date and time');
+                    return;
+                }
+                
+                targetDate = new Date(dateTime);
+                if (targetDate < new Date()) {
+                    alert('Please select a future date and time');
+                    return;
+                }
+                
+                countdownEvent.textContent = eventName;
+                
+                // Add to saved countdowns
+                const newCountdown = {
+                    event: eventName,
+                    dateTime: dateTime,
+                    alert: countdownAlert.checked
+                };
+                
+                savedCountdowns.unshift(newCountdown);
+                localStorage.setItem('countdowns', JSON.stringify(savedCountdowns));
+                
+                // Reset form
+                countdownEventInput.value = '';
+                const now = new Date();
+                countdownDate.valueAsDate = new Date(now.getTime() + 24 * 60 * 60 * 1000); // Tomorrow
+                
+                renderCountdownList();
+                startCountdown();
+            }
+            
+            // Load saved countdown
+            function loadCountdown(index) {
+                const countdown = savedCountdowns[index];
+                if (!countdown) return;
+                
+                targetDate = new Date(countdown.dateTime);
+                countdownEvent.textContent = countdown.event;
+                countdownAlert.checked = countdown.alert;
+                
+                // Update form fields
+                countdownEventInput.value = countdown.event;
+                countdownDate.value = countdown.dateTime;
+                
+                startCountdown();
+            }
+            
+            // Delete saved countdown
+            function deleteCountdown(index) {
+                savedCountdowns.splice(index, 1);
+                localStorage.setItem('countdowns', JSON.stringify(savedCountdowns));
+                renderCountdownList();
+            }
+            
+            // Render countdown list
+            function renderCountdownList() {
+                countdownList.innerHTML = '';
+                
+                if (savedCountdowns.length === 0) {
+                    countdownList.innerHTML = `
+                        <div class="text-center py-8 text-gray-500">
+                            <i class="fas fa-hourglass-half text-2xl mb-2"></i>
+                            <p>No saved countdowns. Set your first countdown to track an important event!</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                savedCountdowns.forEach((countdown, index) => {
+                    const countdownEl = document.createElement('div');
+                    countdownEl.className = 'bg-white rounded-lg shadow-sm p-4 mb-3';
+                    
+                    const date = new Date(countdown.dateTime);
+                    const now = new Date();
+                    const diff = date - now;
+                    const isPast = diff <= 0;
+                    
+                    countdownEl.innerHTML = `
+                        <div class="flex justify-between items-start mb-2">
+                            <h4 class="font-medium ${isPast ? 'text-gray-400' : 'text-gray-700'}">${countdown.event}</h4>
+                            <span class="text-xs ${isPast ? 'bg-gray-100 text-gray-800' : 'bg-indigo-100 text-indigo-800'} px-2 py-1 rounded">
+                                ${isPast ? 'Completed' : 'Upcoming'}
+                            </span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm ${isPast ? 'text-gray-400' : 'text-gray-500'}">
+                            <div>
+                                <i class="far fa-clock mr-1"></i>
+                                ${date.toLocaleString()}
+                            </div>
+                            <div>
+                                <button class="text-indigo-500 hover:text-indigo-700 countdown-load mr-2" data-index="${index}">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                                <button class="text-red-400 hover:text-red-600 countdown-delete" data-index="${index}">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    countdownList.appendChild(countdownEl);
+                });
+            }
+            
+            // Event listeners
+            countdownStart.addEventListener('click', startCountdown);
+            countdownPause.addEventListener('click', pauseCountdown);
+            countdownReset.addEventListener('click', resetCountdown);
+            countdownSet.addEventListener('click', setCountdown);
+            
+            countdownList.addEventListener('click', function(e) {
+                if (e.target.classList.contains('countdown-load') || e.target.closest('.countdown-load')) {
+                    const btn = e.target.classList.contains('countdown-load') ? e.target : e.target.closest('.countdown-load');
+                    loadCountdown(parseInt(btn.dataset.index));
+                }
+                
+                if (e.target.classList.contains('countdown-delete') || e.target.closest('.countdown-delete')) {
+                    const btn = e.target.classList.contains('countdown-delete') ? e.target : e.target.closest('.countdown-delete');
+                    deleteCountdown(parseInt(btn.dataset.index));
+                }
+            });
+            
+            // Initialize
+            updateCountdown();
+            renderCountdownList();
+        }
+
+ 
+        // ======================
+        // 9. DAILY QUOTES - ENHANCED
+        // ======================
+        function initDailyQuotes() {
+            const quoteContainer = document.getElementById('quote-container');
+            const quoteText = document.getElementById('quote-text');
+            const quoteAuthor = document.getElementById('quote-author');
+            const quoteNew = document.getElementById('quote-new');
+            const quoteCopy = document.getElementById('quote-copy');
+            const quoteTweet = document.getElementById('quote-tweet');
+            const quoteSave = document.getElementById('quote-save');
+            const favoriteQuotes = document.getElementById('favorite-quotes');
+            const quoteCategory = document.getElementById('quote-category');
+            const quoteLoadCategory = document.getElementById('quote-load-category');
+            
+            let currentQuote = null;
+            let currentCategory = 'motivational';
+            let favorites = JSON.parse(localStorage.getItem('favoriteQuotes')) || [];
+            
+            // Quote APIs for different categories
+            const quoteAPIs = {
+                motivational: 'https://api.quotable.io/random?tags=motivational',
+                inspirational: 'https://api.quotable.io/random?tags=inspirational',
+                islamic: 'https://api.alquran.cloud/v1/ayah/random/en.asad',
+                urdu: 'https://random-quote-generator2.p.rapidapi.com/randomQuote',
+                success: 'https://api.quotable.io/random?tags=success'
+            };
+            
+            // Fetch new quote
+            async function fetchQuote() {
+                try {
+                    quoteText.textContent = 'Loading...';
+                    quoteAuthor.textContent = '';
+                    
+                    let quoteData;
+                    
+                    if (currentCategory === 'urdu') {
+                        // Special handling for Urdu quotes (using a different API)
+                        const response = await fetch('https://random-quote-generator2.p.rapidapi.com/randomQuote', {
+                            headers: {
+                                'X-RapidAPI-Key': 'your-free-key-here', // Use a free key
+                                'X-RapidAPI-Host': 'random-quote-generator2.p.rapidapi.com'
+                            }
+                        });
+                        quoteData = await response.json();
+                        currentQuote = {
+                            text: quoteData.quote,
+                            author: quoteData.author
+                        };
+                    } else if (currentCategory === 'islamic') {
+                        // Islamic quotes from Quran API
+                        const response = await fetch(quoteAPIs.islamic);
+                        const data = await response.json();
+                        currentQuote = {
+                            text: data.data.text,
+                            author: `Quran ${data.data.surah.englishName}:${data.data.numberInSurah}`
+                        };
+                    } else {
+                        // Other categories using Quotable API
+                        const response = await fetch(quoteAPIs[currentCategory]);
+                        const data = await response.json();
+                        currentQuote = {
+                            text: data.content,
+                            author: data.author
+                        };
+                    }
+                    
+                    quoteText.textContent = currentQuote.text;
+                    quoteAuthor.textContent = `— ${currentQuote.author}`;
+                } catch (error) {
+                    console.error('Error fetching quote:', error);
+                    quoteText.textContent = 'Failed to load quote. Please try again.';
+                    quoteAuthor.textContent = '';
+                    
+                    // Fallback quotes if API fails
+                    const fallbackQuotes = {
+                        motivational: {
+                            text: "Believe you can and you're halfway there.",
+                            author: "Theodore Roosevelt"
+                        },
+                        inspirational: {
+                            text: "The only way to do great work is to love what you do.",
+                            author: "Steve Jobs"
+                        },
+                        islamic: {
+                            text: "And We have certainly made the Quran easy for remembrance, so is there any who will remember?",
+                            author: "Quran 54:17"
+                        },
+                        urdu: {
+                            text: "محنت کرو، کامیابی خود تمہارے قدم چومے گی۔",
+                            author: "علامہ اقبال"
+                        },
+                        success: {
+                            text: "Success is not final, failure is not fatal: It is the courage to continue that counts.",
+                            author: "Winston Churchill"
+                        }
+                    };
+                    
+                    currentQuote = fallbackQuotes[currentCategory] || fallbackQuotes.motivational;
+                    quoteText.textContent = currentQuote.text;
+                    quoteAuthor.textContent = `— ${currentQuote.author}`;
+                }
+            }
+            
+            // Change quote category
+            function changeCategory() {
+                currentCategory = quoteCategory.value;
+                fetchQuote();
+            }
+            
+            // Copy quote to clipboard
+            function copyQuote() {
+                if (!currentQuote) return;
+                
+                const text = `${currentQuote.text}\n— ${currentQuote.author}`;
+                navigator.clipboard.writeText(text);
+                
+                // Show feedback
+                const originalText = quoteCopy.innerHTML;
+                quoteCopy.innerHTML = '<i class="fas fa-check mr-2"></i>Copied!';
+                
+                setTimeout(() => {
+                    quoteCopy.innerHTML = originalText;
+                }, 2000);
+            }
+            
+            // Tweet quote
+            function tweetQuote() {
+                if (!currentQuote) return;
+                
+                const text = encodeURIComponent(`${currentQuote.text} — ${currentQuote.author}`);
+                window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
+            }
+            
+            // Add to favorites
+            function addFavorite() {
+                if (!currentQuote) return;
+                
+                // Check if already in favorites
+                const exists = favorites.some(
+                    q => q.text === currentQuote.text && q.author === currentQuote.author
+                );
+                
+                if (!exists) {
+                    favorites.unshift({
+                        ...currentQuote,
+                        category: currentCategory
+                    });
+                    localStorage.setItem('favoriteQuotes', JSON.stringify(favorites));
+                    renderFavorites();
+                    
+                    // Show feedback
+                    const originalText = quoteSave.innerHTML;
+                    quoteSave.innerHTML = '<i class="fas fa-check mr-2"></i>Saved!';
+                    
+                    setTimeout(() => {
+                        quoteSave.innerHTML = originalText;
+                    }, 2000);
+                }
+            }
+            
+            // Remove from favorites
+            function removeFavorite(index) {
+                favorites.splice(index, 1);
+                localStorage.setItem('favoriteQuotes', JSON.stringify(favorites));
+                renderFavorites();
+            }
+            
+            // Render favorite quotes
+            function renderFavorites() {
+                favoriteQuotes.innerHTML = '';
+                
+                if (favorites.length === 0) {
+                    favoriteQuotes.innerHTML = `
+                        <div class="text-center py-8 text-gray-500">
+                            <i class="fas fa-heart text-2xl mb-2"></i>
+                            <p>No favorite quotes yet. Save some quotes you love!</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                favorites.forEach((quote, index) => {
+                    const quoteEl = document.createElement('div');
+                    quoteEl.className = 'bg-white rounded-lg shadow-sm p-4 mb-3';
+                    
+                    quoteEl.innerHTML = `
+                        <div class="mb-3">
+                            <p class="text-gray-700 italic">"${quote.text}"</p>
+                            <p class="text-indigo-600 font-medium mt-2">— ${quote.author}</p>
+                            <span class="inline-block mt-1 text-xs ${getCategoryColor(quote.category)} px-2 py-1 rounded">
+                                ${quote.category}
+                            </span>
+                        </div>
+                        <div class="flex justify-end">
+                            <button class="text-red-400 hover:text-red-600 favorite-remove" data-index="${index}">
+                                <i class="fas fa-trash-alt mr-1"></i>Remove
+                            </button>
+                        </div>
+                    `;
+                    
+                    favoriteQuotes.appendChild(quoteEl);
+                });
+            }
+            
+            // Get color for category
+            function getCategoryColor(category) {
+                switch (category) {
+                    case 'motivational': return 'bg-blue-100 text-blue-800';
+                    case 'inspirational': return 'bg-purple-100 text-purple-800';
+                    case 'islamic': return 'bg-green-100 text-green-800';
+                    case 'urdu': return 'bg-amber-100 text-amber-800';
+                    case 'success': return 'bg-indigo-100 text-indigo-800';
+                    default: return 'bg-gray-100 text-gray-800';
+                }
+            }
+            
+            // Event listeners
+            quoteNew.addEventListener('click', fetchQuote);
+            quoteCopy.addEventListener('click', copyQuote);
+            quoteTweet.addEventListener('click', tweetQuote);
+            quoteSave.addEventListener('click', addFavorite);
+            quoteLoadCategory.addEventListener('click', changeCategory);
+            
+            favoriteQuotes.addEventListener('click', function(e) {
+                if (e.target.classList.contains('favorite-remove') || e.target.closest('.favorite-remove')) {
+                    const btn = e.target.classList.contains('favorite-remove') ? e.target : e.target.closest('.favorite-remove');
+                    removeFavorite(parseInt(btn.dataset.index));
+                }
+            });
+            
+            // Initialize
+            fetchQuote();
+            renderFavorites();
+        }
+
+        // ======================
+        // 10. QUICK BOOKMARKS (NEW TOOL)
+        // ======================
+        function initBookmarks() {
+            const bookmarkTitle = document.getElementById('bookmark-title');
+            const bookmarkUrl = document.getElementById('bookmark-url');
+            const bookmarkAdd = document.getElementById('bookmark-add');
+            const bookmarkList = document.getElementById('bookmark-list');
+            const bookmarkEmpty = document.getElementById('bookmark-empty');
+            
+            let bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
+            
+            // Render bookmarks
+            function renderBookmarks() {
+                bookmarkList.innerHTML = '';
+                
+                if (bookmarks.length === 0) {
+                    bookmarkEmpty.classList.remove('hidden');
+                    return;
+                }
+                
+                bookmarkEmpty.classList.add('hidden');
+                
+                bookmarks.forEach((bookmark, index) => {
+                    const bookmarkEl = document.createElement('div');
+                    bookmarkEl.className = 'bg-white rounded-lg shadow-sm p-4 hover:shadow-md transition-shadow';
+                    
+                    // Extract domain from URL
+                    let domain = '';
+                    try {
+                        domain = new URL(bookmark.url).hostname.replace('www.', '');
+                    } catch (e) {
+                        domain = 'link';
+                    }
+                    
+                    bookmarkEl.innerHTML = `
+                        <div class="flex items-start">
+                            <div class="bg-indigo-100 text-indigo-600 w-10 h-10 rounded-lg flex items-center justify-center mr-3">
+                                <i class="fas fa-bookmark"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-medium text-gray-700 mb-1">${bookmark.title}</h4>
+                                <p class="text-sm text-gray-500 mb-2 truncate">${bookmark.url}</p>
+                                <div class="flex gap-2">
+                                    <a href="${bookmark.url}" target="_blank" class="text-sm bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded">
+                                        <i class="fas fa-external-link-alt mr-1"></i>Visit
+                                    </a>
+                                    <button class="text-sm bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded bookmark-copy" data-url="${bookmark.url}">
+                                        <i class="fas fa-copy mr-1"></i>Copy
+                                    </button>
+                                    <button class="text-sm bg-red-100 hover:bg-red-200 text-red-700 px-3 py-1 rounded bookmark-delete" data-index="${index}">
+                                        <i class="fas fa-trash-alt mr-1"></i>Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    bookmarkList.appendChild(bookmarkEl);
+                });
+            }
+            
+            // Add new bookmark
+            function addBookmark() {
+                const title = bookmarkTitle.value.trim();
+                let url = bookmarkUrl.value.trim();
+                
+                if (title === '' || url === '') {
+                    alert('Please enter both title and URL');
+                    return;
+                }
+                
+                // Add https:// if not present
+                if (!url.match(/^https?:\/\//)) {
+                    url = 'https://' + url;
+                }
+                
+                // Validate URL
+                try {
+                    new URL(url);
+                } catch (e) {
+                    alert('Please enter a valid URL');
+                    return;
+                }
+                
+                bookmarks.unshift({ title, url });
+                saveBookmarks();
+                
+                // Reset form
+                bookmarkTitle.value = '';
+                bookmarkUrl.value = '';
+                
+                renderBookmarks();
+            }
+            
+            // Copy bookmark URL
+            function copyBookmarkUrl(url) {
+                navigator.clipboard.writeText(url);
+                
+                // Show feedback
+                const originalText = event.target.innerHTML;
+                event.target.innerHTML = '<i class="fas fa-check mr-1"></i>Copied!';
+                
+                setTimeout(() => {
+                    event.target.innerHTML = originalText;
+                }, 2000);
+            }
+            
+            // Delete bookmark
+            function deleteBookmark(index) {
+                bookmarks.splice(index, 1);
+                saveBookmarks();
+                renderBookmarks();
+            }
+            
+            // Save bookmarks to localStorage
+            function saveBookmarks() {
+                localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+            }
+            
+            // Event listeners
+            bookmarkAdd.addEventListener('click', addBookmark);
+            bookmarkUrl.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') addBookmark();
+            });
+            
+            bookmarkList.addEventListener('click', function(e) {
+                if (e.target.classList.contains('bookmark-copy') || e.target.closest('.bookmark-copy')) {
+                    const btn = e.target.classList.contains('bookmark-copy') ? e.target : e.target.closest('.bookmark-copy');
+                    copyBookmarkUrl(btn.dataset.url);
+                }
+                
+                if (e.target.classList.contains('bookmark-delete') || e.target.closest('.bookmark-delete')) {
+                    const btn = e.target.classList.contains('bookmark-delete') ? e.target : e.target.closest('.bookmark-delete');
+                    deleteBookmark(parseInt(btn.dataset.index));
+                }
+            });
+            
+            // Initialize
+            renderBookmarks();
+        }
+
+        // ======================
+        // 11. EXPENSE TRACKER (NEW TOOL)
+        // ======================
+        function initExpenseTracker() {
+            const expenseTitle = document.getElementById('expense-title');
+            const expenseAmount = document.getElementById('expense-amount');
+            const expenseCategory = document.getElementById('expense-category');
+            const expenseDate = document.getElementById('expense-date');
+            const expenseAdd = document.getElementById('expense-add');
+            const expenseList = document.getElementById('expense-list');
+            const expenseTotal = document.getElementById('expense-total');
+            const expenseDaily = document.getElementById('expense-daily');
+            const expenseCategoryTop = document.getElementById('expense-category-top');
+            const expenseBiggest = document.getElementById('expense-biggest');
+            
+            // Set default date to today
+            expenseDate.valueAsDate = new Date();
+            
+            let expenses = JSON.parse(localStorage.getItem('expenses')) || [];
+            
+            // Render expenses
+            function renderExpenses() {
+                expenseList.innerHTML = '';
+                
+                if (expenses.length === 0) {
+                    expenseList.innerHTML = `
+                        <div class="text-center py-8 text-gray-500">
+                            <i class="fas fa-receipt text-2xl mb-2"></i>
+                            <p>No expenses recorded yet. Add your first expense to get started!</p>
+                        </div>
+                    `;
+                    updateSummary();
+                    return;
+                }
+                
+                // Sort by date (newest first)
+                const sortedExpenses = [...expenses].sort((a, b) => new Date(b.date) - new Date(a.date));
+                
+                sortedExpenses.forEach((expense, index) => {
+                    const expenseEl = document.createElement('div');
+                    expenseEl.className = 'bg-white rounded-lg shadow-sm p-4 mb-3';
+                    
+                    expenseEl.innerHTML = `
+                        <div class="flex justify-between items-start mb-2">
+                            <h4 class="font-medium text-gray-700">${expense.title}</h4>
+                            <span class="text-lg font-bold ${getCategoryColor(expense.category)}">
+                                $${expense.amount.toFixed(2)}
+                            </span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm text-gray-500">
+                            <div>
+                                <span class="inline-block ${getCategoryBgColor(expense.category)} text-xs px-2 py-1 rounded mr-2">
+                                    ${getCategoryName(expense.category)}
+                                </span>
+                                <span>
+                                    ${new Date(expense.date).toLocaleDateString()}
+                                </span>
+                            </div>
+                            <button class="text-red-400 hover:text-red-600 expense-delete" data-index="${index}">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    `;
+                    
+                    expenseList.appendChild(expenseEl);
+                });
+                
+                updateSummary();
+            }
+            
+            // Add new expense
+            function addExpense() {
+                const title = expenseTitle.value.trim();
+                const amount = parseFloat(expenseAmount.value);
+                const category = expenseCategory.value;
+                const date = expenseDate.value;
+                
+                if (title === '' || isNaN(amount) || amount <= 0) {
+                    alert('Please enter valid title and amount');
+                    return;
+                }
+                
+                expenses.unshift({
+                    title,
+                    amount,
+                    category,
+                    date,
+                    createdAt: new Date().toISOString()
+                });
+                
+                saveExpenses();
+                
+                // Reset form
+                expenseTitle.value = '';
+                expenseAmount.value = '';
+                expenseCategory.value = 'food';
+                expenseDate.valueAsDate = new Date();
+                
+                renderExpenses();
+            }
+            
+            // Delete expense
+            function deleteExpense(index) {
+                expenses.splice(index, 1);
+                saveExpenses();
+                renderExpenses();
+            }
+            
+            // Update summary statistics
+            function updateSummary() {
+                if (expenses.length === 0) {
+                    expenseTotal.textContent = '$0.00';
+                    expenseDaily.textContent = '$0.00';
+                    expenseCategoryTop.textContent = '-';
+                    expenseBiggest.textContent = '$0.00';
+                    return;
+                }
+                
+                // Total spent
+                const total = expenses.reduce((sum, exp) => sum + exp.amount, 0);
+                expenseTotal.textContent = `$${total.toFixed(2)}`;
+                
+                // Daily average (based on current month)
+                const now = new Date();
+                const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+                const daysPassed = Math.floor((now - firstDay) / (1000 * 60 * 60 * 24)) + 1;
+                const dailyAvg = total / daysPassed;
+                expenseDaily.textContent = `$${dailyAvg.toFixed(2)}`;
+                
+                // Top category
+                const categoryCounts = {};
+                expenses.forEach(exp => {
+                    categoryCounts[exp.category] = (categoryCounts[exp.category] || 0) + exp.amount;
+                });
+                
+                let topCategory = '';
+                let maxAmount = 0;
+                for (const [category, amount] of Object.entries(categoryCounts)) {
+                    if (amount > maxAmount) {
+                        maxAmount = amount;
+                        topCategory = category;
+                    }
+                }
+                
+                expenseCategoryTop.textContent = getCategoryName(topCategory);
+                
+                // Biggest expense
+                const biggestExpense = Math.max(...expenses.map(exp => exp.amount));
+                expenseBiggest.textContent = `$${biggestExpense.toFixed(2)}`;
+            }
+            
+            // Get category name
+            function getCategoryName(category) {
+                const names = {
+                    food: 'Food',
+                    transport: 'Transport',
+                    shopping: 'Shopping',
+                    entertainment: 'Entertainment',
+                    bills: 'Bills',
+                    health: 'Health',
+                    other: 'Other'
+                };
+                return names[category] || 'Other';
+            }
+            
+            // Get category color
+            function getCategoryColor(category) {
+                const colors = {
+                    food: 'text-blue-600',
+                    transport: 'text-green-600',
+                    shopping: 'text-purple-600',
+                    entertainment: 'text-yellow-600',
+                    bills: 'text-red-600',
+                    health: 'text-indigo-600',
+                    other: 'text-gray-600'
+                };
+                return colors[category] || 'text-gray-600';
+            }
+            
+            // Get category background color
+            function getCategoryBgColor(category) {
+                const colors = {
+                    food: 'bg-blue-100 text-blue-800',
+                    transport: 'bg-green-100 text-green-800',
+                    shopping: 'bg-purple-100 text-purple-800',
+                    entertainment: 'bg-yellow-100 text-yellow-800',
+                    bills: 'bg-red-100 text-red-800',
+                    health: 'bg-indigo-100 text-indigo-800',
+                    other: 'bg-gray-100 text-gray-800'
+                };
+                return colors[category] || 'bg-gray-100 text-gray-800';
+            }
+            
+            // Save expenses to localStorage
+            function saveExpenses() {
+                localStorage.setItem('expenses', JSON.stringify(expenses));
+            }
+            
+            // Event listeners
+            expenseAdd.addEventListener('click', addExpense);
+            
+            expenseList.addEventListener('click', function(e) {
+                if (e.target.classList.contains('expense-delete') || e.target.closest('.expense-delete')) {
+                    const btn = e.target.classList.contains('expense-delete') ? e.target : e.target.closest('.expense-delete');
+                    deleteExpense(parseInt(btn.dataset.index));
+                }
+            });
+            
+            // Initialize
+            renderExpenses();
+        }
+    </script>
+</body>
+</html>

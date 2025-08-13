@@ -1,0 +1,3127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Tools – Resize, Compress, Convert, Edit | PixelPerfect</title>
+    <link href="../../../dist/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../src/index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a0ca3;
+            --primary-light: #4895ef;
+            --secondary: #f72585;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --success: #4cc9f0;
+            --warning: #f8961e;
+            --danger: #ef233c;
+            --card-bg: #ffffff;
+            --card-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7fa;
+            color: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Styles */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--dark);
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: translateY(-2px);
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .logo i {
+            color: var(--primary);
+            font-size: 1.75rem;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        nav a:hover, nav a:focus {
+            color: var(--primary);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .mobile-menu-btn:hover {
+            color: var(--primary);
+            transform: rotate(90deg);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: linear-gradient(135deg, #4361ee, #3a0ca3);
+            color: white;
+            margin-bottom: 3rem;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3QgZmlsbD0idXJsKCNwYXR0ZXJuKSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIvPjwvc3ZnPg==');
+            opacity: 0.3;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            position: relative;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .steps {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .step-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            padding: 2rem;
+            width: 280px;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .step-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1rem;
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            line-height: 60px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            text-align: center;
+        }
+
+        .step-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .step-card p {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 0;
+        }
+
+        /* Tool Navigation */
+        .tool-nav {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            box-shadow: var(--card-shadow);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .tool-nav h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tool-nav h2 i {
+            color: var(--primary);
+        }
+
+        .tool-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .tool-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.25rem;
+            background-color: #f0f4ff;
+            color: var(--primary-dark);
+            border-radius: 0.75rem;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .tool-btn:hover {
+            background-color: #e0e8ff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.2);
+        }
+
+        .tool-btn.active {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .tool-btn i {
+            font-size: 1rem;
+        }
+
+        /* Tool Sections */
+        .tool-section {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            box-shadow: var(--card-shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            display: none;
+            transition: var(--transition);
+        }
+
+        .tool-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tool-section h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .tool-section h2 i {
+            color: var(--primary);
+        }
+
+        .tool-section p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        .tool-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        @media (min-width: 992px) {
+            .tool-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* Drop Zone */
+        .drop-zone {
+            border: 2px dashed #d1d5db;
+            border-radius: 1rem;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
+            cursor: pointer;
+            transition: var(--transition);
+            background-color: #f9fafb;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .drop-zone:hover, .drop-zone.active {
+            border-color: var(--primary);
+            background-color: #f0f4ff;
+            transform: translateY(-2px);
+        }
+
+        .drop-zone i {
+            font-size: 3.5rem;
+            color: #9ca3af;
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .drop-zone:hover i {
+            color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .drop-zone p {
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .drop-zone .small {
+            font-size: 0.9rem;
+            color: #9ca3af;
+        }
+
+        .preview-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .preview-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: none;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .preview-container canvas {
+            max-width: 100%;
+            max-height: 100%;
+            display: none;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .preview-container .placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #9ca3af;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .controls {
+            margin-top: 1.5rem;
+        }
+
+        .control-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .control-group label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+            color: var(--dark);
+            font-size: 1rem;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #e5e7eb;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        input[type="range"]:hover {
+            background: #d1d5db;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: var(--transition);
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        input[type="number"], input[type="text"], select, textarea {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.75rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: var(--transition);
+            background-color: white;
+        }
+
+        input[type="number"]:focus, input[type="text"]:focus, select:focus, textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            outline: none;
+        }
+
+        .range-value {
+            display: inline-block;
+            min-width: 3rem;
+            text-align: right;
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 1rem;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.875rem 1.5rem;
+            border: none;
+            border-radius: 0.75rem;
+            font-weight: 500;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .btn i {
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: #f0f4ff;
+            color: var(--primary-dark);
+        }
+
+        .btn-secondary:hover {
+            background-color: #e0e8ff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.1);
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #3aa8d8;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 201, 240, 0.3);
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #d11a2e;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(239, 35, 60, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+        }
+
+        .checkbox-container label {
+            font-weight: 500;
+            color: var(--dark);
+            cursor: pointer;
+        }
+
+        /* Results Section */
+        .results {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .result-info {
+            background: #f8fafc;
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            margin-top: auto;
+            border: 1px solid #e5e7eb;
+        }
+
+        .result-info p {
+            font-size: 0.95rem;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .result-info p span {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .download-btn {
+            margin-top: 1.5rem;
+            width: 100%;
+        }
+
+        /* Features Section */
+        .features {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            box-shadow: var(--card-shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .features h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 1.75rem;
+            border-radius: 1rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: var(--transition);
+            border: 1px solid #e5e7eb;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .feature-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .feature-card h3 i {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .feature-card p {
+            color: var(--gray);
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 0;
+        }
+
+        /* CTA Section */
+        .cta {
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 1rem;
+            padding: 3rem 2rem;
+            color: white;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3QgZmlsbD0idXJsKCNwYXR0ZXJuKSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIvPjwvc3ZnPg==');
+            opacity: 0.3;
+        }
+
+        .cta h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .cta p {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        .cta-btn {
+            background: white;
+            color: var(--primary);
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: var(--transition);
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: black;
+            padding: 4rem 0 2rem;
+            margin-top: auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-col h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: black;
+            position: relative;
+            padding-bottom: 0.75rem;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 3px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-col a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .footer-col a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.25rem;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        @media (min-width: 768px) {
+            .footer-bottom {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 600;
+            color: black;
+            text-decoration: none;
+            margin-bottom: 1.5rem;
+            font-size: 1.25rem;
+        }
+
+        @media (min-width: 768px) {
+            .footer-logo {
+                margin-bottom: 0;
+            }
+        }
+
+        .footer-logo span {
+            color: var(--primary);
+        }
+
+        .copyright {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9rem;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1rem 1.5rem;
+            border-radius: 0.75rem;
+            background-color: var(--success);
+            color: black;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: var(--transition);
+            max-width: 350px;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast.error {
+            background-color: var(--danger);
+        }
+
+        .toast.warning {
+            background-color: var(--warning);
+        }
+
+        .toast i {
+            font-size: 1.25rem;
+        }
+
+        .toast-message {
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Text Result */
+        .text-result {
+            width: 100%;
+            height: 300px;
+            padding: 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.75rem;
+            resize: none;
+            font-family: inherit;
+            font-size: 0.95rem;
+            background-color: white;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .step-card {
+                width: 100%;
+                max-width: 350px;
+            }
+            
+            nav {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 3rem 0;
+                clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .tool-section h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero {
+                padding: 2.5rem 0;
+            }
+            
+            .hero h1 {
+                font-size: 1.75rem;
+            }
+            
+            .tool-buttons {
+                justify-content: center;
+            }
+            
+            .tool-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .drop-zone {
+                padding: 1.5rem;
+            }
+            
+            .btn {
+                padding: 0.75rem 1.25rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header
+        class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-tools text-2xl text-primary-600 dark:text-primary-400"></i>
+                <a href="#"
+                    class="text-xl font-bold text-gray-800 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                    My<span class="text-primary-600 dark:text-primary-400">Toolbox</span>
+                </a>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="../../../index.html"
+                    class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</a>
+
+                <div class="relative group">
+                    <button
+                        class="flex items-center font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                        Categories <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                    </button>
+                    <div
+                        class="absolute left-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                    <a href="../file-tools/document-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">File Tools</a>
+                    <a href="../image-tools/image-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Image Tools</a>
+                    <a href="../media-tools/mediaTools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Media Tools</a>
+                    <a href="../study-tools/study-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Study Tools</a>
+                    <a href="../calculator-tools/calculators.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Calculators</a>
+                    <a href="../ai-tools/ai-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">AI-Powered Tools</a>
+                    <a href="../design-tools/design-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Design Tools</a>
+                    <a href="../time-tools/time-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Productivity & Time Tools</a>
+                    <a href="../writing-tools/writing-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Writing Tools</a>
+                    <a href="../misc-tools/misc-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">More Useful Tools</a>
+                    </div>
+                </div>
+
+                <a href="#"
+                    class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">About</a>
+                <a href="#"
+                    class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Contact</a>
+            </nav>
+
+
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden text-gray-600 dark:text-gray-300">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu"
+            class="hidden md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+            <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
+                <a href="#" class="py-2 font-medium">Home</a>
+
+                <div class="relative">
+                    <button id="mobile-categories-button"
+                        class="w-full flex justify-between items-center py-2 font-medium">
+                        Categories <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div id="mobile-categories" class="hidden pl-4 mt-1 space-y-2">
+                        <a href="../../index.html" class="block py-1">File Tools</a>
+                    <a href="../image-tools/image-tools.html" class="block py-1">Image Tools</a>
+                    <a href="../media-tools/mediaTools.html" class="block py-1">Media Tools</a>
+                    <a href="../design-tools/design-tools.html" class="block py-1">Design Tools</a>
+                    <a href="../calculator-tools/calculators.html" class="block py-1">Calculators</a>
+                    </div>
+                </div>
+
+                <a href="src/sections/homePage/about.html" class="py-2 font-medium">About</a>
+                <a href="#" class="py-2 font-medium">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Transform Your Images Like a Pro</h1>
+            <p>Powerful, easy-to-use image editing tools that work right in your browser. No installation required!</p>
+            
+            <div class="steps">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Upload Image</h3>
+                    <p>Drag & drop or click to upload your image</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Edit & Enhance</h3>
+                    <p>Use our powerful tools to transform your image</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Download Result</h3>
+                    <p>Save your edited image in high quality</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Tool Navigation -->
+        <div class="tool-nav">
+            <h2><i class="fas fa-sliders-h"></i> Choose Your Tool:</h2>
+            <div class="tool-buttons">
+                <button class="tool-btn active" data-tool="compressor">
+                    <i class="fas fa-compress-alt"></i> Compressor
+                </button>
+                <button class="tool-btn" data-tool="resizer">
+                    <i class="fas fa-expand-alt"></i> Resizer
+                </button>
+                <button class="tool-btn" data-tool="converter">
+                    <i class="fas fa-exchange-alt"></i> Converter
+                </button>
+                <button class="tool-btn" data-tool="cropper">
+                    <i class="fas fa-crop-alt"></i> Crop/Rotate
+                </button>
+                <button class="tool-btn" data-tool="text-adder">
+                    <i class="fas fa-font"></i> Add Text
+                </button>
+                <button class="tool-btn" data-tool="filter">
+                    <i class="fas fa-filter"></i> Filters
+                </button>
+                <button class="tool-btn" data-tool="bg-remover">
+                    <i class="fas fa-layer-group"></i> BG Remover
+                </button>
+                <button class="tool-btn" data-tool="ocr">
+                    <i class="fas fa-text-height"></i> Image to Text
+                </button>
+            </div>
+        </div>
+
+        <!-- Tool Sections -->
+        <!-- Image Compressor Tool -->
+        <section id="compressor" class="tool-section active">
+            <h2><i class="fas fa-compress-alt"></i> Image Compressor</h2>
+            <p>Reduce your image file size without losing quality. Perfect for optimizing images for web.</p>
+            
+            <div class="tool-grid">
+                <div>
+                    <div class="drop-zone" id="compressor-dropzone">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Click to upload an image</p>
+                        <p class="small">Supports JPG, PNG, WebP (Max 10MB)</p>
+                        <input type="file" id="compressor-upload" accept="image/*" hidden>
+                        <div class="preview-container">
+                            <img id="compressor-preview" alt="Preview">
+                            <div class="placeholder" id="compressor-placeholder"></div>
+                        </div>
+                    </div>
+                    <div class="controls">
+                        <div class="control-group">
+                            <label for="compressor-quality">Compression Quality: <span class="range-value" id="compressor-quality-value">70</span>%</label>
+                            <input type="range" id="compressor-quality" min="1" max="100" value="70">
+                        </div>
+                        <div class="control-group">
+                            <label for="compressor-target">Or set target size (KB):</label>
+                            <input type="number" id="compressor-target" min="10" placeholder="Enter target size in KB">
+                        </div>
+                        <button id="compress-btn" class="btn btn-primary" disabled>
+                            <i class="fas fa-compress-alt"></i> Compress Image
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <div class="drop-zone">
+                        <div class="preview-container">
+                            <img id="compressor-result" alt="Result">
+                            <div class="placeholder">
+                                <p>Compressed image will appear here</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="results">
+                        <div class="result-info">
+                            <p>Original: <span id="original-size">0</span> KB</p>
+                            <p>Compressed: <span id="compressed-size">0</span> KB</p>
+                            <p>Reduction: <span id="reduction-percent">0</span>%</p>
+                        </div>
+                        <button id="download-compressed" class="btn btn-success download-btn" disabled>
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Image Resizer Tool -->
+        <section id="resizer" class="tool-section">
+            <h2><i class="fas fa-expand-alt"></i> Image Resizer</h2>
+            <p>Change the dimensions of your image while maintaining quality. Perfect for social media or websites.</p>
+            
+            <div class="tool-grid">
+                <div>
+                    <div class="drop-zone" id="resizer-dropzone">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Click to upload an image</p>
+                        <p class="small">Supports JPG, PNG, WebP (Max 10MB)</p>
+                        <input type="file" id="resizer-upload" accept="image/*" hidden>
+                        <div class="preview-container">
+                            <img id="resizer-preview" alt="Preview">
+                            <div class="placeholder" id="resizer-placeholder"></div>
+                        </div>
+                    </div>
+                    <div class="controls">
+                        <div class="control-group">
+                            <label>Dimensions (px):</label>
+                            <div style="display: flex; gap: 1rem;">
+                                <div style="flex: 1;">
+                                    <input type="number" id="resize-width" placeholder="Width" class="dimension-input">
+                                </div>
+                                <div style="flex: 1;">
+                                    <input type="number" id="resize-height" placeholder="Height" class="dimension-input">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label for="resize-percent">Resize by percentage: <span class="range-value" id="resize-percent-value">100</span>%</label>
+                            <input type="range" id="resize-percent" min="1" max="200" value="100">
+                        </div>
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="maintain-ratio" checked>
+                            <label for="maintain-ratio">Maintain aspect ratio</label>
+                        </div>
+                        <button id="resize-btn" class="btn btn-primary" disabled>
+                            <i class="fas fa-expand-alt"></i> Resize Image
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <div class="drop-zone">
+                        <div class="preview-container">
+                            <img id="resizer-result" alt="Result">
+                            <div class="placeholder">
+                                <p>Resized image will appear here</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="results">
+                        <div class="result-info">
+                            <p>Original: <span id="original-dimensions">0×0</span> px</p>
+                            <p>Resized: <span id="resized-dimensions">0×0</span> px</p>
+                        </div>
+                        <button id="download-resized" class="btn btn-success download-btn" disabled>
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Image Converter Tool -->
+        <section id="converter" class="tool-section">
+            <h2><i class="fas fa-exchange-alt"></i> Image Converter</h2>
+            <p>Convert between JPG, PNG, and WebP formats. Choose the best format for your needs.</p>
+            
+            <div class="tool-grid">
+                <div>
+                    <div class="drop-zone" id="converter-dropzone">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Click to upload an image</p>
+                        <p class="small">Supports JPG, PNG, WebP (Max 10MB)</p>
+                        <input type="file" id="converter-upload" accept="image/*" hidden>
+                        <div class="preview-container">
+                            <img id="converter-preview" alt="Preview">
+                            <div class="placeholder" id="converter-placeholder"></div>
+                        </div>
+                    </div>
+                    <div class="controls">
+                        <div class="control-group">
+                            <label for="convert-format">Convert to:</label>
+                            <select id="convert-format">
+                                <option value="jpg">JPG (Best for photos)</option>
+                                <option value="png">PNG (Best for transparency)</option>
+                                <option value="webp">WebP (Best for web)</option>
+                            </select>
+                        </div>
+                        <div class="control-group" id="jpg-quality-container">
+                            <label for="jpg-quality">JPG Quality: <span class="range-value" id="jpg-quality-value">80</span>%</label>
+                            <input type="range" id="jpg-quality" min="1" max="100" value="80">
+                        </div>
+                        <button id="convert-btn" class="btn btn-primary" disabled>
+                            <i class="fas fa-exchange-alt"></i> Convert Image
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <div class="drop-zone">
+                        <div class="preview-container">
+                            <img id="converter-result" alt="Result">
+                            <div class="placeholder">
+                                <p>Converted image will appear here</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="results">
+                        <div class="result-info">
+                            <p>Original format: <span id="original-format">-</span></p>
+                            <p>Converted to: <span id="converted-format">-</span></p>
+                        </div>
+                        <button id="download-converted" class="btn btn-success download-btn" disabled>
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Crop/Rotate Tool -->
+        <section id="cropper" class="tool-section">
+            <h2><i class="fas fa-crop-alt"></i> Crop & Rotate</h2>
+            <p>Crop to a specific area or rotate your image. Perfect for fixing orientation or focusing on a subject.</p>
+            
+            <div class="tool-grid">
+                <div>
+                    <div class="drop-zone" id="cropper-dropzone">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Click to upload an image</p>
+                        <p class="small">Supports JPG, PNG, WebP (Max 10MB)</p>
+                        <input type="file" id="cropper-upload" accept="image/*" hidden>
+                        <div class="preview-container">
+                            <canvas id="cropper-canvas"></canvas>
+                            <div class="placeholder" id="cropper-placeholder"></div>
+                        </div>
+                    </div>
+                    <div class="controls">
+                        <div class="control-group">
+                            <label>Rotate:</label>
+                            <div class="button-group">
+                                <button id="rotate-left" class="btn btn-secondary">
+                                    <i class="fas fa-undo"></i> 90° Left
+                                </button>
+                                <button id="rotate-right" class="btn btn-secondary">
+                                    <i class="fas fa-redo"></i> 90° Right
+                                </button>
+                                <button id="rotate-180" class="btn btn-secondary">
+                                    <i class="fas fa-sync-alt"></i> 180°
+                                </button>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label>Flip:</label>
+                            <div class="button-group">
+                                <button id="flip-horizontal" class="btn btn-secondary">
+                                    <i class="fas fa-arrows-alt-h"></i> Horizontal
+                                </button>
+                                <button id="flip-vertical" class="btn btn-secondary">
+                                    <i class="fas fa-arrows-alt-v"></i> Vertical
+                                </button>
+                            </div>
+                        </div>
+                        <button id="crop-btn" class="btn btn-primary" disabled>
+                            <i class="fas fa-crop-alt"></i> Apply Crop & Rotate
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <div class="drop-zone">
+                        <div class="preview-container">
+                            <img id="cropper-result" alt="Result">
+                            <div class="placeholder">
+                                <p>Cropped/Rotated image will appear here</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="results">
+                        <div class="result-info">
+                            <p>Original: <span id="original-crop-dimensions">0×0</span> px</p>
+                            <p>Result: <span id="cropped-dimensions">0×0</span> px</p>
+                        </div>
+                        <button id="download-cropped" class="btn btn-success download-btn" disabled>
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Add Text Tool -->
+        <section id="text-adder" class="tool-section">
+            <h2><i class="fas fa-font"></i> Add Text to Image</h2>
+            <p>Add custom text to your images with various styling options. Perfect for memes or captions.</p>
+            
+            <div class="tool-grid">
+                <div>
+                    <div class="drop-zone" id="text-adder-dropzone">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Click to upload an image</p>
+                        <p class="small">Supports JPG, PNG, WebP (Max 10MB)</p>
+                        <input type="file" id="text-adder-upload" accept="image/*" hidden>
+                        <div class="preview-container">
+                            <canvas id="text-adder-canvas"></canvas>
+                            <div class="placeholder" id="text-adder-placeholder"></div>
+                        </div>
+                    </div>
+                    <div class="controls">
+                        <div class="control-group">
+                            <label for="text-content">Text to add:</label>
+                            <input type="text" id="text-content" placeholder="Enter your text here">
+                        </div>
+                        <div class="control-group">
+                            <label for="text-color">Text Color:</label>
+                            <input type="color" id="text-color" value="#000000">
+                        </div>
+                        <div class="control-group">
+                            <label for="text-size">Font Size: <span class="range-value" id="text-size-value">24</span>px</label>
+                            <input type="range" id="text-size" min="8" max="72" value="24">
+                        </div>
+                        <div class="control-group">
+                            <label for="text-font">Font Family:</label>
+                            <select id="text-font">
+                                <option value="Arial">Arial</option>
+                                <option value="Times New Roman">Times New Roman</option>
+                                <option value="Courier New">Courier New</option>
+                                <option value="Georgia">Georgia</option>
+                                <option value="Verdana">Verdana</option>
+                                <option value="Impact">Impact</option>
+                            </select>
+                        </div>
+                        <button id="add-text-btn" class="btn btn-primary" disabled>
+                            <i class="fas fa-font"></i> Add Text to Image
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <div class="drop-zone">
+                        <div class="preview-container">
+                            <img id="text-adder-result" alt="Result">
+                            <div class="placeholder">
+                                <p>Image with text will appear here</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="results">
+                        <button id="download-text-added" class="btn btn-success download-btn" disabled>
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blur/Sharpen Tool -->
+        <section id="filter" class="tool-section">
+            <h2><i class="fas fa-filter"></i> Blur & Sharpen</h2>
+            <p>Apply blur or sharpen filters to your images. Perfect for creating depth or enhancing details.</p>
+            
+            <div class="tool-grid">
+                <div>
+                    <div class="drop-zone" id="filter-dropzone">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Click to upload an image</p>
+                        <p class="small">Supports JPG, PNG, WebP (Max 10MB)</p>
+                        <input type="file" id="filter-upload" accept="image/*" hidden>
+                        <div class="preview-container">
+                            <img id="filter-preview" alt="Preview">
+                            <div class="placeholder" id="filter-placeholder"></div>
+                        </div>
+                    </div>
+                    <div class="controls">
+                        <div class="control-group">
+                            <label for="filter-type">Filter Type:</label>
+                            <select id="filter-type">
+                                <option value="blur">Blur</option>
+                                <option value="sharpen">Sharpen</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label for="filter-intensity">Intensity: <span class="range-value" id="filter-intensity-value">5</span></label>
+                            <input type="range" id="filter-intensity" min="0" max="10" value="5">
+                        </div>
+                        <button id="apply-filter-btn" class="btn btn-primary" disabled>
+                            <i class="fas fa-filter"></i> Apply Filter
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <div class="drop-zone">
+                        <div class="preview-container">
+                            <img id="filter-result" alt="Result">
+                            <div class="placeholder">
+                                <p>Filtered image will appear here</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="results">
+                        <button id="download-filtered" class="btn btn-success download-btn" disabled>
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Background Remover Tool -->
+        <section id="bg-remover" class="tool-section">
+            <h2><i class="fas fa-layer-group"></i> Background Remover</h2>
+            <p>Remove the background from your images. Perfect for product photos or creating transparent PNGs.</p>
+            
+            <div class="tool-grid">
+                <div>
+                    <div class="drop-zone" id="bg-remover-dropzone">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Click to upload an image</p>
+                        <p class="small">Supports JPG, PNG, WebP (Max 10MB)</p>
+                        <input type="file" id="bg-remover-upload" accept="image/*" hidden>
+                        <div class="preview-container">
+                            <img id="bg-remover-preview" alt="Preview">
+                            <div class="placeholder" id="bg-remover-placeholder"></div>
+                        </div>
+                    </div>
+                    <div class="controls">
+                        <div class="control-group">
+                            <label for="bg-sensitivity">Sensitivity: <span class="range-value" id="bg-sensitivity-value">30</span></label>
+                            <input type="range" id="bg-sensitivity" min="1" max="100" value="30">
+                        </div>
+                        <div class="control-group">
+                            <label for="bg-edge">Edge Refinement: <span class="range-value" id="bg-edge-value">5</span></label>
+                            <input type="range" id="bg-edge" min="0" max="20" value="5">
+                        </div>
+                        <button id="remove-bg-btn" class="btn btn-primary" disabled>
+                            <i class="fas fa-layer-group"></i> Remove Background
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <div class="drop-zone">
+                        <div class="preview-container">
+                            <img id="bg-remover-result" alt="Result">
+                            <div class="placeholder">
+                                <p>Background removed image will appear here</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="results">
+                        <button id="download-bg-removed" class="btn btn-success download-btn" disabled>
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="small-note">
+                <p><i class="fas fa-info-circle"></i> Note: This is a client-side background removal tool. For better results, consider using a professional service.</p>
+            </div>
+        </section>
+
+        <!-- OCR Tool -->
+        <section id="ocr" class="tool-section">
+            <h2><i class="fas fa-text-height"></i> Image to Text (OCR)</h2>
+            <p>Extract text from images using optical character recognition. Perfect for scanned documents or screenshots.</p>
+            
+            <div class="tool-grid">
+                <div>
+                    <div class="drop-zone" id="ocr-dropzone">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Click to upload an image</p>
+                        <p class="small">Supports JPG, PNG, WebP (Max 10MB)</p>
+                        <input type="file" id="ocr-upload" accept="image/*" hidden>
+                        <div class="preview-container">
+                            <img id="ocr-preview" alt="Preview">
+                            <div class="placeholder" id="ocr-placeholder"></div>
+                        </div>
+                    </div>
+                    <div class="controls">
+                        <div class="control-group">
+                            <label for="ocr-language">Language:</label>
+                            <select id="ocr-language">
+                                <option value="eng">English</option>
+                                <option value="spa">Spanish</option>
+                                <option value="fra">French</option>
+                                <option value="deu">German</option>
+                                <option value="ita">Italian</option>
+                                <option value="por">Portuguese</option>
+                                <option value="rus">Russian</option>
+                                <option value="chi_sim">Chinese (Simplified)</option>
+                                <option value="jpn">Japanese</option>
+                                <option value="kor">Korean</option>
+                            </select>
+                        </div>
+                        <button id="extract-text-btn" class="btn btn-primary" disabled>
+                            <i class="fas fa-text-height"></i> Extract Text
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <div class="drop-zone">
+                        <div class="preview-container">
+                            <textarea id="ocr-result" class="text-result" placeholder="Extracted text will appear here" readonly></textarea>
+                        </div>
+                    </div>
+                    <div class="results">
+                        <div class="button-group">
+                            <button id="copy-ocr-text" class="btn btn-secondary" disabled>
+                                <i class="fas fa-copy"></i> Copy Text
+                            </button>
+                            <button id="clear-ocr-text" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Clear
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="small-note">
+                <p><i class="fas fa-info-circle"></i> Note: This tool uses Tesseract.js. Accuracy may vary depending on image quality.</p>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="features">
+            <h2>Why Choose PixelPerfect?</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3><i class="fas fa-bolt"></i> Fast Processing</h3>
+                    <p>Our tools use advanced algorithms to process your images quickly without compromising quality.</p>
+                </div>
+                <div class="feature-card">
+                    <h3><i class="fas fa-lock"></i> Privacy First</h3>
+                    <p>All processing happens in your browser. Your images never leave your device.</p>
+                </div>
+                <div class="feature-card">
+                    <h3><i class="fas fa-paint-brush"></i> Professional Results</h3>
+                    <p>Get high-quality edits that look like they were done by a professional designer.</p>
+                </div>
+                <div class="feature-card">
+                    <h3><i class="fas fa-mobile-alt"></i> Works Everywhere</h3>
+                    <p>Use our tools on any device - desktop, tablet or mobile. No software to install.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- CTA Section -->
+        <section class="cta">
+            <h2>Ready to Transform Your Images?</h2>
+            <p>Join thousands of users who trust PixelPerfect for their image editing needs. No registration required!</p>
+            <a href="#" class="cta-btn">Start Editing Now</a>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 dark:bg-gray-800/80 border-t border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- About Column -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">About MyToolbox</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                        An all-in-one platform offering free, easy-to-use tools for your everyday needs.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Tools Column -->
+                <div>
+                    <h3 class="text-lg !text-black font-semibold mb-4">Tools</h3>
+                    <ul class="space-y-2">
+                        <li><a href="../../index.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">All
+                                Tools</a></li>
+                        <li><a href="../../index.html#featured-tools"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Featured
+                                Tools</a></li>
+                        <li><a href="../../index.html#categories"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">New
+                                Tools</a></li>
+                        <li><a href="../../src/sections/homePage/suggest-tool.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Request
+                                a Tool</a></li>
+                    </ul>
+                </div>
+
+                <!-- Resources Column -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Blog</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Tutorials</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">API</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Help
+                                Center</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal Column -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="../../src/sections/homePage/privacy.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Privacy
+                                Policy</a></li>
+                        <li><a href="../../src/sections/homePage/terms.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Terms
+                                of Service</a></li>
+                        <li><a href="../../src/sections/homePage/cookies.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Cookie
+                                Policy</a></li>
+                        <li><a href="../../src/sections/homePage/gdpr.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">GDPR</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="border-t border-gray-200 dark:border-gray-700 my-8"></div>
+
+            <!-- Bottom Footer -->
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                    <i class="fas fa-tools text-primary-600 dark:text-primary-400"></i>
+                    <span class="font-medium">My<span
+                            class="text-primary-600 dark:text-primary-400">Toolbox</span></span>
+                </div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">
+                    &copy; <span id="current-year"></span> MyToolbox. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <div class="toast-message" id="toast-message">Operation completed successfully!</div>
+    </div>
+
+    <script>
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+const mobileMenu = document.getElementById('mobile-menu');
+const mobileCategoriesButton = document.getElementById('mobile-categories-button');
+const mobileCategories = document.getElementById('mobile-categories');
+
+// Mobile Menu Toggle
+mobileMenuButton.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+});
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', (e) => {
+    if (!mobileMenu.contains(e.target) && !mobileMenuButton.contains(e.target)) {
+        mobileMenu.classList.add('hidden');
+    }
+});
+// Mobile Categories Toggle
+mobileCategoriesButton.addEventListener('click', () => {
+    mobileCategories.classList.toggle('hidden');
+    mobileCategoriesButton.querySelector('i').classList.toggle('fa-chevron-down');
+    mobileCategoriesButton.querySelector('i').classList.toggle('fa-chevron-up');
+});
+
+        // Utility functions
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            const icon = toast.querySelector('i');
+            
+            // Set message and type
+            toastMessage.textContent = message;
+            toast.className = 'toast';
+            
+            // Set icon and color based on type
+            if (type === 'error') {
+                toast.classList.add('error');
+                icon.className = 'fas fa-exclamation-circle';
+            } else if (type === 'warning') {
+                toast.classList.add('warning');
+                icon.className = 'fas fa-exclamation-triangle';
+            } else {
+                icon.className = 'fas fa-check-circle';
+            }
+            
+            // Show toast
+            toast.classList.add('show');
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        
+        function formatBytes(bytes, decimals = 2) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+        }
+        
+        function setupDragAndDrop(dropzoneId, inputId, previewId, placeholderId) {
+            const dropzone = document.getElementById(dropzoneId);
+            const input = document.getElementById(inputId);
+            const preview = document.getElementById(previewId);
+            const placeholder = document.getElementById(placeholderId);
+            
+            // Handle click
+            dropzone.addEventListener('click', () => input.click());
+            
+            // Handle drag over
+            dropzone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropzone.classList.add('active');
+            });
+            
+            // Handle drag leave
+            dropzone.addEventListener('dragleave', () => {
+                dropzone.classList.remove('active');
+            });
+            
+            // Handle drop
+            dropzone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropzone.classList.remove('active');
+                
+                if (e.dataTransfer.files.length) {
+                    input.files = e.dataTransfer.files;
+                    const event = new Event('change');
+                    input.dispatchEvent(event);
+                }
+            });
+            
+            // Handle file selection
+            input.addEventListener('change', function(e) {
+                if (e.target.files.length) {
+                    const file = e.target.files[0];
+                    
+                    // Check if file is an image
+                    if (!file.type.match('image.*')) {
+                        showToast('Please select an image file (JPG, PNG, WebP)', 'error');
+                        return;
+                    }
+                    
+                    // Check file size (max 10MB)
+                    if (file.size > 10 * 1024 * 1024) {
+                        showToast('File size should be less than 10MB', 'error');
+                        return;
+                    }
+                    
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(event) {
+                        if (preview) {
+                            preview.src = event.target.result;
+                            preview.style.display = 'block';
+                        }
+                        placeholder.style.display = 'none';
+                        
+                        // Return the file for further processing
+                        if (typeof this.onFileLoaded === 'function') {
+                            this.onFileLoaded(file);
+                        }
+                    };
+                    
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+        
+        // Initialize all tools when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tool switching functionality
+            document.querySelectorAll('.tool-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Update active button
+                    document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show selected tool
+                    const toolId = this.getAttribute('data-tool');
+                    document.querySelectorAll('.tool-section').forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    document.getElementById(toolId).classList.add('active');
+                });
+            });
+            
+            // Initialize Compressor Tool
+            function initCompressorTool() {
+                const uploadInput = document.getElementById('compressor-upload');
+                const previewImg = document.getElementById('compressor-preview');
+                const qualitySlider = document.getElementById('compressor-quality');
+                const qualityValue = document.getElementById('compressor-quality-value');
+                const targetInput = document.getElementById('compressor-target');
+                const compressBtn = document.getElementById('compress-btn');
+                const resultImg = document.getElementById('compressor-result');
+                const originalSize = document.getElementById('original-size');
+                const compressedSize = document.getElementById('compressed-size');
+                const reductionPercent = document.getElementById('reduction-percent');
+                const downloadBtn = document.getElementById('download-compressed');
+                
+                let originalFile = null;
+                let compressedBlob = null;
+                
+                // Setup drag and drop
+                setupDragAndDrop('compressor-dropzone', 'compressor-upload', 'compressor-preview', 'compressor-placeholder');
+                
+                // Update quality value display
+                qualitySlider.addEventListener('input', function() {
+                    qualityValue.textContent = this.value;
+                    targetInput.value = '';
+                });
+                
+                // Handle target size input
+                targetInput.addEventListener('input', function() {
+                    if (this.value && originalFile) {
+                        const targetSize = parseInt(this.value) * 1024; // Convert KB to bytes
+                        const quality = Math.min(100, Math.max(1, Math.floor((targetSize / originalFile.size) * 100)));
+                        qualitySlider.value = quality;
+                        qualityValue.textContent = quality;
+                    }
+                });
+                
+                // Handle file upload
+                uploadInput.addEventListener('change', function(e) {
+                    if (e.target.files.length) {
+                        originalFile = e.target.files[0];
+                        const reader = new FileReader();
+                        
+                        reader.onload = function(event) {
+                            previewImg.src = event.target.result;
+                            previewImg.style.display = 'block';
+                            document.getElementById('compressor-placeholder').style.display = 'none';
+                            
+                            // Show original file size
+                            originalSize.textContent = Math.round(originalFile.size / 1024);
+                            
+                            // Enable compress button
+                            compressBtn.disabled = false;
+                        };
+                        
+                        reader.readAsDataURL(originalFile);
+                    }
+                });
+                
+                // Compress image
+                compressBtn.addEventListener('click', function() {
+                    if (!originalFile) return;
+                    
+                    compressBtn.disabled = true;
+                    compressBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Compressing...';
+                    
+                    const quality = parseInt(qualitySlider.value) / 100;
+                    const img = new Image();
+                    
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0);
+                        
+                        canvas.toBlob(function(blob) {
+                            compressedBlob = blob;
+                            const compressedUrl = URL.createObjectURL(blob);
+                            
+                            resultImg.src = compressedUrl;
+                            resultImg.style.display = 'block';
+                            document.querySelector('#compressor-result + .placeholder').style.display = 'none';
+                            
+                            // Update size info
+                            const originalSizeBytes = originalFile.size;
+                            const compressedSizeBytes = blob.size;
+                            const reduction = ((originalSizeBytes - compressedSizeBytes) / originalSizeBytes * 100).toFixed(1);
+                            
+                            originalSize.textContent = Math.round(originalSizeBytes / 1024);
+                            compressedSize.textContent = Math.round(compressedSizeBytes / 1024);
+                            reductionPercent.textContent = reduction;
+                            
+                            // Show download button
+                            downloadBtn.disabled = false;
+                            
+                            compressBtn.disabled = false;
+                            compressBtn.innerHTML = '<i class="fas fa-compress-alt"></i> Compress Image';
+                            
+                            showToast(`Image compressed successfully! Size reduced by ${reduction}%`);
+                        }, originalFile.type, quality);
+                    };
+                    
+                    img.src = URL.createObjectURL(originalFile);
+                });
+                
+                // Download compressed image
+                downloadBtn.addEventListener('click', function() {
+                    if (!compressedBlob) return;
+                    
+                    const a = document.createElement('a');
+                    a.href = URL.createObjectURL(compressedBlob);
+                    a.download = 'compressed_' + originalFile.name;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    
+                    showToast('Download started!');
+                });
+            }
+            
+            // Initialize Resizer Tool
+            function initResizerTool() {
+                const uploadInput = document.getElementById('resizer-upload');
+                const previewImg = document.getElementById('resizer-preview');
+                const widthInput = document.getElementById('resize-width');
+                const heightInput = document.getElementById('resize-height');
+                const percentSlider = document.getElementById('resize-percent');
+                const percentValue = document.getElementById('resize-percent-value');
+                const maintainRatioCheck = document.getElementById('maintain-ratio');
+                const resizeBtn = document.getElementById('resize-btn');
+                const resultImg = document.getElementById('resizer-result');
+                const originalDimensions = document.getElementById('original-dimensions');
+                const resizedDimensions = document.getElementById('resized-dimensions');
+                const downloadBtn = document.getElementById('download-resized');
+                
+                let originalFile = null;
+                let originalWidth = 0;
+                let originalHeight = 0;
+                let resizedBlob = null;
+                
+                // Setup drag and drop
+                setupDragAndDrop('resizer-dropzone', 'resizer-upload', 'resizer-preview', 'resizer-placeholder');
+                
+                // Update percent value display
+                percentSlider.addEventListener('input', function() {
+                    percentValue.textContent = this.value + '%';
+                    
+                    if (originalWidth && originalHeight) {
+                        const percent = parseInt(this.value) / 100;
+                        widthInput.value = Math.round(originalWidth * percent);
+                        
+                        if (maintainRatioCheck.checked) {
+                            heightInput.value = Math.round(originalHeight * percent);
+                        }
+                    }
+                });
+                
+                // Handle width/height changes
+                widthInput.addEventListener('input', function() {
+                    if (maintainRatioCheck.checked && originalWidth && originalHeight && this.value) {
+                        const ratio = originalHeight / originalWidth;
+                        heightInput.value = Math.round(parseInt(this.value) * ratio);
+                    }
+                    percentSlider.value = Math.round((parseInt(this.value) / originalWidth * 100));
+                    percentValue.textContent = percentSlider.value + '%';
+                });
+                
+                heightInput.addEventListener('input', function() {
+                    if (maintainRatioCheck.checked && originalWidth && originalHeight && this.value) {
+                        const ratio = originalWidth / originalHeight;
+                        widthInput.value = Math.round(parseInt(this.value) * ratio);
+                    }
+                    percentSlider.value = Math.round((parseInt(this.value) / originalHeight * 100));
+                    percentValue.textContent = percentSlider.value + '%';
+                });
+                
+                // Handle file upload
+                uploadInput.addEventListener('change', function(e) {
+                    if (e.target.files.length) {
+                        originalFile = e.target.files[0];
+                        const reader = new FileReader();
+                        
+                        reader.onload = function(event) {
+                            previewImg.src = event.target.result;
+                            previewImg.style.display = 'block';
+                            document.getElementById('resizer-placeholder').style.display = 'none';
+                            
+                            // Get original dimensions
+                            const img = new Image();
+                            img.onload = function() {
+                                originalWidth = img.width;
+                                originalHeight = img.height;
+                                originalDimensions.textContent = `${originalWidth}×${originalHeight}`;
+                                
+                                // Set default values
+                                widthInput.value = originalWidth;
+                                heightInput.value = originalHeight;
+                                percentSlider.value = 100;
+                                percentValue.textContent = '100%';
+                                
+                                // Enable resize button
+                                resizeBtn.disabled = false;
+                            };
+                            img.src = event.target.result;
+                        };
+                        
+                        reader.readAsDataURL(originalFile);
+                    }
+                });
+                
+                // Resize image
+                resizeBtn.addEventListener('click', function() {
+                    if (!originalFile) return;
+                    
+                    resizeBtn.disabled = true;
+                    resizeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Resizing...';
+                    
+                    const targetWidth = parseInt(widthInput.value) || originalWidth;
+                    const targetHeight = parseInt(heightInput.value) || originalHeight;
+                    
+                    const img = new Image();
+                    
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = targetWidth;
+                        canvas.height = targetHeight;
+                        
+                        const ctx = canvas.getContext('2d');
+                        ctx.imageSmoothingQuality = 'high';
+                        ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+                        
+                        canvas.toBlob(function(blob) {
+                            resizedBlob = blob;
+                            const resizedUrl = URL.createObjectURL(blob);
+                            
+                            resultImg.src = resizedUrl;
+                            resultImg.style.display = 'block';
+                            document.querySelector('#resizer-result + .placeholder').style.display = 'none';
+                            
+                            // Update dimensions info
+                            resizedDimensions.textContent = `${targetWidth}×${targetHeight}`;
+                            
+                            // Show download button
+                            downloadBtn.disabled = false;
+                            
+                            resizeBtn.disabled = false;
+                            resizeBtn.innerHTML = '<i class="fas fa-expand-alt"></i> Resize Image';
+                            
+                            showToast('Image resized successfully!');
+                        }, originalFile.type, 0.95); // Use high quality
+                    };
+                    
+                    img.src = URL.createObjectURL(originalFile);
+                });
+                
+                // Download resized image
+                downloadBtn.addEventListener('click', function() {
+                    if (!resizedBlob) return;
+                    
+                    const a = document.createElement('a');
+                    a.href = URL.createObjectURL(resizedBlob);
+                    a.download = 'resized_' + originalFile.name;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    
+                    showToast('Download started!');
+                });
+            }
+            
+            // Initialize Converter Tool
+            function initConverterTool() {
+                const uploadInput = document.getElementById('converter-upload');
+                const previewImg = document.getElementById('converter-preview');
+                const formatSelect = document.getElementById('convert-format');
+                const jpgQualitySlider = document.getElementById('jpg-quality');
+                const jpgQualityValue = document.getElementById('jpg-quality-value');
+                const jpgQualityContainer = document.getElementById('jpg-quality-container');
+                const convertBtn = document.getElementById('convert-btn');
+                const resultImg = document.getElementById('converter-result');
+                const originalFormat = document.getElementById('original-format');
+                const convertedFormat = document.getElementById('converted-format');
+                const downloadBtn = document.getElementById('download-converted');
+                
+                let originalFile = null;
+                let convertedBlob = null;
+                
+                // Setup drag and drop
+                setupDragAndDrop('converter-dropzone', 'converter-upload', 'converter-preview', 'converter-placeholder');
+                
+                // Update JPG quality value display
+                jpgQualitySlider.addEventListener('input', function() {
+                    jpgQualityValue.textContent = this.value;
+                });
+                
+                // Show/hide JPG quality slider based on format
+                formatSelect.addEventListener('change', function() {
+                    if (this.value === 'jpg') {
+                        jpgQualityContainer.style.display = 'block';
+                    } else {
+                        jpgQualityContainer.style.display = 'none';
+                    }
+                });
+                
+                // Handle file upload
+                uploadInput.addEventListener('change', function(e) {
+                    if (e.target.files.length) {
+                        originalFile = e.target.files[0];
+                        const reader = new FileReader();
+                        
+                        reader.onload = function(event) {
+                            previewImg.src = event.target.result;
+                            previewImg.style.display = 'block';
+                            document.getElementById('converter-placeholder').style.display = 'none';
+                            
+                            // Show original format
+                            const format = originalFile.name.split('.').pop().toLowerCase();
+                            originalFormat.textContent = format.toUpperCase();
+                            
+                            // Enable convert button
+                            convertBtn.disabled = false;
+                        };
+                        
+                        reader.readAsDataURL(originalFile);
+                    }
+                });
+                
+                // Convert image
+                convertBtn.addEventListener('click', function() {
+                    if (!originalFile) return;
+                    
+                    convertBtn.disabled = true;
+                    convertBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Converting...';
+                    
+                    const targetFormat = formatSelect.value;
+                    const quality = targetFormat === 'jpg' ? parseInt(jpgQualitySlider.value) / 100 : 1;
+                    
+                    const img = new Image();
+                    
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0);
+                        
+                        let mimeType;
+                        switch(targetFormat) {
+                            case 'jpg':
+                                mimeType = 'image/jpeg';
+                                break;
+                            case 'png':
+                                mimeType = 'image/png';
+                                break;
+                            case 'webp':
+                                mimeType = 'image/webp';
+                                break;
+                            default:
+                                mimeType = 'image/jpeg';
+                        }
+                        
+                        canvas.toBlob(function(blob) {
+                            convertedBlob = blob;
+                            const convertedUrl = URL.createObjectURL(blob);
+                            
+                            resultImg.src = convertedUrl;
+                            resultImg.style.display = 'block';
+                            document.querySelector('#converter-result + .placeholder').style.display = 'none';
+                            
+                            // Update format info
+                            convertedFormat.textContent = targetFormat.toUpperCase();
+                            
+                            // Show download button
+                            downloadBtn.disabled = false;
+                            
+                            convertBtn.disabled = false;
+                            convertBtn.innerHTML = '<i class="fas fa-exchange-alt"></i> Convert Image';
+                            
+                            showToast(`Image converted to ${targetFormat.toUpperCase()} successfully!`);
+                        }, mimeType, quality);
+                    };
+                    
+                    img.src = URL.createObjectURL(originalFile);
+                });
+                
+                // Download converted image
+                downloadBtn.addEventListener('click', function() {
+                    if (!convertedBlob) return;
+                    
+                    const a = document.createElement('a');
+                    a.href = URL.createObjectURL(convertedBlob);
+                    a.download = `converted.${formatSelect.value}`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    
+                    showToast('Download started!');
+                });
+            }
+            
+            // Initialize Cropper Tool
+            function initCropperTool() {
+                const uploadInput = document.getElementById('cropper-upload');
+                const canvas = document.getElementById('cropper-canvas');
+                const rotateLeftBtn = document.getElementById('rotate-left');
+                const rotateRightBtn = document.getElementById('rotate-right');
+                const rotate180Btn = document.getElementById('rotate-180');
+                const flipHorizontalBtn = document.getElementById('flip-horizontal');
+                const flipVerticalBtn = document.getElementById('flip-vertical');
+                const cropBtn = document.getElementById('crop-btn');
+                const resultImg = document.getElementById('cropper-result');
+                const originalDimensions = document.getElementById('original-crop-dimensions');
+                const croppedDimensions = document.getElementById('cropped-dimensions');
+                const downloadBtn = document.getElementById('download-cropped');
+                
+                let originalFile = null;
+                let originalWidth = 0;
+                let originalHeight = 0;
+                let fabricCanvas = null;
+                let croppedBlob = null;
+                
+                // Setup drag and drop
+                setupDragAndDrop('cropper-dropzone', 'cropper-upload', null, 'cropper-placeholder');
+                
+                // Handle file upload
+                uploadInput.addEventListener('change', function(e) {
+                    if (e.target.files.length) {
+                        originalFile = e.target.files[0];
+                        const reader = new FileReader();
+                        
+                        reader.onload = function(event) {
+                            // Initialize fabric.js canvas
+                            if (fabricCanvas) {
+                                fabricCanvas.dispose();
+                            }
+                            
+                            fabricCanvas = new fabric.Canvas('cropper-canvas', {
+                                selection: false,
+                                enableRetinaScaling: true,
+                                backgroundColor: '#f8fafc'
+                            });
+                            
+                            fabric.Image.fromURL(event.target.result, function(img) {
+                                originalWidth = img.width;
+                                originalHeight = img.height;
+                                originalDimensions.textContent = `${originalWidth}×${originalHeight}`;
+                                
+                                // Set canvas size to match image (scaled down if too large)
+                                const maxWidth = canvas.parentElement.clientWidth - 40;
+                                const maxHeight = canvas.parentElement.clientHeight - 40;
+                                let scale = Math.min(maxWidth / img.width, maxHeight / img.height);
+                                
+                                canvas.width = img.width * scale;
+                                canvas.height = img.height * scale;
+                                
+                                // Add image to canvas with crop controls
+                                img.set({
+                                    left: canvas.width / 2,
+                                    top: canvas.height / 2,
+                                    originX: 'center',
+                                    originY: 'center',
+                                    scaleX: scale,
+                                    scaleY: scale,
+                                    hasControls: true,
+                                    hasBorders: true,
+                                    lockRotation: false,
+                                    lockScalingX: false,
+                                    lockScalingY: false
+                                });
+                                
+                                fabricCanvas.add(img);
+                                fabricCanvas.setActiveObject(img);
+                                fabricCanvas.renderAll();
+                                
+                                // Show canvas
+                                canvas.style.display = 'block';
+                                document.getElementById('cropper-placeholder').style.display = 'none';
+                                
+                                // Enable crop button
+                                cropBtn.disabled = false;
+                            });
+                        };
+                        
+                        reader.readAsDataURL(originalFile);
+                    }
+                });
+                
+                // Rotate buttons
+                rotateLeftBtn.addEventListener('click', function() {
+                    if (!fabricCanvas) return;
+                    
+                    const activeObject = fabricCanvas.getActiveObject();
+                    if (activeObject) {
+                        activeObject.rotate(activeObject.angle - 90);
+                        fabricCanvas.renderAll();
+                    }
+                });
+                
+                rotateRightBtn.addEventListener('click', function() {
+                    if (!fabricCanvas) return;
+                    
+                    const activeObject = fabricCanvas.getActiveObject();
+                    if (activeObject) {
+                        activeObject.rotate(activeObject.angle + 90);
+                        fabricCanvas.renderAll();
+                    }
+                });
+                
+                rotate180Btn.addEventListener('click', function() {
+                    if (!fabricCanvas) return;
+                    
+                    const activeObject = fabricCanvas.getActiveObject();
+                    if (activeObject) {
+                        activeObject.rotate(activeObject.angle + 180);
+                        fabricCanvas.renderAll();
+                    }
+                });
+                
+                // Flip buttons
+                flipHorizontalBtn.addEventListener('click', function() {
+                    if (!fabricCanvas) return;
+                    
+                    const activeObject = fabricCanvas.getActiveObject();
+                    if (activeObject) {
+                        activeObject.set('flipX', !activeObject.flipX);
+                        fabricCanvas.renderAll();
+                    }
+                });
+                
+                flipVerticalBtn.addEventListener('click', function() {
+                    if (!fabricCanvas) return;
+                    
+                    const activeObject = fabricCanvas.getActiveObject();
+                    if (activeObject) {
+                        activeObject.set('flipY', !activeObject.flipY);
+                        fabricCanvas.renderAll();
+                    }
+                });
+                
+                // Crop button
+                cropBtn.addEventListener('click', function() {
+                    if (!fabricCanvas) return;
+                    
+                    cropBtn.disabled = true;
+                    cropBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                    
+                    // Get the image object
+                    const objects = fabricCanvas.getObjects();
+                    if (objects.length === 0) return;
+                    
+                    const img = objects[0];
+                    
+                    // Create a temporary canvas to draw the transformed image
+                    const tempCanvas = document.createElement('canvas');
+                    const tempCtx = tempCanvas.getContext('2d');
+                    
+                    // Set temp canvas size to original image size
+                    tempCanvas.width = originalWidth;
+                    tempCanvas.height = originalHeight;
+                    
+                    // Save the current transformation
+                    tempCtx.save();
+                    
+                    // Move to center, rotate, and scale
+                    tempCtx.translate(tempCanvas.width / 2, tempCanvas.height / 2);
+                    tempCtx.rotate(img.angle * Math.PI / 180);
+                    tempCtx.scale(img.flipX ? -img.scaleX : img.scaleX, img.flipY ? -img.scaleY : img.scaleY);
+                    
+                    // Draw the image
+                    tempCtx.drawImage(
+                        img._element,
+                        -img.width / 2,
+                        -img.height / 2,
+                        img.width,
+                        img.height
+                    );
+                    
+                    tempCtx.restore();
+                    
+                    // Convert to blob
+                    tempCanvas.toBlob(function(blob) {
+                        croppedBlob = blob;
+                        const croppedUrl = URL.createObjectURL(blob);
+                        
+                        // Update dimensions
+                        croppedDimensions.textContent = `${tempCanvas.width}×${tempCanvas.height}`;
+                        
+                        // Show result image
+                        resultImg.src = croppedUrl;
+                        resultImg.style.display = 'block';
+                        document.querySelector('#cropper-result + .placeholder').style.display = 'none';
+                        
+                        // Show download button
+                        downloadBtn.disabled = false;
+                        
+                        cropBtn.disabled = false;
+                        cropBtn.innerHTML = '<i class="fas fa-crop-alt"></i> Apply Crop & Rotate';
+                        
+                        showToast('Image cropped and rotated successfully!');
+                    }, originalFile.type);
+                });
+                
+                // Download cropped image
+                downloadBtn.addEventListener('click', function() {
+                    if (!croppedBlob) return;
+                    
+                    const a = document.createElement('a');
+                    a.href = URL.createObjectURL(croppedBlob);
+                    a.download = 'cropped_' + originalFile.name;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    
+                    showToast('Download started!');
+                });
+            }
+            
+            // Initialize Text Adder Tool
+            function initTextAdderTool() {
+                const uploadInput = document.getElementById('text-adder-upload');
+                const canvas = document.getElementById('text-adder-canvas');
+                const textInput = document.getElementById('text-content');
+                const colorInput = document.getElementById('text-color');
+                const sizeSlider = document.getElementById('text-size');
+                const sizeValue = document.getElementById('text-size-value');
+                const fontSelect = document.getElementById('text-font');
+                const addTextBtn = document.getElementById('add-text-btn');
+                const resultImg = document.getElementById('text-adder-result');
+                const downloadBtn = document.getElementById('download-text-added');
+                
+                let originalFile = null;
+                let textAddedBlob = null;
+                let fabricCanvas = null;
+                
+                // Setup drag and drop
+                setupDragAndDrop('text-adder-dropzone', 'text-adder-upload', null, 'text-adder-placeholder');
+                
+                // Update text size value
+                sizeSlider.addEventListener('input', function() {
+                    sizeValue.textContent = this.value;
+                });
+                
+                // Handle file upload
+                uploadInput.addEventListener('change', function(e) {
+                    if (e.target.files.length) {
+                        originalFile = e.target.files[0];
+                        const reader = new FileReader();
+                        
+                        reader.onload = function(event) {
+                            // Initialize fabric.js canvas
+                            if (fabricCanvas) {
+                                fabricCanvas.dispose();
+                            }
+                            
+                            fabricCanvas = new fabric.Canvas('text-adder-canvas', {
+                                selection: true,
+                                enableRetinaScaling: true,
+                                backgroundColor: '#f8fafc'
+                            });
+                            
+                            fabric.Image.fromURL(event.target.result, function(img) {
+                                // Set canvas size to match image
+                                canvas.width = img.width;
+                                canvas.height = img.height;
+                                
+                                // Add image to canvas
+                                img.set({
+                                    left: 0,
+                                    top: 0,
+                                    originX: 'left',
+                                    originY: 'top',
+                                    scaleX: 1,
+                                    scaleY: 1
+                                });
+                                
+                                fabricCanvas.add(img);
+                                fabricCanvas.renderAll();
+                                
+                                // Show canvas
+                                canvas.style.display = 'block';
+                                document.getElementById('text-adder-placeholder').style.display = 'none';
+                                
+                                // Enable add text button
+                                addTextBtn.disabled = false;
+                            });
+                        };
+                        
+                        reader.readAsDataURL(originalFile);
+                    }
+                });
+                
+                // Add text button
+                addTextBtn.addEventListener('click', function() {
+                    if (!fabricCanvas || !textInput.value) {
+                        showToast('Please enter some text first', 'warning');
+                        return;
+                    }
+                    
+                    addTextBtn.disabled = true;
+                    addTextBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Adding Text...';
+                    
+                    // Add new text
+                    const text = new fabric.Text(textInput.value, {
+                        left: canvas.width / 2,
+                        top: canvas.height / 2,
+                        fontFamily: fontSelect.value,
+                        fontSize: parseInt(sizeSlider.value),
+                        fill: colorInput.value,
+                        originX: 'center',
+                        originY: 'center',
+                        selectable: true,
+                        hasControls: true,
+                        hasBorders: true
+                    });
+                    
+                    fabricCanvas.add(text);
+                    fabricCanvas.setActiveObject(text);
+                    fabricCanvas.renderAll();
+                    
+                    // Convert canvas to image
+                    setTimeout(() => {
+                        fabricCanvas.getElement().toBlob(function(blob) {
+                            textAddedBlob = blob;
+                            const textAddedUrl = URL.createObjectURL(blob);
+                            
+                            // Show result image
+                            resultImg.src = textAddedUrl;
+                            resultImg.style.display = 'block';
+                            document.querySelector('#text-adder-result + .placeholder').style.display = 'none';
+                            
+                            // Show download button
+                            downloadBtn.disabled = false;
+                            
+                            addTextBtn.disabled = false;
+                            addTextBtn.innerHTML = '<i class="fas fa-font"></i> Add Text to Image';
+                            
+                            showToast('Text added to image successfully!');
+                        }, originalFile.type);
+                    }, 100);
+                });
+                
+                // Download image with text
+                downloadBtn.addEventListener('click', function() {
+                    if (!textAddedBlob) return;
+                    
+                    const a = document.createElement('a');
+                    a.href = URL.createObjectURL(textAddedBlob);
+                    a.download = 'text_added_' + originalFile.name;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    
+                    showToast('Download started!');
+                });
+            }
+            
+            // Initialize Filter Tool
+            function initFilterTool() {
+                const uploadInput = document.getElementById('filter-upload');
+                const previewImg = document.getElementById('filter-preview');
+                const filterSelect = document.getElementById('filter-type');
+                const intensitySlider = document.getElementById('filter-intensity');
+                const intensityValue = document.getElementById('filter-intensity-value');
+                const applyFilterBtn = document.getElementById('apply-filter-btn');
+                const resultImg = document.getElementById('filter-result');
+                const downloadBtn = document.getElementById('download-filtered');
+                
+                let originalFile = null;
+                let filteredBlob = null;
+                
+                // Setup drag and drop
+                setupDragAndDrop('filter-dropzone', 'filter-upload', 'filter-preview', 'filter-placeholder');
+                
+                // Update intensity value
+                intensitySlider.addEventListener('input', function() {
+                    intensityValue.textContent = this.value;
+                });
+                
+                // Handle file upload
+                uploadInput.addEventListener('change', function(e) {
+                    if (e.target.files.length) {
+                        originalFile = e.target.files[0];
+                        const reader = new FileReader();
+                        
+                        reader.onload = function(event) {
+                            previewImg.src = event.target.result;
+                            previewImg.style.display = 'block';
+                            document.getElementById('filter-placeholder').style.display = 'none';
+                            
+                            // Enable apply filter button
+                            applyFilterBtn.disabled = false;
+                        };
+                        
+                        reader.readAsDataURL(originalFile);
+                    }
+                });
+                
+                // Apply filter
+                applyFilterBtn.addEventListener('click', function() {
+                    if (!originalFile) return;
+                    
+                    applyFilterBtn.disabled = true;
+                    applyFilterBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Applying Filter...';
+                    
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0);
+                        
+                        // Get image data
+                        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                        const data = imageData.data;
+                        
+                        // Apply filter
+                        const intensity = parseInt(intensitySlider.value);
+                        const filterType = filterSelect.value;
+                        
+                        if (filterType === 'blur') {
+                            applyBlurFilter(data, canvas.width, canvas.height, intensity);
+                        } else if (filterType === 'sharpen') {
+                            applySharpenFilter(data, canvas.width, canvas.height, intensity);
+                        }
+                        
+                        // Put the modified data back
+                        ctx.putImageData(imageData, 0, 0);
+                        
+                        // Convert to blob
+                        canvas.toBlob(function(blob) {
+                            filteredBlob = blob;
+                            const filteredUrl = URL.createObjectURL(blob);
+                            
+                            resultImg.src = filteredUrl;
+                            resultImg.style.display = 'block';
+                            document.querySelector('#filter-result + .placeholder').style.display = 'none';
+                            
+                            // Show download button
+                            downloadBtn.disabled = false;
+                            
+                            applyFilterBtn.disabled = false;
+                            applyFilterBtn.innerHTML = '<i class="fas fa-filter"></i> Apply Filter';
+                            
+                            showToast('Filter applied successfully!');
+                        }, originalFile.type);
+                    };
+                    
+                    img.src = URL.createObjectURL(originalFile);
+                });
+                
+                // Helper function to apply blur filter
+                function applyBlurFilter(data, width, height, intensity) {
+                    // Simple box blur implementation
+                    const radius = Math.floor(intensity / 2);
+                    const tempData = new Uint8ClampedArray(data.length);
+                    tempData.set(data);
+                    
+                    // Horizontal pass
+                    for (let y = 0; y < height; y++) {
+                        for (let x = 0; x < width; x++) {
+                            let r = 0, g = 0, b = 0, a = 0;
+                            let count = 0;
+                            
+                            for (let i = -radius; i <= radius; i++) {
+                                const px = Math.min(width - 1, Math.max(0, x + i));
+                                const idx = (y * width + px) * 4;
+                                
+                                r += tempData[idx];
+                                g += tempData[idx + 1];
+                                b += tempData[idx + 2];
+                                a += tempData[idx + 3];
+                                count++;
+                            }
+                            
+                            const idx = (y * width + x) * 4;
+                            data[idx] = r / count;
+                            data[idx + 1] = g / count;
+                            data[idx + 2] = b / count;
+                            data[idx + 3] = a / count;
+                        }
+                    }
+                    
+                    // Vertical pass
+                    for (let x = 0; x < width; x++) {
+                        for (let y = 0; y < height; y++) {
+                            let r = 0, g = 0, b = 0, a = 0;
+                            let count = 0;
+                            
+                            for (let i = -radius; i <= radius; i++) {
+                                const py = Math.min(height - 1, Math.max(0, y + i));
+                                const idx = (py * width + x) * 4;
+                                
+                                r += data[idx];
+                                g += data[idx + 1];
+                                b += data[idx + 2];
+                                a += data[idx + 3];
+                                count++;
+                            }
+                            
+                            const idx = (y * width + x) * 4;
+                            data[idx] = r / count;
+                            data[idx + 1] = g / count;
+                            data[idx + 2] = b / count;
+                            data[idx + 3] = a / count;
+                        }
+                    }
+                }
+                
+                // Helper function to apply sharpen filter
+                function applySharpenFilter(data, width, height, intensity) {
+                    // Simple sharpen implementation using unsharp masking
+                    const amount = intensity / 10;
+                    
+                    // First create a blurred copy
+                    const blurredData = new Uint8ClampedArray(data.length);
+                    blurredData.set(data);
+                    applyBlurFilter(blurredData, width, height, 1);
+                    
+                    // Subtract the blurred image from the original (unsharp mask)
+                    for (let i = 0; i < data.length; i++) {
+                        const diff = data[i] - blurredData[i];
+                        data[i] = Math.min(255, Math.max(0, data[i] + diff * amount));
+                    }
+                }
+                
+                // Download filtered image
+                downloadBtn.addEventListener('click', function() {
+                    if (!filteredBlob) return;
+                    
+                    const a = document.createElement('a');
+                    a.href = URL.createObjectURL(filteredBlob);
+                    a.download = 'filtered_' + originalFile.name;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    
+                    showToast('Download started!');
+                });
+            }
+            
+            // Initialize Background Remover Tool
+            function initBgRemoverTool() {
+                const uploadInput = document.getElementById('bg-remover-upload');
+                const previewImg = document.getElementById('bg-remover-preview');
+                const sensitivitySlider = document.getElementById('bg-sensitivity');
+                const sensitivityValue = document.getElementById('bg-sensitivity-value');
+                const edgeSlider = document.getElementById('bg-edge');
+                const edgeValue = document.getElementById('bg-edge-value');
+                const removeBgBtn = document.getElementById('remove-bg-btn');
+                const resultImg = document.getElementById('bg-remover-result');
+                const downloadBtn = document.getElementById('download-bg-removed');
+                
+                let originalFile = null;
+                let bgRemovedBlob = null;
+                
+                // Setup drag and drop
+                setupDragAndDrop('bg-remover-dropzone', 'bg-remover-upload', 'bg-remover-preview', 'bg-remover-placeholder');
+                
+                // Update slider values
+                sensitivitySlider.addEventListener('input', function() {
+                    sensitivityValue.textContent = this.value;
+                });
+                
+                edgeSlider.addEventListener('input', function() {
+                    edgeValue.textContent = this.value;
+                });
+                
+                // Handle file upload
+                uploadInput.addEventListener('change', function(e) {
+                    if (e.target.files.length) {
+                        originalFile = e.target.files[0];
+                        const reader = new FileReader();
+                        
+                        reader.onload = function(event) {
+                            previewImg.src = event.target.result;
+                            previewImg.style.display = 'block';
+                            document.getElementById('bg-remover-placeholder').style.display = 'none';
+                            
+                            // Enable remove bg button
+                            removeBgBtn.disabled = false;
+                        };
+                        
+                        reader.readAsDataURL(originalFile);
+                    }
+                });
+                
+                // Remove background
+                removeBgBtn.addEventListener('click', function() {
+                    if (!originalFile) return;
+                    
+                    removeBgBtn.disabled = true;
+                    removeBgBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Removing Background...';
+                    
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0);
+                        
+                        // Get image data
+                        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                        const data = imageData.data;
+                        
+                        // Get sensitivity and edge refinement values
+                        const sensitivity = parseInt(sensitivitySlider.value);
+                        const edgeRefinement = parseInt(edgeSlider.value);
+                        
+                        // Simple background removal
+                        removeBackground(data, canvas.width, canvas.height, sensitivity, edgeRefinement);
+                        
+                        // Put the modified data back
+                        ctx.putImageData(imageData, 0, 0);
+                        
+                        // Convert to blob (always save as PNG to preserve transparency)
+                        canvas.toBlob(function(blob) {
+                            bgRemovedBlob = blob;
+                            const bgRemovedUrl = URL.createObjectURL(blob);
+                            
+                            resultImg.src = bgRemovedUrl;
+                            resultImg.style.display = 'block';
+                            document.querySelector('#bg-remover-result + .placeholder').style.display = 'none';
+                            
+                            // Show download button
+                            downloadBtn.disabled = false;
+                            
+                            removeBgBtn.disabled = false;
+                            removeBgBtn.innerHTML = '<i class="fas fa-layer-group"></i> Remove Background';
+                            
+                            showToast('Background removed successfully!');
+                        }, 'image/png');
+                    };
+                    
+                    img.src = URL.createObjectURL(originalFile);
+                });
+                
+                // Helper function for basic background removal
+                function removeBackground(data, width, height, sensitivity, edgeRefinement) {
+                    // Sample the color at the corners to determine the background color
+                    const corners = [
+                        [0, 0], [width - 1, 0], [0, height - 1], [width - 1, height - 1]
+                    ];
+                    
+                    let bgR = 0, bgG = 0, bgB = 0;
+                    for (const [x, y] of corners) {
+                        const idx = (y * width + x) * 4;
+                        bgR += data[idx];
+                        bgG += data[idx + 1];
+                        bgB += data[idx + 2];
+                    }
+                    bgR = Math.round(bgR / 4);
+                    bgG = Math.round(bgG / 4);
+                    bgB = Math.round(bgB / 4);
+                    
+                    // Calculate threshold based on sensitivity
+                    const threshold = sensitivity * 2.55; // Convert 0-100 to 0-255
+                    
+                    // Make pixels transparent if they're similar to the background color
+                    for (let i = 0; i < data.length; i += 4) {
+                        const r = data[i];
+                        const g = data[i + 1];
+                        const b = data[i + 2];
+                        
+                        // Calculate color difference
+                        const diff = Math.sqrt(
+                            Math.pow(r - bgR, 2) + 
+                            Math.pow(g - bgG, 2) + 
+                            Math.pow(b - bgB, 2)
+                        );
+                        
+                        // If the color is similar to the background, make it transparent
+                        if (diff < threshold) {
+                            data[i + 3] = 0; // Set alpha to 0
+                        }
+                    }
+                    
+                    // Simple edge refinement (dilate transparent pixels)
+                    if (edgeRefinement > 0) {
+                        const tempData = new Uint8ClampedArray(data);
+                        
+                        for (let y = 1; y < height - 1; y++) {
+                            for (let x = 1; x < width - 1; x++) {
+                                const idx = (y * width + x) * 4;
+                                
+                                if (data[idx + 3] === 0) continue; // Skip already transparent pixels
+                                
+                                // Check if any neighboring pixel is transparent
+                                let hasTransparentNeighbor = false;
+                                for (let dy = -1; dy <= 1; dy++) {
+                                    for (let dx = -1; dx <= 1; dx++) {
+                                        if (dx === 0 && dy === 0) continue;
+                                        
+                                        const nIdx = ((y + dy) * width + (x + dx)) * 4;
+                                        if (tempData[nIdx + 3] === 0) {
+                                            hasTransparentNeighbor = true;
+                                            break;
+                                        }
+                                    }
+                                    if (hasTransparentNeighbor) break;
+                                }
+                                
+                                // If this pixel is near a transparent pixel, partially make it transparent
+                                if (hasTransparentNeighbor) {
+                                    data[idx + 3] = Math.max(0, data[idx + 3] - edgeRefinement * 10);
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                // Download bg removed image
+                downloadBtn.addEventListener('click', function() {
+                    if (!bgRemovedBlob) return;
+                    
+                    const a = document.createElement('a');
+                    a.href = URL.createObjectURL(bgRemovedBlob);
+                    a.download = 'bg_removed_' + originalFile.name.replace(/\.[^/.]+$/, '') + '.png';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    
+                    showToast('Download started!');
+                });
+            }
+            
+            // Initialize OCR Tool
+            function initOCRTool() {
+                const uploadInput = document.getElementById('ocr-upload');
+                const previewImg = document.getElementById('ocr-preview');
+                const languageSelect = document.getElementById('ocr-language');
+                const extractTextBtn = document.getElementById('extract-text-btn');
+                const resultTextarea = document.getElementById('ocr-result');
+                const copyTextBtn = document.getElementById('copy-ocr-text');
+                const clearTextBtn = document.getElementById('clear-ocr-text');
+                
+                let originalFile = null;
+                
+                // Setup drag and drop
+                setupDragAndDrop('ocr-dropzone', 'ocr-upload', 'ocr-preview', 'ocr-placeholder');
+                
+                // Handle file upload
+                uploadInput.addEventListener('change', function(e) {
+                    if (e.target.files.length) {
+                        originalFile = e.target.files[0];
+                        const reader = new FileReader();
+                        
+                        reader.onload = function(event) {
+                            previewImg.src = event.target.result;
+                            previewImg.style.display = 'block';
+                            document.getElementById('ocr-placeholder').style.display = 'none';
+                            
+                            // Enable extract text button
+                            extractTextBtn.disabled = false;
+                        };
+                        
+                        reader.readAsDataURL(originalFile);
+                    }
+                });
+                
+                // Extract text
+                extractTextBtn.addEventListener('click', function() {
+                    if (!originalFile) return;
+                    
+                    extractTextBtn.disabled = true;
+                    extractTextBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Extracting...';
+                    
+                    const language = languageSelect.value;
+                    
+                    Tesseract.recognize(
+                        originalFile,
+                        language,
+                        {
+                            logger: m => {
+                                if (m.status === 'recognizing text') {
+                                    extractTextBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Extracting... ${Math.round(m.progress * 100)}%`;
+                                }
+                            }
+                        }
+                    ).then(({ data: { text } }) => {
+                        resultTextarea.value = text;
+                        copyTextBtn.disabled = false;
+                        
+                        extractTextBtn.disabled = false;
+                        extractTextBtn.innerHTML = '<i class="fas fa-text-height"></i> Extract Text';
+                        
+                        showToast('Text extracted successfully!');
+                    }).catch(err => {
+                        resultTextarea.value = 'Error: ' + err.message;
+                        
+                        extractTextBtn.disabled = false;
+                        extractTextBtn.innerHTML = '<i class="fas fa-text-height"></i> Extract Text';
+                        
+                        showToast('Error extracting text', 'error');
+                    });
+                });
+                
+                // Copy text
+                copyTextBtn.addEventListener('click', function() {
+                    if (!resultTextarea.value) return;
+                    
+                    resultTextarea.select();
+                    document.execCommand('copy');
+                    
+                    // Show feedback
+                    const originalText = copyTextBtn.innerHTML;
+                    copyTextBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    setTimeout(() => {
+                        copyTextBtn.innerHTML = originalText;
+                    }, 2000);
+                    
+                    showToast('Text copied to clipboard!');
+                });
+                
+                // Clear text
+                clearTextBtn.addEventListener('click', function() {
+                    resultTextarea.value = '';
+                    copyTextBtn.disabled = true;
+                });
+            }
+            
+            // Initialize all tools
+            initCompressorTool();
+            initResizerTool();
+            initConverterTool();
+            initCropperTool();
+            initTextAdderTool();
+            initFilterTool();
+            initBgRemoverTool();
+            initOCRTool();
+        });
+    </script>
+</body>
+</html>

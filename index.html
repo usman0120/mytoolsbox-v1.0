@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyToolbox - All Your Tools in One Place</title>
+    <meta name="description" content="An all-in-one tools and utilities platform with file converters, calculators, resume builders and more.">
+    <link href="dist/style.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="font-sans bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
+    <header class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
+    <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+        <!-- Logo -->
+        <div class="flex items-center space-x-2">
+            <i class="fas fa-tools text-2xl text-primary-600 dark:text-primary-400"></i>
+            <a href="#" class="text-xl font-bold text-gray-800 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                My<span class="text-primary-600 dark:text-primary-400">Toolbox</span>
+            </a>
+        </div>
+        
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center space-x-8">
+            <a href="#" class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</a>
+            
+            <div class="relative group">
+                <button class="flex items-center font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                  Tool Categories <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                </button>
+                <div class="absolute left-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                    <a href="tools/file-tools/document-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">File Tools</a>
+                    <a href="tools/image-tools/image-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Image Tools</a>
+                    <a href="tools/media-tools/mediaTools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Media Tools</a>
+                    <a href="tools/study-tools/study-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Academic Tools</a>
+                    <a href="tools/calculator-tools/calculators.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Calculators</a>
+                    <a href="tools/ai-tools/ai-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">AI-Powered Tools</a>
+                    <a href="tools/design-tools/design-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Design Tools</a>
+                    <a href="tools/time-tools/time-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Productivity & Time Tools</a>
+                    <a href="tools/writing-tools/writing-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Writing Tools</a>
+                    <a href="tools/misc-tools/misc-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">More Useful Tools</a>
+                </div>
+            </div>
+            
+            <a href="src/sections/homePage/about.html" class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">About</a>
+            <a href="src/sections/homePage/contact.html" class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Contact</a>
+        </nav>
+        
+        
+        
+        <!-- Dark Mode Toggle -->
+       <button id="theme-toggle" class="p-2 ml-24 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+    <i class="fas fa-moon block text-yellow-500"></i> 
+</button>
+<!-- Mobile Menu Button -->
+        <button id="mobile-menu-button" class="md:hidden text-gray-600 dark:text-gray-300">
+            <i class="fas fa-bars text-xl"></i>
+        </button>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
+            <a href="#" class="py-2 font-medium">Home</a>
+            
+            <div class="relative">
+                <button id="mobile-categories-button" class="w-full flex justify-between items-center py-2 font-medium">
+                    Categories <i class="fas fa-chevron-down"></i>
+                </button>
+                <div id="mobile-categories" class="hidden pl-4 mt-1 space-y-2">
+                    <a href="tools/file-tools/document-tools.html" class="block py-1">File Tools</a>
+                    <a href="tools/image-tools/image-tools.html" class="block py-1">Image Tools</a>
+                    <a href="tools/media-tools/mediaTools.html" class="block py-1">Media Tools</a>
+                    <a href="tools/design-tools/design-tools.html" class="block py-1">Design Tools</a>
+                    <a href="tools/calculator-tools/calculators.html" class="block py-1">Calculators</a>
+                </div>
+            </div>
+            
+            <a href="src/sections/homePage/about.html" class="py-2 font-medium">About</a>
+            <a href="#" class="py-2 font-medium">Contact</a>
+        </div>
+    </div>
+</header>
+    <main>
+        <section class="py-16 md:py-24 bg-gradient-to-br from-primary-50 to-gray-50 dark:from-gray-800 dark:to-gray-900">
+    <div class="container mx-auto px-4 flex flex-col items-center text-center">
+        <!-- Headline and Subheading -->
+        <h1 class="text-4xl md:text-5xl font-bold mb-4 max-w-3xl">
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-accent-500">All Your Tools</span> in One Place
+        </h1>
+        <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl">
+            Compress images, convert files, generate resumes, calculate anything — with just one click.
+        </p>
+        
+        <!-- Search Bar -->
+        <div class="w-full max-w-2xl mb-8 relative">
+            <input 
+                type="text" 
+                placeholder="Search tools..." 
+                class="w-full px-5 py-4 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-800 shadow-sm"
+                id="search-input"
+            >
+            <button class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-primary-500">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        
+        <!-- Call-to-Action Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4">
+            <a href="#categories" class="px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg transition-colors shadow-md hover:shadow-lg flex items-center justify-center gap-2">
+                <i class="fas fa-th-large"></i> Explore Tools
+            </a>
+            <a href="src/sections/homePage/suggest-tool.html" class="px-6 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 font-medium rounded-lg transition-colors shadow-sm hover:shadow-md flex items-center justify-center gap-2">
+                <i class="fas fa-lightbulb text-yellow-500"></i> Suggest a Tool
+            </a>
+        </div>
+        
+        <!-- Stats or Trust Indicators -->
+        <div class="mt-12 flex flex-wrap justify-center gap-6 text-gray-500 dark:text-gray-400">
+            <div class="flex items-center gap-2">
+                <i class="fas fa-check-circle text-accent-500"></i>
+                <span>100+ Tools Available</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <i class="fas fa-shield-alt text-accent-500"></i>
+                <span>Secure & Private</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <i class="fas fa-bolt text-accent-500"></i>
+                <span>Instant Results</span>
+            </div>
+        </div>
+    </div>
+</section>
+      
+        <section id="categories" class="py-16 bg-white dark:bg-gray-900">
+    <div class="container mx-auto px-4">
+        <!-- Section Header -->
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold mb-4">Tool Categories</h2>
+            <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                Browse our collection of utility tools organized by category. Everything you need in one place.
+            </p>
+        </div>
+        
+        <!-- Categories Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- File Tools -->
+            <a href="tools/file-tools/document-tools.html" class="group relative bg-gray-50 dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 hover:border-primary-400 dark:hover:border-primary-500 transition-all duration-300 shadow-sm hover:shadow-md overflow-hidden">
+                <div class="absolute top-4 right-4 text-gray-300 dark:text-gray-600 group-hover:text-primary-400 transition-colors">
+                    <i class="fas fa-arrow-right text-xl"></i>
+                </div>
+                <div class="w-14 h-14 rounded-lg bg-primary-100 dark:bg-primary-900/50 flex items-center justify-center mb-4 text-primary-600 dark:text-primary-400">
+                    <i class="fas fa-folder-open text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">File Tools</h3>
+                <p class="text-gray-600 dark:text-gray-400 text-sm">
+                    Convert, compress, and manage all your files in various formats.
+                </p>
+                <span class="absolute inset-0"></span>
+            </a>
+            
+            <!-- Image Tools -->
+            <a href="tools/image-tools/image-tools.html" class="group relative bg-gray-50 dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 hover:border-primary-400 dark:hover:border-primary-500 transition-all duration-300 shadow-sm hover:shadow-md overflow-hidden">
+                <div class="absolute top-4 right-4 text-gray-300 dark:text-gray-600 group-hover:text-primary-400 transition-colors">
+                    <i class="fas fa-arrow-right text-xl"></i>
+                </div>
+                <div class="w-14 h-14 rounded-lg bg-primary-100 dark:bg-primary-900/50 flex items-center justify-center mb-4 text-primary-600 dark:text-primary-400">
+                    <i class="fas fa-image text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Image Tools</h3>
+                <p class="text-gray-600 dark:text-gray-400 text-sm">
+                    Edit, convert, compress, and enhance your images effortlessly.
+                </p>
+                <span class="absolute inset-0"></span>
+            </a>
+            
+            <!-- Media Tools -->
+            <a href="tools/media-tools/mediaTools.html" class="group relative bg-gray-50 dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 hover:border-primary-400 dark:hover:border-primary-500 transition-all duration-300 shadow-sm hover:shadow-md overflow-hidden">
+                <div class="absolute top-4 right-4 text-gray-300 dark:text-gray-600 group-hover:text-primary-400 transition-colors">
+                    <i class="fas fa-arrow-right text-xl"></i>
+                </div>
+                <div class="w-14 h-14 rounded-lg bg-primary-100 dark:bg-primary-900/50 flex items-center justify-center mb-4 text-primary-600 dark:text-primary-400">
+                    <i class="fas fa-film text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Media Tools</h3>
+                <p class="text-gray-600 dark:text-gray-400 text-sm">
+                    Video and audio converters, editors, and other multimedia utilities.
+                </p>
+                <span class="absolute inset-0"></span>
+            </a>
+            
+            <!-- Resume & CV Tools -->
+            <a href="tools/writing-tools/writing-tools.html" class="group relative bg-gray-50 dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 hover:border-primary-400 dark:hover:border-primary-500 transition-all duration-300 shadow-sm hover:shadow-md overflow-hidden">
+                <div class="absolute top-4 right-4 text-gray-300 dark:text-gray-600 group-hover:text-primary-400 transition-colors">
+                    <i class="fas fa-arrow-right text-xl"></i>
+                </div>
+                <div class="w-14 h-14 rounded-lg bg-primary-100 dark:bg-primary-900/50 flex items-center justify-center mb-4 text-primary-600 dark:text-primary-400">
+                    <i class="fas fa-file-alt text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Writing & Resume Tools</h3>
+                <p class="text-gray-600 dark:text-gray-400 text-sm">
+                    Build, format, and optimize your resume for job applications.
+                </p>
+                <span class="absolute inset-0"></span>
+            </a>
+            
+            <!-- Calculators -->
+            <a href="tools/calculator-tools/calculators.html" class="group relative bg-gray-50 dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 hover:border-primary-400 dark:hover:border-primary-500 transition-all duration-300 shadow-sm hover:shadow-md overflow-hidden">
+                <div class="absolute top-4 right-4 text-gray-300 dark:text-gray-600 group-hover:text-primary-400 transition-colors">
+                    <i class="fas fa-arrow-right text-xl"></i>
+                </div>
+                <div class="w-14 h-14 rounded-lg bg-primary-100 dark:bg-primary-900/50 flex items-center justify-center mb-4 text-primary-600 dark:text-primary-400">
+                    <i class="fas fa-calculator text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Calculators</h3>
+                <p class="text-gray-600 dark:text-gray-400 text-sm">
+                    Financial, scientific, health and other specialized calculators.
+                </p>
+                <span class="absolute inset-0"></span>
+            </a>
+            
+            <!-- Academic Tools -->
+            <a href="tools/study-tools/study-tools.html" class="group relative bg-gray-50 dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 hover:border-primary-400 dark:hover:border-primary-500 transition-all duration-300 shadow-sm hover:shadow-md overflow-hidden">
+                <div class="absolute top-4 right-4 text-gray-300 dark:text-gray-600 group-hover:text-primary-400 transition-colors">
+                    <i class="fas fa-arrow-right text-xl"></i>
+                </div>
+                <div class="w-14 h-14 rounded-lg bg-primary-100 dark:bg-primary-900/50 flex items-center justify-center mb-4 text-primary-600 dark:text-primary-400">
+                    <i class="fas fa-graduation-cap text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Academic Tools</h3>
+                <p class="text-gray-600 dark:text-gray-400 text-sm">
+                    Citation generators, plagiarism checkers, and study aids.
+                </p>
+                <span class="absolute inset-0"></span>
+            </a>
+            
+            <!-- Productivity Tools -->
+            <a href="tools/time-tools/time-tools.html" class="group relative bg-gray-50 dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 hover:border-primary-400 dark:hover:border-primary-500 transition-all duration-300 shadow-sm hover:shadow-md overflow-hidden">
+                <div class="absolute top-4 right-4 text-gray-300 dark:text-gray-600 group-hover:text-primary-400 transition-colors">
+                    <i class="fas fa-arrow-right text-xl"></i>
+                </div>
+                <div class="w-14 h-14 rounded-lg bg-primary-100 dark:bg-primary-900/50 flex items-center justify-center mb-4 text-primary-600 dark:text-primary-400">
+                    <i class="fas fa-clock text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Productivity Tools</h3>
+                <p class="text-gray-600 dark:text-gray-400 text-sm">
+                    Timers, planners, and tools to boost your efficiency.
+                </p>
+                <span class="absolute inset-0"></span>
+            </a>
+            
+            <!-- AI Tools -->
+            <a href="tools/ai-tools/ai-tools.html" class="group relative bg-gray-50 dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 hover:border-primary-400 dark:hover:border-primary-500 transition-all duration-300 shadow-sm hover:shadow-md overflow-hidden">
+                <div class="badge absolute top-3 right-3 bg-accent-500 text-white text-xs px-2 py-1 rounded-full">New</div>
+                <div class="absolute top-4 right-4 text-gray-300 dark:text-gray-600 group-hover:text-primary-400 transition-colors">
+                    <i class="fas fa-arrow-right text-xl"></i>
+                </div>
+                <div class="w-14 h-14 rounded-lg bg-primary-100 dark:bg-primary-900/50 flex items-center justify-center mb-4 text-primary-600 dark:text-primary-400">
+                    <i class="fas fa-robot text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">AI Tools</h3>
+                <p class="text-gray-600 dark:text-gray-400 text-sm">
+                    AI-powered utilities for text, images, and data processing.
+                </p>
+                <span class="absolute inset-0"></span>
+            </a>
+        </div>
+        
+        <!-- View All Button -->
+        <div class="text-center mt-12">
+    <button id="load-more-categories" class="inline-flex items-center px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+        View All Categories <i class="fas fa-chevron-down ml-2"></i>
+    </button>
+</div>
+    </div>
+</section>
+<section id="featured-tools" class="py-16 bg-gray-50 dark:bg-gray-800/50">
+    <div class="container mx-auto px-4">
+        <!-- Section Header -->
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold mb-4">Featured Tools</h2>
+            <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                Our most popular utilities that users love. Try them now for free!
+            </p>
+        </div>
+        
+        <!-- Tools Grid Container -->
+        <div id="tools-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Initial tools will be loaded here by JavaScript -->
+        </div>
+        
+        <!-- View All Tools Button -->
+        <div class="text-center mt-12">
+            <button id="load-more-tools" class="inline-flex items-center px-6 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors shadow-sm">
+                View More Popular Tools <i class="fas fa-chevron-down ml-2"></i>
+            </button>
+        </div>
+    </div>
+</section>
+    </main>
+    
+    <!-- Footer will be added here -->
+    <footer class="bg-gray-100 dark:bg-gray-800/80 border-t border-gray-200 dark:border-gray-700">
+    <div class="container mx-auto px-4 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <!-- About Column -->
+            <div>
+                <h3 class="text-lg font-semibold mb-4">About MyToolbox</h3>
+                <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                    An all-in-one platform offering free, easy-to-use tools for your everyday needs.
+                </p>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+                        <i class="fab fa-discord"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Tools Column -->
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Tools</h3>
+                <ul class="space-y-2">
+                    <li><a href="index.html" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">All Tools</a></li>
+                    <li><a href="#featured-tools" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Featured Tools</a></li>
+                    <li><a href="#categories" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">New Tools</a></li>
+                    <li><a href="src/sections/homePage/suggest-tool.html" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Request a Tool</a></li>
+                </ul>
+            </div>
+            
+            <!-- Resources Column -->
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Resources</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Blog</a></li>
+                    <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Tutorials</a></li>
+                    <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">API</a></li>
+                    <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Help Center</a></li>
+                </ul>
+            </div>
+            
+            
+            <!-- Legal Column -->
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Legal</h3>
+                <ul class="space-y-2">
+                    <li><a href="src/sections/homePage/privacy.html" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Privacy Policy</a></li>
+                    <li><a href="src/sections/homePage/terms.html" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Terms of Service</a></li>
+                    <li><a href="src/sections/homePage/cookies.html" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Cookie Policy</a></li>
+                    <li><a href="src/sections/homePage/gdpr.html" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">GDPR</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Divider -->
+        <div class="border-t border-gray-200 dark:border-gray-700 my-8"></div>
+        
+        <!-- Bottom Footer -->
+        <div class="flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                <i class="fas fa-tools text-primary-600 dark:text-primary-400"></i>
+                <span class="font-medium">My<span class="text-primary-600 dark:text-primary-400">Toolbox</span></span>
+            </div>
+            <div class="text-sm text-gray-500 dark:text-gray-400">
+                &copy; <span id="current-year"></span> MyToolbox. All rights reserved.
+            </div>
+        </div>
+    </div>
+</footer>
+    
+    <script src="src/js/main.js"></script>
+</body>
+</html>
+
+

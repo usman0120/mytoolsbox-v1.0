@@ -1,0 +1,3227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Craft | Complete Designer's Toolkit</title>
+    <link rel="stylesheet" href="../../dist/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .tool-section {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+        .tool-section.active {
+            display: block;
+        }
+        .color-swatch {
+            transition: all 0.2s ease;
+        }
+        .color-swatch:hover {
+            transform: scale(1.08);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .pixel {
+            transition: background-color 0.1s;
+        }
+        .pixel:hover {
+            opacity: 0.8;
+        }
+        .blob {
+            animation: morph 8s ease-in-out infinite;
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+        }
+        @keyframes morph {
+            0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+            50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+            100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+        }
+        .tool-btn {
+            transition: all 0.2s ease;
+        }
+        .tool-btn:hover {
+            transform: translateY(-2px);
+        }
+        .copy-btn {
+            transition: all 0.2s ease;
+        }
+        .copy-btn:hover {
+            background-color: #4f46e5;
+            color: white;
+        }
+        #pixel-grid-container {
+            max-height: 500px;
+            overflow: auto;
+        }
+        .color-card {
+            transition: all 0.2s ease;
+        }
+        .color-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .gradient-stop {
+    transition: all 0.2s ease;
+    z-index: 10;
+}
+.gradient-stop:hover {
+    transform: translate(-50%, -50%) scale(1.2);
+}
+#gradient-editor {
+    background-size: 100% 100%;
+    user-select: none;
+}
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-purple-50 text-gray-800">
+<header class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
+    <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+        <!-- Logo -->
+        <div class="flex items-center space-x-2">
+            <i class="fas fa-tools text-2xl text-primary-600 dark:text-primary-400"></i>
+            <a href="#" class="text-xl font-bold text-gray-800 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                My<span class="text-primary-600 dark:text-primary-400">Toolbox</span>
+            </a>
+        </div>
+        
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center space-x-8">
+            <a href="../../index.html" class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</a>
+            
+            <div class="relative group">
+                <button class="flex items-center font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                  Tool Categories <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                </button>
+                <div class="absolute left-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                    <a href="../file-tools/document-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">File Tools</a>
+                    <a href="../image-tools/image-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Image Tools</a>
+                    <a href="../media-tools/mediaTools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Media Tools</a>
+                    <a href="../study-tools/study-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Study Tools</a>
+                    <a href="../calculator-tools/calculators.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Calculators</a>
+                    <a href="../ai-tools/ai-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">AI-Powered Tools</a>
+                    <a href="../design-tools/design-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Design Tools</a>
+                    <a href="../time-tools/time-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Productivity & Time Tools</a>
+                    <a href="../writing-tools/writing-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Writing Tools</a>
+                    <a href="../misc-tools/misc-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">More Useful Tools</a>
+                </div>
+            </div>
+            
+            <a href="src/sections/homePage/about.html" class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">About</a>
+            <a href="src/sections/homePage/contact.html" class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Contact</a>
+        </nav>
+        
+        
+        
+        <!-- Dark Mode Toggle -->
+       <button class="hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+</button>
+<!-- Mobile Menu Button -->
+        <button id="mobile-menu-button" class="md:hidden text-gray-600 dark:text-gray-300">
+            <i class="fas fa-bars text-xl"></i>
+        </button>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
+            <a href="#" class="py-2 font-medium">Home</a>
+            
+            <div class="relative">
+                <button id="mobile-categories-button" class="w-full flex justify-between items-center py-2 font-medium">
+                    Categories <i class="fas fa-chevron-down"></i>
+                </button>
+                <div id="mobile-categories" class="hidden pl-4 mt-1 space-y-2">
+                    <a href="../file-tools/document-tools.html" class="block py-1">File Tools</a>
+                    <a href="../image-tools/image-tools.html" class="block py-1">Image Tools</a>
+                    <a href="../media-tools/mediaTools.html" class="block py-1">Media Tools</a>
+                    <a href="../design-tools/design-tools.html" class="block py-1">Design Tools</a>
+                    <a href="../calculator-tools/calculators.html" class="block py-1">Calculators</a>
+                </div>
+            </div>
+            
+            <a href="src/sections/homePage/about.html" class="py-2 font-medium">About</a>
+            <a href="../../src/sections/homePage/suggest-tool.html" class="py-2 font-medium">Contact</a>
+        </div>
+    </div>
+</header>
+    <div class="container mx-auto px-4 py-8 max-w-7xl">
+        <!-- Page Header -->
+        <div class="text-center mb-12">
+            <div class="inline-block bg-gradient-to-r from-purple-600 to-blue-500 text-white px-6 py-3 rounded-full mb-4 shadow-lg">
+                <i class="fas fa-palette mr-2"></i> Color Craft
+            </div>
+            <h1 class="text-5xl font-bold text-gray-800 mb-4">Your Ultimate Coloring Toolkit</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Professional coloring tools for designers, artists, and creatives. Everything you need for perfect color schemes, 
+                pixel art, gradients and more. No login required - just pure creative power!
+            </p>
+        </div>
+
+        <!-- Tool Navigation -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-12">
+            <h2 class="text-2xl font-bold mb-6 text-gray-800 flex items-center">
+                <i class="fas fa-tools mr-3 text-blue-500"></i> Coloring Tools Menu
+            </h2>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                <button onclick="showTool('color-palette')" class="tool-btn bg-gradient-to-br from-pink-100 to-pink-50 border border-pink-200 text-pink-700 py-4 px-4 rounded-xl flex flex-col items-center justify-center transition-all">
+                    <i class="fas fa-palette text-2xl mb-2"></i>
+                    <span>Color Palette</span>
+                </button>
+                
+                <button onclick="showTool('gradient')" class="tool-btn bg-gradient-to-br from-purple-100 to-purple-50 border border-purple-200 text-purple-700 py-4 px-4 rounded-xl flex flex-col items-center justify-center transition-all">
+                    <i class="fas fa-fill-drip text-2xl mb-2"></i>
+                    <span>Gradient</span>
+                </button>
+                
+                <button onclick="showTool('pixel-art')" class="tool-btn bg-gradient-to-br from-indigo-100 to-indigo-50 border border-indigo-200 text-indigo-700 py-4 px-4 rounded-xl flex flex-col items-center justify-center transition-all">
+                    <i class="fas fa-th-large text-2xl mb-2"></i>
+                    <span>Pixel Art</span>
+                </button>
+                
+                <button onclick="showTool('color-picker')" class="tool-btn bg-gradient-to-br from-blue-100 to-blue-50 border border-blue-200 text-blue-700 py-4 px-4 rounded-xl flex flex-col items-center justify-center transition-all">
+                    <i class="fas fa-eye-dropper text-2xl mb-2"></i>
+                    <span>Color Picker</span>
+                </button>
+                
+                <button onclick="showTool('color-contrast')" class="tool-btn bg-gradient-to-br from-teal-100 to-teal-50 border border-teal-200 text-teal-700 py-4 px-4 rounded-xl flex flex-col items-center justify-center transition-all">
+                    <i class="fas fa-adjust text-2xl mb-2"></i>
+                    <span>Contrast Check</span>
+                </button>
+                
+                <button onclick="showTool('color-names')" class="tool-btn bg-gradient-to-br from-yellow-100 to-yellow-50 border border-yellow-200 text-yellow-700 py-4 px-4 rounded-xl flex flex-col items-center justify-center transition-all">
+                    <i class="fas fa-tags text-2xl mb-2"></i>
+                    <span>Color Names</span>
+                </button>
+                
+                <button onclick="showTool('color-blind')" class="tool-btn bg-gradient-to-br from-orange-100 to-orange-50 border border-orange-200 text-orange-700 py-4 px-4 rounded-xl flex flex-col items-center justify-center transition-all">
+                    <i class="fas fa-eye text-2xl mb-2"></i>
+                    <span>Color Blind</span>
+                </button>
+                
+                <button onclick="showTool('blob-gen')" class="tool-btn bg-gradient-to-br from-red-100 to-red-50 border border-red-200 text-red-700 py-4 px-4 rounded-xl flex flex-col items-center justify-center transition-all">
+                    <i class="fas fa-blender-phone text-2xl mb-2"></i>
+                    <span>Blob Maker</span>
+                </button>
+                
+                <button onclick="showTool('shades')" class="tool-btn bg-gradient-to-br from-green-100 to-green-50 border border-green-200 text-green-700 py-4 px-4 rounded-xl flex flex-col items-center justify-center transition-all">
+                    <i class="fas fa-sliders-h text-2xl mb-2"></i>
+                    <span>Color Shades</span>
+                </button>
+                
+                <button onclick="showTool('image-palette')" class="tool-btn bg-gradient-to-br from-cyan-100 to-cyan-50 border border-cyan-200 text-cyan-700 py-4 px-4 rounded-xl flex flex-col items-center justify-center transition-all">
+                    <i class="fas fa-image text-2xl mb-2"></i>
+                    <span>Image Colors</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tool Sections -->
+        <div id="tool-sections" class="bg-white rounded-xl shadow-lg p-6 min-h-[500px] transition-all duration-300">
+            <!-- Default Message -->
+            <div id="default-message" class="text-center py-16">
+                <div class="inline-block bg-gradient-to-r from-blue-100 to-purple-100 p-6 rounded-full mb-6">
+                    <i class="fas fa-magic text-5xl text-purple-500"></i>
+                </div>
+                <h3 class="text-2xl font-medium text-gray-700 mb-2">Select a Coloring Tool</h3>
+                <p class="text-gray-500 max-w-md mx-auto">Choose from our collection of professional coloring tools above. Each tool comes with detailed instructions and examples.</p>
+                <div class="mt-6 flex justify-center gap-3">
+                    <button onclick="showTool('color-palette')" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-full transition">
+                        Try Palette Generator
+                    </button>
+                    <button onclick="showTool('gradient')" class="bg-purple-500 hover:bg-purple-600 text-white px-6 py-2 rounded-full transition">
+                        Try Gradient Maker
+                    </button>
+                </div>
+            </div>
+
+            <!-- Color Palette Generator -->
+            <div id="color-palette" class="tool-section">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+                    <div>
+                        <h2 class="text-3xl font-bold text-pink-600 mb-2 flex items-center">
+                            <i class="fas fa-palette mr-3"></i> Color Palette Generator
+                        </h2>
+                        <p class="text-gray-600">Create harmonious color schemes for your designs. Perfect for branding, websites, and artwork.</p>
+                    </div>
+                    <div class="mt-4 md:mt-0">
+                        <button onclick="showHelp('palette-help')" class="bg-pink-100 hover:bg-pink-200 text-pink-700 px-4 py-2 rounded-full text-sm flex items-center">
+                            <i class="fas fa-question-circle mr-2"></i> How to use
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="palette-help" class="bg-pink-50 border-l-4 border-pink-400 p-4 mb-6 hidden">
+                    <h4 class="font-bold text-pink-700 mb-2 flex items-center">
+                        <i class="fas fa-lightbulb mr-2"></i> Pro Tip
+                    </h4>
+                    <p class="text-pink-700">Start by selecting a base color or let us generate a random palette. You can lock colors you like and regenerate the others. Click on any color to copy its code to your clipboard.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Base Color</label>
+                                <input type="color" id="palette-base-color" value="#3b82f6" class="w-full h-12 cursor-pointer">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Palette Type</label>
+                                <select id="palette-type" class="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-pink-500 focus:border-pink-500">
+                                    <option value="analogous">Analogous</option>
+                                    <option value="monochromatic">Monochromatic</option>
+                                    <option value="triad">Triad</option>
+                                    <option value="complementary">Complementary</option>
+                                    <option value="split-complementary">Split Complementary</option>
+                                    <option value="tetradic">Tetradic</option>
+                                    <option value="square">Square</option>
+                                    <option value="random">Random</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Color Mood</label>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                <button data-mood="vibrant" class="palette-mood-btn bg-gradient-to-r from-red-500 to-yellow-500 text-white px-4 py-2 rounded-full text-sm">
+                                    Vibrant
+                                </button>
+                                <button data-mood="pastel" class="palette-mood-btn bg-gradient-to-r from-pink-300 to-purple-300 text-gray-800 px-4 py-2 rounded-full text-sm">
+                                    Pastel
+                                </button>
+                                <button data-mood="earth" class="palette-mood-btn bg-gradient-to-r from-amber-700 to-green-700 text-white px-4 py-2 rounded-full text-sm">
+                                    Earth
+                                </button>
+                                <button data-mood="cool" class="palette-mood-btn bg-gradient-to-r from-blue-400 to-teal-400 text-white px-4 py-2 rounded-full text-sm">
+                                    Cool
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <button id="generate-palette" class="bg-pink-600 hover:bg-pink-700 text-white py-3 px-6 rounded-lg transition flex items-center justify-center w-full mb-6">
+                            <i class="fas fa-sync-alt mr-2"></i> Generate Color Palette
+                        </button>
+                        
+                        <div id="palette-result" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 mb-6">
+                            <!-- Palette will be generated here -->
+                            <div class="color-card">
+                                <div class="color-swatch h-32 rounded-lg mb-2 relative overflow-hidden">
+                                    <div class="absolute inset-0 bg-gray-200 flex items-center justify-center">
+                                        <i class="fas fa-lock-open text-gray-400"></i>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="color-hex text-sm font-mono cursor-pointer" onclick="copyColorToClipboard(this)">#------</span>
+                                    <button class="lock-btn text-gray-400 hover:text-gray-600">
+                                        <i class="fas fa-lock-open"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Repeat for 4 more colors -->
+                            <div class="color-card">
+                                <div class="color-swatch h-32 rounded-lg mb-2 relative overflow-hidden">
+                                    <div class="absolute inset-0 bg-gray-200 flex items-center justify-center">
+                                        <i class="fas fa-lock-open text-gray-400"></i>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="color-hex text-sm font-mono cursor-pointer" onclick="copyColorToClipboard(this)">#------</span>
+                                    <button class="lock-btn text-gray-400 hover:text-gray-600">
+                                        <i class="fas fa-lock-open"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="color-card">
+                                <div class="color-swatch h-32 rounded-lg mb-2 relative overflow-hidden">
+                                    <div class="absolute inset-0 bg-gray-200 flex items-center justify-center">
+                                        <i class="fas fa-lock-open text-gray-400"></i>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="color-hex text-sm font-mono cursor-pointer" onclick="copyColorToClipboard(this)">#------</span>
+                                    <button class="lock-btn text-gray-400 hover:text-gray-600">
+                                        <i class="fas fa-lock-open"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="color-card">
+                                <div class="color-swatch h-32 rounded-lg mb-2 relative overflow-hidden">
+                                    <div class="absolute inset-0 bg-gray-200 flex items-center justify-center">
+                                        <i class="fas fa-lock-open text-gray-400"></i>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="color-hex text-sm font-mono cursor-pointer" onclick="copyColorToClipboard(this)">#------</span>
+                                    <button class="lock-btn text-gray-400 hover:text-gray-600">
+                                        <i class="fas fa-lock-open"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="color-card">
+                                <div class="color-swatch h-32 rounded-lg mb-2 relative overflow-hidden">
+                                    <div class="absolute inset-0 bg-gray-200 flex items-center justify-center">
+                                        <i class="fas fa-lock-open text-gray-400"></i>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="color-hex text-sm font-mono cursor-pointer" onclick="copyColorToClipboard(this)">#------</span>
+                                    <button class="lock-btn text-gray-400 hover:text-gray-600">
+                                        <i class="fas fa-lock-open"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="lg:col-span-1">
+                        <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                            <h3 class="font-bold text-lg mb-4 text-gray-800 flex items-center">
+                                <i class="fas fa-info-circle text-blue-500 mr-2"></i> Palette Info
+                            </h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <h4 class="font-medium text-gray-700 mb-1">Palette Type</h4>
+                                    <p id="palette-type-info" class="text-sm text-gray-600">Analogous colors are next to each other on the color wheel.</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-gray-700 mb-1">Best Uses</h4>
+                                    <p id="palette-uses-info" class="text-sm text-gray-600">Great for creating harmonious designs with subtle color variations.</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-gray-700 mb-1">Accessibility</h4>
+                                    <p id="palette-accessibility" class="text-sm text-gray-600">Check contrast ratios for text readability.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6 pt-4 border-t border-gray-200">
+                                <h4 class="font-medium text-gray-700 mb-2">Export Options</h4>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <button onclick="exportPalette('css')" class="bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 py-2 px-3 rounded text-sm flex items-center justify-center">
+                                        <i class="fas fa-file-code mr-2"></i> CSS
+                                    </button>
+                                    <button onclick="exportPalette('figma')" class="bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 py-2 px-3 rounded text-sm flex items-center justify-center">
+                                        <i class="fab fa-figma mr-2"></i> Figma
+                                    </button>
+                                    <button onclick="exportPalette('png')" class="bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 py-2 px-3 rounded text-sm flex items-center justify-center">
+                                        <i class="fas fa-file-image mr-2"></i> PNG
+                                    </button>
+                                    <button onclick="exportPalette('json')" class="bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 py-2 px-3 rounded text-sm flex items-center justify-center">
+                                        <i class="fas fa-copy mr-2"></i> JSON
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-8 pt-6 border-t border-gray-200">
+                    <h3 class="font-bold text-lg mb-4 text-gray-800">Suggested Color Names</h3>
+                    <div id="color-names-suggestions" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+                        <!-- Color names will be generated here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pixel Art Generator -->
+            <div id="pixel-art" class="tool-section">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+                    <div>
+                        <h2 class="text-3xl font-bold text-indigo-600 mb-2 flex items-center">
+                            <i class="fas fa-th-large mr-3"></i> Pixel Art Generator
+                        </h2>
+                        <p class="text-gray-600">Create retro pixel art with this easy-to-use editor. Perfect for game assets and digital art.</p>
+                    </div>
+                    <div class="mt-4 md:mt-0">
+                        <button onclick="showHelp('pixel-help')" class="bg-indigo-100 hover:bg-indigo-200 text-indigo-700 px-4 py-2 rounded-full text-sm flex items-center">
+                            <i class="fas fa-question-circle mr-2"></i> How to use
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="pixel-help" class="bg-indigo-50 border-l-4 border-indigo-400 p-4 mb-6 hidden">
+                    <h4 class="font-bold text-indigo-700 mb-2 flex items-center">
+                        <i class="fas fa-lightbulb mr-2"></i> Pro Tip
+                    </h4>
+                    <p class="text-indigo-700">Click to paint pixels. Right-click or hold Alt to erase. Use the color picker to select different colors for your artwork.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2">
+                        <div class="grid grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Canvas Size</label>
+                                <select id="pixel-size" class="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                                    <option value="8x8">8×8 (Tiny)</option>
+                                    <option value="16x16">16×16 (Small)</option>
+                                    <option value="32x32">32×32 (Medium)</option>
+                                    <option value="64x64">64×64 (Large)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Current Color</label>
+                                <input type="color" id="pixel-color" value="#000000" class="w-full h-10 cursor-pointer">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <div id="pixel-grid-container" class="overflow-auto border border-gray-200 rounded-lg p-4 bg-gray-50">
+                                <div id="pixel-grid" class="grid gap-0 w-max mx-auto">
+                                    <!-- Pixels will be generated here -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex flex-wrap gap-3 mb-6">
+                            <button id="clear-pixels" class="bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded-lg transition flex items-center">
+                                <i class="fas fa-eraser mr-2"></i> Clear Canvas
+                            </button>
+                            <button id="download-pixel" class="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg transition flex items-center">
+                                <i class="fas fa-download mr-2"></i> Download PNG
+                            </button>
+                            <button id="save-pixel" class="bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 py-2 px-4 rounded-lg transition flex items-center">
+                                <i class="fas fa-save mr-2"></i> Save Project
+                            </button>
+                            <button id="load-pixel" class="bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 py-2 px-4 rounded-lg transition flex items-center">
+                                <i class="fas fa-folder-open mr-2"></i> Load Project
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="lg:col-span-1">
+                        <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                            <h3 class="font-bold text-lg mb-4 text-gray-800 flex items-center">
+                                <i class="fas fa-palette text-indigo-500 mr-2"></i> Color Palette
+                            </h3>
+                            <div class="grid grid-cols-5 gap-2 mb-4">
+                                <div class="color-preset h-8 rounded cursor-pointer" style="background-color: #000000;" onclick="setPixelColor('#000000')"></div>
+                                <div class="color-preset h-8 rounded cursor-pointer" style="background-color: #ffffff;" onclick="setPixelColor('#ffffff')"></div>
+                                <div class="color-preset h-8 rounded cursor-pointer" style="background-color: #ff0000;" onclick="setPixelColor('#ff0000')"></div>
+                                <div class="color-preset h-8 rounded cursor-pointer" style="background-color: #00ff00;" onclick="setPixelColor('#00ff00')"></div>
+                                <div class="color-preset h-8 rounded cursor-pointer" style="background-color: #0000ff;" onclick="setPixelColor('#0000ff')"></div>
+                                <div class="color-preset h-8 rounded cursor-pointer" style="background-color: #ffff00;" onclick="setPixelColor('#ffff00')"></div>
+                                <div class="color-preset h-8 rounded cursor-pointer" style="background-color: #ff00ff;" onclick="setPixelColor('#ff00ff')"></div>
+                                <div class="color-preset h-8 rounded cursor-pointer" style="background-color: #00ffff;" onclick="setPixelColor('#00ffff')"></div>
+                                <div class="color-preset h-8 rounded cursor-pointer" style="background-color: #ff9900;" onclick="setPixelColor('#ff9900')"></div>
+                                <div class="color-preset h-8 rounded cursor-pointer" style="background-color: #9900ff;" onclick="setPixelColor('#9900ff')"></div>
+                            </div>
+                            
+                            <div class="mt-4 pt-4 border-t border-gray-200">
+                                <h4 class="font-medium text-gray-700 mb-2">Preview</h4>
+                                <div id="pixel-preview" class="w-full h-32 bg-gray-100 rounded flex items-center justify-center">
+                                    <p class="text-gray-400">Your pixel art will appear here</p>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-4 pt-4 border-t border-gray-200">
+                                <h4 class="font-medium text-gray-700 mb-2">Recent Projects</h4>
+                                <div class="space-y-2">
+                                    <div class="flex items-center justify-between bg-white p-2 rounded border border-gray-200">
+                                        <span class="text-sm truncate">Pixel_Art_1</span>
+                                        <button class="text-indigo-600 hover:text-indigo-800">
+                                            <i class="fas fa-cloud-download-alt"></i>
+                                        </button>
+                                    </div>
+                                    <div class="flex items-center justify-between bg-white p-2 rounded border border-gray-200">
+                                        <span class="text-sm truncate">Game_Character</span>
+                                        <button class="text-indigo-600 hover:text-indigo-800">
+                                            <i class="fas fa-cloud-download-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Color Names Tool -->
+            <div id="color-names" class="tool-section">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+                    <div>
+                        <h2 class="text-3xl font-bold text-yellow-600 mb-2 flex items-center">
+                            <i class="fas fa-tags mr-3"></i> Color Names
+                        </h2>
+                        <p class="text-gray-600">Find the perfect name for your colors. Get creative suggestions based on color values.</p>
+                    </div>
+                    <div class="mt-4 md:mt-0">
+                        <button onclick="showHelp('names-help')" class="bg-yellow-100 hover:bg-yellow-200 text-yellow-700 px-4 py-2 rounded-full text-sm flex items-center">
+                            <i class="fas fa-question-circle mr-2"></i> How to use
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="names-help" class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 hidden">
+                    <h4 class="font-bold text-yellow-700 mb-2 flex items-center">
+                        <i class="fas fa-lightbulb mr-2"></i> Pro Tip
+                    </h4>
+                    <p class="text-yellow-700">Enter a color or upload an image to extract colors and get name suggestions. Great for branding and design projects.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Color Input</label>
+                                <input type="color" id="color-names-input" value="#3b82f6" class="w-full h-12 cursor-pointer mb-2">
+                                <input type="text" id="color-names-hex" value="#3b82f6" class="border border-gray-300 rounded-lg px-4 py-2 w-full font-mono" placeholder="Or enter hex code">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Or Upload Image</label>
+                                <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                                    <input type="file" id="color-names-upload" accept="image/*" class="hidden">
+                                    <label for="color-names-upload" class="cursor-pointer block">
+                                        <i class="fas fa-cloud-upload-alt text-3xl text-gray-400 mb-2"></i>
+                                        <p class="text-sm text-gray-600">Click to upload image</p>
+                                        <p class="text-xs text-gray-500 mt-1">PNG, JPG up to 5MB</p>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button id="generate-names" class="bg-yellow-600 hover:bg-yellow-700 text-white py-3 px-6 rounded-lg transition flex items-center justify-center w-full mb-6">
+                            <i class="fas fa-magic mr-2"></i> Generate Color Names
+                        </button>
+                        
+                        <div id="color-names-results" class="space-y-4">
+                            <!-- Results will appear here -->
+                            <div class="bg-white p-4 rounded-lg border border-gray-200">
+                                <div class="flex items-center mb-2">
+                                    <div class="w-8 h-8 rounded-full mr-3" style="background-color: #3b82f6;"></div>
+                                    <div>
+                                        <h3 class="font-bold">Classic Blue</h3>
+                                        <p class="text-sm text-gray-600 font-mono">#3b82f6</p>
+                                    </div>
+                                </div>
+                                <div class="text-sm text-gray-700 mt-2">
+                                    <p>A timeless blue shade reminiscent of clear skies and deep oceans. Perfect for corporate designs and calming interfaces.</p>
+                                </div>
+                                <div class="mt-3 flex justify-between items-center">
+                                    <span class="text-xs text-gray-500">Confidence: 92%</span>
+                                    <button onclick="copyToClipboard(this)" class="copy-btn text-xs border border-gray-300 rounded px-2 py-1" data-color="#3b82f6" data-name="Classic Blue">
+                                        Copy Name
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="lg:col-span-1">
+                        <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                            <h3 class="font-bold text-lg mb-4 text-gray-800 flex items-center">
+                                <i class="fas fa-info-circle text-yellow-500 mr-2"></i> About Color Names
+                            </h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <h4 class="font-medium text-gray-700 mb-1">Why Name Colors?</h4>
+                                    <p class="text-sm text-gray-600">Giving colors meaningful names helps with brand consistency, design communication, and creating emotional connections.</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-gray-700 mb-1">Naming Tips</h4>
+                                    <ul class="text-sm text-gray-600 list-disc pl-5">
+                                        <li>Use descriptive words (Ocean Blue)</li>
+                                        <li>Reference nature (Forest Green)</li>
+                                        <li>Use emotions (Passionate Red)</li>
+                                        <li>Be creative but clear</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6 pt-4 border-t border-gray-200">
+                                <h4 class="font-medium text-gray-700 mb-2">Popular Color Names</h4>
+                                <div class="grid grid-cols-3 gap-2">
+                                    <div class="text-center">
+                                        <div class="w-full h-8 rounded mb-1" style="background-color: #ff6b6b;"></div>
+                                        <span class="text-xs">Coral</span>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="w-full h-8 rounded mb-1" style="background-color: #48dbfb;"></div>
+                                        <span class="text-xs">Sky</span>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="w-full h-8 rounded mb-1" style="background-color: #1dd1a1;"></div>
+                                        <span class="text-xs">Mint</span>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="w-full h-8 rounded mb-1" style="background-color: #ff9ff3;"></div>
+                                        <span class="text-xs">Bubblegum</span>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="w-full h-8 rounded mb-1" style="background-color: #feca57;"></div>
+                                        <span class="text-xs">Sunshine</span>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="w-full h-8 rounded mb-1" style="background-color: #5f27cd;"></div>
+                                        <span class="text-xs">Royal</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Color Blind Tool -->
+            <div id="color-blind" class="tool-section">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+                    <div>
+                        <h2 class="text-3xl font-bold text-orange-600 mb-2 flex items-center">
+                            <i class="fas fa-eye mr-3"></i> Color Blind Simulator
+                        </h2>
+                        <p class="text-gray-600">See how your designs look to people with different types of color vision deficiencies.</p>
+                    </div>
+                    <div class="mt-4 md:mt-0">
+                        <button onclick="showHelp('blind-help')" class="bg-orange-100 hover:bg-orange-200 text-orange-700 px-4 py-2 rounded-full text-sm flex items-center">
+                            <i class="fas fa-question-circle mr-2"></i> How to use
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="blind-help" class="bg-orange-50 border-l-4 border-orange-400 p-4 mb-6 hidden">
+                    <h4 class="font-bold text-orange-700 mb-2 flex items-center">
+                        <i class="fas fa-lightbulb mr-2"></i> Pro Tip
+                    </h4>
+                    <p class="text-orange-700">Upload an image or enter colors to simulate how they appear to people with different types of color blindness. Essential for accessible design.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Color Input</label>
+                                <input type="color" id="blind-color-input" value="#3b82f6" class="w-full h-12 cursor-pointer mb-2">
+                                <input type="text" id="blind-color-hex" value="#3b82f6" class="border border-gray-300 rounded-lg px-4 py-2 w-full font-mono" placeholder="Or enter hex code">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Or Upload Image</label>
+                                <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                                    <input type="file" id="blind-image-upload" accept="image/*" class="hidden">
+                                    <label for="blind-image-upload" class="cursor-pointer block">
+                                        <i class="fas fa-cloud-upload-alt text-3xl text-gray-400 mb-2"></i>
+                                        <p class="text-sm text-gray-600">Click to upload image</p>
+                                        <p class="text-xs text-gray-500 mt-1">PNG, JPG up to 5MB</p>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Color Blindness Type</label>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                <button data-type="normal" class="blind-type-btn bg-blue-100 hover:bg-blue-200 text-blue-800 px-4 py-2 rounded-lg text-sm">
+                                    Normal Vision
+                                </button>
+                                <button data-type="protanopia" class="blind-type-btn bg-green-100 hover:bg-green-200 text-green-800 px-4 py-2 rounded-lg text-sm">
+                                    Protanopia
+                                </button>
+                                <button data-type="deuteranopia" class="blind-type-btn bg-purple-100 hover:bg-purple-200 text-purple-800 px-4 py-2 rounded-lg text-sm">
+                                    Deuteranopia
+                                </button>
+                                <button data-type="tritanopia" class="blind-type-btn bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-4 py-2 rounded-lg text-sm">
+                                    Tritanopia
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div id="blind-results" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                            <div class="text-center">
+                                <div class="w-full h-32 rounded-lg mb-2" style="background-color: #3b82f6;"></div>
+                                <p class="font-medium">Normal Vision</p>
+                                <p class="text-sm text-gray-600 font-mono">#3b82f6</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-full h-32 rounded-lg mb-2" style="background-color: #3b82f6; filter: url('#protanopia')"></div>
+                                <p class="font-medium">Protanopia</p>
+                                <p class="text-sm text-gray-600">Red-blind</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-full h-32 rounded-lg mb-2" style="background-color: #3b82f6; filter: url('#deuteranopia')"></div>
+                                <p class="font-medium">Deuteranopia</p>
+                                <p class="text-sm text-gray-600">Green-blind</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-full h-32 rounded-lg mb-2" style="background-color: #3b82f6; filter: url('#tritanopia')"></div>
+                                <p class="font-medium">Tritanopia</p>
+                                <p class="text-sm text-gray-600">Blue-blind</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="lg:col-span-1">
+                        <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                            <h3 class="font-bold text-lg mb-4 text-gray-800 flex items-center">
+                                <i class="fas fa-info-circle text-orange-500 mr-2"></i> About Color Blindness
+                            </h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <h4 class="font-medium text-gray-700 mb-1">Types</h4>
+                                    <ul class="text-sm text-gray-600 list-disc pl-5">
+                                        <li><strong>Protanopia:</strong> Red-blind (1% of males)</li>
+                                        <li><strong>Deuteranopia:</strong> Green-blind (1% of males)</li>
+                                        <li><strong>Tritanopia:</strong> Blue-blind (0.003% of population)</li>
+                                        <li><strong>Monochromacy:</strong> Total color blindness (rare)</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-gray-700 mb-1">Design Tips</h4>
+                                    <ul class="text-sm text-gray-600 list-disc pl-5">
+                                        <li>Use sufficient contrast</li>
+                                        <li>Don't rely solely on color</li>
+                                        <li>Test your designs</li>
+                                        <li>Use patterns or textures</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6 pt-4 border-t border-gray-200">
+                                <h4 class="font-medium text-gray-700 mb-2">Accessibility Check</h4>
+                                <div class="flex items-center justify-between bg-white p-3 rounded border border-gray-200">
+                                    <span class="text-sm">Contrast Ratio</span>
+                                    <span class="font-mono text-sm bg-green-100 text-green-800 px-2 py-1 rounded">4.5:1 (Pass)</span>
+                                </div>
+                                <div class="flex items-center justify-between bg-white p-3 rounded border border-gray-200 mt-2">
+                                    <span class="text-sm">Color Distinction</span>
+                                    <span class="font-mono text-sm bg-yellow-100 text-yellow-800 px-2 py-1 rounded">Check Needed</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- SVG filters for color blindness simulation -->
+                <svg xmlns="http://www.w3.org/2000/svg" height="0" width="0">
+                    <filter id="protanopia">
+                        <feColorMatrix type="matrix" values="0.567, 0.433, 0,     0, 0
+                                              0.558, 0.442, 0,     0, 0
+                                              0,     0.242, 0.758, 0, 0
+                                              0,     0,     0,     1, 0" />
+                    </filter>
+                    <filter id="deuteranopia">
+                        <feColorMatrix type="matrix" values="0.625, 0.375, 0,     0, 0
+                                              0.7,   0.3,   0,     0, 0
+                                              0,     0.3,   0.7,   0, 0
+                                              0,     0,     0,     1, 0" />
+                    </filter>
+                    <filter id="tritanopia">
+                        <feColorMatrix type="matrix" values="0.95, 0.05,  0,     0, 0
+                                              0,    0.433, 0.567, 0, 0
+                                              0,    0.475, 0.525, 0, 0
+                                              0,    0,     0,     1, 0" />
+                    </filter>
+                </svg>
+            </div>
+
+            <!-- Blob Generator -->
+            <div id="blob-gen" class="tool-section">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+                    <div>
+                        <h2 class="text-3xl font-bold text-red-600 mb-2 flex items-center">
+                            <i class="fas fa-blender-phone mr-3"></i> Blob Maker
+                        </h2>
+                        <p class="text-gray-600">Create organic blob shapes for modern designs. Perfect for backgrounds, illustrations, and decorative elements.</p>
+                    </div>
+                    <div class="mt-4 md:mt-0">
+                        <button onclick="showHelp('blob-help')" class="bg-red-100 hover:bg-red-200 text-red-700 px-4 py-2 rounded-full text-sm flex items-center">
+                            <i class="fas fa-question-circle mr-2"></i> How to use
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="blob-help" class="bg-red-50 border-l-4 border-red-400 p-4 mb-6 hidden">
+                    <h4 class="font-bold text-red-700 mb-2 flex items-center">
+                        <i class="fas fa-lightbulb mr-2"></i> Pro Tip
+                    </h4>
+                    <p class="text-red-700">Adjust the complexity and irregularity sliders to create unique shapes. Use the color picker to match your brand colors.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Complexity</label>
+                                <input type="range" id="blob-complexity" min="3" max="10" value="6" class="w-full">
+                                <span id="blob-complexity-value" class="text-sm text-gray-600">6 points</span>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Irregularity</label>
+                                <input type="range" id="blob-irregularity" min="0" max="100" value="50" class="w-full">
+                                <span id="blob-irregularity-value" class="text-sm text-gray-600">50%</span>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Color</label>
+                                <input type="color" id="blob-color" value="#3b82f6" class="w-full h-12 cursor-pointer">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Animation</label>
+                                <select id="blob-animation" class="border border-gray-300 rounded-lg px-4 py-2 w-full">
+                                    <option value="none">None</option>
+                                    <option value="morph" selected>Morph</option>
+                                    <option value="pulse">Pulse</option>
+                                    <option value="rotate">Rotate</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-center mb-6">
+                            <div id="blob-shape" class="blob w-64 h-64 bg-blue-500"></div>
+                        </div>
+                        
+                        <button id="random-blob" class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg transition mb-4">
+                            <i class="fas fa-random mr-2"></i> Random Blob
+                        </button>
+                    </div>
+                    
+                    <div class="lg:col-span-1">
+                        <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                            <h3 class="font-bold text-lg mb-4 text-gray-800 flex items-center">
+                                <i class="fas fa-code text-red-500 mr-2"></i> Export Options
+                            </h3>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">SVG Code</label>
+                                <div class="flex">
+                                    <textarea id="blob-svg" readonly class="border border-gray-300 rounded-l-lg px-3 py-2 w-full font-mono text-sm h-32 resize-none focus:outline-none"></textarea>
+                                    <button onclick="copyToClipboard(document.getElementById('blob-svg'))" class="bg-red-600 hover:bg-red-700 text-white px-4 rounded-r transition flex items-center justify-center">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-2 mt-4">
+                                <button id="download-blob-svg" class="bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 py-2 px-3 rounded text-sm flex items-center justify-center">
+                                    <i class="fas fa-download mr-2"></i> SVG
+                                </button>
+                                <button id="download-blob-png" class="bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 py-2 px-3 rounded text-sm flex items-center justify-center">
+                                    <i class="fas fa-download mr-2"></i> PNG
+                                </button>
+                            </div>
+                            
+                            <div class="mt-6 pt-4 border-t border-gray-200">
+                                <h4 class="font-medium text-gray-700 mb-2">Blob Gallery</h4>
+                                <div class="grid grid-cols-3 gap-2">
+                                    <div class="blob-preset w-full h-16 rounded cursor-pointer bg-blue-400" onclick="applyBlobPreset(6, 30, '#3b82f6')"></div>
+                                    <div class="blob-preset w-full h-16 rounded cursor-pointer bg-pink-400" onclick="applyBlobPreset(8, 60, '#ec4899')"></div>
+                                    <div class="blob-preset w-full h-16 rounded cursor-pointer bg-green-400" onclick="applyBlobPreset(5, 40, '#10b981')"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Color Shades Tool -->
+            <div id="shades" class="tool-section">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+                    <div>
+                        <h2 class="text-3xl font-bold text-green-600 mb-2 flex items-center">
+                            <i class="fas fa-sliders-h mr-3"></i> Color Shades Generator
+                        </h2>
+                        <p class="text-gray-600">Generate a complete palette of shades and tints from a single base color. Perfect for creating consistent design systems.</p>
+                    </div>
+                    <div class="mt-4 md:mt-0">
+                        <button onclick="showHelp('shades-help')" class="bg-green-100 hover:bg-green-200 text-green-700 px-4 py-2 rounded-full text-sm flex items-center">
+                            <i class="fas fa-question-circle mr-2"></i> How to use
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="shades-help" class="bg-green-50 border-l-4 border-green-400 p-4 mb-6 hidden">
+                    <h4 class="font-bold text-green-700 mb-2 flex items-center">
+                        <i class="fas fa-lightbulb mr-2"></i> Pro Tip
+                    </h4>
+                    <p class="text-green-700">Use these shades to create consistent UI elements. Darker shades work well for text, mid-tones for primary elements, and lighter shades for backgrounds.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2">
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Base Color</label>
+                            <input type="color" id="shades-base-color" value="#3b82f6" class="w-full h-12 cursor-pointer">
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Shade Range</label>
+                            <div class="grid grid-cols-11 gap-1 h-12">
+                                <div class="bg-gray-800 rounded-l"></div>
+                                <div class="bg-gray-700"></div>
+                                <div class="bg-gray-600"></div>
+                                <div class="bg-gray-500"></div>
+                                <div class="bg-gray-400"></div>
+                                <div class="bg-gray-300"></div>
+                                <div class="bg-gray-200"></div>
+                                <div class="bg-gray-100"></div>
+                                <div class="bg-gray-50"></div>
+                                <div class="bg-white border border-gray-200"></div>
+                                <div class="bg-white border border-gray-200 rounded-r"></div>
+                            </div>
+                        </div>
+                        
+                        <button id="generate-shades" class="bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg transition flex items-center justify-center w-full mb-6">
+                            <i class="fas fa-sync-alt mr-2"></i> Generate Shades
+                        </button>
+                        
+                        <div id="shades-results" class="grid grid-cols-11 gap-1 h-32 mb-6">
+                            <!-- Shades will be generated here -->
+                            <div class="rounded-tl rounded-bl" style="background-color: #1d4ed8;"></div>
+                            <div style="background-color: #2563eb;"></div>
+                            <div style="background-color: #3b82f6;"></div>
+                            <div style="background-color: #60a5fa;"></div>
+                            <div style="background-color: #93c5fd;"></div>
+                            <div style="background-color: #bfdbfe;"></div>
+                            <div style="background-color: #dbeafe;"></div>
+                            <div style="background-color: #eff6ff;"></div>
+                            <div style="background-color: #f8fafc;"></div>
+                            <div style="background-color: #ffffff; border: 1px solid #e5e7eb;"></div>
+                            <div class="rounded-tr rounded-br" style="background-color: #ffffff; border: 1px solid #e5e7eb;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="lg:col-span-1">
+                        <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                            <h3 class="font-bold text-lg mb-4 text-gray-800 flex items-center">
+                                <i class="fas fa-code text-green-500 mr-2"></i> CSS Variables
+                            </h3>
+                            <div class="mb-4">
+                                <div class="flex">
+                                    <textarea id="shades-css" readonly class="border border-gray-300 rounded-l-lg px-3 py-2 w-full font-mono text-sm h-32 resize-none focus:outline-none">:root {
+  --color-50: #eff6ff;
+  --color-100: #dbeafe;
+  --color-200: #bfdbfe;
+  --color-300: #93c5fd;
+  --color-400: #60a5fa;
+  --color-500: #3b82f6;
+  --color-600: #2563eb;
+  --color-700: #1d4ed8;
+  --color-800: #1e40af;
+  --color-900: #1e3a8a;
+}</textarea>
+                                    <button onclick="copyToClipboard(document.getElementById('shades-css'))" class="bg-green-600 hover:bg-green-700 text-white px-4 rounded-r transition flex items-center justify-center">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-4 pt-4 border-t border-gray-200">
+                                <h4 class="font-medium text-gray-700 mb-2">Usage Examples</h4>
+                                <div class="space-y-3">
+                                    <div class="flex items-center">
+                                        <div class="w-6 h-6 rounded-full mr-2" style="background-color: #3b82f6;"></div>
+                                        <code class="text-xs bg-gray-100 px-2 py-1 rounded">var(--color-500)</code>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <div class="w-6 h-6 rounded-full mr-2" style="background-color: #eff6ff;"></div>
+                                        <code class="text-xs bg-gray-100 px-2 py-1 rounded">var(--color-50)</code>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <div class="w-6 h-6 rounded-full mr-2" style="background-color: #1d4ed8;"></div>
+                                        <code class="text-xs bg-gray-100 px-2 py-1 rounded">var(--color-700)</code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image Palette Tool -->
+            <div id="image-palette" class="tool-section">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+                    <div>
+                        <h2 class="text-3xl font-bold text-cyan-600 mb-2 flex items-center">
+                            <i class="fas fa-image mr-3"></i> Image Color Extractor
+                        </h2>
+                        <p class="text-gray-600">Upload an image to extract its dominant colors and create a palette. Great for branding and design inspiration.</p>
+                    </div>
+                    <div class="mt-4 md:mt-0">
+                        <button onclick="showHelp('image-help')" class="bg-cyan-100 hover:bg-cyan-200 text-cyan-700 px-4 py-2 rounded-full text-sm flex items-center">
+                            <i class="fas fa-question-circle mr-2"></i> How to use
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="image-help" class="bg-cyan-50 border-l-4 border-cyan-400 p-4 mb-6 hidden">
+                    <h4 class="font-bold text-cyan-700 mb-2 flex items-center">
+                        <i class="fas fa-lightbulb mr-2"></i> Pro Tip
+                    </h4>
+                    <p class="text-cyan-700">Use high-quality images for best results. The tool will analyze the image and extract the most prominent colors to create a harmonious palette.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2">
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Upload Image</label>
+                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+                                <input type="file" id="image-upload" accept="image/*" class="hidden">
+                                <label for="image-upload" class="cursor-pointer block">
+                                    <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
+                                    <p class="text-lg text-gray-600">Drag & drop your image here</p>
+                                    <p class="text-sm text-gray-500 mt-2">or click to browse files</p>
+                                    <p class="text-xs text-gray-400 mt-2">Supports JPG, PNG, WEBP up to 10MB</p>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6 hidden" id="image-preview-container">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Image Preview</label>
+                            <div class="border border-gray-200 rounded-lg p-4 bg-gray-50">
+                                <img id="image-preview" src="" alt="Uploaded image" class="max-w-full max-h-64 mx-auto">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Color Count</label>
+                            <select id="color-count" class="border border-gray-300 rounded-lg px-4 py-2 w-full">
+                                <option value="3">3 Colors</option>
+                                <option value="5" selected>5 Colors</option>
+                                <option value="8">8 Colors</option>
+                                <option value="10">10 Colors</option>
+                            </select>
+                        </div>
+                        
+                        <button id="extract-colors" class="bg-cyan-600 hover:bg-cyan-700 text-white py-3 px-6 rounded-lg transition flex items-center justify-center w-full mb-6">
+                            <i class="fas fa-magic mr-2"></i> Extract Colors
+                        </button>
+                        
+                        <div id="extracted-colors" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 mb-6">
+                            <!-- Extracted colors will appear here -->
+                        </div>
+                    </div>
+                    
+                    <div class="lg:col-span-1">
+                        <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                            <h3 class="font-bold text-lg mb-4 text-gray-800 flex items-center">
+                                <i class="fas fa-info-circle text-cyan-500 mr-2"></i> Tips for Best Results
+                            </h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <h4 class="font-medium text-gray-700 mb-1">Image Selection</h4>
+                                    <ul class="text-sm text-gray-600 list-disc pl-5">
+                                        <li>Choose images with clear color schemes</li>
+                                        <li>Photos with distinct subjects work best</li>
+                                        <li>Avoid overly busy or noisy images</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-gray-700 mb-1">Usage Ideas</h4>
+                                    <ul class="text-sm text-gray-600 list-disc pl-5">
+                                        <li>Create brand colors from logos</li>
+                                        <li>Extract nature-inspired palettes</li>
+                                        <li>Match colors from artwork/photos</li>
+                                        <li>Build mood boards</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6 pt-4 border-t border-gray-200">
+                                <h4 class="font-medium text-gray-700 mb-2">Sample Images</h4>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <button data-sample="nature" class="sample-image h-16 rounded bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1472214103451-9374bd1c798e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></button>
+                                    <button data-sample="art" class="sample-image h-16 rounded bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></button>
+                                    <button data-sample="city" class="sample-image h-16 rounded bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></button>
+                                    <button data-sample="food" class="sample-image h-16 rounded bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1467003909585-2f8a72700288?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Color Picker Tool -->
+<div id="color-picker" class="tool-section">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+        <div>
+            <h2 class="text-3xl font-bold text-blue-600 mb-2 flex items-center">
+                <i class="fas fa-eye-dropper mr-3"></i> Color Picker
+            </h2>
+            <p class="text-gray-600">Select colors from anywhere on the screen with this advanced color picker.</p>
+        </div>
+        <div class="mt-4 md:mt-0">
+            <button onclick="showHelp('picker-help')" class="bg-blue-100 hover:bg-blue-200 text-blue-700 px-4 py-2 rounded-full text-sm flex items-center">
+                <i class="fas fa-question-circle mr-2"></i> How to use
+            </button>
+        </div>
+    </div>
+    
+    <div id="picker-help" class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6 hidden">
+        <h4 class="font-bold text-blue-700 mb-2 flex items-center">
+            <i class="fas fa-lightbulb mr-2"></i> Pro Tip
+        </h4>
+        <p class="text-blue-700">Click and drag the picker to select colors from anywhere on your screen. The color values will update in real-time.</p>
+    </div>
+    
+    <div class="text-center py-12">
+        <button id="activate-picker" class="bg-blue-600 hover:bg-blue-700 text-white py-4 px-8 rounded-full text-lg font-medium transition flex items-center mx-auto">
+            <i class="fas fa-eye-dropper mr-3"></i> Activate Color Picker
+        </button>
+        <p class="text-gray-500 mt-4">Click the button above, then move your cursor to pick colors</p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+        <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+            <h3 class="font-bold text-lg mb-4 text-gray-800">Selected Color</h3>
+            <div id="picked-color" class="w-full h-32 rounded-lg mb-4"></div>
+            <div class="grid grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">HEX</label>
+                    <input type="text" id="picked-hex" class="border border-gray-300 rounded-lg px-4 py-2 w-full font-mono" readonly>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">RGB</label>
+                    <input type="text" id="picked-rgb" class="border border-gray-300 rounded-lg px-4 py-2 w-full font-mono" readonly>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">HSL</label>
+                    <input type="text" id="picked-hsl" class="border border-gray-300 rounded-lg px-4 py-2 w-full font-mono" readonly>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+            <h3 class="font-bold text-lg mb-4 text-gray-800">Color Actions</h3>
+            <div class="space-y-3">
+                <button onclick="copyColorValue('hex')" class="bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 py-2 px-4 rounded-lg transition flex items-center justify-between w-full">
+                    <span>Copy HEX</span>
+                    <i class="fas fa-copy"></i>
+                </button>
+                <button onclick="copyColorValue('rgb')" class="bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 py-2 px-4 rounded-lg transition flex items-center justify-between w-full">
+                    <span>Copy RGB</span>
+                    <i class="fas fa-copy"></i>
+                </button>
+                <button onclick="copyColorValue('hsl')" class="bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 py-2 px-4 rounded-lg transition flex items-center justify-between w-full">
+                    <span>Copy HSL</span>
+                    <i class="fas fa-copy"></i>
+                </button>
+                <button onclick="addToPalette()" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition flex items-center justify-between w-full">
+                    <span>Add to Palette</span>
+                    <i class="fas fa-palette"></i>
+                </button>
+            </div>
+            
+            <div class="mt-6 pt-4 border-t border-gray-200">
+                <h4 class="font-medium text-gray-700 mb-2">Recent Colors</h4>
+                <div class="grid grid-cols-5 gap-2">
+                    <div class="recent-color h-8 rounded cursor-pointer border border-gray-200" onclick="useRecentColor(this)"></div>
+                    <!-- More recent colors would be added dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Color Contrast Checker -->
+<div id="color-contrast" class="tool-section">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+        <div>
+            <h2 class="text-3xl font-bold text-teal-600 mb-2 flex items-center">
+                <i class="fas fa-adjust mr-3"></i> Contrast Checker
+            </h2>
+            <p class="text-gray-600">Check the contrast ratio between two colors to ensure accessibility standards are met.</p>
+        </div>
+        <div class="mt-4 md:mt-0">
+            <button onclick="showHelp('contrast-help')" class="bg-teal-100 hover:bg-teal-200 text-teal-700 px-4 py-2 rounded-full text-sm flex items-center">
+                <i class="fas fa-question-circle mr-2"></i> How to use
+            </button>
+        </div>
+    </div>
+    
+    <div id="contrast-help" class="bg-teal-50 border-l-4 border-teal-400 p-4 mb-6 hidden">
+        <h4 class="font-bold text-teal-700 mb-2 flex items-center">
+            <i class="fas fa-lightbulb mr-2"></i> Pro Tip
+        </h4>
+        <p class="text-teal-700">For text to be readable, aim for a contrast ratio of at least 4.5:1 for normal text and 3:1 for large text (18pt+).</p>
+    </div>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Foreground Color</label>
+                    <input type="color" id="foreground-color" value="#000000" class="w-full h-12 cursor-pointer">
+                    <input type="text" id="foreground-hex" value="#000000" class="border border-gray-300 rounded-lg px-4 py-2 w-full mt-2 font-mono">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Background Color</label>
+                    <input type="color" id="background-color" value="#ffffff" class="w-full h-12 cursor-pointer">
+                    <input type="text" id="background-hex" value="#ffffff" class="border border-gray-300 rounded-lg px-4 py-2 w-full mt-2 font-mono">
+                </div>
+            </div>
+            
+            <button id="check-contrast" class="bg-teal-600 hover:bg-teal-700 text-white py-3 px-6 rounded-lg transition flex items-center justify-center w-full mb-6">
+                <i class="fas fa-check-circle mr-2"></i> Check Contrast
+            </button>
+            
+            <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                <h3 class="font-bold text-lg mb-4 text-gray-800">Contrast Results</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-gray-700">Contrast Ratio</span>
+                        <span id="contrast-ratio" class="font-mono font-bold">--:1</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-gray-700">WCAG Level AA</span>
+                        <span id="wcag-aa" class="font-medium">--</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-gray-700">WCAG Level AAA</span>
+                        <span id="wcag-aaa" class="font-medium">--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div>
+            <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 h-full">
+                <h3 class="font-bold text-lg mb-4 text-gray-800">Preview</h3>
+                <div id="contrast-preview" class="p-8 rounded-lg" style="background-color: #ffffff;">
+                    <p class="text-base" style="color: #000000;">This is how normal text would look with these colors.</p>
+                    <p class="text-lg font-medium mt-4" style="color: #000000;">This is how large text would look.</p>
+                    <p class="text-sm text-gray-500 mt-6">Try adjusting the colors to achieve better contrast.</p>
+                </div>
+                
+                <div class="mt-6 pt-4 border-t border-gray-200">
+                    <h4 class="font-medium text-gray-700 mb-2">Suggestions</h4>
+                    <div id="contrast-suggestions" class="text-sm text-gray-600">
+                        <p>Enter colors to get contrast suggestions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Gradient Tool -->
+<div id="gradient" class="tool-section">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+        <div>
+            <h2 class="text-3xl font-bold text-purple-600 mb-2 flex items-center">
+                <i class="fas fa-fill-drip mr-3"></i> Gradient Generator
+            </h2>
+            <p class="text-gray-600">Create beautiful CSS gradients for your designs. Copy the code with one click.</p>
+        </div>
+        <div class="mt-4 md:mt-0">
+            <button onclick="showHelp('gradient-help')" class="bg-purple-100 hover:bg-purple-200 text-purple-700 px-4 py-2 rounded-full text-sm flex items-center">
+                <i class="fas fa-question-circle mr-2"></i> How to use
+            </button>
+        </div>
+    </div>
+    
+    <div id="gradient-help" class="bg-purple-50 border-l-4 border-purple-400 p-4 mb-6 hidden">
+        <h4 class="font-bold text-purple-700 mb-2 flex items-center">
+            <i class="fas fa-lightbulb mr-2"></i> Pro Tip
+        </h4>
+        <p class="text-purple-700">Drag the color stops to adjust the gradient. Click on a stop to change its color. Click anywhere on the gradient bar to add new stops.</p>
+    </div>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2">
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Gradient Type</label>
+                <select id="gradient-type" class="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                    <option value="linear">Linear</option>
+                    <option value="radial">Radial</option>
+                    <option value="conic">Conic</option>
+                </select>
+            </div>
+            
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Gradient Direction</label>
+                <select id="gradient-direction" class="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                    <option value="to right">Left to Right</option>
+                    <option value="to bottom">Top to Bottom</option>
+                    <option value="to right bottom">Diagonal (Top-Left to Bottom-Right)</option>
+                    <option value="to left bottom">Diagonal (Top-Right to Bottom-Left)</option>
+                    <option value="45deg">45 Degrees</option>
+                    <option value="90deg">90 Degrees</option>
+                    <option value="135deg">135 Degrees</option>
+                </select>
+            </div>
+            
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Gradient Stops</label>
+                <div id="gradient-editor" class="h-12 rounded-lg mb-4 relative cursor-pointer" style="background: linear-gradient(to right, #3b82f6, #ec4899);">
+                    <!-- Gradient stops will be added here -->
+                </div>
+                <div class="flex justify-between">
+                    <button id="add-gradient-stop" class="bg-purple-600 hover:bg-purple-700 text-white py-1 px-3 rounded text-sm">
+                        <i class="fas fa-plus mr-1"></i> Add Stop
+                    </button>
+                    <button id="random-gradient" class="bg-gray-200 hover:bg-gray-300 text-gray-800 py-1 px-3 rounded text-sm">
+                        <i class="fas fa-random mr-1"></i> Random Gradient
+                    </button>
+                </div>
+            </div>
+            
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Preview</label>
+                <div id="gradient-preview" class="w-full h-32 rounded-lg" style="background: linear-gradient(to right, #3b82f6, #ec4899);"></div>
+            </div>
+        </div>
+        
+        <div class="lg:col-span-1">
+            <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                <h3 class="font-bold text-lg mb-4 text-gray-800 flex items-center">
+                    <i class="fas fa-code text-purple-500 mr-2"></i> CSS Code
+                </h3>
+                <div class="mb-4">
+                    <div class="flex">
+                        <textarea id="gradient-css" readonly class="border border-gray-300 rounded-l-lg px-3 py-2 w-full font-mono text-sm h-32 resize-none focus:outline-none">background: linear-gradient(to right, #3b82f6, #ec4899);</textarea>
+                        <button onclick="copyToClipboard(document.getElementById('gradient-css'))" class="bg-purple-600 hover:bg-purple-700 text-white px-4 rounded-r transition flex items-center justify-center">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-2 mt-4">
+                    <button id="download-gradient-css" class="bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 py-2 px-3 rounded text-sm flex items-center justify-center">
+                        <i class="fas fa-download mr-2"></i> CSS
+                    </button>
+                    <button id="download-gradient-png" class="bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 py-2 px-3 rounded text-sm flex items-center justify-center">
+                        <i class="fas fa-download mr-2"></i> PNG
+                    </button>
+                </div>
+                
+                <div class="mt-6 pt-4 border-t border-gray-200">
+                    <h4 class="font-medium text-gray-700 mb-2">Popular Gradients</h4>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="gradient-preset h-12 rounded cursor-pointer" style="background: linear-gradient(to right, #3b82f6, #8b5cf6);" onclick="applyGradientPreset('linear', 'to right', ['#3b82f6', '#8b5cf6'])"></div>
+                        <div class="gradient-preset h-12 rounded cursor-pointer" style="background: linear-gradient(to right, #ec4899, #f59e0b);" onclick="applyGradientPreset('linear', 'to right', ['#ec4899', '#f59e0b'])"></div>
+                        <div class="gradient-preset h-12 rounded cursor-pointer" style="background: linear-gradient(to right, #10b981, #3b82f6);" onclick="applyGradientPreset('linear', 'to right', ['#10b981', '#3b82f6'])"></div>
+                        <div class="gradient-preset h-12 rounded cursor-pointer" style="background: linear-gradient(to right, #8b5cf6, #ec4899);" onclick="applyGradientPreset('linear', 'to right', ['#8b5cf6', '#ec4899'])"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        </div>
+        
+        <!-- Footer Note -->
+        <div class="text-center mt-12 text-gray-500 text-sm">
+            <p>Color Craft is a free toolset for designers and developers. No account required.</p>
+            <p class="mt-1">Found a bug or have a suggestion? <a href="#" class="text-blue-600 hover:underline">Contact us</a></p>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer class="bg-gray-100 dark:bg-gray-800/80 border-t border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- About Column -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">About MyToolbox</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                        An all-in-one platform offering free, easy-to-use tools for your everyday needs.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Tools Column -->
+                <div>
+                    <h3 class="text-lg !text-black font-semibold mb-4">Tools</h3>
+                    <ul class="space-y-2">
+                        <li><a href="../../index.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">All
+                                Tools</a></li>
+                        <li><a href="../../index.html#featured-tools"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Featured
+                                Tools</a></li>
+                        <li><a href="../../index.html#categories"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">New
+                                Tools</a></li>
+                        <li><a href="../../src/sections/homePage/suggest-tool.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Request
+                                a Tool</a></li>
+                    </ul>
+                </div>
+
+                <!-- Resources Column -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Blog</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Tutorials</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">API</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Help
+                                Center</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal Column -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="../../src/sections/homePage/privacy.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Privacy
+                                Policy</a></li>
+                        <li><a href="../../src/sections/homePage/terms.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Terms
+                                of Service</a></li>
+                        <li><a href="../../src/sections/homePage/cookies.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Cookie
+                                Policy</a></li>
+                        <li><a href="../../src/sections/homePage/gdpr.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">GDPR</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="border-t border-gray-200 dark:border-gray-700 my-8"></div>
+
+            <!-- Bottom Footer -->
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                    <i class="fas fa-tools text-primary-600 dark:text-primary-400"></i>
+                    <span class="font-medium">My<span
+                            class="text-primary-600 dark:text-primary-400">Toolbox</span></span>
+                </div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">
+                    &copy; <span id="current-year"></span> MyToolbox. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+const mobileMenu = document.getElementById('mobile-menu');
+const mobileCategoriesButton = document.getElementById('mobile-categories-button');
+const mobileCategories = document.getElementById('mobile-categories');
+
+// Mobile Menu Toggle
+mobileMenuButton.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+});
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', (e) => {
+    if (!mobileMenu.contains(e.target) && !mobileMenuButton.contains(e.target)) {
+        mobileMenu.classList.add('hidden');
+    }
+});
+// Mobile Categories Toggle
+mobileCategoriesButton.addEventListener('click', () => {
+    mobileCategories.classList.toggle('hidden');
+    mobileCategoriesButton.querySelector('i').classList.toggle('fa-chevron-down');
+    mobileCategoriesButton.querySelector('i').classList.toggle('fa-chevron-up');
+});
+        // Global variables
+        let lockedColors = [];
+        let currentPixelColor = '#000000';
+        let currentBlobPoints = 6;
+        let currentBlobIrregularity = 50;
+        let currentBlobColor = '#3b82f6';
+        
+        // Show selected tool and hide others
+        function showTool(toolId) {
+            // Hide all tool sections
+            document.querySelectorAll('.tool-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Hide default message
+            document.getElementById('default-message').style.display = 'none';
+            
+            // Show selected tool
+            const toolSection = document.getElementById(toolId);
+            if (toolSection) {
+                toolSection.classList.add('active');
+                
+                // Initialize tool if needed
+                if (typeof window[`init_${toolId.replace('-', '_')}`] === 'function') {
+                    window[`init_${toolId.replace('-', '_')}`]();
+                }
+                
+                // Scroll to tool section smoothly
+                toolSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+        
+        // Toggle help messages
+        function showHelp(helpId) {
+            const helpElement = document.getElementById(helpId);
+            if (helpElement) {
+                helpElement.classList.toggle('hidden');
+            }
+        }
+        
+        // Copy color to clipboard (specific for color cards)
+        function copyColorToClipboard(element) {
+            const color = element.textContent;
+            const tempInput = document.createElement('input');
+            tempInput.value = color;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            
+            // Show feedback
+            const originalText = element.textContent;
+            element.textContent = 'Copied!';
+            setTimeout(() => {
+                element.textContent = originalText;
+            }, 2000);
+            
+            showNotification(`Copied ${color} to clipboard!`);
+        }
+        
+        // Copy to clipboard function
+        function copyToClipboard(element) {
+            let textToCopy = element.textContent || element.value;
+            
+            // Create temporary input element
+            const tempInput = document.createElement('input');
+            tempInput.value = textToCopy;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            
+            // Show feedback
+            if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                const originalValue = element.value;
+                element.value = 'Copied!';
+                setTimeout(() => {
+                    element.value = originalValue;
+                }, 2000);
+            } else {
+                const originalText = element.textContent;
+                element.textContent = 'Copied!';
+                setTimeout(() => {
+                    element.textContent = originalText;
+                }, 2000);
+            }
+            
+            // Show floating notification
+            showNotification('Copied to clipboard!');
+        }
+        
+        // Show notification
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'fixed bottom-4 right-4 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg transform translate-y-10 opacity-0 transition-all duration-300';
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.remove('translate-y-10');
+                notification.classList.remove('opacity-0');
+                notification.classList.add('translate-y-0');
+                notification.classList.add('opacity-100');
+            }, 10);
+            
+            setTimeout(() => {
+                notification.classList.remove('translate-y-0');
+                notification.classList.remove('opacity-100');
+                notification.classList.add('translate-y-10');
+                notification.classList.add('opacity-0');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+        
+        // Set pixel color
+        function setPixelColor(color) {
+            currentPixelColor = color;
+            document.getElementById('pixel-color').value = color;
+        }
+        
+        // Export palette function
+        function exportPalette(format) {
+            const colors = [];
+            document.querySelectorAll('.color-card').forEach(card => {
+                const swatch = card.querySelector('.color-swatch');
+                const hex = card.querySelector('.color-hex').textContent;
+                if (swatch.style.backgroundColor) {
+                    colors.push(hex);
+                }
+            });
+            
+            if (colors.length === 0) {
+                showNotification('Generate a palette first!');
+                return;
+            }
+            
+            let exportContent = '';
+            let filename = 'palette';
+            
+            switch(format) {
+                case 'css':
+                    exportContent = `:root {\n`;
+                    colors.forEach((color, index) => {
+                        exportContent += `  --color-${index + 1}: ${color};\n`;
+                    });
+                    exportContent += `}`;
+                    filename += '.css';
+                    break;
+                case 'figma':
+                    exportContent = JSON.stringify({
+                        "palette": colors,
+                        "createdWith": "Color Craft"
+                    }, null, 2);
+                    filename += '.json';
+                    break;
+                case 'png':
+                    // In a real implementation, this would generate an image
+                    showNotification('Palette exported as PNG (simulated)');
+                    return;
+                case 'json':
+                    exportContent = JSON.stringify(colors, null, 2);
+                    filename += '.json';
+                    break;
+            }
+            
+            // Create download link
+            const blob = new Blob([exportContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showNotification(`Palette exported as ${format.toUpperCase()}`);
+        }
+        
+        // Initialize Color Palette Generator
+        function init_color_palette() {
+            const generateBtn = document.getElementById('generate-palette');
+            const paletteType = document.getElementById('palette-type');
+            const baseColor = document.getElementById('palette-base-color');
+            const paletteResult = document.getElementById('palette-result');
+            
+            // Set up color lock functionality
+            document.querySelectorAll('.lock-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const card = this.closest('.color-card');
+                    const index = Array.from(card.parentNode.children).indexOf(card);
+                    const isLocked = this.innerHTML.includes('fa-lock');
+                    
+                    if (isLocked) {
+                        this.innerHTML = '<i class="fas fa-lock-open"></i>';
+                        lockedColors[index] = false;
+                    } else {
+                        this.innerHTML = '<i class="fas fa-lock"></i>';
+                        lockedColors[index] = true;
+                    }
+                });
+            });
+            
+            // Set up mood buttons
+            document.querySelectorAll('.palette-mood-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const mood = this.dataset.mood;
+                    let baseColorValue;
+                    
+                    switch(mood) {
+                        case 'vibrant':
+                            baseColorValue = '#ff4757';
+                            break;
+                        case 'pastel':
+                            baseColorValue = '#ff9ff3';
+                            break;
+                        case 'earth':
+                            baseColorValue = '#8b4513';
+                            break;
+                        case 'cool':
+                            baseColorValue = '#3498db';
+                            break;
+                        default:
+                            baseColorValue = '#3b82f6';
+                    }
+                    
+                    baseColor.value = baseColorValue;
+                    generatePalette();
+                });
+            });
+            
+            // Generate palette function
+            function generatePalette() {
+                // Show loading state
+                generateBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Generating...';
+                
+                // Simulate API call with timeout
+                setTimeout(() => {
+                    const type = paletteType.value;
+                    const base = baseColor.value;
+                    const colors = generateColors(type, base);
+                    
+                    // Update UI with new colors (only for unlocked ones)
+                    const colorCards = paletteResult.querySelectorAll('.color-card');
+                    
+                    colors.forEach((color, i) => {
+                        if (colorCards[i]) {
+                            if (!lockedColors[i]) {
+                                const swatch = colorCards[i].querySelector('.color-swatch');
+                                const hex = colorCards[i].querySelector('.color-hex');
+                                
+                                swatch.style.backgroundColor = color;
+                                hex.textContent = color;
+                                
+                                // Remove the placeholder icon
+                                swatch.innerHTML = '';
+                            }
+                        }
+                    });
+                    
+                    // Update palette info
+                    updatePaletteInfo(type);
+                    
+                    // Generate color name suggestions
+                    generateColorNames(colors);
+                    
+                    // Reset button
+                    generateBtn.innerHTML = '<i class="fas fa-sync-alt mr-2"></i> Generate Color Palette';
+                }, 800);
+            }
+            
+            // Generate colors based on type
+            function generateColors(type, baseColor) {
+                // This would be replaced with actual color theory algorithms in a real implementation
+                const colors = [];
+                const baseHex = baseColor.substring(1);
+                const baseRgb = hexToRgb(baseHex);
+                
+                switch(type) {
+                    case 'analogous':
+                        colors.push(adjustHue(baseColor, -30));
+                        colors.push(adjustHue(baseColor, -15));
+                        colors.push(baseColor);
+                        colors.push(adjustHue(baseColor, 15));
+                        colors.push(adjustHue(baseColor, 30));
+                        break;
+                    case 'monochromatic':
+                        colors.push(lightenColor(baseColor, 40));
+                        colors.push(lightenColor(baseColor, 20));
+                        colors.push(baseColor);
+                        colors.push(darkenColor(baseColor, 20));
+                        colors.push(darkenColor(baseColor, 40));
+                        break;
+                    case 'triad':
+                        colors.push(adjustHue(baseColor, 120));
+                        colors.push(baseColor);
+                        colors.push(adjustHue(baseColor, 240));
+                        colors.push(lightenColor(baseColor, 20));
+                        colors.push(darkenColor(baseColor, 20));
+                        break;
+                    case 'complementary':
+                        colors.push(baseColor);
+                        colors.push(adjustHue(baseColor, 180));
+                        colors.push(lightenColor(baseColor, 30));
+                        colors.push(darkenColor(baseColor, 30));
+                        colors.push(adjustHue(baseColor, 150));
+                        break;
+                    case 'random':
+                        for (let i = 0; i < 5; i++) {
+                            colors.push('#' + Math.floor(Math.random()*16777215).toString(16));
+                        }
+                        break;
+                    default:
+                        colors.push(baseColor);
+                        colors.push(lightenColor(baseColor, 20));
+                        colors.push(darkenColor(baseColor, 20));
+                        colors.push(adjustHue(baseColor, 30));
+                        colors.push(adjustHue(baseColor, 60));
+                }
+                
+                return colors;
+            }
+            
+            // Helper functions for color manipulation
+            function hexToRgb(hex) {
+                const bigint = parseInt(hex, 16);
+                return {
+                    r: (bigint >> 16) & 255,
+                    g: (bigint >> 8) & 255,
+                    b: bigint & 255
+                };
+            }
+            
+            function adjustHue(hex, degrees) {
+                // Simplified hue adjustment - in a real app, use a proper color library
+                const num = parseInt(hex.substring(1), 16);
+                const amt = Math.round(2.55 * degrees);
+                const R = (num >> 16) + amt;
+                const G = (num >> 8 & 0x00FF) + amt;
+                const B = (num & 0x0000FF) + amt;
+                return '#' + (
+                    0x1000000 + 
+                    (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 + 
+                    (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 + 
+                    (B < 255 ? B < 1 ? 0 : B : 255)
+                ).toString(16).slice(1);
+            }
+            
+            function lightenColor(hex, percent) {
+                const num = parseInt(hex.substring(1), 16);
+                const amt = Math.round(2.55 * percent);
+                const R = (num >> 16) + amt;
+                const G = (num >> 8 & 0x00FF) + amt;
+                const B = (num & 0x0000FF) + amt;
+                return '#' + (
+                    0x1000000 + 
+                    (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 + 
+                    (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 + 
+                    (B < 255 ? B < 1 ? 0 : B : 255)
+                ).toString(16).slice(1);
+            }
+            
+            function darkenColor(hex, percent) {
+                const num = parseInt(hex.substring(1), 16);
+                const amt = Math.round(2.55 * percent);
+                const R = (num >> 16) - amt;
+                const G = (num >> 8 & 0x00FF) - amt;
+                const B = (num & 0x0000FF) - amt;
+                return '#' + (
+                    0x1000000 + 
+                    (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 + 
+                    (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 + 
+                    (B < 255 ? B < 1 ? 0 : B : 255)
+                ).toString(16).slice(1);
+            }
+            
+            // Update palette information
+            function updatePaletteInfo(type) {
+                const typeInfo = document.getElementById('palette-type-info');
+                const usesInfo = document.getElementById('palette-uses-info');
+                const accessibilityInfo = document.getElementById('palette-accessibility');
+                
+                switch(type) {
+                    case 'analogous':
+                        typeInfo.textContent = 'Colors that are next to each other on the color wheel.';
+                        usesInfo.textContent = 'Great for harmonious designs with subtle variations.';
+                        break;
+                    case 'monochromatic':
+                        typeInfo.textContent = 'Variations in lightness and saturation of a single hue.';
+                        usesInfo.textContent = 'Creates a cohesive, elegant look with depth.';
+                        break;
+                    case 'triad':
+                        typeInfo.textContent = 'Three colors evenly spaced around the color wheel.';
+                        usesInfo.textContent = 'Bold and vibrant, yet balanced combinations.';
+                        break;
+                    case 'complementary':
+                        typeInfo.textContent = 'Colors opposite each other on the color wheel.';
+                        usesInfo.textContent = 'High contrast for maximum visual impact.';
+                        break;
+                    default:
+                        typeInfo.textContent = 'Various colors selected based on color theory.';
+                        usesInfo.textContent = 'Versatile for different design needs.';
+                }
+                
+                accessibilityInfo.textContent = 'Check contrast ratios for text readability.';
+            }
+            
+            // Generate color name suggestions
+            function generateColorNames(colors) {
+                const container = document.getElementById('color-names-suggestions');
+                container.innerHTML = '';
+                
+                // Sample color names (in a real app, use an API or extensive database)
+                const colorNames = {
+                    '#3b82f6': 'Classic Blue',
+                    '#ef4444': 'Poppy Red',
+                    '#10b981': 'Jade Green',
+                    '#f59e0b': 'Amber Glow',
+                    '#8b5cf6': 'Violet Wave',
+                    '#000000': 'Midnight Black',
+                    '#ffffff': 'Pure White',
+                    '#ff4757': 'Fiery Coral',
+                    '#ff9ff3': 'Cotton Candy',
+                    '#8b4513': 'Sienna Earth',
+                    '#3498db': 'Azure Sky'
+                };
+                
+                colors.forEach(color => {
+                    const name = colorNames[color.toLowerCase()] || 'Custom Shade';
+                    
+                    const card = document.createElement('div');
+                    card.className = 'bg-white p-4 rounded-lg border border-gray-200 color-card';
+                    card.innerHTML = `
+                        <div class="flex items-center mb-2">
+                            <div class="w-8 h-8 rounded-full mr-3" style="background-color: ${color};"></div>
+                            <div>
+                                <h3 class="font-bold">${name}</h3>
+                                <p class="text-sm text-gray-600 font-mono">${color}</p>
+                            </div>
+                        </div>
+                        <button onclick="copyToClipboard('${name}')" class="copy-btn mt-2 text-xs border border-gray-300 rounded px-2 py-1 w-full">
+        Copy Name
+    </button>
+                    `;
+                    
+                    container.appendChild(card);
+                });
+            }
+            
+            // Event listeners
+            generateBtn.addEventListener('click', generatePalette);
+            paletteType.addEventListener('change', generatePalette);
+            baseColor.addEventListener('input', generatePalette);
+            
+            // Initial generation
+            lockedColors = Array(5).fill(false);
+            generatePalette();
+        }
+        
+        // Initialize Pixel Art Generator
+        function init_pixel_art() {
+            const pixelGrid = document.getElementById('pixel-grid');
+            const pixelSize = document.getElementById('pixel-size');
+            const clearPixels = document.getElementById('clear-pixels');
+            const pixelColor = document.getElementById('pixel-color');
+            const downloadBtn = document.getElementById('download-pixel');
+            const previewContainer = document.getElementById('pixel-preview');
+            
+            // Create pixel grid
+            function createPixelGrid(size) {
+                pixelGrid.innerHTML = '';
+                const [cols, rows] = size.split('x').map(Number);
+                pixelGrid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+                
+                for (let i = 0; i < rows * cols; i++) {
+                    const pixel = document.createElement('div');
+                    pixel.className = 'pixel bg-white cursor-pointer';
+                    pixel.dataset.color = '';
+                    
+                    // Click to paint
+                    pixel.addEventListener('mousedown', function(e) {
+                        if (e.button === 0) { // Left click
+                            this.style.backgroundColor = currentPixelColor;
+                            this.dataset.color = currentPixelColor;
+                            updatePreview();
+                        } else if (e.button === 2) { // Right click
+                            this.style.backgroundColor = '';
+                            this.dataset.color = '';
+                            updatePreview();
+                        }
+                    });
+                    
+                    // Drag to paint
+                    let isPainting = false;
+                    
+                    pixel.addEventListener('mouseenter', function() {
+                        if (isPainting) {
+                            this.style.backgroundColor = currentPixelColor;
+                            this.dataset.color = currentPixelColor;
+                            updatePreview();
+                        }
+                    });
+                    
+                    pixelGrid.addEventListener('mousedown', function() {
+                        isPainting = true;
+                    });
+                    
+                    document.addEventListener('mouseup', function() {
+                        isPainting = false;
+                    });
+                    
+                    pixelGrid.appendChild(pixel);
+                }
+                
+                updatePreview();
+            }
+            
+            // Update preview
+            function updatePreview() {
+                previewContainer.innerHTML = '';
+                
+                // Create a scaled down preview
+                const previewSize = 128;
+                const cols = pixelGrid.style.gridTemplateColumns.split(' ').length;
+                const rows = pixelGrid.children.length / cols;
+                const cellSize = Math.min(previewSize / cols, previewSize / rows);
+                
+                const previewGrid = document.createElement('div');
+                previewGrid.className = 'grid gap-0 w-max mx-auto';
+                previewGrid.style.gridTemplateColumns = `repeat(${cols}, ${cellSize}px)`;
+                
+                Array.from(pixelGrid.children).forEach(pixel => {
+                    const previewPixel = document.createElement('div');
+                    previewPixel.className = 'w-full h-full';
+                    previewPixel.style.backgroundColor = pixel.dataset.color || 'white';
+                    previewGrid.appendChild(previewPixel);
+                });
+                
+                previewContainer.appendChild(previewGrid);
+            }
+            
+            // Clear pixel grid
+            function clearPixelGrid() {
+                document.querySelectorAll('.pixel').forEach(pixel => {
+                    pixel.style.backgroundColor = '';
+                    pixel.dataset.color = '';
+                });
+                updatePreview();
+            }
+            
+            // Change grid size
+            pixelSize.addEventListener('change', function() {
+                createPixelGrid(this.value);
+            });
+            
+            // Clear button
+            clearPixels.addEventListener('click', clearPixelGrid);
+            
+            // Color picker
+            pixelColor.addEventListener('input', function() {
+                currentPixelColor = this.value;
+            });
+            
+            // Download functionality
+            downloadBtn.addEventListener('click', function() {
+                // In a real implementation, this would convert the grid to an image
+                // For now, we'll simulate it with a canvas
+                try {
+                    const cols = pixelGrid.style.gridTemplateColumns.split(' ').length;
+                    const rows = pixelGrid.children.length / cols;
+                    
+                    // Create a canvas
+                    const canvas = document.createElement('canvas');
+                    canvas.width = cols * 10; // 10px per pixel
+                    canvas.height = rows * 10;
+                    const ctx = canvas.getContext('2d');
+                    
+                    // Draw each pixel
+                    Array.from(pixelGrid.children).forEach((pixel, index) => {
+                        const x = (index % cols) * 10;
+                        const y = Math.floor(index / cols) * 10;
+                        ctx.fillStyle = pixel.dataset.color || 'white';
+                        ctx.fillRect(x, y, 10, 10);
+                    });
+                    
+                    // Create download link
+                    const link = document.createElement('a');
+                    link.download = 'pixel-art.png';
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                    
+                    showNotification('Pixel art downloaded as PNG');
+                } catch (e) {
+                    showNotification('Error generating image');
+                    console.error(e);
+                }
+            });
+            
+            // Save/load functionality
+            document.getElementById('save-pixel').addEventListener('click', function() {
+                const cols = pixelGrid.style.gridTemplateColumns.split(' ').length;
+                const rows = pixelGrid.children.length / cols;
+                const pixels = Array.from(pixelGrid.children).map(pixel => pixel.dataset.color || '');
+                
+                localStorage.setItem('pixelArt', JSON.stringify({
+                    size: `${cols}x${rows}`,
+                    pixels: pixels,
+                    color: currentPixelColor
+                }));
+                
+                showNotification('Project saved locally');
+            });
+            
+            document.getElementById('load-pixel').addEventListener('click', function() {
+                const savedData = localStorage.getItem('pixelArt');
+                if (savedData) {
+                    try {
+                        const data = JSON.parse(savedData);
+                        document.getElementById('pixel-size').value = data.size;
+                        currentPixelColor = data.color || '#000000';
+                        document.getElementById('pixel-color').value = currentPixelColor;
+                        
+                        createPixelGrid(data.size);
+                        
+                        // Apply saved pixels
+                        setTimeout(() => {
+                            Array.from(pixelGrid.children).forEach((pixel, index) => {
+                                if (data.pixels[index]) {
+                                    pixel.style.backgroundColor = data.pixels[index];
+                                    pixel.dataset.color = data.pixels[index];
+                                }
+                            });
+                            updatePreview();
+                        }, 10);
+                        
+                        showNotification('Project loaded');
+                    } catch (e) {
+                        showNotification('Error loading project');
+                        console.error(e);
+                    }
+                } else {
+                    showNotification('No saved project found');
+                }
+            });
+            
+            // Initialize with default size
+            createPixelGrid(pixelSize.value);
+            
+            // Prevent context menu on right click
+            pixelGrid.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+            });
+        }
+        
+        // Initialize Color Names Tool
+        function init_color_names() {
+            const generateBtn = document.getElementById('generate-names');
+            const colorInput = document.getElementById('color-names-input');
+            const hexInput = document.getElementById('color-names-hex');
+            const uploadInput = document.getElementById('color-names-upload');
+            
+            colorInput.addEventListener('input', function() {
+                hexInput.value = this.value;
+            });
+            
+            hexInput.addEventListener('input', function() {
+                if (this.value.match(/^#[0-9A-F]{6}$/i)) {
+                    colorInput.value = this.value;
+                }
+            });
+            
+            uploadInput.addEventListener('change', function(e) {
+                if (e.target.files && e.target.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        // In a real app, analyze the image colors
+                        showNotification('Image uploaded (color analysis simulated)');
+                    };
+                    reader.readAsDataURL(e.target.files[0]);
+                }
+            });
+            
+            generateBtn.addEventListener('click', function() {
+                const color = hexInput.value;
+                if (!color.match(/^#[0-9A-F]{6}$/i)) {
+                    showNotification('Please enter a valid hex color');
+                    return;
+                }
+                
+                // Show loading
+                this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Generating...';
+                
+                // Simulate API call
+                setTimeout(() => {
+                    const names = generateColorNames(color);
+                    displayColorNames(color, names);
+                    this.innerHTML = '<i class="fas fa-magic mr-2"></i> Generate Color Names';
+                }, 800);
+            });
+            
+            function generateColorNames(color) {
+                // This would call an API in a real implementation
+                // For now, we'll return some sample names based on color
+                const colorMap = {
+                    '#3b82f6': ['Classic Blue', 'Azure Sky', 'Ocean Wave'],
+                    '#ef4444': ['Poppy Red', 'Cherry Blossom', 'Ruby Glow'],
+                    '#10b981': ['Jade Green', 'Emerald', 'Forest Mist'],
+                    '#f59e0b': ['Amber Glow', 'Golden Hour', 'Sunflower'],
+                    '#8b5cf6': ['Violet Wave', 'Lavender Dream', 'Orchid'],
+                    '#000000': ['Midnight Black', 'Ebony', 'Raven'],
+                    '#ffffff': ['Pure White', 'Snow', 'Pearl'],
+                    '#ff4757': ['Fiery Coral', 'Watermelon', 'Flamingo'],
+                    '#ff9ff3': ['Cotton Candy', 'Bubblegum', 'Fairy Floss'],
+                    '#8b4513': ['Sienna Earth', 'Chestnut', 'Copper'],
+                    '#3498db': ['Azure Sky', 'Caribbean', 'Summer Blue']
+                };
+                
+                return colorMap[color.toLowerCase()] || ['Custom Shade', 'Unique Hue', 'Personal Color'];
+            }
+            
+            function displayColorNames(color, names) {
+                const container = document.getElementById('color-names-results');
+                container.innerHTML = '';
+                
+                names.forEach(name => {
+                    const card = document.createElement('div');
+                    card.className = 'bg-white p-4 rounded-lg border border-gray-200';
+                    card.innerHTML = `
+                        <div class="flex items-center mb-2">
+                            <div class="w-8 h-8 rounded-full mr-3" style="background-color: ${color};"></div>
+                            <div>
+                                <h3 class="font-bold">${name}</h3>
+                                <p class="text-sm text-gray-600 font-mono">${color}</p>
+                            </div>
+                        </div>
+                        <div class="text-sm text-gray-700 mt-2">
+                            <p>${getColorDescription(name, color)}</p>
+                        </div>
+                        <div class="mt-3 flex justify-between items-center">
+                            <span class="text-xs text-gray-500">Confidence: ${Math.floor(Math.random() * 20) + 80}%</span>
+                            <button onclick="copyToClipboard('${name}')" class="copy-btn text-xs border border-gray-300 rounded px-2 py-1" data-color="${color}" data-name="${name}">
+        Copy Name
+    </button>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            }
+            
+            function getColorDescription(name, color) {
+                // Generate a simple description based on the name
+                if (name.includes('Blue')) {
+                    return "A calming blue shade reminiscent of clear skies and deep oceans. Perfect for corporate designs and tranquil interfaces.";
+                } else if (name.includes('Red')) {
+                    return "A vibrant red that commands attention. Great for alerts, calls to action, and energetic designs.";
+                } else if (name.includes('Green')) {
+                    return "A natural green that evokes growth and harmony. Ideal for environmental brands and organic products.";
+                } else if (name.includes('Black')) {
+                    return "A deep, sophisticated black. Works well for luxury brands and minimalist designs.";
+                } else if (name.includes('White')) {
+                    return "A pure, clean white. Perfect for backgrounds and creating a sense of space.";
+                } else {
+                    return "A beautiful color with unique character. Use it to make your designs stand out.";
+                }
+            }
+            
+            // Initial generation
+            generateBtn.click();
+        }
+        
+        // Initialize Color Blind Tool
+        function init_color_blind() {
+            const colorInput = document.getElementById('blind-color-input');
+            const hexInput = document.getElementById('blind-color-hex');
+            const uploadInput = document.getElementById('blind-image-upload');
+            const typeButtons = document.querySelectorAll('.blind-type-btn');
+            
+            colorInput.addEventListener('input', function() {
+                hexInput.value = this.value;
+                updateColorBlindPreview(this.value);
+            });
+            
+            hexInput.addEventListener('input', function() {
+                if (this.value.match(/^#[0-9A-F]{6}$/i)) {
+                    colorInput.value = this.value;
+                    updateColorBlindPreview(this.value);
+                }
+            });
+            
+            uploadInput.addEventListener('change', function(e) {
+                if (e.target.files && e.target.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        // In a real app, we would process the image
+                        showNotification('Image uploaded (color blindness simulation simulated)');
+                    };
+                    reader.readAsDataURL(e.target.files[0]);
+                }
+            });
+            
+            typeButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const type = this.dataset.type;
+                    updateActiveTypeButton(type);
+                });
+            });
+            
+            function updateActiveTypeButton(type) {
+                typeButtons.forEach(btn => {
+                    if (btn.dataset.type === type) {
+                        btn.classList.add('bg-blue-600', 'text-white');
+                        btn.classList.remove('bg-blue-100', 'text-blue-800');
+                    } else {
+                        btn.classList.remove('bg-blue-600', 'text-white');
+                        btn.classList.add('bg-blue-100', 'text-blue-800');
+                    }
+                });
+            }
+            
+            function updateColorBlindPreview(color) {
+                const results = document.getElementById('blind-results');
+                const normal = results.children[0].querySelector('div');
+                const protanopia = results.children[1].querySelector('div');
+                const deuteranopia = results.children[2].querySelector('div');
+                const tritanopia = results.children[3].querySelector('div');
+                
+                normal.style.backgroundColor = color;
+                protanopia.style.backgroundColor = color;
+                deuteranopia.style.backgroundColor = color;
+                tritanopia.style.backgroundColor = color;
+                
+                // Update hex code display
+                results.children[0].querySelector('.font-mono').textContent = color;
+            }
+            
+            // Initial update
+            updateColorBlindPreview(colorInput.value);
+            updateActiveTypeButton('normal');
+        }
+        
+        // Initialize Blob Generator
+        function init_blob_gen() {
+            const complexitySlider = document.getElementById('blob-complexity');
+            const irregularitySlider = document.getElementById('blob-irregularity');
+            const colorInput = document.getElementById('blob-color');
+            const animationSelect = document.getElementById('blob-animation');
+            const randomBtn = document.getElementById('random-blob');
+            const svgOutput = document.getElementById('blob-svg');
+            const blobShape = document.getElementById('blob-shape');
+            
+            // Update blob when controls change
+            complexitySlider.addEventListener('input', function() {
+                document.getElementById('blob-complexity-value').textContent = this.value + ' points';
+                currentBlobPoints = parseInt(this.value);
+                updateBlob();
+            });
+            
+            irregularitySlider.addEventListener('input', function() {
+                document.getElementById('blob-irregularity-value').textContent = this.value + '%';
+                currentBlobIrregularity = parseInt(this.value);
+                updateBlob();
+            });
+            
+            colorInput.addEventListener('input', function() {
+                currentBlobColor = this.value;
+                updateBlob();
+            });
+            
+            animationSelect.addEventListener('change', function() {
+                updateBlobAnimation(this.value);
+            });
+            
+            randomBtn.addEventListener('click', function() {
+                // Randomize settings
+                complexitySlider.value = Math.floor(Math.random() * 8) + 3;
+                irregularitySlider.value = Math.floor(Math.random() * 100);
+                colorInput.value = '#' + Math.floor(Math.random()*16777215).toString(16);
+                
+                // Trigger updates
+                complexitySlider.dispatchEvent(new Event('input'));
+                irregularitySlider.dispatchEvent(new Event('input'));
+                colorInput.dispatchEvent(new Event('input'));
+            });
+            
+            // Download buttons
+            document.getElementById('download-blob-svg').addEventListener('click', function() {
+                const blob = new Blob([svgOutput.value], {type: 'image/svg+xml'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'blob-shape.svg';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                showNotification('Blob downloaded as SVG');
+            });
+            
+            document.getElementById('download-blob-png').addEventListener('click', function() {
+                // In a real implementation, convert SVG to PNG
+                showNotification('Blob downloaded as PNG (simulated)');
+            });
+            
+            // Blob preset buttons
+            document.querySelectorAll('.blob-preset').forEach(preset => {
+                preset.addEventListener('click', function() {
+                    const points = parseInt(this.dataset.points) || 6;
+                    const irregularity = parseInt(this.dataset.irregularity) || 50;
+                    const color = this.dataset.color || '#3b82f6';
+                    
+                    complexitySlider.value = points;
+                    irregularitySlider.value = irregularity;
+                    colorInput.value = color;
+                    
+                    // Trigger updates
+                    complexitySlider.dispatchEvent(new Event('input'));
+                    irregularitySlider.dispatchEvent(new Event('input'));
+                    colorInput.dispatchEvent(new Event('input'));
+                });
+            });
+            
+            function updateBlob() {
+                const points = currentBlobPoints;
+                const irregularity = currentBlobIrregularity / 100;
+                const centerX = 100, centerY = 100, radius = 80;
+                let pathData = 'M';
+                
+                for (let i = 0; i < points; i++) {
+                    const angle = (i / points) * Math.PI * 2;
+                    const randomRadius = radius * (1 - irregularity + Math.random() * irregularity * 2);
+                    const x = centerX + Math.cos(angle) * randomRadius;
+                    const y = centerY + Math.sin(angle) * randomRadius;
+                    
+                    if (i === 0) {
+                        pathData += `${x} ${y}`;
+                    } else {
+                        pathData += ` L ${x} ${y}`;
+                    }
+                }
+                
+                pathData += ' Z';
+                
+                // Update blob shape
+                blobShape.style.clipPath = `path('${pathData}')`;
+                blobShape.style.backgroundColor = currentBlobColor;
+                
+                // Update SVG code
+                const svgCode = `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <path fill="${currentBlobColor}" d="${pathData}"/>
+</svg>`;
+                svgOutput.value = svgCode;
+            }
+            
+            function updateBlobAnimation(type) {
+                // Remove all animation classes
+                blobShape.classList.remove('blob-morph', 'blob-pulse', 'blob-rotate');
+                
+                // Add selected animation
+                switch(type) {
+                    case 'morph':
+                        blobShape.classList.add('blob-morph');
+                        break;
+                    case 'pulse':
+                        blobShape.classList.add('blob-pulse');
+                        break;
+                    case 'rotate':
+                        blobShape.classList.add('blob-rotate');
+                        break;
+                }
+            }
+            
+            // Apply blob preset
+            function applyBlobPreset(points, irregularity, color) {
+                complexitySlider.value = points;
+                irregularitySlider.value = irregularity;
+                colorInput.value = color;
+                
+                // Trigger updates
+                complexitySlider.dispatchEvent(new Event('input'));
+                irregularitySlider.dispatchEvent(new Event('input'));
+                colorInput.dispatchEvent(new Event('input'));
+            }
+            
+            // Initial update
+            updateBlob();
+        }
+        
+        // Initialize Color Shades Tool
+        function init_shades() {
+            const baseColor = document.getElementById('shades-base-color');
+            const generateBtn = document.getElementById('generate-shades');
+            const resultsContainer = document.getElementById('shades-results');
+            const cssOutput = document.getElementById('shades-css');
+            
+            baseColor.addEventListener('input', generateShades);
+            generateBtn.addEventListener('click', generateShades);
+            
+            function generateShades() {
+                const base = baseColor.value;
+                const baseHex = base.substring(1);
+                const baseRgb = hexToRgb(baseHex);
+                
+                // Generate 9 shades (from darkest to lightest)
+                const shades = [];
+                for (let i = 0; i < 9; i++) {
+                    const percent = (i + 1) * 10;
+                    shades.push(darkenColor(base, percent));
+                }
+                
+                // Reverse to go from dark to light
+                shades.reverse();
+                
+                // Add white at the end
+                shades.push('#ffffff');
+                shades.push('#ffffff');
+                
+                // Update UI
+                resultsContainer.innerHTML = '';
+                shades.forEach((shade, index) => {
+                    const shadeElement = document.createElement('div');
+                    shadeElement.className = 'w-full h-full';
+                    shadeElement.style.backgroundColor = shade;
+                    
+                    // Add border to white shades
+                    if (shade === '#ffffff') {
+                        shadeElement.style.border = '1px solid #e5e7eb';
+                    }
+                    
+                    // Round corners for first and last
+                    if (index === 0) {
+                        shadeElement.classList.add('rounded-tl', 'rounded-bl');
+                    } else if (index === shades.length - 1) {
+                        shadeElement.classList.add('rounded-tr', 'rounded-br');
+                    }
+                    
+                    resultsContainer.appendChild(shadeElement);
+                });
+                
+                // Update CSS output
+                let css = ':root {\n';
+                shades.forEach((shade, index) => {
+                    if (index < 9) { // Only name the first 9 shades
+                        const shadeName = 900 - (index * 100);
+                        css += `  --color-${shadeName}: ${shade};\n`;
+                    }
+                });
+                css += '}';
+                
+                cssOutput.value = css;
+            }
+            
+            function hexToRgb(hex) {
+                const bigint = parseInt(hex, 16);
+                return {
+                    r: (bigint >> 16) & 255,
+                    g: (bigint >> 8) & 255,
+                    b: bigint & 255
+                };
+            }
+            
+            function darkenColor(hex, percent) {
+                const num = parseInt(hex.substring(1), 16);
+                const amt = Math.round(2.55 * percent);
+                const R = (num >> 16) - amt;
+                const G = (num >> 8 & 0x00FF) - amt;
+                const B = (num & 0x0000FF) - amt;
+                return '#' + (
+                    0x1000000 + 
+                    (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 + 
+                    (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 + 
+                    (B < 255 ? B < 1 ? 0 : B : 255)
+                ).toString(16).slice(1);
+            }
+            
+            // Initial generation
+            generateShades();
+        }
+        
+        // Initialize Image Palette Tool
+        function init_image_palette() {
+            const uploadInput = document.getElementById('image-upload');
+            const previewContainer = document.getElementById('image-preview-container');
+            const previewImage = document.getElementById('image-preview');
+            const colorCount = document.getElementById('color-count');
+            const extractBtn = document.getElementById('extract-colors');
+            const resultsContainer = document.getElementById('extracted-colors');
+            const sampleButtons = document.querySelectorAll('.sample-image');
+            
+            uploadInput.addEventListener('change', function(e) {
+                if (e.target.files && e.target.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        previewImage.src = event.target.result;
+                        previewContainer.classList.remove('hidden');
+                    };
+                    reader.readAsDataURL(e.target.files[0]);
+                }
+            });
+            
+            extractBtn.addEventListener('click', function() {
+                if (!previewImage.src) {
+                    showNotification('Please upload an image first');
+                    return;
+                }
+                
+                // Show loading
+                this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Extracting...';
+                
+                // Simulate color extraction
+                setTimeout(() => {
+                    const count = parseInt(colorCount.value);
+                    const colors = generateRandomColors(count);
+                    displayExtractedColors(colors);
+                    this.innerHTML = '<i class="fas fa-magic mr-2"></i> Extract Colors';
+                }, 1000);
+            });
+            
+            sampleButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const sample = this.dataset.sample;
+                    let imageUrl = '';
+                    
+                    switch(sample) {
+                        case 'nature':
+                            imageUrl = 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60';
+                            break;
+                        case 'art':
+                            imageUrl = 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60';
+                            break;
+                        case 'city':
+                            imageUrl = 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60';
+                            break;
+                        case 'food':
+                            imageUrl = 'https://images.unsplash.com/photo-1467003909585-2f8a72700288?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60';
+                            break;
+                    }
+                    
+                    previewImage.src = imageUrl;
+                    previewContainer.classList.remove('hidden');
+                    showNotification('Sample image loaded');
+                });
+            });
+            
+            function generateRandomColors(count) {
+                // In a real implementation, this would analyze the image
+                // For now, we'll generate some random colors
+                const colors = [];
+                for (let i = 0; i < count; i++) {
+                    colors.push('#' + Math.floor(Math.random()*16777215).toString(16));
+                }
+                return colors;
+            }
+            
+            function displayExtractedColors(colors) {
+                resultsContainer.innerHTML = '';
+                
+                colors.forEach(color => {
+                    const colorElement = document.createElement('div');
+                    colorElement.className = 'text-center';
+                    colorElement.innerHTML = `
+                        <div class="color-swatch h-24 rounded-lg mb-2 cursor-pointer" style="background-color: ${color};" onclick="copyColorToClipboard(this.nextElementSibling)"></div>
+                        <span class="text-sm font-mono">${color}</span>
+                    `;
+                    resultsContainer.appendChild(colorElement);
+                });
+            }
+        }
+        
+        // Initialize all tools when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize tool functions if they exist
+            if (typeof init_color_palette === 'function') init_color_palette();
+            if (typeof init_pixel_art === 'function') init_pixel_art();
+            if (typeof init_color_names === 'function') init_color_names();
+            if (typeof init_color_blind === 'function') init_color_blind();
+            if (typeof init_blob_gen === 'function') init_blob_gen();
+            if (typeof init_shades === 'function') init_shades();
+            if (typeof init_image_palette === 'function') init_image_palette();
+            if (typeof init_color_picker === 'function') init_color_picker();
+    if (typeof init_color_contrast === 'function') init_color_contrast();
+        if (typeof init_gradient === 'function') init_gradient();
+
+        });
+
+        // Initialize Color Picker Tool
+function init_color_picker() {
+    const activateBtn = document.getElementById('activate-picker');
+    const pickedColor = document.getElementById('picked-color');
+    const pickedHex = document.getElementById('picked-hex');
+    const pickedRgb = document.getElementById('picked-rgb');
+    const pickedHsl = document.getElementById('picked-hsl');
+    
+    let isPickerActive = false;
+    
+    activateBtn.addEventListener('click', function() {
+        isPickerActive = !isPickerActive;
+        
+        if (isPickerActive) {
+            this.innerHTML = '<i class="fas fa-times mr-3"></i> Cancel Picker';
+            this.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+            this.classList.add('bg-red-600', 'hover:bg-red-700');
+            document.body.style.cursor = 'crosshair';
+            showNotification('Click anywhere to pick a color');
+        } else {
+            this.innerHTML = '<i class="fas fa-eye-dropper mr-3"></i> Activate Color Picker';
+            this.classList.remove('bg-red-600', 'hover:bg-red-700');
+            this.classList.add('bg-blue-600', 'hover:bg-blue-700');
+            document.body.style.cursor = '';
+        }
+    });
+    
+    document.addEventListener('click', function(e) {
+        if (!isPickerActive) return;
+        
+        // Prevent activating on the picker button itself
+        if (e.target === activateBtn || activateBtn.contains(e.target)) return;
+        
+        // Simulate color picking (in a real app, you'd use the EyeDropper API)
+        const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+        updatePickedColor(randomColor);
+        
+        // Deactivate picker
+        isPickerActive = false;
+        activateBtn.innerHTML = '<i class="fas fa-eye-dropper mr-3"></i> Activate Color Picker';
+        activateBtn.classList.remove('bg-red-600', 'hover:bg-red-700');
+        activateBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+        document.body.style.cursor = '';
+    });
+    
+    function updatePickedColor(color) {
+        pickedColor.style.backgroundColor = color;
+        pickedHex.value = color;
+        
+        // Convert hex to RGB and HSL (simplified)
+        const rgb = hexToRgb(color);
+        pickedRgb.value = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+        
+        const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+        pickedHsl.value = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+        
+        // Add to recent colors
+        addRecentColor(color);
+    }
+    
+    function hexToRgb(hex) {
+        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : { r: 0, g: 0, b: 0 };
+    }
+    
+    function rgbToHsl(r, g, b) {
+        // Simplified conversion
+        r /= 255, g /= 255, b /= 255;
+        const max = Math.max(r, g, b), min = Math.min(r, g, b);
+        let h, s, l = (max + min) / 2;
+
+        if (max === min) {
+            h = s = 0; // achromatic
+        } else {
+            const d = max - min;
+            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+            switch (max) {
+                case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                case g: h = (b - r) / d + 2; break;
+                case b: h = (r - g) / d + 4; break;
+            }
+            h /= 6;
+        }
+
+        return {
+            h: Math.round(h * 360),
+            s: Math.round(s * 100),
+            l: Math.round(l * 100)
+        };
+    }
+    
+    function addRecentColor(color) {
+        const recentColors = document.querySelectorAll('.recent-color');
+        if (recentColors.length > 0) {
+            // Shift colors to the right
+            for (let i = recentColors.length - 1; i > 0; i--) {
+                recentColors[i].style.backgroundColor = recentColors[i-1].style.backgroundColor;
+            }
+            recentColors[0].style.backgroundColor = color;
+        }
+    }
+    
+    // Copy color value functions
+    window.copyColorValue = function(type) {
+        let value = '';
+        switch(type) {
+            case 'hex': value = pickedHex.value; break;
+            case 'rgb': value = pickedRgb.value; break;
+            case 'hsl': value = pickedHsl.value; break;
+        }
+        
+        if (value) {
+            navigator.clipboard.writeText(value);
+            showNotification(`Copied ${type.toUpperCase()} to clipboard!`);
+        }
+    };
+    
+    window.addToPalette = function() {
+        if (pickedHex.value) {
+            showNotification(`Color ${pickedHex.value} added to palette (simulated)`);
+        }
+    };
+    
+    window.useRecentColor = function(element) {
+        const color = element.style.backgroundColor;
+        if (color) {
+            const hex = rgbToHex(color);
+            updatePickedColor(hex);
+        }
+    };
+    
+    function rgbToHex(rgb) {
+        // Convert rgb(r, g, b) to hex
+        const match = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+        if (!match) return '#000000';
+        
+        function hex(x) {
+            return ("0" + parseInt(x).toString(16)).slice(-2);
+        }
+        
+        return "#" + hex(match[1]) + hex(match[2]) + hex(match[3]);
+    }
+}
+
+// Initialize Contrast Checker Tool
+function init_color_contrast() {
+    const foregroundColor = document.getElementById('foreground-color');
+    const foregroundHex = document.getElementById('foreground-hex');
+    const backgroundColor = document.getElementById('background-color');
+    const backgroundHex = document.getElementById('background-hex');
+    const checkBtn = document.getElementById('check-contrast');
+    const contrastRatio = document.getElementById('contrast-ratio');
+    const wcagAA = document.getElementById('wcag-aa');
+    const wcagAAA = document.getElementById('wcag-aaa');
+    const contrastPreview = document.getElementById('contrast-preview');
+    const contrastSuggestions = document.getElementById('contrast-suggestions');
+    
+    // Sync color inputs
+    foregroundColor.addEventListener('input', function() {
+        foregroundHex.value = this.value;
+        checkContrast();
+    });
+    
+    foregroundHex.addEventListener('input', function() {
+        if (this.value.match(/^#[0-9A-F]{6}$/i)) {
+            foregroundColor.value = this.value;
+            checkContrast();
+        }
+    });
+    
+    backgroundColor.addEventListener('input', function() {
+        backgroundHex.value = this.value;
+        checkContrast();
+    });
+    
+    backgroundHex.addEventListener('input', function() {
+        if (this.value.match(/^#[0-9A-F]{6}$/i)) {
+            backgroundColor.value = this.value;
+            checkContrast();
+        }
+    });
+    
+    checkBtn.addEventListener('click', checkContrast);
+    
+    function checkContrast() {
+        const fg = foregroundHex.value;
+        const bg = backgroundHex.value;
+        
+        if (!fg || !bg || !fg.match(/^#[0-9A-F]{6}$/i) || !bg.match(/^#[0-9A-F]{6}$/i)) {
+            showNotification('Please enter valid colors');
+            return;
+        }
+        
+        // Calculate contrast ratio (simplified)
+        const ratio = calculateContrastRatio(fg, bg);
+        contrastRatio.textContent = ratio.toFixed(2) + ':1';
+        
+        // Update WCAG compliance
+        const aaNormal = ratio >= 4.5;
+        const aaLarge = ratio >= 3;
+        const aaaNormal = ratio >= 7;
+        const aaaLarge = ratio >= 4.5;
+        
+        wcagAA.innerHTML = aaNormal ? 
+            '<span class="text-green-600"><i class="fas fa-check-circle mr-1"></i> Pass (Normal)</span>' : 
+            '<span class="text-red-600"><i class="fas fa-times-circle mr-1"></i> Fail (Normal)</span>';
+        
+        wcagAAA.innerHTML = aaaNormal ? 
+            '<span class="text-green-600"><i class="fas fa-check-circle mr-1"></i> Pass (Normal)</span>' : 
+            '<span class="text-red-600"><i class="fas fa-times-circle mr-1"></i> Fail (Normal)</span>';
+        
+        // Update preview
+        contrastPreview.style.backgroundColor = bg;
+        contrastPreview.querySelectorAll('p').forEach(p => {
+            if (!p.classList.contains('text-gray-500')) {
+                p.style.color = fg;
+            }
+        });
+        
+        // Update suggestions
+        updateSuggestions(ratio, fg, bg);
+    }
+    
+    function calculateContrastRatio(color1, color2) {
+        // Simplified contrast ratio calculation
+        // In a real app, use proper luminance calculation
+        const rgb1 = hexToRgb(color1);
+        const rgb2 = hexToRgb(color2);
+        
+        const lum1 = (0.299 * rgb1.r + 0.587 * rgb1.g + 0.114 * rgb1.b) / 255;
+        const lum2 = (0.299 * rgb2.r + 0.587 * rgb2.g + 0.114 * rgb2.b) / 255;
+        
+        const lighter = Math.max(lum1, lum2);
+        const darker = Math.min(lum1, lum2);
+        return (lighter + 0.05) / (darker + 0.05);
+    }
+    
+    function hexToRgb(hex) {
+        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : { r: 0, g: 0, b: 0 };
+    }
+    
+    function updateSuggestions(ratio, fg, bg) {
+        let suggestions = '';
+        
+        if (ratio < 3) {
+            suggestions = `
+                <p class="text-red-600 font-medium mb-2">Poor contrast (${ratio.toFixed(2)}:1)</p>
+                <ul class="list-disc pl-5">
+                    <li>Consider using a darker text color</li>
+                    <li>Try a lighter background color</li>
+                    <li>Aim for at least 4.5:1 for normal text</li>
+                </ul>
+            `;
+        } else if (ratio < 4.5) {
+            suggestions = `
+                <p class="text-yellow-600 font-medium mb-2">Moderate contrast (${ratio.toFixed(2)}:1)</p>
+                <ul class="list-disc pl-5">
+                    <li>Works for large text (18pt+) but not normal text</li>
+                    <li>Consider improving to 4.5:1 for better readability</li>
+                </ul>
+            `;
+        } else if (ratio < 7) {
+            suggestions = `
+                <p class="text-green-600 font-medium mb-2">Good contrast (${ratio.toFixed(2)}:1)</p>
+                <ul class="list-disc pl-5">
+                    <li>Meets WCAG AA standards</li>
+                    <li>Consider 7:1 for AAA compliance if needed</li>
+                </ul>
+            `;
+        } else {
+            suggestions = `
+                <p class="text-green-600 font-medium mb-2">Excellent contrast (${ratio.toFixed(2)}:1)</p>
+                <ul class="list-disc pl-5">
+                    <li>Exceeds WCAG AAA standards</li>
+                    <li>Great for all text sizes</li>
+                </ul>
+            `;
+        }
+        
+        contrastSuggestions.innerHTML = suggestions;
+    }
+    
+    // Initial check
+    checkContrast();
+}
+
+// Initialize Gradient Generator Tool
+function init_gradient() {
+    const gradientType = document.getElementById('gradient-type');
+    const gradientDirection = document.getElementById('gradient-direction');
+    const gradientEditor = document.getElementById('gradient-editor');
+    const addStopBtn = document.getElementById('add-gradient-stop');
+    const randomBtn = document.getElementById('random-gradient');
+    const preview = document.getElementById('gradient-preview');
+    const cssOutput = document.getElementById('gradient-css');
+    const downloadCssBtn = document.getElementById('download-gradient-css');
+    const downloadPngBtn = document.getElementById('download-gradient-png');
+    
+    let gradientStops = [
+        { color: '#3b82f6', position: 0 },
+        { color: '#ec4899', position: 100 }
+    ];
+    
+    // Initialize gradient editor
+    function initGradientEditor() {
+        gradientEditor.innerHTML = '';
+        
+        gradientStops.forEach((stop, index) => {
+            const stopElement = document.createElement('div');
+            stopElement.className = 'gradient-stop absolute top-0 w-4 h-4 rounded-full border-2 border-white shadow-md transform -translate-x-1/2 -translate-y-1/2 cursor-pointer';
+            stopElement.style.left = `${stop.position}%`;
+            stopElement.style.backgroundColor = stop.color;
+            stopElement.dataset.index = index;
+            
+            // Make stops draggable
+            stopElement.draggable = true;
+            stopElement.addEventListener('dragstart', handleDragStart);
+            stopElement.addEventListener('click', function() {
+                openColorPicker(index);
+            });
+            
+            gradientEditor.appendChild(stopElement);
+        });
+        
+        updateGradient();
+    }
+    
+    // Update gradient preview and CSS code
+    function updateGradient() {
+        const type = gradientType.value;
+        const direction = gradientDirection.value;
+        const stops = gradientStops.map(stop => `${stop.color} ${stop.position}%`).join(', ');
+        
+        let gradientCss;
+        if (type === 'linear') {
+            gradientCss = `linear-gradient(${direction}, ${stops})`;
+        } else if (type === 'radial') {
+            gradientCss = `radial-gradient(circle, ${stops})`;
+        } else {
+            gradientCss = `conic-gradient(from ${direction}, ${stops})`;
+        }
+        
+        preview.style.background = gradientCss;
+        gradientEditor.style.background = gradientCss;
+        cssOutput.value = `background: ${gradientCss};`;
+    }
+    
+    // Handle drag events for gradient stops
+    function handleDragStart(e) {
+        e.dataTransfer.setData('text/plain', e.target.dataset.index);
+        e.dataTransfer.effectAllowed = 'move';
+    }
+    
+    gradientEditor.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+    });
+    
+    gradientEditor.addEventListener('drop', function(e) {
+        e.preventDefault();
+        const index = e.dataTransfer.getData('text/plain');
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const percent = Math.min(100, Math.max(0, (x / rect.width) * 100));
+        
+        gradientStops[index].position = percent;
+        initGradientEditor();
+    });
+    
+    // Add new gradient stop
+    addStopBtn.addEventListener('click', function() {
+        if (gradientStops.length >= 5) {
+            showNotification('Maximum 5 gradient stops allowed');
+            return;
+        }
+        
+        // Find a position between two existing stops
+        let position = 50;
+        if (gradientStops.length > 1) {
+            for (let i = 0; i < gradientStops.length - 1; i++) {
+                const space = gradientStops[i+1].position - gradientStops[i].position;
+                if (space > 20) {
+                    position = gradientStops[i].position + space/2;
+                    break;
+                }
+            }
+        }
+        
+        gradientStops.push({
+            color: '#' + Math.floor(Math.random()*16777215).toString(16),
+            position: position
+        });
+        
+        // Sort stops by position
+        gradientStops.sort((a, b) => a.position - b.position);
+        
+        initGradientEditor();
+    });
+    
+    // Random gradient button
+    randomBtn.addEventListener('click', function() {
+        gradientStops = [];
+        const stopCount = Math.floor(Math.random() * 3) + 2; // 2-4 stops
+        
+        for (let i = 0; i < stopCount; i++) {
+            gradientStops.push({
+                color: '#' + Math.floor(Math.random()*16777215).toString(16),
+                position: i * (100 / (stopCount - 1))
+            });
+        }
+        
+        // Random gradient type
+        const types = ['linear', 'radial', 'conic'];
+        gradientType.value = types[Math.floor(Math.random() * types.length)];
+        
+        // Random direction
+        const directions = ['to right', 'to bottom', 'to right bottom', 'to left bottom', '45deg', '90deg', '135deg'];
+        gradientDirection.value = directions[Math.floor(Math.random() * directions.length)];
+        
+        initGradientEditor();
+    });
+    
+    // Open color picker for a stop
+    function openColorPicker(index) {
+        const colorInput = document.createElement('input');
+        colorInput.type = 'color';
+        colorInput.value = gradientStops[index].color;
+        
+        colorInput.addEventListener('input', function() {
+            gradientStops[index].color = this.value;
+            initGradientEditor();
+        });
+        
+        colorInput.click();
+    }
+    
+    // Apply gradient preset
+    window.applyGradientPreset = function(type, direction, colors) {
+        gradientType.value = type;
+        gradientDirection.value = direction;
+        
+        gradientStops = colors.map((color, i) => ({
+            color: color,
+            position: i * (100 / (colors.length - 1))
+        }));
+        
+        initGradientEditor();
+    };
+    
+    // Download buttons
+    downloadCssBtn.addEventListener('click', function() {
+        const blob = new Blob([cssOutput.value], {type: 'text/css'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'gradient.css';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        showNotification('Gradient CSS downloaded');
+    });
+    
+    downloadPngBtn.addEventListener('click', function() {
+        // In a real implementation, convert the gradient to PNG
+        // For now, we'll create an SVG representation
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="200">
+            <defs>
+                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    ${gradientStops.map(stop => `<stop offset="${stop.position}%" stop-color="${stop.color}"/>`).join('')}
+                </linearGradient>
+            </defs>
+            <rect width="400" height="200" fill="url(#gradient)"/>
+            <text x="200" y="100" font-family="Arial" font-size="16" fill="white" text-anchor="middle">Gradient Preview</text>
+        </svg>`;
+        
+        const blob = new Blob([svg], {type: 'image/svg+xml'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'gradient.svg';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        showNotification('Gradient downloaded as SVG (PNG simulation)');
+    });
+    
+    // Initialize
+    initGradientEditor();
+    
+    // Event listeners for type and direction changes
+    gradientType.addEventListener('change', updateGradient);
+    gradientDirection.addEventListener('change', updateGradient);
+}
+// Add this global function:
+window.copyToClipboard = function(text) {
+    navigator.clipboard.writeText(text);
+    showNotification(`Copied "${text}" to clipboard!`);
+};
+    </script>
+</body>
+</html>

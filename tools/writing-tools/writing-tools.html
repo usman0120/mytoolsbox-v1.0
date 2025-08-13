@@ -1,0 +1,1948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Writing Hub - Your Complete Writing Toolkit</title>
+    <link rel="stylesheet" href="../../dist/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <style>
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        #text-editor {
+            height: 300px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <header class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
+    <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+        <!-- Logo -->
+        <div class="flex items-center space-x-2">
+            <i class="fas fa-tools text-2xl text-primary-600 dark:text-primary-400"></i>
+            <a href="#" class="text-xl font-bold text-gray-800 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                My<span class="text-primary-600 dark:text-primary-400">Toolbox</span>
+            </a>
+        </div>
+        
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center space-x-8">
+            <a href="../../index.html" class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</a>
+            
+            <div class="relative group">
+                <button class="flex items-center font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                  Tool Categories <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                </button>
+                <div class="absolute left-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                    <a href="../file-tools/document-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">File Tools</a>
+                    <a href="../image-tools/image-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Image Tools</a>
+                    <a href="../media-tools/mediaTools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Media Tools</a>
+                    <a href="../study-tools/study-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Study Tools</a>
+                    <a href="../calculator-tools/calculators.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Calculators</a>
+                    <a href="../ai-tools/ai-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">AI-Powered Tools</a>
+                    <a href="../design-tools/design-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Design Tools</a>
+                    <a href="../time-tools/time-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Productivity & Time Tools</a>
+                    <a href="../writing-tools/writing-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Writing Tools</a>
+                    <a href="../misc-tools/misc-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">More Useful Tools</a>
+                </div>
+            </div>
+            
+            <a href="src/sections/homePage/about.html" class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">About</a>
+            <a href="src/sections/homePage/contact.html" class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Contact</a>
+        </nav>
+        
+        
+        
+        <!-- Dark Mode Toggle -->
+       <button class="hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+</button>
+<!-- Mobile Menu Button -->
+        <button id="mobile-menu-button" class="md:hidden text-gray-600 dark:text-gray-300">
+            <i class="fas fa-bars text-xl"></i>
+        </button>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
+            <a href="#" class="py-2 font-medium">Home</a>
+            
+            <div class="relative">
+                <button id="mobile-categories-button" class="w-full flex justify-between items-center py-2 font-medium">
+                    Categories <i class="fas fa-chevron-down"></i>
+                </button>
+                <div id="mobile-categories" class="hidden pl-4 mt-1 space-y-2">
+                    <a href="../file-tools/document-tools.html" class="block py-1">File Tools</a>
+                    <a href="../image-tools/image-tools.html" class="block py-1">Image Tools</a>
+                    <a href="../media-tools/mediaTools.html" class="block py-1">Media Tools</a>
+                    <a href="../design-tools/design-tools.html" class="block py-1">Design Tools</a>
+                    <a href="../calculator-tools/calculators.html" class="block py-1">Calculators</a>
+                </div>
+            </div>
+            
+            <a href="src/sections/homePage/about.html" class="py-2 font-medium">About</a>
+            <a href="../../src/sections/homePage/suggest-tool.html" class="py-2 font-medium">Contact</a>
+        </div>
+    </div>
+</header>
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header Section -->
+        <div class="text-center mb-10">
+            <div class="inline-block p-4 bg-blue-100 rounded-full mb-4">
+                <i class="fas fa-pen-fancy text-blue-600 text-4xl"></i>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">Welcome to your Smart Writing Hub</h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                Craft, edit, polish, and deliver professional-grade writing with ease. 
+                <span class="block text-blue-600 font-medium mt-1">Save your time, write smarter!</span>
+            </p>
+        </div>
+
+        <!-- Tool Selection Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-12">
+            <div class="tool-card bg-white rounded-lg p-4 shadow-md cursor-pointer transition-all duration-300 border border-gray-200 text-center" 
+                 onclick="showTool('resume-builder')">
+                <div class="text-blue-500 mb-2"><i class="fas fa-file-alt text-2xl"></i></div>
+                <h3 class="font-semibold">Resume Builder</h3>
+            </div>
+            <div class="tool-card bg-white rounded-lg p-4 shadow-md cursor-pointer transition-all duration-300 border border-gray-200 text-center" 
+                 onclick="showTool('cv-maker')">
+                <div class="text-green-500 mb-2"><i class="fas fa-user-tie text-2xl"></i></div>
+                <h3 class="font-semibold">CV Maker</h3>
+            </div>
+            <div class="tool-card bg-white rounded-lg p-4 shadow-md cursor-pointer transition-all duration-300 border border-gray-200 text-center" 
+                 onclick="showTool('cover-letter')">
+                <div class="text-purple-500 mb-2"><i class="fas fa-envelope-open-text text-2xl"></i></div>
+                <h3 class="font-semibold">Cover Letter</h3>
+            </div>
+            <div class="tool-card bg-white rounded-lg p-4 shadow-md cursor-pointer transition-all duration-300 border border-gray-200 text-center" 
+                 onclick="showTool('text-editor')">
+                <div class="text-red-500 mb-2"><i class="fas fa-edit text-2xl"></i></div>
+                <h3 class="font-semibold">Text Editor</h3>
+            </div>
+            <div class="tool-card bg-white rounded-lg p-4 shadow-md cursor-pointer transition-all duration-300 border border-gray-200 text-center" 
+                 onclick="showTool('text-summarizer')">
+                <div class="text-yellow-500 mb-2"><i class="fas fa-compress-alt text-2xl"></i></div>
+                <h3 class="font-semibold">Text Summarizer</h3>
+            </div>
+            <div class="tool-card bg-white rounded-lg p-4 shadow-md cursor-pointer transition-all duration-300 border border-gray-200 text-center" 
+                 onclick="showTool('grammar-checker')">
+                <div class="text-indigo-500 mb-2"><i class="fas fa-spell-check text-2xl"></i></div>
+                <h3 class="font-semibold">Grammar Check</h3>
+            </div>
+            <div class="tool-card bg-white rounded-lg p-4 shadow-md cursor-pointer transition-all duration-300 border border-gray-200 text-center" 
+                 onclick="showTool('paragraph-rewriter')">
+                <div class="text-pink-500 mb-2"><i class="fas fa-paragraph text-2xl"></i></div>
+                <h3 class="font-semibold">Rewriter</h3>
+            </div>
+            <div class="tool-card bg-white rounded-lg p-4 shadow-md cursor-pointer transition-all duration-300 border border-gray-200 text-center" 
+                 onclick="showTool('text-to-speech')">
+                <div class="text-teal-500 mb-2"><i class="fas fa-volume-up text-2xl"></i></div>
+                <h3 class="font-semibold">Text to Speech</h3>
+            </div>
+            <div class="tool-card bg-white rounded-lg p-4 shadow-md cursor-pointer transition-all duration-300 border border-gray-200 text-center" 
+                 onclick="showTool('case-converter')">
+                <div class="text-orange-500 mb-2"><i class="fas fa-font text-2xl"></i></div>
+                <h3 class="font-semibold">Case Converter</h3>
+            </div>
+            <div class="tool-card bg-white rounded-lg p-4 shadow-md cursor-pointer transition-all duration-300 border border-gray-200 text-center" 
+                 onclick="showTool('word-counter')">
+                <div class="text-cyan-500 mb-2"><i class="fas fa-calculator text-2xl"></i></div>
+                <h3 class="font-semibold">Word Counter</h3>
+            </div>
+        </div>
+
+        <!-- Tool Display Area -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8" id="tool-display">
+            <div class="text-center py-10" id="default-message">
+                <i class="fas fa-magic text-4xl text-gray-300 mb-4"></i>
+                <h2 class="text-xl font-semibold text-gray-500">Select a tool from above to get started</h2>
+                <p class="text-gray-400 mt-2">All your writing needs in one place</p>
+            </div>
+
+            <!-- Resume Builder (link to existing) -->
+            <div class="hidden" id="resume-builder-tool">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800">Resume Builder</h2>
+                <p class="mb-6 text-gray-600">Our comprehensive resume builder helps you create a professional resume in minutes.</p>
+                <a href="../writing-tools/resumeMaker/resumeMaker.html" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors inline-block">
+                    Go to Resume Builder <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+                <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+                    <h3 class="font-semibold text-blue-800 mb-2"><i class="fas fa-lightbulb mr-2"></i>Pro Tip</h3>
+                    <p class="text-blue-700">Tailor your resume for each job application by highlighting relevant skills and experiences.</p>
+                </div>
+            </div>
+
+            <!-- CV Maker -->
+            <div class="hidden" id="cv-maker-tool">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800">Professional CV Maker</h2>
+                <p class="mb-6 text-gray-600">Create a detailed curriculum vitae with our structured form. Fill in your information and download as PDF.</p>
+                
+                <form id="cv-form" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-gray-700 mb-1">Full Name</label>
+                            <input type="text" class="w-full p-2 border rounded" placeholder="John Doe" required>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-1">Profession</label>
+                            <input type="text" class="w-full p-2 border rounded" placeholder="Software Engineer" required>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-1">Email</label>
+                        <input type="email" class="w-full p-2 border rounded" placeholder="your.email@example.com" required>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-1">Phone Number</label>
+                        <input type="tel" class="w-full p-2 border rounded" placeholder="+1 (123) 456-7890">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-1">Address</label>
+                        <textarea class="w-full p-2 border rounded" rows="2" placeholder="123 Main St, City, Country"></textarea>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-1">Professional Summary</label>
+                        <textarea class="w-full p-2 border rounded" rows="3" placeholder="Briefly describe your professional background and skills..."></textarea>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-1">Work Experience</label>
+                        <div id="experience-fields" class="space-y-3">
+                            <div class="experience-entry border p-3 rounded">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-2">
+                                    <div>
+                                        <label class="block text-gray-600 text-sm">Job Title</label>
+                                        <input type="text" class="w-full p-2 border rounded" placeholder="Senior Developer">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-600 text-sm">Company</label>
+                                        <input type="text" class="w-full p-2 border rounded" placeholder="Tech Corp Inc.">
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-2">
+                                    <div>
+                                        <label class="block text-gray-600 text-sm">Start Date</label>
+                                        <input type="month" class="w-full p-2 border rounded">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-600 text-sm">End Date</label>
+                                        <input type="month" class="w-full p-2 border rounded">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-600 text-sm">Description</label>
+                                    <textarea class="w-full p-2 border rounded" rows="2" placeholder="Describe your responsibilities and achievements..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" onclick="addExperienceField()" class="mt-2 px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 text-sm">
+                            <i class="fas fa-plus mr-1"></i> Add Another Position
+                        </button>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-1">Education</label>
+                        <div id="education-fields" class="space-y-3">
+                            <div class="education-entry border p-3 rounded">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-2">
+                                    <div>
+                                        <label class="block text-gray-600 text-sm">Degree</label>
+                                        <input type="text" class="w-full p-2 border rounded" placeholder="Bachelor of Science">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-600 text-sm">Institution</label>
+                                        <input type="text" class="w-full p-2 border rounded" placeholder="University of Technology">
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-2">
+                                    <div>
+                                        <label class="block text-gray-600 text-sm">Field of Study</label>
+                                        <input type="text" class="w-full p-2 border rounded" placeholder="Computer Science">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-600 text-sm">Graduation Year</label>
+                                        <input type="number" class="w-full p-2 border rounded" placeholder="2020">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" onclick="addEducationField()" class="mt-2 px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 text-sm">
+                            <i class="fas fa-plus mr-1"></i> Add Another Degree
+                        </button>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-1">Skills</label>
+                        <div id="skills-container" class="flex flex-wrap gap-2 mb-2">
+                            <span class="skill-tag bg-blue-100 text-blue-800 px-3 py-1 rounded-full flex items-center">
+                                JavaScript <button type="button" class="ml-1 text-blue-500 hover:text-blue-700">&times;</button>
+                            </span>
+                            <span class="skill-tag bg-blue-100 text-blue-800 px-3 py-1 rounded-full flex items-center">
+                                Project Management <button type="button" class="ml-1 text-blue-500 hover:text-blue-700">&times;</button>
+                            </span>
+                        </div>
+                        <div class="flex">
+                            <input type="text" id="new-skill" class="flex-1 p-2 border rounded-l" placeholder="Add a skill">
+                            <button type="button" onclick="addSkill()" class="px-3 bg-blue-600 text-white rounded-r hover:bg-blue-700">
+                                Add
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="pt-4">
+                        <button type="button" onclick="generateCV()" class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                            <i class="fas fa-file-pdf mr-2"></i> Generate CV (PDF)
+                        </button>
+                        <button type="reset" class="ml-3 px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
+                            Reset Form
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="mt-8 p-4 bg-green-50 rounded-lg">
+                    <h3 class="font-semibold text-green-800 mb-2"><i class="fas fa-lightbulb mr-2"></i>How to create an effective CV</h3>
+                    <ul class="list-disc pl-5 text-green-700 space-y-1">
+                        <li>Keep it concise (2-3 pages maximum)</li>
+                        <li>Highlight achievements with measurable results</li>
+                        <li>List skills relevant to the position you're applying for</li>
+                        <li>Use action verbs (developed, managed, implemented)</li>
+                        <li>Include professional certifications if applicable</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Cover Letter Generator -->
+            <div class="hidden" id="cover-letter-tool">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800">Cover Letter Generator</h2>
+                <p class="mb-6 text-gray-600">Create a professional cover letter tailored to your job application.</p>
+                
+                <form id="cover-letter-form" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-gray-700 mb-1">Your Name</label>
+                            <input type="text" id="cl-name" class="w-full p-2 border rounded" placeholder="John Doe" required>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-1">Your Email</label>
+                            <input type="email" id="cl-email" class="w-full p-2 border rounded" placeholder="your.email@example.com" required>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-gray-700 mb-1">Your Phone</label>
+                            <input type="tel" id="cl-phone" class="w-full p-2 border rounded" placeholder="+1 (123) 456-7890">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-1">Date</label>
+                            <input type="date" id="cl-date" class="w-full p-2 border rounded" value="">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-1">Hiring Manager's Name</label>
+                        <input type="text" id="cl-manager" class="w-full p-2 border rounded" placeholder="Ms. Smith">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-1">Company Name</label>
+                        <input type="text" id="cl-company" class="w-full p-2 border rounded" placeholder="Tech Innovations Inc." required>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-1">Company Address</label>
+                        <textarea id="cl-address" class="w-full p-2 border rounded" rows="2" placeholder="123 Business Rd, City, State ZIP"></textarea>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-1">Job Title You're Applying For</label>
+                        <input type="text" id="cl-position" class="w-full p-2 border rounded" placeholder="Senior Software Engineer" required>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-1">How You Found the Job</label>
+                        <input type="text" id="cl-source" class="w-full p-2 border rounded" placeholder="LinkedIn job posting">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-1">Key Skills/Experiences to Highlight</label>
+                        <textarea id="cl-skills" class="w-full p-2 border rounded" rows="3" placeholder="5 years of JavaScript experience, team leadership, Agile methodology..."></textarea>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-1">Cover Letter Tone</label>
+                        <select id="cl-tone" class="w-full p-2 border rounded">
+                            <option value="formal">Formal</option>
+                            <option value="professional" selected>Professional</option>
+                            <option value="enthusiastic">Enthusiastic</option>
+                            <option value="creative">Creative</option>
+                        </select>
+                    </div>
+                    
+                    <div class="pt-4">
+                        <button type="button" onclick="generateCoverLetter()" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            <i class="fas fa-magic mr-2"></i> Generate Cover Letter
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="mt-8 hidden" id="cover-letter-result">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-semibold text-gray-800">Your Custom Cover Letter</h3>
+                        <button onclick="downloadCoverLetter()" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+                            <i class="fas fa-download mr-1"></i> Download
+                        </button>
+                    </div>
+                    <div id="letter-content" class="p-6 bg-gray-50 border rounded-lg font-serif">
+                        <!-- Generated content will appear here -->
+                    </div>
+                    <div class="mt-4 flex justify-end">
+                        <button onclick="copyCoverLetter()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
+                            <i class="fas fa-copy mr-1"></i> Copy to Clipboard
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="mt-8 p-4 bg-blue-50 rounded-lg">
+                    <h3 class="font-semibold text-blue-800 mb-2"><i class="fas fa-lightbulb mr-2"></i>Cover Letter Tips</h3>
+                    <ul class="list-disc pl-5 text-blue-700 space-y-1">
+                        <li>Address the hiring manager by name if possible</li>
+                        <li>Mention specific skills that match the job description</li>
+                        <li>Keep it to one page (3-4 paragraphs)</li>
+                        <li>Show enthusiasm for the company and position</li>
+                        <li>Proofread carefully before sending</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Text Editor -->
+            <div class="hidden" id="text-editor-tool">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800">Rich Text Editor</h2>
+                <p class="mb-6 text-gray-600">A full-featured editor for creating and formatting documents. Export your work when finished.</p>
+                
+                <div id="editor-toolbar" class="mb-2 border rounded-t-lg p-2 bg-gray-50">
+                    <span class="ql-formats">
+                        <select class="ql-font"></select>
+                        <select class="ql-size"></select>
+                    </span>
+                    <span class="ql-formats">
+                        <button class="ql-bold"></button>
+                        <button class="ql-italic"></button>
+                        <button class="ql-underline"></button>
+                        <button class="ql-strike"></button>
+                    </span>
+                    <span class="ql-formats">
+                        <select class="ql-color"></select>
+                        <select class="ql-background"></select>
+                    </span>
+                    <span class="ql-formats">
+                        <button class="ql-list" value="ordered"></button>
+                        <button class="ql-list" value="bullet"></button>
+                        <button class="ql-indent" value="-1"></button>
+                        <button class="ql-indent" value="+1"></button>
+                    </span>
+                    <span class="ql-formats">
+                        <select class="ql-align"></select>
+                    </span>
+                    <span class="ql-formats">
+                        <button class="ql-link"></button>
+                        <button class="ql-image"></button>
+                    </span>
+                </div>
+                
+                <div id="text-editor" class="border rounded-b-lg"></div>
+                
+                <div class="mt-4 flex flex-wrap gap-3">
+                    <button onclick="exportDocx()" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                        <i class="fas fa-file-word mr-1"></i> Export as DOCX
+                    </button>
+                    <button onclick="exportTxt()" class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700">
+                        <i class="fas fa-file-alt mr-1"></i> Export as TXT
+                    </button>
+                    <button onclick="clearEditor()" class="px-4 py-2 bg-red-100 text-red-700 rounded hover:bg-red-200">
+                        <i class="fas fa-trash-alt mr-1"></i> Clear
+                    </button>
+                </div>
+                
+                <div class="mt-6 p-4 bg-purple-50 rounded-lg">
+                    <h3 class="font-semibold text-purple-800 mb-2"><i class="fas fa-lightbulb mr-2"></i>Editor Features</h3>
+                    <ul class="list-disc pl-5 text-purple-700 space-y-1">
+                        <li>Full rich text formatting (bold, italic, colors, etc.)</li>
+                        <li>Multiple font families and sizes</li>
+                        <li>Bullet points and numbered lists</li>
+                        <li>Text alignment options</li>
+                        <li>Export to common document formats</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Text Summarizer -->
+            <div class="hidden" id="text-summarizer-tool">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800">Text Summarizer</h2>
+                <p class="mb-6 text-gray-600">Paste your long text below and get a concise summary. Perfect for articles, papers, or reports.</p>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-700 mb-2">Original Text</label>
+                        <textarea id="summarizer-input" class="w-full p-3 border rounded-lg h-64" placeholder="Paste your content here..."></textarea>
+                        <div class="mt-2 flex justify-between items-center">
+                            <span id="summarizer-count" class="text-sm text-gray-500">0 characters</span>
+                            <button onclick="summarizeText()" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                                <i class="fas fa-compress-alt mr-1"></i> Summarize
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Summary</label>
+                        <div id="summarizer-output" class="w-full p-3 border rounded-lg h-64 bg-gray-50 overflow-auto"></div>
+                        <div class="mt-2 flex justify-end gap-2">
+                            <button onclick="copySummary()" class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 text-sm">
+                                <i class="fas fa-copy mr-1"></i> Copy
+                            </button>
+                            <button onclick="clearSummarizer()" class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 text-sm">
+                                <i class="fas fa-trash-alt mr-1"></i> Clear
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="p-3 bg-blue-50 rounded-lg">
+                        <label class="block text-blue-800 font-medium mb-1">Summary Length</label>
+                        <select id="summary-length" class="w-full p-2 border rounded bg-white">
+                            <option value="short">Short (1-2 sentences)</option>
+                            <option value="medium" selected>Medium (3-5 sentences)</option>
+                            <option value="long">Long (paragraph)</option>
+                        </select>
+                    </div>
+                    <div class="p-3 bg-blue-50 rounded-lg">
+                        <label class="block text-blue-800 font-medium mb-1">Focus</label>
+                        <select id="summary-focus" class="w-full p-2 border rounded bg-white">
+                            <option value="general" selected>General Summary</option>
+                            <option value="keypoints">Key Points</option>
+                            <option value="conclusion">Main Conclusion</option>
+                        </select>
+                    </div>
+                    <div class="p-3 bg-blue-50 rounded-lg">
+                        <label class="block text-blue-800 font-medium mb-1">Complexity</label>
+                        <select id="summary-complexity" class="w-full p-2 border rounded bg-white">
+                            <option value="simple">Simple Language</option>
+                            <option value="balanced" selected>Balanced</option>
+                            <option value="technical">Technical Terms</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="mt-6 p-4 bg-yellow-50 rounded-lg">
+                    <h3 class="font-semibold text-yellow-800 mb-2"><i class="fas fa-lightbulb mr-2"></i>How to get the best summary</h3>
+                    <ul class="list-disc pl-5 text-yellow-700 space-y-1">
+                        <li>Paste well-structured text for better results</li>
+                        <li>For long documents, summarize sections separately</li>
+                        <li>Adjust length and focus based on your needs</li>
+                        <li>The tool works best with 200-5000 characters</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Grammar Checker -->
+            <div class="hidden" id="grammar-checker-tool">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800">Grammar Checker</h2>
+                <p class="mb-6 text-gray-600">Check your text for grammar, spelling, and punctuation errors. Get suggestions for improvements.</p>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-700 mb-2">Your Text</label>
+                        <textarea id="grammar-input" class="w-full p-3 border rounded-lg h-64" placeholder="Type or paste your text here..."></textarea>
+                        <div class="mt-2 flex justify-between items-center">
+                            <span id="grammar-count" class="text-sm text-gray-500">0 words</span>
+                            <button onclick="checkGrammar()" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+                                <i class="fas fa-spell-check mr-1"></i> Check Grammar
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Results</label>
+                        <div id="grammar-results" class="w-full p-3 border rounded-lg h-64 bg-gray-50 overflow-auto">
+                            <div class="text-center text-gray-400 py-10">
+                                <i class="fas fa-spell-check text-3xl mb-2"></i>
+                                <p>Grammar suggestions will appear here</p>
+                            </div>
+                        </div>
+                        <div class="mt-2 flex justify-end">
+                            <button onclick="acceptAllGrammar()" class="px-3 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200 text-sm mr-2">
+                                <i class="fas fa-check-circle mr-1"></i> Accept All
+                            </button>
+                            <button onclick="clearGrammar()" class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 text-sm">
+                                <i class="fas fa-trash-alt mr-1"></i> Clear
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-6 p-4 bg-green-50 rounded-lg">
+                    <h3 class="font-semibold text-green-800 mb-2"><i class="fas fa-lightbulb mr-2"></i>Writing Tips</h3>
+                    <ul class="list-disc pl-5 text-green-700 space-y-1">
+                        <li>Read your text aloud to catch awkward phrasing</li>
+                        <li>Check for consistent verb tenses</li>
+                        <li>Avoid passive voice when possible</li>
+                        <li>Keep sentences clear and concise</li>
+                        <li>Watch for commonly confused words (their/there, affect/effect)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Paragraph Rewriter -->
+            <div class="hidden" id="paragraph-rewriter-tool">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800">Paragraph Rewriter</h2>
+                <p class="mb-6 text-gray-600">Improve or rephrase your paragraph for better clarity, conciseness, or style.</p>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-700 mb-2">Original Paragraph</label>
+                        <textarea id="rewriter-input" class="w-full p-3 border rounded-lg h-64" placeholder="Type or paste your paragraph here..."></textarea>
+                        <div class="mt-2 flex justify-between items-center">
+                            <span id="rewriter-count" class="text-sm text-gray-500">0 words</span>
+                            <button onclick="rewriteText()" class="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">
+                                <i class="fas fa-paragraph mr-1"></i> Rewrite
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Rewritten Version</label>
+                        <div id="rewriter-output" class="w-full p-3 border rounded-lg h-64 bg-gray-50 overflow-auto"></div>
+                        <div class="mt-2 flex justify-end gap-2">
+                            <button onclick="copyRewritten()" class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 text-sm">
+                                <i class="fas fa-copy mr-1"></i> Copy
+                            </button>
+                            <button onclick="clearRewriter()" class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 text-sm">
+                                <i class="fas fa-trash-alt mr-1"></i> Clear
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="p-3 bg-purple-50 rounded-lg">
+                        <label class="block text-purple-800 font-medium mb-1">Rewriting Style</label>
+                        <select id="rewrite-style" class="w-full p-2 border rounded bg-white">
+                            <option value="concise">More Concise</option>
+                            <option value="formal">More Formal</option>
+                            <option value="simple" selected>Simpler Language</option>
+                            <option value="creative">Creative</option>
+                        </select>
+                    </div>
+                    <div class="p-3 bg-purple-50 rounded-lg">
+                        <label class="block text-purple-800 font-medium mb-1">Intensity</label>
+                        <select id="rewrite-intensity" class="w-full p-2 border rounded bg-white">
+                            <option value="light">Light Changes</option>
+                            <option value="medium" selected>Medium Changes</option>
+                            <option value="heavy">Heavy Rewriting</option>
+                        </select>
+                    </div>
+                    <div class="p-3 bg-purple-50 rounded-lg">
+                        <label class="block text-purple-800 font-medium mb-1">Focus</label>
+                        <select id="rewrite-focus" class="w-full p-2 border rounded bg-white">
+                            <option value="clarity" selected>Clarity</option>
+                            <option value="engagement">Engagement</option>
+                            <option value="professional">Professional Tone</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="mt-6 p-4 bg-indigo-50 rounded-lg">
+                    <h3 class="font-semibold text-indigo-800 mb-2"><i class="fas fa-lightbulb mr-2"></i>When to rewrite</h3>
+                    <ul class="list-disc pl-5 text-indigo-700 space-y-1">
+                        <li>When your text feels wordy or repetitive</li>
+                        <li>To adapt content for different audiences</li>
+                        <li>To improve readability scores</li>
+                        <li>To avoid plagiarism while keeping the same meaning</li>
+                        <li>To refresh old content with new phrasing</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Text to Speech -->
+            <div class="hidden" id="text-to-speech-tool">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800">Text to Speech</h2>
+                <p class="mb-6 text-gray-600">Convert your text to natural sounding speech. Listen to documents, articles, or your own writing.</p>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-700 mb-2">Text to Speak</label>
+                        <textarea id="tts-input" class="w-full p-3 border rounded-lg h-64" placeholder="Type or paste your text here..."></textarea>
+                        <div class="mt-2 flex justify-between items-center">
+                            <span id="tts-count" class="text-sm text-gray-500">0 characters</span>
+                            <div class="flex gap-2">
+                                <button onclick="speakText()" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                                    <i class="fas fa-play mr-1"></i> Play
+                                </button>
+                                <button onclick="stopSpeaking()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
+                                    <i class="fas fa-stop mr-1"></i> Stop
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Settings</label>
+                        <div class="w-full p-4 border rounded-lg h-64 bg-gray-50">
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-gray-700 mb-1">Voice</label>
+                                    <select id="tts-voice" class="w-full p-2 border rounded">
+                                        <!-- Voices will be populated by JavaScript -->
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-1">Speed</label>
+                                    <input type="range" id="tts-rate" min="0.5" max="2" step="0.1" value="1" class="w-full">
+                                    <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                        <span>Slower</span>
+                                        <span>Normal</span>
+                                        <span>Faster</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-1">Pitch</label>
+                                    <input type="range" id="tts-pitch" min="0.5" max="2" step="0.1" value="1" class="w-full">
+                                    <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                        <span>Lower</span>
+                                        <span>Normal</span>
+                                        <span>Higher</span>
+                                    </div>
+                                </div>
+                                <div class="pt-2">
+                                    <button onclick="testVoice()" class="px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 text-sm">
+                                        <i class="fas fa-volume-up mr-1"></i> Test Voice
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-6 p-4 bg-teal-50 rounded-lg">
+                    <h3 class="font-semibold text-teal-800 mb-2"><i class="fas fa-lightbulb mr-2"></i>Best uses for text-to-speech</h3>
+                    <ul class="list-disc pl-5 text-teal-700 space-y-1">
+                        <li>Proofreading your own writing by hearing it read aloud</li>
+                        <li>Consuming long articles or documents while multitasking</li>
+                        <li>Helping with reading difficulties or visual impairments</li>
+                        <li>Practicing pronunciation in foreign languages</li>
+                        <li>Creating audio versions of your content</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Case Converter -->
+            <div class="hidden" id="case-converter-tool">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800">Case Converter</h2>
+                <p class="mb-6 text-gray-600">Transform your text between different case styles with one click.</p>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-700 mb-2">Original Text</label>
+                        <textarea id="case-input" class="w-full p-3 border rounded-lg h-64" placeholder="Type or paste your text here..."></textarea>
+                        <div class="mt-2 flex justify-between items-center">
+                            <span id="case-count" class="text-sm text-gray-500">0 characters</span>
+                            <button onclick="clearCase()" class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 text-sm">
+                                <i class="fas fa-trash-alt mr-1"></i> Clear
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Converted Text</label>
+                        <textarea id="case-output" class="w-full p-3 border rounded-lg h-64 bg-gray-50" readonly></textarea>
+                        <div class="mt-2 flex flex-wrap gap-2">
+                            <button onclick="convertCase('upper')" class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 text-sm">
+                                UPPER CASE
+                            </button>
+                            <button onclick="convertCase('lower')" class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 text-sm">
+                                lower case
+                            </button>
+                            <button onclick="convertCase('title')" class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 text-sm">
+                                Title Case
+                            </button>
+                            <button onclick="convertCase('sentence')" class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 text-sm">
+                                Sentence case
+                            </button>
+                            <button onclick="convertCase('camel')" class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 text-sm">
+                                camelCase
+                            </button>
+                            <button onclick="convertCase('pascal')" class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 text-sm">
+                                PascalCase
+                            </button>
+                            <button onclick="convertCase('snake')" class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 text-sm">
+                                snake_case
+                            </button>
+                            <button onclick="convertCase('kebab')" class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 text-sm">
+                                kebab-case
+                            </button>
+                        </div>
+                        <div class="mt-2 flex justify-end">
+                            <button onclick="copyCase()" class="px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 text-sm">
+                                <i class="fas fa-copy mr-1"></i> Copy Converted Text
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-6 p-4 bg-orange-50 rounded-lg">
+                    <h3 class="font-semibold text-orange-800 mb-2"><i class="fas fa-lightbulb mr-2"></i>When to use different cases</h3>
+                    <ul class="list-disc pl-5 text-orange-700 space-y-1">
+                        <li><strong>Title Case</strong>: For headings and titles</li>
+                        <li><strong>Sentence case</strong>: For normal paragraphs and sentences</li>
+                        <li><strong>camelCase/PascalCase</strong>: For programming variables and class names</li>
+                        <li><strong>snake_case/kebab-case</strong>: For URLs, file names, and CSS classes</li>
+                        <li><strong>UPPER CASE</strong>: For emphasis or acronyms</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Word Counter -->
+            <div class="hidden" id="word-counter-tool">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800">Word & Character Counter</h2>
+                <p class="mb-6 text-gray-600">Count words, characters, sentences, and more. Get readability statistics for your text.</p>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-700 mb-2">Your Text</label>
+                        <textarea id="counter-input" class="w-full p-3 border rounded-lg h-64" placeholder="Type or paste your text here..." oninput="updateCounters()"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Statistics</label>
+                        <div class="w-full p-4 border rounded-lg h-64 bg-gray-50 overflow-auto">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="p-3 bg-white rounded-lg shadow-sm text-center">
+                                    <div class="text-3xl font-bold text-blue-600" id="word-count">0</div>
+                                    <div class="text-sm text-gray-500 mt-1">Words</div>
+                                </div>
+                                <div class="p-3 bg-white rounded-lg shadow-sm text-center">
+                                    <div class="text-3xl font-bold text-blue-600" id="char-count">0</div>
+                                    <div class="text-sm text-gray-500 mt-1">Characters</div>
+                                </div>
+                                <div class="p-3 bg-white rounded-lg shadow-sm text-center">
+                                    <div class="text-3xl font-bold text-blue-600" id="char-no-spaces">0</div>
+                                    <div class="text-sm text-gray-500 mt-1">Chars (no spaces)</div>
+                                </div>
+                                <div class="p-3 bg-white rounded-lg shadow-sm text-center">
+                                    <div class="text-3xl font-bold text-blue-600" id="sentence-count">0</div>
+                                    <div class="text-sm text-gray-500 mt-1">Sentences</div>
+                                </div>
+                                <div class="p-3 bg-white rounded-lg shadow-sm text-center">
+                                    <div class="text-3xl font-bold text-blue-600" id="paragraph-count">0</div>
+                                    <div class="text-sm text-gray-500 mt-1">Paragraphs</div>
+                                </div>
+                                <div class="p-3 bg-white rounded-lg shadow-sm text-center">
+                                    <div class="text-3xl font-bold text-blue-600" id="reading-time">0</div>
+                                    <div class="text-sm text-gray-500 mt-1">Reading Time (min)</div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6">
+                                <h3 class="font-semibold text-gray-700 mb-2">Readability Scores</h3>
+                                <div class="space-y-3">
+                                    <div>
+                                        <div class="flex justify-between mb-1">
+                                            <span class="text-sm font-medium text-gray-700">Flesch Reading Ease</span>
+                                            <span class="text-sm font-medium text-gray-700" id="flesch-score">0</span>
+                                        </div>
+                                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                            <div id="flesch-bar" class="bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div>
+                                        </div>
+                                        <p class="text-xs text-gray-500 mt-1" id="flesch-desc">Score interpretation</p>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between mb-1">
+                                            <span class="text-sm font-medium text-gray-700">Flesch-Kincaid Grade Level</span>
+                                            <span class="text-sm font-medium text-gray-700" id="grade-level">0</span>
+                                        </div>
+                                        <p class="text-xs text-gray-500 mt-1">U.S. school grade needed to understand</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-6 p-4 bg-cyan-50 rounded-lg">
+                    <h3 class="font-semibold text-cyan-800 mb-2"><i class="fas fa-lightbulb mr-2"></i>Ideal counts for different content</h3>
+                    <ul class="list-disc pl-5 text-cyan-700 space-y-1">
+                        <li><strong>Blog posts</strong>: 1,000-2,000 words</li>
+                        <li><strong>Academic papers</strong>: Varies by discipline</li>
+                        <li><strong>Twitter</strong>: 280 characters max</li>
+                        <li><strong>Email subject lines</strong>: 6-10 words</li>
+                        <li><strong>SEO meta descriptions</strong>: 150-160 characters</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="text-center mt-12 mb-8 p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl">
+            <h2 class="text-2xl font-bold text-gray-800 mb-3">Found these tools helpful?</h2>
+            <p class="text-gray-600 mb-4 max-w-2xl mx-auto">Share this writing toolbox with friends or bookmark it for quick access to all your writing needs!</p>
+            <div class="flex justify-center gap-3">
+                <button onclick="sharePage()" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                    <i class="fas fa-share-alt mr-2"></i> Share
+                </button>
+                <button onclick="bookmarkPage()" class="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
+                    <i class="fas fa-bookmark mr-2"></i> Bookmark
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer class="bg-gray-100 dark:bg-gray-800/80 border-t border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- About Column -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">About MyToolbox</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                        An all-in-one platform offering free, easy-to-use tools for your everyday needs.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Tools Column -->
+                <div>
+                    <h3 class="text-lg !text-black font-semibold mb-4">Tools</h3>
+                    <ul class="space-y-2">
+                        <li><a href="../../index.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">All
+                                Tools</a></li>
+                        <li><a href="../../index.html#featured-tools"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Featured
+                                Tools</a></li>
+                        <li><a href="../../index.html#categories"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">New
+                                Tools</a></li>
+                        <li><a href="../../src/sections/homePage/suggest-tool.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Request
+                                a Tool</a></li>
+                    </ul>
+                </div>
+
+                <!-- Resources Column -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Blog</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Tutorials</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">API</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Help
+                                Center</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal Column -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="../../src/sections/homePage/privacy.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Privacy
+                                Policy</a></li>
+                        <li><a href="../../src/sections/homePage/terms.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Terms
+                                of Service</a></li>
+                        <li><a href="../../src/sections/homePage/cookies.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Cookie
+                                Policy</a></li>
+                        <li><a href="../../src/sections/homePage/gdpr.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">GDPR</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="border-t border-gray-200 dark:border-gray-700 my-8"></div>
+
+            <!-- Bottom Footer -->
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                    <i class="fas fa-tools text-primary-600 dark:text-primary-400"></i>
+                    <span class="font-medium">My<span
+                            class="text-primary-600 dark:text-primary-400">Toolbox</span></span>
+                </div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">
+                    &copy; <span id="current-year"></span> MyToolbox. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+const mobileMenu = document.getElementById('mobile-menu');
+const mobileCategoriesButton = document.getElementById('mobile-categories-button');
+const mobileCategories = document.getElementById('mobile-categories');
+
+// Mobile Menu Toggle
+mobileMenuButton.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+});
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', (e) => {
+    if (!mobileMenu.contains(e.target) && !mobileMenuButton.contains(e.target)) {
+        mobileMenu.classList.add('hidden');
+    }
+});
+// Mobile Categories Toggle
+mobileCategoriesButton.addEventListener('click', () => {
+    mobileCategories.classList.toggle('hidden');
+    mobileCategoriesButton.querySelector('i').classList.toggle('fa-chevron-down');
+    mobileCategoriesButton.querySelector('i').classList.toggle('fa-chevron-up');
+});
+        // Initialize Quill editor
+        let quill;
+        document.addEventListener('DOMContentLoaded', function() {
+            quill = new Quill('#text-editor', {
+                modules: {
+                    toolbar: '#editor-toolbar'
+                },
+                placeholder: 'Type your content here...',
+                theme: 'snow'
+            });
+            
+            // Load voices for TTS
+            loadVoices();
+            
+            // Set today's date in cover letter generator
+            document.getElementById('cl-date').valueAsDate = new Date();
+        });
+
+        // Tool visibility management
+        function showTool(toolId) {
+            // Hide default message
+            document.getElementById('default-message').classList.add('hidden');
+            
+            // Hide all tools
+            const allTools = document.querySelectorAll('[id$="-tool"]');
+            allTools.forEach(tool => {
+                tool.classList.add('hidden');
+            });
+            
+            // Show selected tool
+            document.getElementById(`${toolId}-tool`).classList.remove('hidden');
+            
+            // Scroll to tool
+            document.getElementById('tool-display').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // CV Maker Functions
+        function addExperienceField() {
+            const container = document.getElementById('experience-fields');
+            const newEntry = document.createElement('div');
+            newEntry.className = 'experience-entry border p-3 rounded';
+            newEntry.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-2">
+                    <div>
+                        <label class="block text-gray-600 text-sm">Job Title</label>
+                        <input type="text" class="w-full p-2 border rounded" placeholder="Senior Developer">
+                    </div>
+                    <div>
+                        <label class="block text-gray-600 text-sm">Company</label>
+                        <input type="text" class="w-full p-2 border rounded" placeholder="Tech Corp Inc.">
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-2">
+                    <div>
+                        <label class="block text-gray-600 text-sm">Start Date</label>
+                        <input type="month" class="w-full p-2 border rounded">
+                    </div>
+                    <div>
+                        <label class="block text-gray-600 text-sm">End Date</label>
+                        <input type="month" class="w-full p-2 border rounded">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-gray-600 text-sm">Description</label>
+                    <textarea class="w-full p-2 border rounded" rows="2" placeholder="Describe your responsibilities and achievements..."></textarea>
+                </div>
+                <button type="button" onclick="this.parentNode.remove()" class="mt-2 px-2 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200 text-sm">
+                    <i class="fas fa-trash mr-1"></i> Remove
+                </button>
+            `;
+            container.appendChild(newEntry);
+        }
+
+        function addEducationField() {
+            const container = document.getElementById('education-fields');
+            const newEntry = document.createElement('div');
+            newEntry.className = 'education-entry border p-3 rounded';
+            newEntry.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-2">
+                    <div>
+                        <label class="block text-gray-600 text-sm">Degree</label>
+                        <input type="text" class="w-full p-2 border rounded" placeholder="Bachelor of Science">
+                    </div>
+                    <div>
+                        <label class="block text-gray-600 text-sm">Institution</label>
+                        <input type="text" class="w-full p-2 border rounded" placeholder="University of Technology">
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-2">
+                    <div>
+                        <label class="block text-gray-600 text-sm">Field of Study</label>
+                        <input type="text" class="w-full p-2 border rounded" placeholder="Computer Science">
+                    </div>
+                    <div>
+                        <label class="block text-gray-600 text-sm">Graduation Year</label>
+                        <input type="number" class="w-full p-2 border rounded" placeholder="2020">
+                    </div>
+                </div>
+                <button type="button" onclick="this.parentNode.remove()" class="mt-2 px-2 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200 text-sm">
+                    <i class="fas fa-trash mr-1"></i> Remove
+                </button>
+            `;
+            container.appendChild(newEntry);
+        }
+
+        function addSkill() {
+            const skillInput = document.getElementById('new-skill');
+            const skill = skillInput.value.trim();
+            if (skill) {
+                const container = document.getElementById('skills-container');
+                const skillTag = document.createElement('span');
+                skillTag.className = 'skill-tag bg-blue-100 text-blue-800 px-3 py-1 rounded-full flex items-center';
+                skillTag.innerHTML = `
+                    ${skill} <button type="button" class="ml-1 text-blue-500 hover:text-blue-700" onclick="this.parentNode.remove()">&times;</button>
+                `;
+                container.appendChild(skillTag);
+                skillInput.value = '';
+            }
+        }
+
+        function generateCV() {
+            alert('CV generation would typically connect to a PDF generation service. In a real implementation, this would create and download a PDF CV.');
+            // In a real app, you would:
+            // 1. Collect all form data
+            // 2. Send to a server-side PDF generator
+            // 3. Return the PDF for download
+        }
+
+        // Cover Letter Generator Functions
+        function generateCoverLetter() {
+            const name = document.getElementById('cl-name').value;
+            const position = document.getElementById('cl-position').value;
+            const company = document.getElementById('cl-company').value;
+            
+            if (!name || !position || !company) {
+                alert('Please fill in all required fields: Your Name, Job Title, and Company Name');
+                return;
+            }
+            
+            // Show loading state
+            const resultDiv = document.getElementById('letter-content');
+            resultDiv.innerHTML = '<div class="text-center py-8"><i class="fas fa-spinner fa-spin text-2xl text-blue-500"></i><p class="mt-2">Generating your cover letter...</p></div>';
+            document.getElementById('cover-letter-result').classList.remove('hidden');
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                // Generate cover letter based on form inputs
+                const letter = createCoverLetter();
+                resultDiv.innerHTML = letter;
+                
+                // Scroll to result
+                document.getElementById('cover-letter-result').scrollIntoView({ behavior: 'smooth' });
+            }, 1500);
+        }
+
+        function createCoverLetter() {
+            // Get form values
+            const formData = {
+                name: document.getElementById('cl-name').value,
+                email: document.getElementById('cl-email').value,
+                phone: document.getElementById('cl-phone').value,
+                date: document.getElementById('cl-date').value,
+                manager: document.getElementById('cl-manager').value || 'Hiring Manager',
+                company: document.getElementById('cl-company').value,
+                address: document.getElementById('cl-address').value,
+                position: document.getElementById('cl-position').value,
+                source: document.getElementById('cl-source').value,
+                skills: document.getElementById('cl-skills').value,
+                tone: document.getElementById('cl-tone').value
+            };
+            
+            // Format date
+            const letterDate = new Date(formData.date).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            // Create letter based on tone
+            let opening = '';
+            let body = '';
+            let closing = '';
+            
+            switch(formData.tone) {
+                case 'formal':
+                    opening = `Dear ${formData.manager},`;
+                    body = `I am writing to express my interest in the ${formData.position} position at ${formData.company}. `;
+                    closing = `I appreciate your time and consideration and look forward to the opportunity to discuss how my experience aligns with your needs.`;
+                    break;
+                case 'enthusiastic':
+                    opening = `Dear ${formData.manager},`;
+                    body = `I'm thrilled to apply for the ${formData.position} role at ${formData.company}! `;
+                    closing = `I'm excited about this opportunity and would love to discuss how I can contribute to your team. Looking forward to our conversation!`;
+                    break;
+                case 'creative':
+                    opening = `Hello ${formData.manager},`;
+                    body = `The ${formData.position} opportunity at ${formData.company} immediately caught my attention because... `;
+                    closing = `Let's connect soon to explore how we might work together. I'm looking forward to our conversation!`;
+                    break;
+                default: // professional
+                    opening = `Dear ${formData.manager},`;
+                    body = `I'm excited to apply for the ${formData.position} position at ${formData.company}. `;
+                    closing = `I'd welcome the chance to discuss this opportunity further. Thank you for your time and consideration.`;
+            }
+            
+            // Add skills/experience if provided
+            if (formData.skills) {
+                body += `With my background in ${formData.skills}, I believe I would be a strong fit for this role. `;
+            }
+            
+            // Add source if provided
+            if (formData.source) {
+                body += `I learned about this opportunity through ${formData.source} and was immediately interested. `;
+            }
+            
+            // Add enthusiasm
+            body += `I'm confident that my skills and experience would allow me to make significant contributions to your team. `;
+            
+            // Construct the letter
+            let letterHTML = `
+                <div class="mb-6">
+                    <div class="text-right mb-6">${letterDate}</div>
+                    
+                    <div class="mb-4">
+                        ${formData.name}<br>
+                        ${formData.email}<br>
+                        ${formData.phone}
+                    </div>
+                    
+                    <div class="mb-4">
+                        ${formData.manager}<br>
+                        ${formData.company}<br>
+                        ${formData.address.replace(/\n/g, '<br>')}
+                    </div>
+                    
+                    <div class="mb-2">${opening}</div>
+                    
+                    <div class="my-4">
+                        <p>${body}</p>
+                        <p class="mt-3">${closing}</p>
+                    </div>
+                    
+                    <div class="mt-8">
+                        Sincerely,<br>
+                        <span class="font-semibold">${formData.name}</span>
+                    </div>
+                </div>
+            `;
+            
+            return letterHTML;
+        }
+
+        function downloadCoverLetter() {
+            alert('In a real implementation, this would download the cover letter as a DOCX or PDF file.');
+            // Implementation would typically:
+            // 1. Get the letter content
+            // 2. Convert to DOCX/PDF (using a library like docx or pdfmake)
+            // 3. Trigger download
+        }
+
+        function copyCoverLetter() {
+            const content = document.getElementById('letter-content').textContent;
+            navigator.clipboard.writeText(content).then(() => {
+                alert('Cover letter copied to clipboard!');
+            });
+        }
+
+        // Text Editor Functions
+        function exportDocx() {
+            const content = quill.getText();
+            if (!content.trim()) {
+                alert('Please add some content to export');
+                return;
+            }
+            
+            alert('In a real implementation, this would export the content as a DOCX file using a library like docx.js');
+            // Implementation would:
+            // 1. Get Quill content (including formatting)
+            // 2. Convert to DOCX format
+            // 3. Trigger download
+        }
+
+        function exportTxt() {
+            const content = quill.getText();
+            if (!content.trim()) {
+                alert('Please add some content to export');
+                return;
+            }
+            
+            // Create blob and download
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'document.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function clearEditor() {
+            if (confirm('Are you sure you want to clear the editor? This cannot be undone.')) {
+                quill.setContents([]);
+            }
+        }
+
+        // Text Summarizer Functions
+        function summarizeText() {
+            const input = document.getElementById('summarizer-input').value.trim();
+            if (!input) {
+                alert('Please enter some text to summarize');
+                return;
+            }
+            
+            if (input.length < 50) {
+                alert('For best results, please provide at least 50 characters of text');
+                return;
+            }
+            
+            // Show loading state
+            const output = document.getElementById('summarizer-output');
+            output.innerHTML = '<div class="text-center py-8"><i class="fas fa-spinner fa-spin text-2xl text-blue-500"></i><p class="mt-2">Summarizing your text...</p></div>';
+            
+            // In a real app, this would call an API
+            // For demo purposes, we'll simulate with a simple summarizer
+            setTimeout(() => {
+                const summary = simulateSummarize(input);
+                output.innerHTML = summary;
+                
+                // Add copy button functionality
+                document.querySelector('#summarizer-tool button[onclick="copySummary()"]').onclick = function() {
+                    navigator.clipboard.writeText(summary).then(() => {
+                        alert('Summary copied to clipboard!');
+                    });
+                };
+            }, 1500);
+        }
+
+        function simulateSummarize(text) {
+            // Get settings
+            const length = document.getElementById('summary-length').value;
+            const focus = document.getElementById('summary-focus').value;
+            
+            // This is a very basic simulation - a real app would use an API
+            const sentences = text.match(/[^\.!\?]+[\.!\?]+/g) || [text];
+            
+            let summary = '';
+            
+            if (focus === 'keypoints') {
+                // Extract first sentences of paragraphs
+                const paragraphs = text.split('\n\n');
+                for (let i = 0; i < Math.min(paragraphs.length, 3); i++) {
+                    const firstSentence = paragraphs[i].match(/[^\.!\?]+[\.!\?]+/) || [paragraphs[i]];
+                    summary += firstSentence[0] + ' ';
+                }
+            } else if (focus === 'conclusion') {
+                // Try to find concluding sentences
+                if (sentences.length > 3) {
+                    summary = sentences.slice(-3).join(' ');
+                } else {
+                    summary = sentences.join(' ');
+                }
+            } else {
+                // General summary - take first few sentences
+                const count = length === 'short' ? 1 : length === 'medium' ? 3 : 5;
+                summary = sentences.slice(0, count).join(' ');
+            }
+            
+            return summary || "Unable to generate summary - here's the original text: " + text;
+        }
+
+        function copySummary() {
+            const summary = document.getElementById('summarizer-output').textContent;
+            if (summary) {
+                navigator.clipboard.writeText(summary).then(() => {
+                    alert('Summary copied to clipboard!');
+                });
+            }
+        }
+
+        function clearSummarizer() {
+            document.getElementById('summarizer-input').value = '';
+            document.getElementById('summarizer-output').innerHTML = '';
+            document.getElementById('summarizer-count').textContent = '0 characters';
+        }
+
+        // Grammar Checker Functions
+        function checkGrammar() {
+            const text = document.getElementById('grammar-input').value.trim();
+            if (!text) {
+                alert('Please enter some text to check');
+                return;
+            }
+            
+            // Show loading state
+            const resultsDiv = document.getElementById('grammar-results');
+            resultsDiv.innerHTML = '<div class="text-center py-8"><i class="fas fa-spinner fa-spin text-2xl text-green-500"></i><p class="mt-2">Checking your text for errors...</p></div>';
+            
+            // In a real app, this would call an API like LanguageTool
+            setTimeout(() => {
+                const errors = simulateGrammarCheck(text);
+                displayGrammarResults(errors);
+            }, 2000);
+        }
+
+        function simulateGrammarCheck(text) {
+            // This simulates grammar errors - a real app would use an API
+            const errors = [];
+            
+            // Check for common issues
+            if (text.toLowerCase().includes('their are')) {
+                errors.push({
+                    message: "Did you mean 'there are'?",
+                    context: text.substring(Math.max(0, text.indexOf('their are') - 20), text.indexOf('their are') + 20),
+                    type: 'grammar',
+                    replacements: ['there are']
+                });
+            }
+            
+            if (text.includes(' alot ')) {
+                errors.push({
+                    message: "'Alot' is not a word. Did you mean 'a lot'?",
+                    context: text.substring(Math.max(0, text.indexOf(' alot ') - 20), text.indexOf(' alot ') + 20),
+                    type: 'spelling',
+                    replacements: ['a lot']
+                });
+            }
+            
+            // Check for passive voice (simple simulation)
+            const passiveMatches = text.match(/\b(is|are|was|were|be|been|being)\s+\w+ed\b/gi);
+            if (passiveMatches) {
+                passiveMatches.forEach(match => {
+                    errors.push({
+                        message: "Passive voice detected. Consider rewriting in active voice.",
+                        context: match,
+                        type: 'style',
+                        replacements: []
+                    });
+                });
+            }
+            
+            // Check for long sentences
+            const sentences = text.match(/[^\.!\?]+[\.!\?]+/g) || [];
+            sentences.forEach(sentence => {
+                if (sentence.split(' ').length > 30) {
+                    errors.push({
+                        message: "Long sentence detected (over 30 words). Consider breaking it up.",
+                        context: sentence.substring(0, 50) + '...',
+                        type: 'style',
+                        replacements: []
+                    });
+                }
+            });
+            
+            // If no errors found, say it looks good
+            if (errors.length === 0) {
+                errors.push({
+                    message: "No grammar or spelling errors detected!",
+                    context: "Your text looks good.",
+                    type: 'info',
+                    replacements: []
+                });
+            }
+            
+            return errors;
+        }
+
+        function displayGrammarResults(errors) {
+            const resultsDiv = document.getElementById('grammar-results');
+            resultsDiv.innerHTML = '';
+            
+            errors.forEach(error => {
+                const errorDiv = document.createElement('div');
+                errorDiv.className = `mb-4 p-3 rounded-lg border-l-4 ${error.type === 'spelling' ? 'bg-red-50 border-red-500' : 
+                                    error.type === 'grammar' ? 'bg-yellow-50 border-yellow-500' : 
+                                    error.type === 'style' ? 'bg-blue-50 border-blue-500' : 'bg-green-50 border-green-500'}`;
+                
+                let replacementsHTML = '';
+                if (error.replacements.length > 0) {
+                    replacementsHTML = `<div class="mt-2">
+                        <span class="text-sm text-gray-600">Suggestions:</span>
+                        <div class="flex flex-wrap gap-2 mt-1">
+                            ${error.replacements.map(rep => 
+                                `<button onclick="replaceGrammarError('${rep}')" class="px-2 py-1 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 text-sm">
+                                    ${rep}
+                                </button>`
+                            ).join('')}
+                        </div>
+                    </div>`;
+                }
+                
+                errorDiv.innerHTML = `
+                    <div class="font-semibold ${error.type === 'spelling' ? 'text-red-700' : 
+                                          error.type === 'grammar' ? 'text-yellow-700' : 
+                                          error.type === 'style' ? 'text-blue-700' : 'text-green-700'}">
+                        ${error.message}
+                    </div>
+                    <div class="text-sm text-gray-600 mt-1 bg-white p-2 rounded">
+                        "...${error.context}..."
+                    </div>
+                    ${replacementsHTML}
+                `;
+                
+                resultsDiv.appendChild(errorDiv);
+            });
+        }
+
+        function replaceGrammarError(replacement) {
+            // In a real app, this would replace the specific error in the text
+            alert(`In a full implementation, this would replace the error with: "${replacement}"`);
+        }
+
+        function acceptAllGrammar() {
+            // In a real app, this would apply all suggested corrections
+            alert('In a full implementation, this would apply all suggested corrections to your text');
+        }
+
+        function clearGrammar() {
+            document.getElementById('grammar-input').value = '';
+            document.getElementById('grammar-results').innerHTML = `
+                <div class="text-center text-gray-400 py-10">
+                    <i class="fas fa-spell-check text-3xl mb-2"></i>
+                    <p>Grammar suggestions will appear here</p>
+                </div>
+            `;
+            document.getElementById('grammar-count').textContent = '0 words';
+        }
+
+        // Paragraph Rewriter Functions
+        function rewriteText() {
+            const text = document.getElementById('rewriter-input').value.trim();
+            if (!text) {
+                alert('Please enter some text to rewrite');
+                return;
+            }
+            
+            // Show loading state
+            const output = document.getElementById('rewriter-output');
+            output.innerHTML = '<div class="text-center py-8"><i class="fas fa-spinner fa-spin text-2xl text-purple-500"></i><p class="mt-2">Rewriting your text...</p></div>';
+            
+            // Get settings
+            const style = document.getElementById('rewrite-style').value;
+            const intensity = document.getElementById('rewrite-intensity').value;
+            const focus = document.getElementById('rewrite-focus').value;
+            
+            // Simulate API call
+            setTimeout(() => {
+                const rewritten = simulateRewrite(text, style, intensity, focus);
+                output.innerHTML = rewritten;
+                
+                // Add copy button functionality
+                document.querySelector('#paragraph-rewriter-tool button[onclick="copyRewritten()"]').onclick = function() {
+                    navigator.clipboard.writeText(rewritten).then(() => {
+                        alert('Rewritten text copied to clipboard!');
+                    });
+                };
+            }, 2000);
+        }
+
+        function simulateRewrite(text, style, intensity, focus) {
+            // This is a very basic simulation - a real app would use an API
+            let rewritten = text;
+            
+            // Apply style
+            if (style === 'concise') {
+                // Remove some words (very simplistic)
+                rewritten = rewritten.replace(/\b(very|really|quite|somewhat|rather)\b/gi, '');
+                rewritten = rewritten.replace(/\s+/g, ' ').trim();
+            } else if (style === 'formal') {
+                // Make more formal (very simplistic)
+                rewritten = rewritten.replace(/\b(can't|don't|won't)\b/gi, match => 
+                    match === "can't" ? "cannot" : 
+                    match === "don't" ? "do not" : "will not");
+            } else if (style === 'simple') {
+                // Simplify language (very simplistic)
+                rewritten = rewritten.replace(/\b(utilize|employ)\b/gi, 'use');
+                rewritten = rewritten.replace(/\b(commence|initiate)\b/gi, 'start');
+            }
+            
+            // Apply intensity
+            if (intensity === 'medium') {
+                // Change some words to synonyms
+                rewritten = rewritten.replace(/\b(good|nice|great)\b/gi, 'excellent');
+                rewritten = rewritten.replace(/\b(bad|poor)\b/gi, 'suboptimal');
+            } else if (intensity === 'heavy') {
+                // More aggressive changes
+                rewritten = rewritten.replace(/\b(important)\b/gi, 'critical');
+                rewritten = rewritten.replace(/\b(help)\b/gi, 'assist');
+            }
+            
+            // Apply focus
+            if (focus === 'engagement') {
+                // Add more engaging language
+                if (!rewritten.startsWith('Imagine') && !rewritten.startsWith('Picture')) {
+                    rewritten = 'Imagine ' + rewritten.charAt(0).toLowerCase() + rewritten.slice(1);
+                }
+            } else if (focus === 'professional') {
+                // Remove contractions and casual language
+                rewritten = rewritten.replace(/\b(I'm|you're|they're|we're|it's|he's|she's)\b/gi, match => 
+                    match === "I'm" ? "I am" :
+                    match === "you're" ? "you are" :
+                    match === "they're" ? "they are" :
+                    match === "we're" ? "we are" :
+                    match === "it's" ? "it is" :
+                    match === "he's" ? "he is" : "she is");
+            }
+            
+            return rewritten || "Unable to rewrite text - please try different settings.";
+        }
+
+        function copyRewritten() {
+            const rewritten = document.getElementById('rewriter-output').textContent;
+            if (rewritten) {
+                navigator.clipboard.writeText(rewritten).then(() => {
+                    alert('Rewritten text copied to clipboard!');
+                });
+            }
+        }
+
+        function clearRewriter() {
+            document.getElementById('rewriter-input').value = '';
+            document.getElementById('rewriter-output').innerHTML = '';
+            document.getElementById('rewriter-count').textContent = '0 words';
+        }
+
+        // Text to Speech Functions
+        let speechSynthesis = window.speechSynthesis;
+        let voices = [];
+        let currentUtterance = null;
+
+        function loadVoices() {
+            voices = speechSynthesis.getVoices();
+            const voiceSelect = document.getElementById('tts-voice');
+            
+            // Clear existing options
+            voiceSelect.innerHTML = '';
+            
+            // Add available voices
+            voices.forEach(voice => {
+                const option = document.createElement('option');
+                option.textContent = `${voice.name} (${voice.lang})${voice.default ? ' — DEFAULT' : ''}`;
+                option.setAttribute('data-name', voice.name);
+                option.setAttribute('data-lang', voice.lang);
+                voiceSelect.appendChild(option);
+            });
+        }
+
+        function speakText() {
+            const text = document.getElementById('tts-input').value.trim();
+            if (!text) {
+                alert('Please enter some text to speak');
+                return;
+            }
+            
+            // Stop any current speech
+            if (currentUtterance) {
+                speechSynthesis.cancel();
+            }
+            
+            // Get settings
+            const voiceSelect = document.getElementById('tts-voice');
+            const selectedOption = voiceSelect.selectedOptions[0];
+            const voiceName = selectedOption.getAttribute('data-name');
+            const rate = parseFloat(document.getElementById('tts-rate').value);
+            const pitch = parseFloat(document.getElementById('tts-pitch').value);
+            
+            // Find the selected voice
+            const voice = voices.find(v => v.name === voiceName);
+            
+            // Create utterance
+            currentUtterance = new SpeechSynthesisUtterance(text);
+            currentUtterance.voice = voice;
+            currentUtterance.rate = rate;
+            currentUtterance.pitch = pitch;
+            
+            // Speak it
+            speechSynthesis.speak(currentUtterance);
+        }
+
+        function stopSpeaking() {
+            if (speechSynthesis.speaking) {
+                speechSynthesis.cancel();
+            }
+        }
+
+        function testVoice() {
+            const voiceSelect = document.getElementById('tts-voice');
+            const selectedOption = voiceSelect.selectedOptions[0];
+            const voiceName = selectedOption.getAttribute('data-name');
+            const voice = voices.find(v => v.name === voiceName);
+            
+            const testUtterance = new SpeechSynthesisUtterance("This is a test of the text to speech voice.");
+            testUtterance.voice = voice;
+            testUtterance.rate = 1;
+            testUtterance.pitch = 1;
+            
+            speechSynthesis.speak(testUtterance);
+        }
+
+        // Case Converter Functions
+        function convertCase(caseType) {
+            const input = document.getElementById('case-input').value;
+            if (!input.trim()) {
+                alert('Please enter some text to convert');
+                return;
+            }
+            
+            let output = '';
+            
+            switch(caseType) {
+                case 'upper':
+                    output = input.toUpperCase();
+                    break;
+                case 'lower':
+                    output = input.toLowerCase();
+                    break;
+                case 'title':
+                    output = input.replace(/\w\S*/g, function(txt) {
+                        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                    });
+                    break;
+                case 'sentence':
+                    output = input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();
+                    // Basic attempt to capitalize after periods
+                    output = output.replace(/\.\s+([a-z])/g, function(match) {
+                        return match.toUpperCase();
+                    });
+                    break;
+                case 'camel':
+                    output = input.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
+                    output = output.charAt(0).toLowerCase() + output.slice(1);
+                    break;
+                case 'pascal':
+                    output = input.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
+                    output = output.charAt(0).toUpperCase() + output.slice(1);
+                    break;
+                case 'snake':
+                    output = input.replace(/\s+/g, '_').toLowerCase();
+                    break;
+                case 'kebab':
+                    output = input.replace(/\s+/g, '-').toLowerCase();
+                    break;
+                default:
+                    output = input;
+            }
+            
+            document.getElementById('case-output').value = output;
+        }
+
+        function copyCase() {
+            const output = document.getElementById('case-output').value;
+            if (output) {
+                navigator.clipboard.writeText(output).then(() => {
+                    alert('Converted text copied to clipboard!');
+                });
+            }
+        }
+
+        function clearCase() {
+            document.getElementById('case-input').value = '';
+            document.getElementById('case-output').value = '';
+            document.getElementById('case-count').textContent = '0 characters';
+        }
+
+        // Word Counter Functions
+        function updateCounters() {
+            const text = document.getElementById('counter-input').value;
+            
+            // Word count (very simple - splits on whitespace)
+            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+            document.getElementById('word-count').textContent = words;
+            
+            // Character counts
+            document.getElementById('char-count').textContent = text.length;
+            document.getElementById('char-no-spaces').textContent = text.replace(/\s+/g, '').length;
+            
+            // Sentence count (very simple - counts punctuation)
+            const sentences = text.match(/[^\.!\?]+[\.!\?]+/g) || [];
+            document.getElementById('sentence-count').textContent = sentences.length;
+            
+            // Paragraph count
+            const paragraphs = text.trim() ? text.split(/\n+/).filter(p => p.trim()).length : 0;
+            document.getElementById('paragraph-count').textContent = paragraphs;
+            
+            // Reading time (200 words per minute)
+            const readingTime = Math.ceil(words / 200);
+            document.getElementById('reading-time').textContent = readingTime || 0;
+            
+            // Readability scores (simplified)
+            updateReadabilityScores(text, words, sentences);
+        }
+
+        function updateReadabilityScores(text, wordCount, sentences) {
+            if (wordCount === 0 || sentences.length === 0) {
+                document.getElementById('flesch-score').textContent = '0';
+                document.getElementById('flesch-bar').style.width = '0%';
+                document.getElementById('flesch-desc').textContent = 'No text to analyze';
+                document.getElementById('grade-level').textContent = '0';
+                return;
+            }
+            
+            // Very simplified readability calculation
+            const avgWordsPerSentence = wordCount / sentences.length;
+            const avgSyllablesPerWord = estimateSyllables(text) / wordCount;
+            
+            // Flesch Reading Ease
+            const flesch = Math.max(0, Math.min(100, 
+                206.835 - (1.015 * avgWordsPerSentence) - (84.6 * avgSyllablesPerWord)
+            ));
+            
+            document.getElementById('flesch-score').textContent = flesch.toFixed(0);
+            document.getElementById('flesch-bar').style.width = `${flesch}%`;
+            
+            // Description
+            let desc = '';
+            if (flesch >= 90) desc = 'Very easy to read (5th grade)';
+            else if (flesch >= 80) desc = 'Easy to read (6th grade)';
+            else if (flesch >= 70) desc = 'Fairly easy (7th grade)';
+            else if (flesch >= 60) desc = 'Plain English (8th-9th grade)';
+            else if (flesch >= 50) desc = 'Fairly difficult (10th-12th grade)';
+            else if (flesch >= 30) desc = 'Difficult (college)';
+            else desc = 'Very difficult (university graduate)';
+            
+            document.getElementById('flesch-desc').textContent = desc;
+            
+            // Flesch-Kincaid Grade Level
+            const gradeLevel = Math.max(0, 
+                0.39 * avgWordsPerSentence + 11.8 * avgSyllablesPerWord - 15.59
+            );
+            document.getElementById('grade-level').textContent = gradeLevel.toFixed(1);
+        }
+
+        function estimateSyllables(text) {
+            // Very rough syllable estimation
+            const words = text.toLowerCase().split(/\s+/);
+            let count = 0;
+            
+            words.forEach(word => {
+                // Basic syllable counting rules
+                word = word.replace(/'s$/, ''); // Remove possessive
+                if (word.length <= 3) {
+                    count += 1;
+                    return;
+                }
+                
+                // Count vowel groups
+                const vowelGroups = word.match(/[aeiouy]+/g);
+                if (!vowelGroups) {
+                    count += 1;
+                    return;
+                }
+                
+                let syllables = vowelGroups.length;
+                
+                // Subtract silent e
+                if (word.endsWith('e') && !word.endsWith('le') && syllables > 1) {
+                    syllables -= 1;
+                }
+                
+                // Add ending with -le preceded by consonant
+                if (word.endsWith('le') && !['a','e','i','o','u','y'].includes(word.charAt(word.length-3))) {
+                    syllables += 1;
+                }
+                
+                count += Math.max(1, syllables);
+            });
+            
+            return count;
+        }
+
+        // CTA Functions
+        function sharePage() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Smart Writing Hub',
+                    text: 'Check out these amazing writing tools!',
+                    url: window.location.href
+                }).catch(err => {
+                    console.log('Error sharing:', err);
+                    alert('Could not share. Please try another method.');
+                });
+            } else {
+                // Fallback for browsers that don't support Web Share API
+                alert('Share this page by copying the URL: ' + window.location.href);
+            }
+        }
+
+        function bookmarkPage() {
+            if (window.sidebar && window.sidebar.addPanel) { // Firefox
+                window.sidebar.addPanel(document.title, window.location.href, "");
+            } else if (window.external && ('AddFavorite' in window.external)) { // IE
+                window.external.AddFavorite(window.location.href, document.title);
+            } else { // Other browsers
+                alert('Press ' + (navigator.userAgent.toLowerCase().indexOf('mac') != -1 ? 'Cmd+D' : 'Ctrl+D') + ' to bookmark this page.');
+            }
+        }
+
+        // Textarea character counters
+        document.getElementById('summarizer-input').addEventListener('input', function() {
+            document.getElementById('summarizer-count').textContent = this.value.length + ' characters';
+        });
+        
+        document.getElementById('grammar-input').addEventListener('input', function() {
+            const words = this.value.trim() ? this.value.trim().split(/\s+/).length : 0;
+            document.getElementById('grammar-count').textContent = words + ' words';
+        });
+        
+        document.getElementById('rewriter-input').addEventListener('input', function() {
+            const words = this.value.trim() ? this.value.trim().split(/\s+/).length : 0;
+            document.getElementById('rewriter-count').textContent = words + ' words';
+        });
+        
+        document.getElementById('tts-input').addEventListener('input', function() {
+            document.getElementById('tts-count').textContent = this.value.length + ' characters';
+        });
+        
+        document.getElementById('case-input').addEventListener('input', function() {
+            document.getElementById('case-count').textContent = this.value.length + ' characters';
+        });
+
+        // Load voices when they become available
+        speechSynthesis.onvoiceschanged = loadVoices;
+    </script>
+</body>
+</html>

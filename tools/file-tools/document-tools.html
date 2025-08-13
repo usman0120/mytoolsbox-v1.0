@@ -1,0 +1,2098 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced File Converter</title>
+    <meta name="description"
+        content="Convert between PDF, Word, Excel, PowerPoint, Images and more directly in your browser. No server processing, 100% client-side.">
+    <link href="../../../dist/style.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.0/mammoth.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/7.8.2/docx.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <style>
+        .dropzone {
+            transition: all 0.3s ease;
+        }
+
+        .dropzone.active {
+            border-color: #0ea5e9;
+            background-color: rgba(14, 165, 233, 0.05);
+        }
+
+        .file-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .tooltip {
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .has-tooltip:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background-color: #e5e7eb;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background-color: #3b82f6;
+            transition: width 0.3s ease;
+        }
+
+        .preview-image {
+            max-width: 100%;
+            max-height: 200px;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.375rem;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800">
+    <!-- Header -->
+    <header
+        class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-tools text-2xl text-primary-600 dark:text-primary-400"></i>
+                <a href="#"
+                    class="text-xl font-bold text-gray-800 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                    My<span class="text-primary-600 dark:text-primary-400">Toolbox</span>
+                </a>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="../../../index.html"
+                    class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</a>
+
+                <div class="relative group">
+                    <button
+                        class="flex items-center font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                        Categories <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                    </button>
+                    <div
+                        class="absolute left-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                    <a href="../file-tools/document-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">File Tools</a>
+                    <a href="../image-tools/image-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Image Tools</a>
+                    <a href="../media-tools/media-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Media Tools</a>
+                    <a href="../study-tools/study-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Study Tools</a>
+                    <a href="../calculator-tools/calculators.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Calculators</a>
+                    <a href="../ai-tools/ai-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">AI-Powered Tools</a>
+                    <a href="../design-tools/design-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Design Tools</a>
+                    <a href="../time-tools/time-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Productivity & Time Tools</a>
+                    <a href="../writing-tools/writing-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Writing Tools</a>
+                    <a href="../misc-tools/misc-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">More Useful Tools</a>
+                    </div>
+                </div>
+
+                <a href="#"
+                    class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">About</a>
+                <a href="#"
+                    class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Contact</a>
+            </nav>
+
+
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden text-gray-600 dark:text-gray-300">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu"
+            class="hidden md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+            <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
+                <a href="#" class="py-2 font-medium">Home</a>
+
+                <div class="relative">
+                    <button id="mobile-categories-button"
+                        class="w-full flex justify-between items-center py-2 font-medium">
+                        Categories <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div id="mobile-categories" class="hidden pl-4 mt-1 space-y-2">
+                        <a href="../../index.html" class="block py-1">File Tools</a>
+                    <a href="../image-tools/image-tools.html" class="block py-1">Image Tools</a>
+                    <a href="../media-tools/mediaTools.html" class="block py-1">Media Tools</a>
+                    <a href="../design-tools/design-tools.html" class="block py-1">Design Tools</a>
+                    <a href="../calculator-tools/calculators.html" class="block py-1">Calculators</a>
+                    </div>
+                </div>
+
+                <a href="src/sections/homePage/about.html" class="py-2 font-medium">About</a>
+                <a href="#" class="py-2 font-medium">Contact</a>
+            </div>
+        </div>
+    </header>
+    <!-- Navbar -->
+    <nav class="bg-white shadow-sm sticky top-0 z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <svg class="h-8 w-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span class="ml-2 text-xl font-bold text-gray-800">Advanced File Converter</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Hero Section -->
+        <!-- Replace your current hero section with this -->
+        <section class="text-center mb-12 bg-gradient-to-r from-blue-400 to-indigo-500 rounded-xl p-8 text-white">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Advanced File Conversion Tool</h1>
+            <p class="text-xl md:text-2xl font-light max-w-3xl mx-auto mb-6">
+                Convert between 30+ file formats with high quality - 100% client-side processing
+            </p>
+            <div class="flex flex-wrap justify-center gap-4 mb-6">
+                <div class="bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 flex items-center">
+                    <i class="fas fa-shield-alt mr-2"></i> No file uploads - 100% private
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 flex items-center">
+                    <i class="fas fa-bolt mr-2"></i> Lightning fast conversions
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 flex items-center">
+                    <i class="fas fa-infinity mr-2"></i> No limits or watermarks
+                </div>
+            </div>
+            <div class="max-w-2xl mx-auto bg-white/10 backdrop-blur-sm rounded-lg p-4 text-left">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 mt-1">
+                        <i class="fas fa-lightbulb text-yellow-300"></i>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm font-medium">Pro Tip: For best results with large files, use Chrome or Edge
+                            browser which handle client-side processing more efficiently.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Converter Section -->
+        <section class="mb-16">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Replace your current file upload area with this -->
+                <div class="lg:col-span-2 bg-white rounded-xl shadow-md overflow-hidden p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-semibold text-gray-800">Upload Your Files</h2>
+                        <div class="flex items-center space-x-2">
+                            <button id="clearFilesBtn" class="text-sm text-gray-500 hover:text-gray-700 hidden">
+                                <i class="fas fa-trash-alt mr-1"></i> Clear All
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="dropzone"
+                        class="dropzone border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer mb-6 transition-all duration-200 hover:border-blue-400 hover:bg-blue-50/50">
+                        <div class="max-w-md mx-auto">
+                            <svg class="mx-auto h-12 w-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                            </svg>
+                            <h3 class="mt-3 text-lg font-medium text-gray-900">Drag & drop files here</h3>
+                            <p class="mt-1 text-sm text-gray-500">or</p>
+                            <label for="fileInput"
+                                class="mt-3 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer transition-all duration-200">
+                                <i class="fas fa-folder-open mr-2"></i> Browse Files
+                            </label>
+                            <input id="fileInput" type="file" class="hidden" multiple>
+                            <p class="mt-3 text-xs text-gray-500">
+                                Supports PDF, DOCX, XLSX, PPTX, JPG, PNG, etc. (Max 50MB per file)
+                            </p>
+                        </div>
+                    </div>
+
+                    <div id="selectedFiles" class="space-y-4 hidden">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-lg font-medium text-gray-800">Selected Files</h3>
+                            <div class="text-sm text-gray-500" id="totalSizeDisplay"></div>
+                        </div>
+                        <div id="fileList" class="space-y-3"></div>
+                    </div>
+                </div>
+
+                <!-- Conversion Options -->
+                <!-- Replace your current conversion options with this -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden p-6">
+                    <h2 class="text-2xl font-semibold mb-6 text-gray-800">Conversion Options</h2>
+
+                    <div class="mb-6">
+                        <label for="conversionType" class="text-sm font-medium text-gray-700 mb-2 flex items-center">
+                            Convert To
+                            <span class="ml-2 px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">Step
+                                1</span>
+                        </label>
+                        <select id="conversionType"
+                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-white text-gray-900">
+                            <option value="" disabled selected>Select output format</option>
+                            <optgroup label="From PDF">
+                                <option value="pdf-word">PDF to Word (DOCX)</option>
+                                <option value="pdf-excel">PDF to Excel (XLSX)</option>
+                                <option value="pdf-ppt">PDF to PowerPoint (PPTX)</option>
+                                <option value="pdf-text">PDF to Text</option>
+                                <option value="pdf-jpg">PDF to Images (JPG)</option>
+                                <option value="pdf-png">PDF to Images (PNG)</option>
+                            </optgroup>
+                            <optgroup label="To PDF">
+                                <option value="word-pdf">Word to PDF</option>
+                                <option value="excel-pdf">Excel to PDF</option>
+                                <option value="ppt-pdf">PowerPoint to PDF</option>
+                                <option value="image-pdf">Images to PDF</option>
+                                <option value="txt-pdf">Text to PDF</option>
+                            </optgroup>
+                            <optgroup label="Office Conversions">
+                                <option value="word-txt">Word to Text</option>
+                                <option value="excel-csv">Excel to CSV</option>
+                                <option value="csv-excel">CSV to Excel</option>
+                                <option value="ppt-jpg">PPT to Images</option>
+                            </optgroup>
+                            <optgroup label="Image Conversions">
+                                <option value="jpg-png">JPG to PNG</option>
+                                <option value="png-jpg">PNG to JPG</option>
+                                <option value="webp-png">WEBP to PNG</option>
+                                <option value="image-resize">Resize Images</option>
+                                <option value="image-compress">Compress Images</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <div id="conversionOptions" class="space-y-4">
+                        <div id="pdfOptions" class="hidden">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">PDF Options</label>
+                            <div class="flex items-center mb-2">
+                                <input id="preserveLayout" type="checkbox"
+                                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" checked>
+                                <label for="preserveLayout" class="ml-2 block text-sm text-gray-700">Preserve
+                                    layout</label>
+                            </div>
+                        </div>
+
+                        <div id="imageOptions" class="hidden">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Image Options</label>
+                            <div class="grid grid-cols-2 gap-4 mb-3">
+                                <div>
+                                    <label for="imageQuality" class="block text-xs text-gray-500 mb-1">Quality</label>
+                                    <select id="imageQuality"
+                                        class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-white text-gray-900 text-sm">
+                                        <option value="0.9">Very High (90%)</option>
+                                        <option value="0.7">High (70%)</option>
+                                        <option value="0.5" selected>Medium (50%)</option>
+                                        <option value="0.3">Low (30%)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="imageFormat" class="block text-xs text-gray-500 mb-1">Format</label>
+                                    <select id="imageFormat"
+                                        class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-white text-gray-900 text-sm">
+                                        <option value="jpg">JPG</option>
+                                        <option value="png">PNG</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="allPagesOption" class="flex items-center">
+                                <input id="convertAllPages" type="checkbox"
+                                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" checked>
+                                <label for="convertAllPages" class="ml-2 block text-sm text-gray-700">Convert all pages
+                                    (for multi-page
+                                    PDFs)</label>
+                            </div>
+                        </div>
+
+                        <div id="resizeOptions" class="hidden">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Resize Options</label>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label for="resizeWidth" class="block text-xs text-gray-500 mb-1">Width (px)</label>
+                                    <input id="resizeWidth" type="number"
+                                        class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-white text-gray-900 text-sm"
+                                        placeholder="Auto" value="800">
+                                </div>
+                                <div>
+                                    <label for="resizeHeight" class="block text-xs text-gray-500 mb-1">Height
+                                        (px)</label>
+                                    <input id="resizeHeight" type="number"
+                                        class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-white text-gray-900 text-sm"
+                                        placeholder="Auto">
+                                </div>
+                            </div>
+                            <div class="flex items-center mt-3">
+                                <input id="maintainAspect" type="checkbox"
+                                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" checked>
+                                <label for="maintainAspect" class="ml-2 block text-sm text-gray-700">Maintain aspect
+                                    ratio</label>
+                            </div>
+                            <div class="mt-3">
+                                <label for="resizeQuality" class="block text-xs text-gray-500 mb-1">Output
+                                    Quality</label>
+                                <select id="resizeQuality"
+                                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-white text-gray-900 text-sm">
+                                    <option value="0.9">Very High (90%)</option>
+                                    <option value="0.7">High (70%)</option>
+                                    <option value="0.5" selected>Medium (50%)</option>
+                                    <option value="0.3">Low (30%)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="compressOptions" class="hidden">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Compression Level</label>
+                            <input id="compressLevel" type="range" min="0" max="1" step="0.1" value="0.5"
+                                class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                            <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                <span>Low (large file)</span>
+                                <span>High (small file)</span>
+                            </div>
+                            <div class="mt-3">
+                                <label class="block text-xs text-gray-500 mb-1">Estimated Size Reduction</label>
+                                <div class="progress-bar">
+                                    <div id="compressProgress" class="progress-bar-fill" style="width: 50%"></div>
+                                </div>
+                                <p id="compressEstimate" class="text-xs text-gray-500 mt-1 text-center">~50% smaller</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 bg-blue-50 rounded-lg p-4 border border-blue-100">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 mt-0.5">
+                                <svg class="h-5 w-5 text-blue-600" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm text-blue-700" id="conversionTip">
+                                    Select files and conversion type to get started
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="convertBtn"
+                        class="w-full mt-6 flex justify-center items-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200">
+                        <i class="fas fa-magic mr-2"></i> Convert Files
+                    </button>
+
+                    <!-- Your existing loading indicator can remain the same -->
+                    <div id="loadingIndicator" class="mt-6 hidden">
+                        <div class="flex items-center justify-center space-x-2">
+                            <div class="w-5 h-5 rounded-full bg-blue-600 animate-bounce" style="animation-delay: 0ms">
+                            </div>
+                            <div class="w-5 h-5 rounded-full bg-blue-600 animate-bounce" style="animation-delay: 150ms">
+                            </div>
+                            <div class="w-5 h-5 rounded-full bg-blue-600 animate-bounce" style="animation-delay: 300ms">
+                            </div>
+                        </div>
+                        <p class="text-center mt-3 text-gray-600">Processing your files...</p>
+                        <p id="conversionProgress" class="text-center text-sm text-gray-500 mt-1"></p>
+                        <div class="progress-bar mt-4">
+                            <div id="conversionProgressBar" class="progress-bar-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Replace your results section with this -->
+<section id="resultsSection" class="hidden">
+    <div class="bg-white rounded-xl shadow-md overflow-hidden p-6">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-semibold text-gray-800">Conversion Results</h2>
+            <button id="newConversionBtn" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200">
+                <i class="fas fa-plus mr-2"></i> New Conversion
+            </button>
+        </div>
+        
+        <div id="resultsStats" class="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-100">
+            <div class="flex items-center">
+                <svg class="h-5 w-5 text-blue-600 mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                </svg>
+                <div>
+                    <p id="statsText" class="text-sm text-blue-700"></p>
+                    <p id="statsSubtext" class="text-xs text-blue-600 mt-1"></p>
+                </div>
+            </div>
+        </div>
+        
+        <div id="resultsContainer" class="space-y-4"></div>
+        
+        <div class="mt-8 bg-gray-50 rounded-lg p-4 border border-gray-200">
+            <h3 class="text-lg font-medium text-gray-900 mb-3">What would you like to do next?</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <button class="new-action-btn bg-white hover:bg-gray-50 border border-gray-200 rounded-lg p-4 text-left transition-all duration-200" data-action="new">
+                    <i class="fas fa-plus text-blue-500 mb-2"></i>
+                    <h4 class="font-medium text-gray-900">Start New Conversion</h4>
+                    <p class="text-sm text-gray-500 mt-1">Convert more files</p>
+                </button>
+                <button class="new-action-btn bg-white hover:bg-gray-50 border border-gray-200 rounded-lg p-4 text-left transition-all duration-200" data-action="download-all">
+                    <i class="fas fa-download text-green-500 mb-2"></i>
+                    <h4 class="font-medium text-gray-900">Download All</h4>
+                    <p class="text-sm text-gray-500 mt-1">Get all converted files</p>
+                </button>
+                <button class="new-action-btn bg-white hover:bg-gray-50 border border-gray-200 rounded-lg p-4 text-left transition-all duration-200" data-action="share">
+                    <i class="fas fa-share-alt text-purple-500 mb-2"></i>
+                    <h4 class="font-medium text-gray-900">Share Results</h4>
+                    <p class="text-sm text-gray-500 mt-1">Send to friends or colleagues</p>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+        <!-- Features Section -->
+        <section class="mt-16 mb-12">
+            <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">Supported Conversions</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- PDF Conversions -->
+                <div
+                    class="bg-white rounded-xl shadow-md overflow-hidden transition-transform duration-300 hover:scale-105">
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="flex-shrink-0 bg-blue-100 p-3 rounded-lg">
+                                <svg class="h-6 w-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <h3 class="ml-4 text-lg font-medium text-gray-900">PDF Conversions</h3>
+                        </div>
+                        <ul class="space-y-2 text-gray-600">
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4 4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <span>PDF to Word (DOCX)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4 4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <span>PDF to Excel (XLSX)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4 4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <span>PDF to PowerPoint (PPTX)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4 4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <span>PDF to Images (JPG/PNG)</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Office Conversions -->
+                <div
+                    class="bg-white rounded-xl shadow-md overflow-hidden transition-transform duration-300 hover:scale-105">
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="flex-shrink-0 bg-blue-100 p-3 rounded-lg">
+                                <svg class="h-6 w-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                            </div>
+                            <h3 class="ml-4 text-lg font-medium text-gray-900">Office Conversions</h3>
+                        </div>
+                        <ul class="space-y-2 text-gray-600">
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4 4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <span>Word to PDF</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4 4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <span>Excel to PDF</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4 4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <span>PowerPoint to PDF</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4 4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <span>Word to Text</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4 4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <span>Excel to CSV</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Image & Other Conversions -->
+                <div
+                    class="bg-white rounded-xl shadow-md overflow-hidden transition-transform duration-300 hover:scale-105">
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="flex-shrink-0 bg-blue-100 p-3 rounded-lg">
+                                <svg class="h-6 w-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <h3 class="ml-4 text-lg font-medium text-gray-900">Image & Other Formats</h3>
+                        </div>
+                        <ul class="space-y-2 text-gray-600">
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4 4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <span>Images to PDF</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4 4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <span>JPG to PNG</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4 4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <span>PNG to JPG</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4 4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <span>Image Resizing</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4 4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <span>Image Compression</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <div
+            class="mt-16 bg-white dark:bg-gray-800 rounded-xl shadow-md p-8 border border-gray-200 dark:border-gray-700">
+            <h2 class="text-2xl font-bold mb-6 text-center">Why Choose MyToolbox Document Tools?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center p-4">
+                    <div
+                        class="w-16 h-16 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center text-primary-600 dark:text-primary-400 mx-auto mb-4">
+                        <i class="fas fa-shield-alt text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Secure Processing</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm">
+                        All files are processed in your browser when possible. Server-processed files are automatically
+                        deleted after 1 hour.
+                    </p>
+                </div>
+                <div class="text-center p-4">
+                    <div
+                        class="w-16 h-16 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center text-primary-600 dark:text-primary-400 mx-auto mb-4">
+                        <i class="fas fa-rocket text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Lightning Fast</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm">
+                        Our optimized tools process files up to 5x faster than competitors, with most conversions
+                        completing in under 10 seconds.
+                    </p>
+                </div>
+                <div class="text-center p-4">
+                    <div
+                        class="w-16 h-16 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center text-primary-600 dark:text-primary-400 mx-auto mb-4">
+                        <i class="fas fa-infinity text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">No Limits</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm">
+                        Convert as many files as you need with no watermarks, file size limits, or daily quotas.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <section class="mt-16 mb-12">
+            <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">Frequently Asked Questions</h2>
+            <div class="max-w-3xl mx-auto space-y-4">
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <button
+                        class="faq-question w-full flex justify-between items-center p-6 text-left focus:outline-none">
+                        <span class="text-lg font-medium text-gray-900">Is my data secure?</span>
+                        <svg class="h-5 w-5 text-gray-500 transform transition-transform duration-200"
+                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    <div class="faq-answer px-6 pb-6 hidden">
+                        <p class="text-gray-600">Absolutely! All file processing happens directly in your browser. No
+                            files are uploaded to any server, ensuring complete privacy and security for your documents.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <button
+                        class="faq-question w-full flex justify-between items-center p-6 text-left focus:outline-none">
+                        <span class="text-lg font-medium text-gray-900">What file formats are supported?</span>
+                        <svg class="h-5 w-5 text-gray-500 transform transition-transform duration-200"
+                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    <div class="faq-answer px-6 pb-6 hidden">
+                        <p class="text-gray-600">We support all major document formats including PDF, DOCX, XLSX, PPTX,
+                            CSV, TXT, JPG, PNG, and WEBP. See the "Supported Conversions" section above for a complete
+                            list.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <button
+                        class="faq-question w-full flex justify-between items-center p-6 text-left focus:outline-none">
+                        <span class="text-lg font-medium text-gray-900">Is there a file size limit?</span>
+                        <svg class="h-5 w-5 text-gray-500 transform transition-transform duration-200"
+                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    <div class="faq-answer px-6 pb-6 hidden">
+                        <p class="text-gray-600">For optimal performance, we recommend files under 50MB. Very large
+                            files may cause your browser to become unresponsive as all processing happens client-side.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <button
+                        class="faq-question w-full flex justify-between items-center p-6 text-left focus:outline-none">
+                        <span class="text-lg font-medium text-gray-900">Can I convert multiple files at once?</span>
+                        <svg class="h-5 w-5 text-gray-500 transform transition-transform duration-200"
+                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    <div class="faq-answer px-6 pb-6 hidden">
+                        <p class="text-gray-600">Yes! You can upload multiple files and convert them all at once. Each
+                            file will be processed individually and you'll receive download links for all converted
+                            files.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 dark:bg-gray-800/80 border-t border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- About Column -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">About MyToolbox</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                        An all-in-one platform offering free, easy-to-use tools for your everyday needs.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Tools Column -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Tools</h3>
+                    <ul class="space-y-2">
+                        <li><a href="../../index.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">All
+                                Tools</a></li>
+                        <li><a href="../../index.html#featured-tools"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Featured
+                                Tools</a></li>
+                        <li><a href="../../index.html#categories"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">New
+                                Tools</a></li>
+                        <li><a href="../../src/sections/homePage/suggest-tool.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Request
+                                a Tool</a></li>
+                    </ul>
+                </div>
+
+                <!-- Resources Column -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Blog</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Tutorials</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">API</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Help
+                                Center</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal Column -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="../../src/sections/homePage/privacy.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Privacy
+                                Policy</a></li>
+                        <li><a href="../../src/sections/homePage/terms.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Terms
+                                of Service</a></li>
+                        <li><a href="../../src/sections/homePage/cookies.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Cookie
+                                Policy</a></li>
+                        <li><a href="../../src/sections/homePage/gdpr.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">GDPR</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="border-t border-gray-200 dark:border-gray-700 my-8"></div>
+
+            <!-- Bottom Footer -->
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                    <i class="fas fa-tools text-primary-600 dark:text-primary-400"></i>
+                    <span class="font-medium">My<span
+                            class="text-primary-600 dark:text-primary-400">Toolbox</span></span>
+                </div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">
+                    &copy; <span id="current-year"></span> MyToolbox. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Add these variables at the top of your script section
+        const clearFilesBtn = document.getElementById('clearFilesBtn');
+        const totalSizeDisplay = document.getElementById('totalSizeDisplay');
+        const conversionTip = document.getElementById('conversionTip');
+        // Add these variables at the top
+const statsSubtext = document.getElementById('statsSubtext');
+const actionButtons = document.querySelectorAll('.new-action-btn');
+const mobileMenuButton = document.getElementById('mobile-menu-button');
+const mobileMenu = document.getElementById('mobile-menu');
+const mobileCategoriesButton = document.getElementById('mobile-categories-button');
+const mobileCategories = document.getElementById('mobile-categories');
+
+// Mobile Menu Toggle
+mobileMenuButton.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+});
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', (e) => {
+    if (!mobileMenu.contains(e.target) && !mobileMenuButton.contains(e.target)) {
+        mobileMenu.classList.add('hidden');
+    }
+});
+// Mobile Categories Toggle
+mobileCategoriesButton.addEventListener('click', () => {
+    mobileCategories.classList.toggle('hidden');
+    mobileCategoriesButton.querySelector('i').classList.toggle('fa-chevron-down');
+    mobileCategoriesButton.querySelector('i').classList.toggle('fa-chevron-up');
+});
+
+
+
+
+        // FAQ accordion
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const answer = button.nextElementSibling;
+                const icon = button.querySelector('svg');
+
+                answer.classList.toggle('hidden');
+                icon.classList.toggle('rotate-180');
+            });
+        });
+
+        // File handling
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('fileInput');
+        const selectedFilesDiv = document.getElementById('selectedFiles');
+        const fileList = document.getElementById('fileList');
+        const convertBtn = document.getElementById('convertBtn');
+        const conversionType = document.getElementById('conversionType');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const conversionProgress = document.getElementById('conversionProgress');
+        const conversionProgressBar = document.getElementById('conversionProgressBar');
+        const resultsSection = document.getElementById('resultsSection');
+        const resultsContainer = document.getElementById('resultsContainer');
+        const resultsStats = document.getElementById('resultsStats');
+        const statsText = document.getElementById('statsText');
+        const newConversionBtn = document.getElementById('newConversionBtn');
+        const pdfOptions = document.getElementById('pdfOptions');
+        const imageOptions = document.getElementById('imageOptions');
+        const resizeOptions = document.getElementById('resizeOptions');
+        const compressOptions = document.getElementById('compressOptions');
+        const allPagesOption = document.getElementById('allPagesOption');
+        const compressLevel = document.getElementById('compressLevel');
+        const compressProgress = document.getElementById('compressProgress');
+        const compressEstimate = document.getElementById('compressEstimate');
+
+        let files = [];
+        let totalOriginalSize = 0;
+        let totalConvertedSize = 0;
+
+        // Update compression estimate
+        compressLevel.addEventListener('input', () => {
+            const value = compressLevel.value;
+            const reduction = Math.round((1 - value) * 100);
+            compressProgress.style.width = `${reduction}%`;
+            compressEstimate.textContent = `~${reduction}% smaller`;
+        });
+
+        // Handle drag and drop
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropzone.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropzone.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropzone.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight() {
+            dropzone.classList.add('active');
+        }
+
+        function unhighlight() {
+            dropzone.classList.remove('active');
+        }
+
+        dropzone.addEventListener('drop', handleDrop, false);
+        fileInput.addEventListener('change', handleFiles, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const droppedFiles = dt.files;
+            handleFiles({ target: { files: droppedFiles } });
+        }
+
+
+        // Add this new function
+        function updateConversionTip() {
+            if (files.length === 0) {
+                conversionTip.textContent = 'Select files and conversion type to get started';
+                return;
+            }
+
+            const fileTypes = [...new Set(files.map(file => getFileType(file.name)))];
+            const conversion = conversionType.value;
+
+            if (!conversion) {
+                conversionTip.textContent = `${files.length} file(s) selected. Choose conversion type above.`;
+                return;
+            }
+
+            const [fromType, toType] = conversion.split('-');
+            let tip = '';
+
+            if (fromType === 'pdf') {
+                tip = `Converting PDF to ${toType.toUpperCase()}. For multi-page PDFs, we'll preserve formatting.`;
+            } else if (toType === 'pdf') {
+                tip = `Converting ${fromType.toUpperCase()} to PDF. The layout will be preserved.`;
+            } else if (conversion === 'image-resize') {
+                tip = 'Resizing images. Maintain aspect ratio for best results.';
+            } else if (conversion === 'image-compress') {
+                tip = 'Compressing images. Higher compression means smaller files but lower quality.';
+            } else {
+                tip = `Converting ${fromType.toUpperCase()} to ${toType.toUpperCase()}.`;
+            }
+
+            conversionTip.textContent = tip;
+        }
+
+        function handleFiles(e) {
+            files = Array.from(e.target.files);
+            totalOriginalSize = files.reduce((sum, file) => sum + file.size, 0);
+            renderFileList();
+            updateConversionTip();
+        }
+
+        // Update your renderFileList function to show clear button and total size
+        function renderFileList() {
+            if (files.length === 0) {
+                selectedFilesDiv.classList.add('hidden');
+                clearFilesBtn.classList.add('hidden');
+                convertBtn.disabled = true;
+                totalSizeDisplay.textContent = '';
+                return;
+            }
+
+            fileList.innerHTML = '';
+            files.forEach((file, index) => {
+                const fileCard = document.createElement('div');
+                fileCard.className = 'file-card bg-gray-50 rounded-lg p-4 transition-all duration-200';
+
+                const fileInfo = document.createElement('div');
+                fileInfo.className = 'flex items-center justify-between';
+
+                const fileDetails = document.createElement('div');
+                fileDetails.className = 'flex items-center truncate';
+
+                const fileIcon = document.createElement('div');
+                fileIcon.className = 'flex-shrink-0 h-10 w-10 rounded-md bg-blue-100 flex items-center justify-center mr-3';
+
+                const icon = document.createElement('svg');
+                icon.className = 'h-6 w-6 text-blue-600';
+                icon.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+                icon.setAttribute('fill', 'none');
+                icon.setAttribute('viewBox', '0 0 24 24');
+                icon.setAttribute('stroke', 'currentColor');
+
+                const fileType = getFileType(file.name);
+                if (fileType === 'pdf') {
+                    icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />';
+                } else if (fileType === 'word') {
+                    icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />';
+                } else if (fileType === 'excel') {
+                    icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />';
+                } else if (fileType === 'image') {
+                    icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />';
+                } else {
+                    icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />';
+                }
+
+                fileIcon.appendChild(icon);
+                fileDetails.appendChild(fileIcon);
+
+                const fileNameSize = document.createElement('div');
+                fileNameSize.className = 'truncate';
+
+                const fileName = document.createElement('p');
+                fileName.className = 'text-sm font-medium text-gray-900 truncate';
+                fileName.textContent = file.name;
+
+                const fileSize = document.createElement('p');
+                fileSize.className = 'text-xs text-gray-500';
+                fileSize.textContent = formatFileSize(file.size);
+
+                fileNameSize.appendChild(fileName);
+                fileNameSize.appendChild(fileSize);
+                fileDetails.appendChild(fileNameSize);
+                fileInfo.appendChild(fileDetails);
+
+                const removeBtn = document.createElement('button');
+                removeBtn.className = 'ml-2 flex-shrink-0 p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500';
+                removeBtn.innerHTML = '<svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>';
+                removeBtn.addEventListener('click', () => removeFile(index));
+
+                fileInfo.appendChild(removeBtn);
+                fileCard.appendChild(fileInfo);
+                fileList.appendChild(fileCard);
+            });
+
+
+            selectedFilesDiv.classList.remove('hidden');
+            clearFilesBtn.classList.remove('hidden');
+            convertBtn.disabled = false;
+            totalSizeDisplay.textContent = `Total: ${formatFileSize(totalOriginalSize)}`;
+
+            // Add file type warnings if mixed types
+            const fileTypes = [...new Set(files.map(file => getFileType(file.name)))];
+            if (fileTypes.length > 1 && conversionType.value) {
+                const warning = document.createElement('div');
+                warning.className = 'mt-4 bg-yellow-50 border-l-4 border-yellow-400 p-4';
+                warning.innerHTML = `
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <div class="ml-3">
+                    <p class="text-sm text-yellow-700">
+                        You've selected different file types. The conversion (${conversionType.options[conversionType.selectedIndex].text}) will be applied to all files.
+                    </p>
+                </div>
+            </div>
+        `;
+                fileList.appendChild(warning);
+            }
+        }
+        function removeFile(index) {
+            totalOriginalSize -= files[index].size;
+            files.splice(index, 1);
+            renderFileList();
+        }
+
+        function getFileType(filename) {
+            const extension = filename.split('.').pop().toLowerCase();
+            if (extension === 'pdf') return 'pdf';
+            if (['doc', 'docx'].includes(extension)) return 'word';
+            if (['xls', 'xlsx', 'csv'].includes(extension)) return 'excel';
+            if (['ppt', 'pptx'].includes(extension)) return 'ppt';
+            if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(extension)) return 'image';
+            if (['txt'].includes(extension)) return 'text';
+            return 'other';
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Conversion type change handler
+        conversionType.addEventListener('change', () => {
+            const value = conversionType.value;
+
+            // Hide all options first
+            pdfOptions.classList.add('hidden');
+            imageOptions.classList.add('hidden');
+            resizeOptions.classList.add('hidden');
+            compressOptions.classList.add('hidden');
+            allPagesOption.classList.add('hidden');
+
+            // Show relevant options
+            if (value.startsWith('pdf-') || value.endsWith('-pdf')) {
+                pdfOptions.classList.remove('hidden');
+            }
+
+            if (value.includes('jpg') || value.includes('png') || value.includes('image') || value === 'ppt-jpg') {
+                imageOptions.classList.remove('hidden');
+                if (value === 'pdf-jpg' || value === 'pdf-png' || value === 'ppt-jpg') {
+                    allPagesOption.classList.remove('hidden');
+                }
+            }
+
+            if (value === 'image-resize') {
+                resizeOptions.classList.remove('hidden');
+            }
+
+            if (value === 'image-compress') {
+                compressOptions.classList.remove('hidden');
+            }
+            updateConversionTip();
+        });
+
+        // Convert button handler
+        convertBtn.addEventListener('click', async () => {
+            if (files.length === 0 || !conversionType.value) return;
+
+            loadingIndicator.classList.remove('hidden');
+            convertBtn.disabled = true;
+            resultsSection.classList.add('hidden');
+            conversionProgressBar.style.width = '0%';
+            totalConvertedSize = 0;
+
+            try {
+                const conversionResults = [];
+                const totalFiles = files.length;
+
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    const progress = Math.round(((i) / totalFiles) * 100);
+                    conversionProgressBar.style.width = `${progress}%`;
+                    conversionProgress.textContent = `Processing file ${i + 1} of ${totalFiles}: ${file.name}`;
+
+                    try {
+                        const result = await convertFile(file, conversionType.value);
+
+                        // Handle multiple results (like multiple pages from PDF)
+                        if (Array.isArray(result)) {
+                            conversionResults.push(...result);
+                            result.forEach(r => totalConvertedSize += r.blob.size);
+                        } else {
+                            conversionResults.push({
+                                ...result,
+                                originalName: file.name,
+                                originalSize: file.size,
+                                convertedName: result.name
+                            });
+                            totalConvertedSize += result.blob.size;
+                        }
+                    } catch (error) {
+                        console.error(`Error converting ${file.name}:`, error);
+                        conversionResults.push({
+                            originalName: file.name,
+                            error: true,
+                            message: `Failed to convert ${file.name}: ${error.message}`
+                        });
+                    }
+                }
+
+                conversionProgressBar.style.width = '100%';
+                showResults(conversionResults);
+            } catch (error) {
+                console.error('Conversion error:', error);
+                showError('An error occurred during conversion. Please try again.');
+            } finally {
+                loadingIndicator.classList.add('hidden');
+                conversionProgress.textContent = '';
+            }
+        });
+
+        // Add this after your existing event listeners
+        clearFilesBtn.addEventListener('click', () => {
+            files = [];
+            fileInput.value = '';
+            renderFileList();
+        });
+        function showError(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'bg-red-50 border-l-4 border-red-400 p-4 mb-4';
+            errorDiv.innerHTML = `
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm text-red-700">${message}</p>
+                    </div>
+                </div>
+            `;
+            resultsContainer.prepend(errorDiv);
+            resultsSection.classList.remove('hidden');
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
+
+        // File conversion function
+        async function convertFile(file, conversionType) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+
+                reader.onload = async function (e) {
+                    try {
+                        const arrayBuffer = e.target.result;
+                        let result;
+
+                        switch (conversionType) {
+                            case 'word-pdf':
+                                result = await convertWordToPdf(arrayBuffer, file.name);
+                                break;
+                            case 'excel-pdf':
+                                result = await convertExcelToPdf(arrayBuffer, file.name);
+                                break;
+                            case 'ppt-pdf':
+                                result = await convertPptToPdf(arrayBuffer, file.name);
+                                break;
+                            case 'pdf-word':
+                                result = await convertPdfToWord(arrayBuffer, file.name);
+                                break;
+                            case 'pdf-excel':
+                                result = await convertPdfToExcel(arrayBuffer, file.name);
+                                break;
+                            case 'pdf-ppt':
+                                result = await convertPdfToPpt(arrayBuffer, file.name);
+                                break;
+                            case 'pdf-text':
+                                result = await convertPdfToText(arrayBuffer, file.name);
+                                break;
+                            case 'pdf-jpg':
+                            case 'pdf-png':
+                                result = await convertPdfToImages(arrayBuffer, file.name, conversionType.split('-')[1]);
+                                break;
+                            case 'word-txt':
+                                result = await convertWordToText(arrayBuffer, file.name);
+                                break;
+                            case 'excel-csv':
+                                result = await convertExcelToCsv(arrayBuffer, file.name);
+                                break;
+                            case 'csv-excel':
+                                result = await convertCsvToExcel(arrayBuffer, file.name);
+                                break;
+                            case 'image-pdf':
+                                result = await convertImageToPdf(arrayBuffer, file.name);
+                                break;
+                            case 'txt-pdf':
+                                result = await convertTextToPdf(arrayBuffer, file.name);
+                                break;
+                            case 'jpg-png':
+                            case 'png-jpg':
+                            case 'webp-png':
+                                result = await convertImageFormat(arrayBuffer, file.name, conversionType.split('-')[1]);
+                                break;
+                            case 'image-resize':
+                                result = await resizeImage(arrayBuffer, file.name);
+                                break;
+                            case 'image-compress':
+                                result = await compressImage(arrayBuffer, file.name);
+                                break;
+                            case 'ppt-jpg':
+                                result = await convertPptToImages(arrayBuffer, file.name);
+                                break;
+                            default:
+                                throw new Error('Unsupported conversion type');
+                        }
+
+                        resolve(result);
+                    } catch (error) {
+                        reject(error);
+                    }
+                };
+
+                reader.onerror = () => reject(new Error('Error reading file'));
+                reader.readAsArrayBuffer(file);
+            });
+        }
+
+        // Conversion functions for each type
+        async function convertWordToPdf(arrayBuffer, originalName) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({
+                unit: 'pt',
+                compress: true
+            });
+
+            const result = await mammoth.extractRawText({ arrayBuffer });
+            const text = result.value;
+
+            const lines = doc.splitTextToSize(text, doc.internal.pageSize.getWidth() - 72);
+
+            doc.text(lines, 36, 36);
+            const pdfBytes = doc.output('arraybuffer');
+            const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+
+            return {
+                name: originalName.replace(/\.[^/.]+$/, '') + '.pdf',
+                blob: blob
+            };
+        }
+
+        async function convertExcelToPdf(arrayBuffer, originalName) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({
+                unit: 'pt',
+                compress: true
+            });
+
+            const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+            const firstSheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[firstSheetName];
+
+            const data = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+            doc.autoTable({
+                head: [data[0]],
+                body: data.slice(1),
+                startY: 20,
+                styles: {
+                    fontSize: 8,
+                    cellPadding: 2,
+                    overflow: 'linebreak'
+                },
+                margin: { top: 20 }
+            });
+
+            const pdfBytes = doc.output('arraybuffer');
+            const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+
+            return {
+                name: originalName.replace(/\.[^/.]+$/, '') + '.pdf',
+                blob: blob
+            };
+        }
+
+        async function convertPptToPdf(arrayBuffer, originalName) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({
+                unit: 'pt',
+                compress: true
+            });
+
+            doc.setFontSize(12);
+            doc.text(`Original PowerPoint: ${originalName}`, 20, 20);
+            doc.text('Note: Full PowerPoint to PDF conversion requires server-side processing', 20, 40);
+
+            const pdfBytes = doc.output('arraybuffer');
+            const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+
+            return {
+                name: originalName.replace(/\.[^/.]+$/, '') + '.pdf',
+                blob: blob
+            };
+        }
+
+        async function convertPdfToWord(arrayBuffer, originalName) {
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.worker.min.js';
+            const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+            let text = '';
+
+            for (let i = 1; i <= pdf.numPages; i++) {
+                const page = await pdf.getPage(i);
+                const content = await page.getTextContent();
+                text += content.items.map(item => item.str).join(' ') + '\n\n';
+            }
+
+            // Use docx.js library properly
+            const doc = new docx.Document({
+                sections: [{
+                    properties: {},
+                    children: [
+                        new docx.Paragraph({
+                            children: [
+                                new docx.TextRun(text)
+                            ]
+                        })
+                    ]
+                }]
+            });
+
+            const packer = new docx.Packer();
+            const docxBuffer = await packer.toBuffer(doc);
+            const blob = new Blob([docxBuffer], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+
+            return {
+                name: originalName.replace(/\.[^/.]+$/, '') + '.docx',
+                blob: blob
+            };
+        }
+
+        async function convertPdfToExcel(arrayBuffer, originalName) {
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.worker.min.js';
+            const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+
+            // Extract text from each page
+            let allText = '';
+            for (let i = 1; i <= pdf.numPages; i++) {
+                const page = await pdf.getPage(i);
+                const content = await page.getTextContent();
+                allText += content.items.map(item => item.str).join(' ') + '\n';
+            }
+
+            // Try to parse the text into rows and columns
+            const lines = allText.split('\n').filter(line => line.trim() !== '');
+            const data = [];
+
+            // Simple parsing logic - can be enhanced for better results
+            for (const line of lines) {
+                // Split by multiple spaces or tabs
+                const row = line.split(/\s{2,}|\t/).filter(cell => cell.trim() !== '');
+                if (row.length > 0) {
+                    data.push(row);
+                }
+            }
+
+            // Create Excel workbook
+            const workbook = XLSX.utils.book_new();
+            const worksheet = XLSX.utils.aoa_to_sheet(data);
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+            // Generate Excel file
+            const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+            const blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+            return {
+                name: originalName.replace(/\.[^/.]+$/, '') + '.xlsx',
+                blob: blob
+            };
+        }
+
+        async function convertPdfToPpt(arrayBuffer, originalName) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({
+                unit: 'pt',
+                compress: true
+            });
+
+            doc.setFontSize(12);
+            doc.text(`Original PDF: ${originalName}`, 20, 20);
+            doc.text('Note: Full PDF to PowerPoint conversion requires server-side processing', 20, 40);
+
+            const pdfBytes = doc.output('arraybuffer');
+            const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+
+            return {
+                name: originalName.replace(/\.[^/.]+$/, '') + '.pptx',
+                blob: blob
+            };
+        }
+
+        async function convertPdfToText(arrayBuffer, originalName) {
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.worker.min.js';
+            const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+            let text = '';
+
+            for (let i = 1; i <= pdf.numPages; i++) {
+                const page = await pdf.getPage(i);
+                const content = await page.getTextContent();
+                text += content.items.map(item => item.str).join(' ') + '\n\n';
+            }
+
+            const blob = new Blob([text], { type: 'text/plain' });
+
+            return {
+                name: originalName.replace(/\.[^/.]+$/, '') + '.txt',
+                blob: blob
+            };
+        }
+
+        async function convertPdfToImages(arrayBuffer, originalName, format) {
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.worker.min.js';
+            const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+
+            const convertAllPages = document.getElementById('convertAllPages').checked;
+            const quality = parseFloat(document.getElementById('imageQuality').value);
+            const mimeType = format === 'png' ? 'image/png' : 'image/jpeg';
+
+            let images = [];
+            const totalPages = convertAllPages ? pdf.numPages : 1;
+
+            for (let i = 1; i <= totalPages; i++) {
+                const page = await pdf.getPage(i);
+                const viewport = page.getViewport({ scale: 1.5 });
+
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                await page.render({
+                    canvasContext: context,
+                    viewport: viewport
+                }).promise;
+
+                const blob = await new Promise((resolve) => {
+                    canvas.toBlob((blob) => {
+                        resolve(blob);
+                    }, mimeType, quality);
+                });
+
+                images.push({
+                    name: originalName.replace(/\.[^/.]+$/, '') + (totalPages > 1 ? `_page${i}.${format}` : `.${format}`),
+                    blob: blob,
+                    preview: canvas.toDataURL(mimeType, quality)
+                });
+            }
+
+            // If converting all pages, create a zip file
+            if (totalPages > 1) {
+                const zip = new JSZip();
+                const folder = zip.folder(originalName.replace(/\.[^/.]+$/, ''));
+
+                images.forEach((image, index) => {
+                    folder.file(image.name, image.blob);
+                });
+
+                const zipBlob = await zip.generateAsync({ type: 'blob' });
+
+                return [
+                    {
+                        name: originalName.replace(/\.[^/.]+$/, '') + `_all_pages.zip`,
+                        blob: zipBlob,
+                        note: `ZIP file containing all ${totalPages} pages as ${format.toUpperCase()} images`
+                    },
+                    ...images.slice(0, 1) // Include first page for preview
+                ];
+            } else {
+                return images[0];
+            }
+        }
+
+        async function convertWordToText(arrayBuffer, originalName) {
+            const result = await mammoth.extractRawText({ arrayBuffer });
+            const text = result.value;
+
+            const blob = new Blob([text], { type: 'text/plain' });
+
+            return {
+                name: originalName.replace(/\.[^/.]+$/, '') + '.txt',
+                blob: blob
+            };
+        }
+
+        async function convertExcelToCsv(arrayBuffer, originalName) {
+            const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+            const firstSheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[firstSheetName];
+            const csv = XLSX.utils.sheet_to_csv(worksheet);
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+
+            return {
+                name: originalName.replace(/\.[^/.]+$/, '') + '.csv',
+                blob: blob
+            };
+        }
+
+        async function convertCsvToExcel(arrayBuffer, originalName) {
+            const text = new TextDecoder().decode(arrayBuffer);
+            const workbook = XLSX.utils.book_new();
+            const worksheet = XLSX.utils.csv_to_sheet(text);
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+            const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+            const blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+            return {
+                name: originalName.replace(/\.[^/.]+$/, '') + '.xlsx',
+                blob: blob
+            };
+        }
+
+        async function convertImageToPdf(arrayBuffer, originalName) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({
+                unit: 'pt',
+                compress: true
+            });
+
+            const blob = new Blob([arrayBuffer], { type: 'application/octet-stream' });
+            const url = URL.createObjectURL(blob);
+
+            await new Promise((resolve) => {
+                const img = new Image();
+                img.onload = function () {
+                    const width = doc.internal.pageSize.getWidth() - 40;
+                    const height = (img.height * width) / img.width;
+
+                    doc.addImage(img, 'JPEG', 20, 20, width, height);
+                    resolve();
+                };
+                img.src = url;
+            });
+
+            const pdfBytes = doc.output('arraybuffer');
+            const pdfBlob = new Blob([pdfBytes], { type: 'application/pdf' });
+
+            return {
+                name: originalName.replace(/\.[^/.]+$/, '') + '.pdf',
+                blob: pdfBlob
+            };
+        }
+
+        async function convertTextToPdf(arrayBuffer, originalName) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({
+                unit: 'pt',
+                compress: true
+            });
+
+            const text = new TextDecoder().decode(arrayBuffer);
+            const lines = doc.splitTextToSize(text, doc.internal.pageSize.getWidth() - 72);
+
+            doc.text(lines, 36, 36);
+            const pdfBytes = doc.output('arraybuffer');
+            const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+
+            return {
+                name: originalName.replace(/\.[^/.]+$/, '') + '.pdf',
+                blob: blob
+            };
+        }
+
+        async function convertImageFormat(arrayBuffer, originalName, targetFormat) {
+            const mimeType = `image/${targetFormat}`;
+            const quality = 0.7; // Default quality for format conversion
+
+            const blob = new Blob([arrayBuffer], { type: 'application/octet-stream' });
+            const url = URL.createObjectURL(blob);
+
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = function () {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0);
+
+                    canvas.toBlob((blob) => {
+                        resolve({
+                            name: originalName.replace(/\.[^/.]+$/, '') + `.${targetFormat}`,
+                            blob: blob,
+                            preview: canvas.toDataURL(mimeType, quality)
+                        });
+                    }, mimeType, quality);
+                };
+                img.src = url;
+            });
+        }
+
+        async function resizeImage(arrayBuffer, originalName) {
+            const width = parseInt(document.getElementById('resizeWidth').value) || null;
+            const height = parseInt(document.getElementById('resizeHeight').value) || null;
+            const maintainAspect = document.getElementById('maintainAspect').checked;
+            const quality = parseFloat(document.getElementById('resizeQuality').value);
+            const extension = originalName.split('.').pop().toLowerCase();
+            const mimeType = `image/${extension}`;
+
+            const blob = new Blob([arrayBuffer], { type: 'application/octet-stream' });
+            const url = URL.createObjectURL(blob);
+
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = function () {
+                    let newWidth, newHeight;
+
+                    if (width && height && !maintainAspect) {
+                        newWidth = width;
+                        newHeight = height;
+                    } else if (width && !height) {
+                        newWidth = width;
+                        newHeight = maintainAspect ? (img.height * width) / img.width : img.height;
+                    } else if (!width && height) {
+                        newHeight = height;
+                        newWidth = maintainAspect ? (img.width * height) / img.height : img.width;
+                    } else if (width && height && maintainAspect) {
+                        const widthRatio = width / img.width;
+                        const heightRatio = height / img.height;
+                        const ratio = Math.min(widthRatio, heightRatio);
+                        newWidth = img.width * ratio;
+                        newHeight = img.height * ratio;
+                    } else {
+                        newWidth = img.width;
+                        newHeight = img.height;
+                    }
+
+                    const canvas = document.createElement('canvas');
+                    canvas.width = newWidth;
+                    canvas.height = newHeight;
+                    const ctx = canvas.getContext('2d');
+
+                    // Use high-quality resizing
+                    ctx.imageSmoothingQuality = 'high';
+                    ctx.drawImage(img, 0, 0, newWidth, newHeight);
+
+                    canvas.toBlob((blob) => {
+                        resolve({
+                            name: originalName.replace(/\.[^/.]+$/, '') + '_resized.' + extension,
+                            blob: blob,
+                            preview: canvas.toDataURL(mimeType, quality)
+                        });
+                    }, mimeType, quality);
+                };
+                img.src = url;
+            });
+        }
+
+        async function compressImage(arrayBuffer, originalName) {
+            const quality = parseFloat(document.getElementById('compressLevel').value);
+            const extension = originalName.split('.').pop().toLowerCase();
+            const mimeType = `image/${extension}`;
+
+            const blob = new Blob([arrayBuffer], { type: 'application/octet-stream' });
+            const url = URL.createObjectURL(blob);
+
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = function () {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0);
+
+                    canvas.toBlob((blob) => {
+                        resolve({
+                            name: originalName.replace(/\.[^/.]+$/, '') + '_compressed.' + extension,
+                            blob: blob,
+                            preview: canvas.toDataURL(mimeType, quality)
+                        });
+                    }, mimeType, quality);
+                };
+                img.src = url;
+            });
+        }
+
+        async function convertPptToImages(arrayBuffer, originalName) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 800;
+            canvas.height = 600;
+            const ctx = canvas.getContext('2d');
+
+            ctx.fillStyle = '#f0f0f0';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#333';
+            ctx.font = '24px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(`Original PowerPoint: ${originalName}`, canvas.width / 2, canvas.height / 2 - 20);
+            ctx.fillText('Note: Full PPT to image conversion requires server-side processing', canvas.width / 2, canvas.height / 2 + 20);
+
+            const imageFormat = document.getElementById('imageFormat').value;
+            const mimeType = imageFormat === 'png' ? 'image/png' : 'image/jpeg';
+            const quality = parseFloat(document.getElementById('imageQuality').value);
+
+            return new Promise((resolve) => {
+                canvas.toBlob((blob) => {
+                    resolve({
+                        name: originalName.replace(/\.[^/.]+$/, '') + `.${imageFormat}`,
+                        blob: blob,
+                        preview: canvas.toDataURL(mimeType, quality)
+                    });
+                }, mimeType, quality);
+            });
+        }
+
+        // Show results function
+        // Update your showResults function with this
+function showResults(results) {
+    resultsContainer.innerHTML = '';
+    resultsStats.classList.remove('hidden');
+    
+    const successfulConversions = results.filter(r => !r.error).length;
+    const failedConversions = results.filter(r => r.error).length;
+    
+    const reduction = totalOriginalSize > 0 
+        ? Math.round(((totalOriginalSize - totalConvertedSize) / totalOriginalSize) * 100) 
+        : 0;
+    
+    const sizeText = reduction > 0 
+        ? `Reduced total size by ${reduction}% (${formatFileSize(totalOriginalSize)} → ${formatFileSize(totalConvertedSize)})`
+        : `Total size: ${formatFileSize(totalConvertedSize)}`;
+    
+    statsText.innerHTML = `Processed ${successfulConversions} file(s) successfully${failedConversions > 0 ? `, ${failedConversions} failed` : ''}.`;
+    statsSubtext.textContent = sizeText;
+    
+    // Your existing results display code...
+    results.forEach(result => {
+                const resultCard = document.createElement('div');
+                resultCard.className = 'file-card bg-gray-50 rounded-lg p-6 transition-all duration-200 fade-in';
+
+                if (result.error) {
+                    resultCard.innerHTML = `
+                        <div class="flex items-start">
+                            <svg class="h-5 w-5 text-red-500 mt-0.5 mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                            </svg>
+                            <div>
+                                <p class="text-sm font-medium text-gray-900">${result.originalName}</p>
+                                <p class="text-sm text-red-600 mt-1">${result.message}</p>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    const resultContent = document.createElement('div');
+                    resultContent.className = 'flex flex-col md:flex-row md:items-center justify-between';
+
+                    const fileInfo = document.createElement('div');
+                    fileInfo.className = 'mb-4 md:mb-0';
+
+                    const originalFile = document.createElement('p');
+                    originalFile.className = 'text-sm text-gray-500';
+                    originalFile.textContent = `Original: ${result.originalName} (${formatFileSize(result.originalSize)})`;
+
+                    const convertedFile = document.createElement('p');
+                    convertedFile.className = 'text-lg font-medium text-gray-900 mt-1';
+                    convertedFile.textContent = `Converted: ${result.convertedName} (${formatFileSize(result.blob.size)})`;
+
+                    const sizeChange = document.createElement('p');
+                    sizeChange.className = 'text-xs ' + (result.blob.size < result.originalSize ? 'text-green-600' : 'text-yellow-600') + ' mt-1';
+
+                    const reduction = Math.round(((result.originalSize - result.blob.size) / result.originalSize) * 100);
+                    if (reduction > 0) {
+                        sizeChange.textContent = `Reduced by ${reduction}%`;
+                    } else if (reduction < 0) {
+                        sizeChange.textContent = `Increased by ${Math.abs(reduction)}%`;
+                    } else {
+                        sizeChange.textContent = `No size change`;
+                    }
+
+                    if (result.note) {
+                        const note = document.createElement('p');
+                        note.className = 'text-sm text-blue-600 mt-1';
+                        note.textContent = result.note;
+                        fileInfo.appendChild(note);
+                    }
+
+                    fileInfo.appendChild(originalFile);
+                    fileInfo.appendChild(convertedFile);
+                    fileInfo.appendChild(sizeChange);
+
+                    // Add preview for images
+                    if (result.preview && (result.convertedName.endsWith('.jpg') || result.convertedName.endsWith('.png'))) {
+                        const previewContainer = document.createElement('div');
+                        previewContainer.className = 'mt-3';
+
+                        const previewLabel = document.createElement('p');
+                        previewLabel.className = 'text-xs text-gray-500 mb-1';
+                        previewLabel.textContent = 'Preview:';
+
+                        const previewImg = document.createElement('img');
+                        previewImg.src = result.preview;
+                        previewImg.className = 'preview-image';
+                        previewImg.alt = 'Converted image preview';
+
+                        previewContainer.appendChild(previewLabel);
+                        previewContainer.appendChild(previewImg);
+                        fileInfo.appendChild(previewContainer);
+                    }
+
+                    resultContent.appendChild(fileInfo);
+
+                    const downloadBtn = document.createElement('a');
+                    downloadBtn.className = 'inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500';
+                    downloadBtn.textContent = 'Download';
+                    downloadBtn.href = URL.createObjectURL(result.blob);
+                    downloadBtn.download = result.convertedName;
+
+                    resultContent.appendChild(downloadBtn);
+                    resultCard.appendChild(resultContent);
+                }
+
+                resultsContainer.appendChild(resultCard);
+            });
+
+            resultsSection.classList.remove('hidden');
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    
+    // Add event listeners for action buttons
+    actionButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const action = button.getAttribute('data-action');
+            
+            switch(action) {
+                case 'new':
+                    newConversionBtn.click();
+                    break;
+                case 'download-all':
+                    downloadAllResults(results.filter(r => !r.error));
+                    break;
+                case 'share':
+                    shareResults();
+                    break;
+            }
+        });
+    });
+}
+        // New conversion button
+        newConversionBtn.addEventListener('click', () => {
+            files = [];
+            fileInput.value = '';
+            selectedFilesDiv.classList.add('hidden');
+            convertBtn.disabled = true;
+            conversionType.value = '';
+            resultsSection.classList.add('hidden');
+            resultsStats.classList.add('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        
+function downloadAllResults(results) {
+    if (results.length === 0) return;
+    
+    if (results.length === 1) {
+        // Single file - just download it
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(results[0].blob);
+        link.download = results[0].convertedName;
+        link.click();
+        return;
+    }
+    
+    // Multiple files - create a zip
+    const zip = new JSZip();
+    const folder = zip.folder('converted_files');
+    
+    let zipProgress = 0;
+    const zipProgressInterval = setInterval(() => {
+        zipProgress = Math.min(zipProgress + 5, 95);
+        statsSubtext.textContent = `Creating ZIP file... ${zipProgress}%`;
+    }, 200);
+    
+    Promise.all(results.map(result => {
+        return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = function() {
+                folder.file(result.convertedName, reader.result);
+                resolve();
+            };
+            reader.readAsArrayBuffer(result.blob);
+        });
+    })).then(() => {
+        clearInterval(zipProgressInterval);
+        statsSubtext.textContent = 'Finalizing ZIP file...';
+        
+        zip.generateAsync({ type: 'blob' }).then(content => {
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(content);
+            link.download = 'converted_files.zip';
+            link.click();
+            statsSubtext.textContent = 'ZIP file downloaded!';
+        });
+    });
+}
+function shareResults() {
+    if (navigator.share) {
+        navigator.share({
+            title: 'File Conversion Results',
+            text: 'I just converted files using MyToolbox Document Converter',
+            url: window.location.href
+        }).catch(err => {
+            console.log('Error sharing:', err);
+            showError('Sharing failed. You can manually copy the page URL.');
+        });
+    } else {
+        // Fallback for browsers that don't support Web Share API
+        const tempInput = document.createElement('input');
+        tempInput.value = window.location.href;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempInput);
+        
+        showSuccess('Page URL copied to clipboard!');
+    }
+}
+
+function showSuccess(message) {
+    const toast = document.createElement('div');
+    toast.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-md shadow-lg flex items-center';
+    toast.innerHTML = `
+        <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+        </svg>
+        ${message}
+    `;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.classList.add('opacity-0', 'transition-opacity', 'duration-300');
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
+    </script>
+</body>
+
+</html>

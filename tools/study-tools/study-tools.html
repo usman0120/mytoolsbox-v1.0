@@ -1,0 +1,3129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Toolkit | Study Tools for Students & Researchers</title>
+    <link rel="stylesheet" href="../../../dist/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <style>
+        /* Dark mode classes */
+        .dark .dark-bg {
+            background-color: #1a202c;
+        }
+        .dark .dark-card {
+            background-color: #2d3748;
+            border-color: #4a5568;
+        }
+        .dark .dark-text {
+            color: #e2e8f0;
+        }
+        .dark .dark-border {
+            border-color: #4a5568;
+        }
+        .dark .dark-hover:hover {
+            background-color: #4a5568;
+        }
+        .dark .dark-accent {
+            color: #9f7aea;
+        }
+        .dark .dark-accent-bg {
+            background-color: #6b46c1;
+        }
+        .dark .dark-accent-hover:hover {
+            background-color: #805ad5;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Tool sections */
+        .tool-section {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .tool-section.active {
+            display: block;
+        }
+
+        /* Success animation */
+        .success-checkmark {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto;
+            border-radius: 50%;
+            display: block;
+            stroke-width: 3;
+            stroke: #4CAF50;
+            stroke-miterlimit: 10;
+            animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+        }
+        .checkmark-circle {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            stroke-width: 3;
+            stroke-miterlimit: 10;
+            stroke: #4CAF50;
+            fill: none;
+            animation: stroke .6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        }
+        .checkmark-check {
+            transform-origin: 50% 50%;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: stroke .3s cubic-bezier(0.65, 0, 0.45, 1) .8s forwards;
+        }
+        @keyframes stroke {
+            100% { stroke-dashoffset: 0; }
+        }
+        @keyframes scale {
+            0%, 100% { transform: none; }
+            50% { transform: scale3d(1.1, 1.1, 1); }
+        }
+        @keyframes fill {
+            100% { box-shadow: inset 0px 0px 0px 40px #4CAF50; }
+        }
+
+        /* Highlight colors */
+        .highlight {
+            background-color: #FFEB3B;
+            padding: 0 2px;
+        }
+        .highlight.blue { background-color: #BBDEFB; }
+        .highlight.green { background-color: #C8E6C9; }
+        .highlight.pink { background-color: #F8BBD0; }
+        .highlight.purple { background-color: #E1BEE7; }
+        .highlight.orange { background-color: #FFE0B2; }
+
+        /* Flashcards */
+        .flashcard {
+            perspective: 1000px;
+            height: 300px;
+        }
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .flashcard-back {
+            transform: rotateY(180deg);
+        }
+
+        /* Pomodoro Timer */
+        .pomodoro-timer {
+            width: 200px;
+            height: 200px;
+            position: relative;
+        }
+        .pomodoro-progress {
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+        .progress-circle {
+            stroke-dasharray: 565.48;
+            stroke-dashoffset: 0;
+            transition: stroke-dashoffset 1s linear;
+        }
+        .progress-bg {
+            stroke: #e0e0e0;
+        }
+
+        /* Citation results */
+        .citation-result {
+            transition: all 0.3s ease;
+        }
+        .citation-result:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        /* Loading spinner */
+        .loading-spinner {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Document viewer */
+        #pdf-canvas {
+            max-width: 100%;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+        }
+
+        /* Word counter */
+        .word-counter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+        }
+
+        /* Reference finder */
+        .reference-card {
+            transition: all 0.2s ease;
+        }
+        .reference-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+    
+
+/* Improved Dark Mode */
+.dark body, .dark {
+    background-color: #1a202c !important;
+    color: #e2e8f0 !important;
+}
+.dark .bg-white { background-color: #2d3748 !important; }
+.dark .text-gray-800, .dark .text-gray-600 { color: #e2e8f0 !important; }
+.dark .border-gray-200, .dark .border-gray-300 { border-color: #4a5568 !important; }
+.dark .hover\:bg-gray-100:hover, .dark .hover\:bg-gray-200:hover { background-color: #4a5568 !important; }
+.dark select, .dark input, .dark textarea {
+    background-color: #4a5568 !important;
+    color: #e2e8f0 !important;
+    border-color: #718096 !important;
+}
+
+</style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+        <!-- Header -->
+    <header
+        class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-tools text-2xl text-primary-600 dark:text-primary-400"></i>
+                <a href="#"
+                    class="text-xl font-bold text-gray-800 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                    My<span class="text-primary-600 dark:text-primary-400">Toolbox</span>
+                </a>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="../../../index.html"
+                    class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</a>
+
+                <div class="relative group">
+                    <button
+                        class="flex items-center font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                        Categories <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                    </button>
+                    <div
+                        class="absolute left-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                    <a href="../file-tools/document-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">File Tools</a>
+                    <a href="../image-tools/image-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Image Tools</a>
+                    <a href="../media-tools/mediaTools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Media Tools</a>
+                    <a href="../study-tools/study-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Study Tools</a>
+                    <a href="../calculator-tools/calculators.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Calculators</a>
+                    <a href="../ai-tools/ai-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">AI-Powered Tools</a>
+                    <a href="../design-tools/design-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Design Tools</a>
+                    <a href="../time-tools/time-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Productivity & Time Tools</a>
+                    <a href="../writing-tools/writing-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Writing Tools</a>
+                    <a href="../misc-tools/misc-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">More Useful Tools</a>
+                    </div>
+                </div>
+
+                <a href="#"
+                    class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">About</a>
+                <a href="#"
+                    class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Contact</a>
+            </nav>
+
+
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden text-gray-600 dark:text-gray-300">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu"
+            class="hidden md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+            <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
+                <a href="#" class="py-2 font-medium">Home</a>
+
+                <div class="relative">
+                    <button id="mobile-categories-button"
+                        class="w-full flex justify-between items-center py-2 font-medium">
+                        Categories <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div id="mobile-categories" class="hidden pl-4 mt-1 space-y-2">
+                        <a href="../../index.html" class="block py-1">File Tools</a>
+                    <a href="../image-tools/image-tools.html" class="block py-1">Image Tools</a>
+                    <a href="../media-tools/mediaTools.html" class="block py-1">Media Tools</a>
+                    <a href="../design-tools/design-tools.html" class="block py-1">Design Tools</a>
+                    <a href="../calculator-tools/calculators.html" class="block py-1">Calculators</a>
+                    </div>
+                </div>
+
+                <a href="src/sections/homePage/about.html" class="py-2 font-medium">About</a>
+                <a href="#" class="py-2 font-medium">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header Section -->
+        <div class="text-center mb-10">
+            <h1 class="text-4xl font-bold mb-3 text-indigo-700 dark:text-indigo-400">
+                <i class="fas fa-graduation-cap mr-2"></i>Academic Toolkit
+            </h1>
+            <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+                Your all-in-one study companion with powerful tools for students, teachers, and researchers
+            </p>
+            <div class="mt-4 flex justify-center gap-4">
+                <button onclick="showWelcomeTour()" class="px-4 py-2 bg-blue-100 hover:bg-blue-200 dark:bg-blue-900/30 dark:hover:bg-blue-800/30 text-blue-800 dark:text-blue-200 rounded-full text-sm">
+                    <i class="fas fa-question-circle mr-2"></i>How to Use
+                </button>
+                <button onclick="toggleDarkMode()" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white rounded-full text-sm">
+                    <i id="darkModeIcon" class="fas fa-moon mr-2"></i>Dark Mode
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats Bar -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 mb-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="text-center p-3">
+                <div class="text-2xl font-bold text-indigo-600 dark:text-indigo-400" id="tools-used-count">0</div>
+                <div class="text-sm text-gray-600 dark:text-gray-400">Tools Used</div>
+            </div>
+            <div class="text-center p-3">
+                <div class="text-2xl font-bold text-green-600 dark:text-green-400" id="tasks-completed-count">0</div>
+                <div class="text-sm text-gray-600 dark:text-gray-400">Tasks Completed</div>
+            </div>
+            <div class="text-center p-3">
+                <div class="text-2xl font-bold text-purple-600 dark:text-purple-400" id="study-time-count">0h 0m</div>
+                <div class="text-sm text-gray-600 dark:text-gray-400">Study Time</div>
+            </div>
+            <div class="text-center p-3">
+                <div class="text-2xl font-bold text-yellow-600 dark:text-yellow-400" id="resource-count">5+</div>
+                <div class="text-sm text-gray-600 dark:text-gray-400">Learning Resources</div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex flex-col md:flex-row gap-6">
+            <!-- Tools Navigation -->
+            <div class="w-full md:w-64 flex-shrink-0">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 sticky top-4">
+                    <h2 class="font-semibold text-lg mb-4 text-indigo-700 dark:text-indigo-400 flex items-center">
+                        <i class="fas fa-tools mr-2"></i>Tools Menu
+                    </h2>
+                    <nav class="space-y-1">
+                        <button onclick="showTool('plagiarism-checker')" class="tool-btn w-full text-left px-3 py-2 rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700 transition flex items-center gap-2">
+                            <i class="fas fa-search text-indigo-600 dark:text-indigo-400"></i>
+                            <span>Plagiarism Checker</span>
+                        </button>
+                        <button onclick="showTool('citation-generator')" class="tool-btn w-full text-left px-3 py-2 rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700 transition flex items-center gap-2">
+                            <i class="fas fa-book text-indigo-600 dark:text-indigo-400"></i>
+                            <span>Citation Generator</span>
+                        </button>
+                        <button onclick="showTool('flashcard-creator')" class="tool-btn w-full text-left px-3 py-2 rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700 transition flex items-center gap-2">
+                            <i class="fas fa-layer-group text-indigo-600 dark:text-indigo-400"></i>
+                            <span>Flashcard Creator</span>
+                        </button>
+                        <button onclick="showTool('notes-highlighter')" class="tool-btn w-full text-left px-3 py-2 rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700 transition flex items-center gap-2">
+                            <i class="fas fa-highlighter text-indigo-600 dark:text-indigo-400"></i>
+                            <span>Notes Highlighter</span>
+                        </button>
+                        <button onclick="showTool('quiz-generator')" class="tool-btn w-full text-left px-3 py-2 rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700 transition flex items-center gap-2">
+                            <i class="fas fa-question-circle text-indigo-600 dark:text-indigo-400"></i>
+                            <span>Quiz Generator</span>
+                        </button>
+                        <button onclick="showTool('document-reader')" class="tool-btn w-full text-left px-3 py-2 rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700 transition flex items-center gap-2">
+                            <i class="fas fa-file-alt text-indigo-600 dark:text-indigo-400"></i>
+                            <span>Document Reader</span>
+                        </button>
+                        <button onclick="showTool('pomodoro-timer')" class="tool-btn w-full text-left px-3 py-2 rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700 transition flex items-center gap-2">
+                            <i class="fas fa-clock text-indigo-600 dark:text-indigo-400"></i>
+                            <span>Pomodoro Timer</span>
+                        </button>
+                        <button onclick="showTool('latex-renderer')" class="tool-btn w-full text-left px-3 py-2 rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700 transition flex items-center gap-2">
+                            <i class="fas fa-square-root-alt text-indigo-600 dark:text-indigo-400"></i>
+                            <span>LaTeX Renderer</span>
+                        </button>
+                        <button onclick="showTool('word-counter')" class="tool-btn w-full text-left px-3 py-2 rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700 transition flex items-center gap-2">
+                            <i class="fas fa-font text-indigo-600 dark:text-indigo-400"></i>
+                            <span>Word Counter</span>
+                        </button>
+                        <button onclick="showTool('reference-finder')" class="tool-btn w-full text-left px-3 py-2 rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700 transition flex items-center gap-2">
+                            <i class="fas fa-link text-indigo-600 dark:text-indigo-400"></i>
+                            <span>Reference Finder</span>
+                        </button>
+                    </nav>
+
+                    <div class="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+                        <h3 class="font-medium mb-2 text-indigo-700 dark:text-indigo-400">Quick Links</h3>
+                        <div class="space-y-1">
+                            <a href="#" class="block px-3 py-1 text-sm rounded hover:bg-indigo-50 dark:hover:bg-gray-700 transition">Study Tips</a>
+                            <a href="#" class="block px-3 py-1 text-sm rounded hover:bg-indigo-50 dark:hover:bg-gray-700 transition">Academic Resources</a>
+                            <a href="#" class="block px-3 py-1 text-sm rounded hover:bg-indigo-50 dark:hover:bg-gray-700 transition">Keyboard Shortcuts</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tools Container -->
+            <div class="flex-1">
+                <!-- Welcome Tour -->
+                <div id="welcome-tour" class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 mb-6 hidden">
+                    <div class="flex justify-between items-start mb-4">
+                        <h2 class="text-2xl font-bold text-indigo-700 dark:text-indigo-400">
+                            <i class="fas fa-map-marked-alt mr-2"></i>Welcome to Academic Toolkit
+                        </h2>
+                        <button onclick="hideWelcomeTour()" class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h3 class="font-semibold mb-3 text-lg">Getting Started</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-start gap-3">
+                                    <div class="bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-200 rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0">
+                                        1
+                                    </div>
+                                    <div>
+                                        <h4 class="font-medium">Choose a Tool</h4>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Select from our 10+ academic tools in the left menu</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <div class="bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-200 rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0">
+                                        2
+                                    </div>
+                                    <div>
+                                        <h4 class="font-medium">Use the Tool</h4>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Follow the instructions for each tool to get the most out of it</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <div class="bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-200 rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0">
+                                        3
+                                    </div>
+                                    <div>
+                                        <h4 class="font-medium">Save Your Work</h4>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Most tools automatically save your work in your browser</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="font-semibold mb-3 text-lg">Pro Tips</h3>
+                            <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+                                <ul class="list-disc pl-5 text-sm space-y-2 text-gray-700 dark:text-gray-300">
+                                    <li>Use dark mode for late-night study sessions</li>
+                                    <li>Combine the Pomodoro timer with other tools for focused study sessions</li>
+                                    <li>Export your flashcards and notes to review anywhere</li>
+                                    <li>Check out the keyboard shortcuts for faster navigation</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="mt-4 flex justify-center">
+                                <button onclick="hideWelcomeTour()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg flex items-center gap-2">
+                                    <i class="fas fa-rocket"></i> Start Using Tools
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Plagiarism Checker -->
+                <div id="plagiarism-checker" class="tool-section bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+                    <h2 class="text-2xl font-bold mb-4 text-indigo-700 dark:text-indigo-400 flex items-center gap-2">
+                        <i class="fas fa-search"></i> Plagiarism Checker
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2">
+                            <div class="mb-6">
+                                <label for="plagiarism-text" class="block text-sm font-medium mb-2">Enter text to check</label>
+                                <textarea id="plagiarism-text" rows="10" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white" placeholder="Paste your text here (min 50 words for best results)..."></textarea>
+                                <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">Minimum 50 words recommended for accurate results</div>
+                            </div>
+                            <button onclick="checkPlagiarism()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md flex items-center gap-2">
+                                <i class="fas fa-search"></i> Check for Plagiarism
+                            </button>
+                        </div>
+                        
+                        <div>
+                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                                <h3 class="font-semibold mb-3 flex items-center gap-2">
+                                    <i class="fas fa-info-circle text-indigo-600 dark:text-indigo-400"></i> How It Works
+                                </h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">
+                                    Our plagiarism checker compares your text against online sources to identify potential matches. For best results:
+                                </p>
+                                <ul class="list-disc pl-5 text-sm space-y-1 text-gray-600 dark:text-gray-300 mb-4">
+                                    <li>Check one paragraph at a time</li>
+                                    <li>Use complete sentences</li>
+                                    <li>Avoid checking very short texts</li>
+                                </ul>
+                                
+                                <div id="plagiarism-result" class="hidden">
+                                    <div class="border-l-4 border-indigo-500 pl-4 mb-4">
+                                        <h4 class="font-medium">Results</h4>
+                                        <div class="flex items-end gap-2 mt-2">
+                                            <div id="similarity-score" class="text-3xl font-bold">0%</div>
+                                            <div class="text-sm mb-1">similarity</div>
+                                        </div>
+                                        <div id="plagiarism-message" class="text-sm mt-2"></div>
+                                    </div>
+                                    
+                                    <div id="matched-sources" class="text-sm space-y-2 hidden">
+                                        <h5 class="font-medium">Potential matches found:</h5>
+                                        <ul class="list-disc pl-5 space-y-1"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg">
+                        <h3 class="font-semibold mb-2 flex items-center gap-2">
+                            <i class="fas fa-lightbulb text-blue-600 dark:text-blue-400"></i> Best Practices
+                        </h3>
+                        <ul class="list-disc pl-5 text-sm space-y-1 text-gray-700 dark:text-gray-300">
+                            <li>Always cite your sources properly</li>
+                            <li>Paraphrase ideas in your own words</li>
+                            <li>Use quotation marks for direct quotes</li>
+                            <li>Check one section at a time for accuracy</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Citation Generator -->
+                <div id="citation-generator" class="tool-section bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+                    <h2 class="text-2xl font-bold mb-4 text-indigo-700 dark:text-indigo-400 flex items-center gap-2">
+                        <i class="fas fa-book"></i> Citation Generator
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2">
+                            <div class="mb-4">
+                                <label for="citation-source" class="block text-sm font-medium mb-2">Source URL or Title</label>
+                                <input type="text" id="citation-source" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white" placeholder="Enter website URL, book title, or DOI">
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label for="citation-type" class="block text-sm font-medium mb-2">Citation Style</label>
+                                    <select id="citation-type" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white">
+                                        <option value="apa">APA (7th Edition)</option>
+                                        <option value="mla">MLA (9th Edition)</option>
+                                        <option value="chicago">Chicago (17th Edition)</option>
+                                        <option value="harvard">Harvard</option>
+                                        <option value="ieee">IEEE</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label for="citation-source-type" class="block text-sm font-medium mb-2">Source Type</label>
+                                    <select id="citation-source-type" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white">
+                                        <option value="website">Website</option>
+                                        <option value="book">Book</option>
+                                        <option value="journal">Journal Article</option>
+                                        <option value="newspaper">Newspaper</option>
+                                        <option value="video">Video</option>
+                                        <option value="podcast">Podcast</option>
+                                        <option value="report">Report</option>
+                                        <option value="thesis">Thesis</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div id="citation-extra-fields" class="hidden mb-4">
+                                <!-- Dynamic fields will be added here -->
+                            </div>
+                            
+                            <button onclick="generateCitation()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md flex items-center gap-2">
+                                <i class="fas fa-book-open"></i> Generate Citation
+                            </button>
+                        </div>
+                        
+                        <div>
+                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                                <h3 class="font-semibold mb-3 flex items-center gap-2">
+                                    <i class="fas fa-info-circle text-indigo-600 dark:text-indigo-400"></i> About Citations
+                                </h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">
+                                    Proper citations give credit to original authors and help avoid plagiarism. Always double-check generated citations against official style guides.
+                                </p>
+                                
+                                <div id="citation-loading" class="hidden text-center py-8">
+                                    <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-indigo-600 mb-2"></div>
+                                    <p>Generating citation...</p>
+                                </div>
+                                
+                                <div id="citation-result" class="hidden">
+                                    <div class="bg-white dark:bg-gray-600 p-4 rounded citation-result mb-3">
+                                        <div class="flex justify-between items-start">
+                                            <div>
+                                                <span class="text-xs font-medium bg-indigo-100 dark:bg-indigo-800 text-indigo-800 dark:text-indigo-200 px-2 py-1 rounded">
+                                                    <span id="citation-style-badge">APA</span> Style
+                                                </span>
+                                            </div>
+                                            <button onclick="copyCitation()" class="text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400" title="Copy to clipboard">
+                                                <i class="far fa-copy"></i>
+                                            </button>
+                                        </div>
+                                        <div id="citation-text" class="mt-2 text-sm font-mono"></div>
+                                    </div>
+                                    
+                                    <div class="flex gap-2">
+                                        <button onclick="downloadCitation()" class="flex-1 bg-gray-200 hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-500 text-gray-800 dark:text-white px-3 py-1 rounded text-sm flex items-center justify-center gap-2">
+                                            <i class="fas fa-download"></i> Download
+                                        </button>
+                                        <button onclick="saveCitation()" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded text-sm flex items-center justify-center gap-2">
+                                            <i class="fas fa-save"></i> Save
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg">
+                        <h3 class="font-semibold mb-2 flex items-center gap-2">
+                            <i class="fas fa-question-circle text-blue-600 dark:text-blue-400"></i> Need Help?
+                        </h3>
+                        <p class="text-sm text-gray-700 dark:text-gray-300">
+                            For complex sources or missing information, you may need to manually edit the citation. Always include as much detail as possible for accurate results.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Flashcard Creator -->
+                <div id="flashcard-creator" class="tool-section bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+                    <h2 class="text-2xl font-bold mb-4 text-indigo-700 dark:text-indigo-400 flex items-center gap-2">
+                        <i class="fas fa-layer-group"></i> Flashcard Creator
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2">
+                            <div class="mb-4">
+                                <label for="flashcard-set-name" class="block text-sm font-medium mb-2">Flashcard Set Name</label>
+                                <input type="text" id="flashcard-set-name" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white" placeholder="My Study Set">
+                            </div>
+                            
+                            <div class="mb-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <label class="block text-sm font-medium">Add New Card</label>
+                                    <button onclick="toggleFlashcardMode()" id="flashcard-mode-toggle" class="text-xs bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded flex items-center gap-1">
+                                        <i class="fas fa-plus mr-1"></i> Add Mode
+                                    </button>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <input type="text" id="flashcard-term" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white" placeholder="Term / Question">
+                                    </div>
+                                    <div>
+                                        <textarea id="flashcard-definition" rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white" placeholder="Definition / Answer"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex gap-2">
+                                <button onclick="addFlashcard()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md flex items-center gap-2">
+                                    <i class="fas fa-plus"></i> Add Card
+                                </button>
+                                <button onclick="clearFlashcards()" class="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white px-4 py-2 rounded-md flex items-center gap-2">
+                                    <i class="fas fa-trash-alt"></i> Clear All
+                                </button>
+                            </div>
+                            
+                            <div class="mt-6">
+                                <h3 class="font-medium mb-3">Your Flashcards (<span id="flashcard-count">0</span>)</h3>
+                                <div id="flashcard-list" class="space-y-3 max-h-96 overflow-y-auto pr-2"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg sticky top-4">
+                                <h3 class="font-semibold mb-3 flex items-center gap-2">
+                                    <i class="fas fa-info-circle text-indigo-600 dark:text-indigo-400"></i> Study Mode
+                                </h3>
+                                
+                                <div id="flashcard-review" class="hidden">
+                                    <div class="flashcard bg-white dark:bg-gray-600 rounded-lg shadow-md mb-4">
+                                        <div class="flashcard-inner">
+                                            <div class="flashcard-front bg-white dark:bg-gray-600 p-6 flex flex-col items-center justify-center text-center">
+                                                <div class="text-sm text-gray-500 dark:text-gray-400 mb-2">Term <span id="current-card-number">1</span> of <span id="total-cards">0</span></div>
+                                                <div id="flashcard-review-term" class="text-xl font-medium mb-4"></div>
+                                                <button onclick="flipFlashcard()" class="text-indigo-600 dark:text-indigo-400 text-sm flex items-center gap-1">
+                                                    <i class="fas fa-redo"></i> Flip Card
+                                                </button>
+                                            </div>
+                                            <div class="flashcard-back bg-indigo-50 dark:bg-gray-700 p-6 flex flex-col items-center justify-center text-center">
+                                                <div class="text-sm text-gray-500 dark:text-gray-400 mb-2">Definition</div>
+                                                <div id="flashcard-review-definition" class="text-lg"></div>
+                                                <button onclick="flipFlashcard()" class="text-indigo-600 dark:text-indigo-400 text-sm mt-4 flex items-center gap-1">
+                                                    <i class="fas fa-redo"></i> Flip Back
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex justify-between mt-4">
+                                        <button onclick="prevFlashcard()" class="bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 px-3 py-1 rounded flex items-center gap-1">
+                                            <i class="fas fa-chevron-left"></i> Previous
+                                        </button>
+                                        <div class="text-xs text-gray-500 dark:text-gray-400 flex items-center">
+                                            <span id="flashcard-progress">0%</span> mastered
+                                        </div>
+                                        <button onclick="nextFlashcard()" class="bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 px-3 py-1 rounded flex items-center gap-1">
+                                            Next <i class="fas fa-chevron-right"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="mt-4 flex justify-center gap-2">
+                                        <button onclick="markFlashcard('easy')" class="bg-green-100 hover:bg-green-200 dark:bg-green-900/50 dark:hover:bg-green-800/50 text-green-800 dark:text-green-200 px-3 py-1 rounded text-sm flex items-center gap-1">
+                                            <i class="far fa-smile"></i> Easy
+                                        </button>
+                                        <button onclick="markFlashcard('medium')" class="bg-yellow-100 hover:bg-yellow-200 dark:bg-yellow-900/50 dark:hover:bg-yellow-800/50 text-yellow-800 dark:text-yellow-200 px-3 py-1 rounded text-sm flex items-center gap-1">
+                                            <i class="far fa-meh"></i> Medium
+                                        </button>
+                                        <button onclick="markFlashcard('hard')" class="bg-red-100 hover:bg-red-200 dark:bg-red-900/50 dark:hover:bg-red-800/50 text-red-800 dark:text-red-200 px-3 py-1 rounded text-sm flex items-center gap-1">
+                                            <i class="far fa-frown"></i> Hard
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div id="flashcard-empty" class="text-center py-8 text-gray-500 dark:text-gray-400">
+                                    <i class="far fa-clipboard text-3xl mb-2"></i>
+                                    <p>No flashcards to review yet.</p>
+                                    <p class="text-sm mt-2">Add some flashcards first to start studying.</p>
+                                </div>
+                                
+                                <div class="mt-6">
+                                    <button onclick="exportFlashcards()" class="w-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-500 text-gray-800 dark:text-white px-3 py-2 rounded flex items-center justify-center gap-2">
+                                        <i class="fas fa-file-export"></i> Export Flashcards
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg">
+                        <h3 class="font-semibold mb-2 flex items-center gap-2">
+                            <i class="fas fa-lightbulb text-blue-600 dark:text-blue-400"></i> Study Tips
+                        </h3>
+                        <ul class="list-disc pl-5 text-sm space-y-1 text-gray-700 dark:text-gray-300">
+                            <li>Review flashcards regularly using spaced repetition</li>
+                            <li>Focus more on cards marked as "Hard"</li>
+                            <li>Try to recall the answer before flipping the card</li>
+                            <li>Create cards with questions, not just terms</li>
+                            <li>Combine with Pomodoro technique for focused sessions</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Notes Highlighter -->
+                <div id="notes-highlighter" class="tool-section bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+                    <h2 class="text-2xl font-bold mb-4 text-indigo-700 dark:text-indigo-400 flex items-center gap-2">
+                        <i class="fas fa-highlighter"></i> Notes Highlighter
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2">
+                            <div class="mb-4">
+                                <label for="notes-text" class="block text-sm font-medium mb-2">Paste your notes here</label>
+                                <textarea id="notes-text" rows="12" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white" placeholder="Paste your lecture notes, article, or any text you want to highlight..."></textarea>
+                            </div>
+                            
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <button onclick="highlightText('yellow')" class="px-3 py-1 rounded bg-yellow-100 hover:bg-yellow-200 dark:bg-yellow-900/30 dark:hover:bg-yellow-800/30 text-yellow-800 dark:text-yellow-200 flex items-center gap-1">
+                                    <i class="fas fa-highlighter"></i> Highlight
+                                </button>
+                                <button onclick="highlightText('blue')" class="px-3 py-1 rounded bg-blue-100 hover:bg-blue-200 dark:bg-blue-900/30 dark:hover:bg-blue-800/30 text-blue-800 dark:text-blue-200 flex items-center gap-1">
+                                    <i class="fas fa-highlighter"></i> Blue
+                                </button>
+                                <button onclick="highlightText('green')" class="px-3 py-1 rounded bg-green-100 hover:bg-green-200 dark:bg-green-900/30 dark:hover:bg-green-800/30 text-green-800 dark:text-green-200 flex items-center gap-1">
+                                    <i class="fas fa-highlighter"></i> Green
+                                </button>
+                                <button onclick="highlightText('pink')" class="px-3 py-1 rounded bg-pink-100 hover:bg-pink-200 dark:bg-pink-900/30 dark:hover:bg-pink-800/30 text-pink-800 dark:text-pink-200 flex items-center gap-1">
+                                    <i class="fas fa-highlighter"></i> Pink
+                                </button>
+                                <button onclick="highlightText('purple')" class="px-3 py-1 rounded bg-purple-100 hover:bg-purple-200 dark:bg-purple-900/30 dark:hover:bg-purple-800/30 text-purple-800 dark:text-purple-200 flex items-center gap-1">
+                                    <i class="fas fa-highlighter"></i> Purple
+                                </button>
+                                <button onclick="highlightText('orange')" class="px-3 py-1 rounded bg-orange-100 hover:bg-orange-200 dark:bg-orange-900/30 dark:hover:bg-orange-800/30 text-orange-800 dark:text-orange-200 flex items-center gap-1">
+                                    <i class="fas fa-highlighter"></i> Orange
+                                </button>
+                                <button onclick="removeHighlight()" class="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white flex items-center gap-1">
+                                    <i class="fas fa-eraser"></i> Remove
+                                </button>
+                                <button onclick="clearHighlights()" class="px-3 py-1 rounded bg-red-100 hover:bg-red-200 dark:bg-red-900/30 dark:hover:bg-red-800/30 text-red-800 dark:text-red-200 flex items-center gap-1">
+                                    <i class="fas fa-trash-alt"></i> Clear All
+                                </button>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="highlight-tag" class="block text-sm font-medium mb-1">Tag Highlights</label>
+                                <div class="flex flex-wrap gap-2">
+                                    <input type="text" id="highlight-tag" class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white" placeholder="Enter tag name (e.g., Important, Definition)">
+                                    <button onclick="addTagToHighlight()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md flex items-center gap-1">
+                                        <i class="fas fa-tag"></i> Add Tag
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="flex gap-2">
+                                <button onclick="saveHighlightedNotes()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md flex items-center gap-2">
+                                    <i class="fas fa-save"></i> Save Notes
+                                </button>
+                                <button onclick="exportHighlightedNotes()" class="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white px-4 py-2 rounded-md flex items-center gap-2">
+                                    <i class="fas fa-file-export"></i> Export
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg sticky top-4">
+                                <h3 class="font-semibold mb-3 flex items-center gap-2">
+                                    <i class="fas fa-info-circle text-indigo-600 dark:text-indigo-400"></i> Highlighted Content
+                                </h3>
+                                
+                                <div id="highlight-summary" class="space-y-3 max-h-96 overflow-y-auto">
+                                    <div class="text-center py-8 text-gray-500 dark:text-gray-400">
+                                        <i class="far fa-highlighter text-3xl mb-2"></i>
+                                        <p>No highlights yet.</p>
+                                        <p class="text-sm mt-2">Select text and choose a color to highlight.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-4">
+                                    <label class="block text-sm font-medium mb-2">Filter by Tag</label>
+                                    <select id="highlight-filter" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white" onchange="filterHighlights()">
+                                        <option value="all">All Highlights</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg">
+                        <h3 class="font-semibold mb-2 flex items-center gap-2">
+                            <i class="fas fa-lightbulb text-blue-600 dark:text-blue-400"></i> Effective Highlighting
+                        </h3>
+                        <ul class="list-disc pl-5 text-sm space-y-1 text-gray-700 dark:text-gray-300">
+                            <li>Use different colors for different concepts or categories</li>
+                            <li>Highlight key terms, definitions, and important concepts</li>
+                            <li>Don't over-highlight - aim for 10-20% of the text</li>
+                            <li>Combine highlighting with marginal notes or tags</li>
+                            <li>Use tags to group related concepts for easier review</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Quiz Generator -->
+                <div id="quiz-generator" class="tool-section bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+                    <h2 class="text-2xl font-bold mb-4 text-indigo-700 dark:text-indigo-400 flex items-center gap-2">
+                        <i class="fas fa-question-circle"></i> Quiz Generator
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2">
+                            <div class="mb-4">
+                                <label for="quiz-topic" class="block text-sm font-medium mb-2">Topic or Text</label>
+                                <textarea id="quiz-topic" rows="4" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white" placeholder="Enter a topic or paste text to generate questions from..."></textarea>
+                                <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">For best results, provide at least 3-4 sentences about a specific topic</div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                                <div>
+                                    <label for="quiz-type" class="block text-sm font-medium mb-2">Question Type</label>
+                                    <select id="quiz-type" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white">
+                                        <option value="mcq">Multiple Choice</option>
+                                        <option value="truefalse">True/False</option>
+                                        <option value="shortanswer">Short Answer</option>
+                                        <option value="fillblank">Fill in Blank</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label for="quiz-difficulty" class="block text-sm font-medium mb-2">Difficulty Level</label>
+                                    <select id="quiz-difficulty" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white">
+                                        <option value="easy">Easy</option>
+                                        <option value="medium" selected>Medium</option>
+                                        <option value="hard">Hard</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label for="quiz-count" class="block text-sm font-medium mb-2">Number of Questions</label>
+                                    <input type="number" id="quiz-count" min="1" max="10" value="5" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white">
+                                </div>
+                            </div>
+                            
+                            <button onclick="generateQuiz()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md flex items-center gap-2">
+                                <i class="fas fa-magic"></i> Generate Quiz
+                            </button>
+                        </div>
+                        
+                        <div>
+                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                                <h3 class="font-semibold mb-3 flex items-center gap-2">
+                                    <i class="fas fa-info-circle text-indigo-600 dark:text-indigo-400"></i> About This Tool
+                                </h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">
+                                    Our quiz generator creates questions based on the text or topic you provide. For best results, provide detailed text or a specific topic.
+                                </p>
+                                
+                                <div id="quiz-loading" class="hidden text-center py-8">
+                                    <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-indigo-600 mb-2"></div>
+                                    <p>Generating quiz questions...</p>
+                                </div>
+                                
+                                <div id="quiz-results" class="hidden">
+                                    <div class="flex justify-between items-center mb-3">
+                                        <h4 class="font-medium">Generated Quiz</h4>
+                                        <button onclick="exportQuiz()" class="text-xs bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 px-2 py-1 rounded flex items-center gap-1">
+                                            <i class="fas fa-download"></i> Export
+                                        </button>
+                                    </div>
+                                    <div id="quiz-questions" class="space-y-4"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg">
+                        <h3 class="font-semibold mb-2 flex items-center gap-2">
+                            <i class="fas fa-lightbulb text-blue-600 dark:text-blue-400"></i> Study Strategies
+                        </h3>
+                        <ul class="list-disc pl-5 text-sm space-y-1 text-gray-700 dark:text-gray-300">
+                            <li>Use generated quizzes to test your understanding</li>
+                            <li>Create quizzes from your lecture notes before exams</li>
+                            <li>Mix different question types for comprehensive review</li>
+                            <li>Review incorrect answers to identify knowledge gaps</li>
+                            <li>Share quizzes with study groups for collaborative learning</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Document Reader -->
+                <div id="document-reader" class="tool-section bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+                    <h2 class="text-2xl font-bold mb-4 text-indigo-700 dark:text-indigo-400 flex items-center gap-2">
+                        <i class="fas fa-file-alt"></i> Document Reader
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2">
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium mb-2">Upload Document</label>
+                                <div class="flex items-center gap-2">
+                                    <label class="flex-1 cursor-pointer">
+                                        <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center hover:border-indigo-500 transition">
+                                            <input type="file" id="document-upload" accept=".pdf,.docx,.txt,.pptx" class="hidden">
+                                            <i class="fas fa-cloud-upload-alt text-3xl text-indigo-600 dark:text-indigo-400 mb-2"></i>
+                                            <p class="text-sm text-gray-600 dark:text-gray-400">Drag & drop your file here or click to browse</p>
+                                            <p class="text-xs text-gray-500 dark:text-gray-500 mt-1">Supports PDF, DOCX, TXT, PPTX (Max 10MB)</p>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div id="document-info" class="hidden mb-4 bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <h4 class="font-medium" id="document-name"></h4>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400" id="document-size"></p>
+                                    </div>
+                                    <button onclick="clearDocument()" class="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div id="pdf-viewer-container" class="hidden">
+                                <div class="flex justify-between items-center mb-2">
+                                    <div class="text-sm text-gray-600 dark:text-gray-400">
+                                        Page <span id="current-page">1</span> of <span id="total-pages">0</span>
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <button onclick="prevPage()" class="bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 px-3 py-1 rounded text-sm">
+                                            <i class="fas fa-chevron-left"></i> Prev
+                                        </button>
+                                        <button onclick="nextPage()" class="bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 px-3 py-1 rounded text-sm">
+                                            Next <i class="fas fa-chevron-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="border border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden">
+                                    <canvas id="pdf-canvas" class="w-full"></canvas>
+                                </div>
+                            </div>
+                            
+                            <div id="text-viewer-container" class="hidden">
+                                <div class="border border-gray-300 dark:border-gray-600 rounded-lg p-4">
+                                    <pre id="text-content" class="whitespace-pre-wrap font-sans text-sm overflow-auto max-h-96"></pre>
+                                </div>
+                            </div>
+                            
+                            <div id="unsupported-viewer" class="hidden text-center py-8 text-gray-500 dark:text-gray-400">
+                                <i class="fas fa-exclamation-triangle text-2xl mb-2"></i>
+                                <p>Document preview not available for this file type.</p>
+                                <p class="text-sm mt-2">Download the file to view its contents.</p>
+                            </div>
+                            
+                            <div id="document-empty" class="text-center py-8 text-gray-500 dark:text-gray-400">
+                                <i class="far fa-file-alt text-3xl mb-2"></i>
+                                <p>No document uploaded yet.</p>
+                                <p class="text-sm mt-2">Upload a PDF, DOCX, or TXT file to view its contents.</p>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg sticky top-4">
+                                <h3 class="font-semibold mb-3 flex items-center gap-2">
+                                    <i class="fas fa-info-circle text-indigo-600 dark:text-indigo-400"></i> Document Tools
+                                </h3>
+                                
+                                <div class="space-y-3">
+                                    <div>
+                                        <label class="block text-sm font-medium mb-1">Zoom</label>
+                                        <div class="flex items-center gap-2">
+                                            <button onclick="adjustZoom(-0.1)" class="bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 p-2 rounded">
+                                                <i class="fas fa-search-minus"></i>
+                                            </button>
+                                            <span id="zoom-level" class="text-sm">100%</span>
+                                            <button onclick="adjustZoom(0.1)" class="bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 p-2 rounded">
+                                                <i class="fas fa-search-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block text-sm font-medium mb-1">Text Tools</label>
+                                        <div class="flex flex-wrap gap-1">
+                                            <button onclick="searchInDocument()" class="bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 px-3 py-1 rounded text-sm flex items-center gap-1">
+                                                <i class="fas fa-search"></i> Search
+                                            </button>
+                                            <button onclick="printDocument()" class="bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 px-3 py-1 rounded text-sm flex items-center gap-1">
+                                                <i class="fas fa-print"></i> Print
+                                            </button>
+                                            <button onclick="downloadDocument()" class="bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 px-3 py-1 rounded text-sm flex items-center gap-1">
+                                                <i class="fas fa-download"></i> Download
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div id="document-actions" class="hidden">
+                                        <label class="block text-sm font-medium mb-1">Quick Actions</label>
+                                        <div class="flex flex-wrap gap-1">
+                                            <button onclick="extractText()" class="bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 px-3 py-1 rounded text-sm flex items-center gap-1">
+                                                <i class="fas fa-align-left"></i> Extract Text
+                                            </button>
+                                            <button onclick="summarizeDocument()" class="bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 px-3 py-1 rounded text-sm flex items-center gap-1">
+                                                <i class="fas fa-file-contract"></i> Summarize
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-6">
+                                    <h4 class="font-medium mb-2 flex items-center gap-2">
+                                        <i class="fas fa-history"></i> Recent Documents
+                                    </h4>
+                                    <div id="recent-documents" class="text-sm space-y-2">
+                                        <div class="text-gray-500 dark:text-gray-400 italic">No recent documents</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg">
+                        <h3 class="font-semibold mb-2 flex items-center gap-2">
+                            <i class="fas fa-lightbulb text-blue-600 dark:text-blue-400"></i> Reading Tips
+                        </h3>
+                        <ul class="list-disc pl-5 text-sm space-y-1 text-gray-700 dark:text-gray-300">
+                            <li>Use the search function to quickly find key terms</li>
+                            <li>Adjust zoom level for comfortable reading</li>
+                            <li>Extract text to copy important sections</li>
+                            <li>Bookmark important pages for quick reference</li>
+                            <li>Combine with notes highlighter for better retention</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Pomodoro Timer -->
+                <div id="pomodoro-timer" class="tool-section bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+                    <h2 class="text-2xl font-bold mb-4 text-indigo-700 dark:text-indigo-400 flex items-center gap-2">
+                        <i class="fas fa-clock"></i> Pomodoro Timer
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2">
+                            <div class="flex flex-col items-center mb-6">
+                                <div class="pomodoro-timer mb-4">
+                                    <svg class="pomodoro-progress" viewBox="0 0 200 200">
+                                        <circle class="progress-bg" cx="100" cy="100" r="90" fill="none" stroke-width="10"></circle>
+                                        <circle id="progress-circle" class="progress-circle" cx="100" cy="100" r="90" fill="none" stroke-width="10" stroke="#3B82F6"></circle>
+                                    </svg>
+                                    <div class="absolute inset-0 flex items-center justify-center flex-col">
+                                        <div id="timer-display" class="text-4xl font-bold">25:00</div>
+                                        <div id="timer-state" class="text-lg font-medium">Ready to Focus</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex gap-3">
+                                    <button onclick="startTimer()" id="start-btn" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md flex items-center gap-2">
+                                        <i class="fas fa-play"></i> Start
+                                    </button>
+                                    <button onclick="pauseTimer()" id="pause-btn" class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-2 rounded-md flex items-center gap-2 hidden">
+                                        <i class="fas fa-pause"></i> Pause
+                                    </button>
+                                    <button onclick="resetTimer()" id="reset-btn" class="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white px-6 py-2 rounded-md flex items-center gap-2">
+                                        <i class="fas fa-redo"></i> Reset
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                                <div>
+                                    <label for="pomodoro-time" class="block text-sm font-medium mb-1">Focus Time (min)</label>
+                                    <input type="number" id="pomodoro-time" min="1" max="60" value="25" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white">
+                                </div>
+                                <div>
+                                    <label for="short-break-time" class="block text-sm font-medium mb-1">Short Break (min)</label>
+                                    <input type="number" id="short-break-time" min="1" max="15" value="5" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white">
+                                </div>
+                                <div>
+                                    <label for="long-break-time" class="block text-sm font-medium mb-1">Long Break (min)</label>
+                                    <input type="number" id="long-break-time" min="1" max="30" value="15" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white">
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="pomodoro-sessions" class="block text-sm font-medium mb-1">Sessions Before Long Break</label>
+                                <input type="number" id="pomodoro-sessions" min="1" max="10" value="4" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white">
+                            </div>
+                            
+                            <div class="flex items-center gap-2 mb-6">
+                                <input type="checkbox" id="auto-start" class="rounded text-indigo-600 focus:ring-indigo-500 dark:bg-gray-700">
+                                <label for="auto-start" class="text-sm">Auto-start next timer</label>
+                            </div>
+                            
+                            <button onclick="saveTimerSettings()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md flex items-center gap-2">
+                                <i class="fas fa-save"></i> Save Settings
+                            </button>
+                        </div>
+                        
+                        <div>
+                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg sticky top-4">
+                                <h3 class="font-semibold mb-3 flex items-center gap-2">
+                                    <i class="fas fa-info-circle text-indigo-600 dark:text-indigo-400"></i> Pomodoro Technique
+                                </h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">
+                                    The Pomodoro Technique is a time management method that uses a timer to break work into intervals (typically 25 minutes) separated by short breaks.
+                                </p>
+                                
+                                <div id="pomodoro-stats" class="mb-4">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <span class="text-sm">Session:</span>
+                                        <span id="current-session" class="font-medium">0/4</span>
+                                    </div>
+                                    <div class="flex justify-between items-center mb-1">
+                                        <span class="text-sm">Completed Today:</span>
+                                        <span id="completed-today" class="font-medium">0</span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm">Total Completed:</span>
+                                        <span id="total-completed" class="font-medium">0</span>
+                                    </div>
+                                </div>
+                                
+                                <div id="motivational-quote" class="border-l-4 border-indigo-500 pl-4 py-2 mb-4">
+                                    <p class="text-sm italic">"The secret of getting ahead is getting started."</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">— Mark Twain</p>
+                                </div>
+                                
+                                <div class="mt-6">
+                                    <h4 class="font-medium mb-2 flex items-center gap-2">
+                                        <i class="fas fa-tasks"></i> Task List
+                                    </h4>
+                                    <div class="flex gap-2 mb-2">
+                                        <input type="text" id="new-task" class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white text-sm" placeholder="Add a task...">
+                                        <button onclick="addTask()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-md text-sm">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    <div id="task-list" class="space-y-2 max-h-40 overflow-y-auto"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg">
+                        <h3 class="font-semibold mb-2 flex items-center gap-2">
+                            <i class="fas fa-lightbulb text-blue-600 dark:text-blue-400"></i> Productivity Tips
+                        </h3>
+                        <ul class="list-disc pl-5 text-sm space-y-1 text-gray-700 dark:text-gray-300">
+                            <li>Work with the timer, not against it - stop when the timer rings</li>
+                            <li>During breaks, stand up and move away from your workspace</li>
+                            <li>Track interruptions and return to them later</li>
+                            <li>Review completed tasks at the end of each day</li>
+                            <li>Combine with other tools for focused study sessions</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- LaTeX Renderer -->
+                <div id="latex-renderer" class="tool-section bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+                    <h2 class="text-2xl font-bold mb-4 text-indigo-700 dark:text-indigo-400 flex items-center gap-2">
+                        <i class="fas fa-square-root-alt"></i> LaTeX Formula Renderer
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div>
+                            <div class="mb-4">
+                                <label for="latex-input" class="block text-sm font-medium mb-2">Enter LaTeX Code</label>
+                                <textarea id="latex-input" rows="8" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white font-mono" placeholder="E.g., \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}"></textarea>
+                            </div>
+                            
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <button onclick="insertLatexSymbol('\\frac{a}{b}')" class="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white text-sm">
+                                    Fraction
+                                </button>
+                                <button onclick="insertLatexSymbol('\\sqrt{x}')" class="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white text-sm">
+                                    Square Root
+                                </button>
+                                <button onclick="insertLatexSymbol('\\sum_{i=1}^n')" class="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white text-sm">
+                                    Summation
+                                </button>
+                                <button onclick="insertLatexSymbol('\\int_a^b f(x)dx')" class="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white text-sm">
+                                    Integral
+                                </button>
+                                <button onclick="insertLatexSymbol('\\alpha \\beta \\gamma')" class="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white text-sm">
+                                    Greek
+                                </button>
+                                <button onclick="insertLatexSymbol('\\times \\div \\pm \\mp')" class="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white text-sm">
+                                    Operators
+                                </button>
+                                <button onclick="insertLatexSymbol('\\leq \\geq \\neq \\approx')" class="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white text-sm">
+                                    Relations
+                                </button>
+                                <button onclick="insertLatexSymbol('\\vec{v} \\hat{a} \\dot{x} \\ddot{y}')" class="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white text-sm">
+                                    Accents
+                                </button>
+                            </div>
+                            
+                            <div class="flex gap-2">
+                                <button onclick="renderLatex()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md flex items-center gap-2">
+                                    <i class="fas fa-eye"></i> Render
+                                </button>
+                                <button onclick="clearLatex()" class="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white px-4 py-2 rounded-md flex items-center gap-2">
+                                    <i class="fas fa-trash-alt"></i> Clear
+                                </button>
+                                <button onclick="copyLatex()" class="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white px-4 py-2 rounded-md flex items-center gap-2">
+                                    <i class="far fa-copy"></i> Copy
+                                </button>
+                            </div>
+                            
+                            <div class="mt-6">
+                                <h3 class="font-medium mb-2">LaTeX Examples</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <button onclick="loadLatexExample('quadratic')" class="text-left p-2 border border-gray-200 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-700 text-sm">
+                                        Quadratic Formula
+                                    </button>
+                                    <button onclick="loadLatexExample('integral')" class="text-left p-2 border border-gray-200 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-700 text-sm">
+                                        Integral
+                                    </button>
+                                    <button onclick="loadLatexExample('matrix')" class="text-left p-2 border border-gray-200 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-700 text-sm">
+                                        Matrix
+                                    </button>
+                                    <button onclick="loadLatexExample('limit')" class="text-left p-2 border border-gray-200 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-700 text-sm">
+                                        Limit
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg sticky top-4">
+                                <h3 class="font-semibold mb-3 flex items-center gap-2">
+                                    <i class="fas fa-info-circle text-indigo-600 dark:text-indigo-400"></i> Rendered Output
+                                </h3>
+                                
+                                <div id="latex-error" class="hidden bg-red-100 dark:bg-red-900/30 border-l-4 border-red-500 p-3 mb-4 text-sm">
+                                    <p class="font-medium text-red-800 dark:text-red-200">Error:</p>
+                                    <p id="latex-error-message" class="text-red-600 dark:text-red-300"></p>
+                                </div>
+                                
+                                <div id="latex-output" class="min-h-40 p-4 bg-white dark:bg-gray-600 rounded border border-gray-300 dark:border-gray-500 flex items-center justify-center">
+                                    <p class="text-gray-500 dark:text-gray-400 italic">Your rendered formula will appear here</p>
+                                </div>
+                                
+                                <div class="mt-6">
+                                    <h4 class="font-medium mb-2 flex items-center gap-2">
+                                        <i class="fas fa-history"></i> Recent Formulas
+                                    </h4>
+                                    <div id="latex-history" class="space-y-2 max-h-40 overflow-y-auto">
+                                        <div class="text-gray-500 dark:text-gray-400 italic">No recent formulas</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg">
+                        <h3 class="font-semibold mb-2 flex items-center gap-2">
+                            <i class="fas fa-lightbulb text-blue-600 dark:text-blue-400"></i> LaTeX Tips
+                        </h3>
+                        <ul class="list-disc pl-5 text-sm space-y-1 text-gray-700 dark:text-gray-300">
+                            <li>Use $...$ for inline math and $$...$$ for display math</li>
+                            <li>Common commands: \frac{numerator}{denominator}, \sqrt{expression}</li>
+                            <li>Greek letters: \alpha, \beta, \Gamma, \Delta</li>
+                            <li>Subscripts and superscripts: x^2, y_{n-1}</li>
+                            <li>Matrices: \begin{matrix} a & b \\ c & d \end{matrix}</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Word Counter -->
+                <div id="word-counter" class="tool-section bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+                    <h2 class="text-2xl font-bold mb-4 text-indigo-700 dark:text-indigo-400 flex items-center gap-2">
+                        <i class="fas fa-font"></i> Word Counter
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2">
+                            <div class="mb-4">
+                                <label for="word-counter-text" class="block text-sm font-medium mb-2">Enter your text</label>
+                                <textarea id="word-counter-text" rows="10" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white" placeholder="Paste your text here to analyze..."></textarea>
+                            </div>
+                            
+                            <button onclick="countWords()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md flex items-center gap-2">
+                                <i class="fas fa-calculator"></i> Analyze Text
+                            </button>
+                        </div>
+                        
+                        <div>
+                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                                <h3 class="font-semibold mb-3 flex items-center gap-2">
+                                    <i class="fas fa-info-circle text-indigo-600 dark:text-indigo-400"></i> Text Statistics
+                                </h3>
+                                
+                                <div id="word-counter-results" class="space-y-4">
+                                    <div class="word-counter-grid">
+                                        <div class="bg-white dark:bg-gray-600 p-3 rounded-lg text-center">
+                                            <div class="text-2xl font-bold" id="word-count">0</div>
+                                            <div class="text-xs text-gray-500 dark:text-gray-400">Words</div>
+                                        </div>
+                                        <div class="bg-white dark:bg-gray-600 p-3 rounded-lg text-center">
+                                            <div class="text-2xl font-bold" id="character-count">0</div>
+                                            <div class="text-xs text-gray-500 dark:text-gray-400">Characters</div>
+                                        </div>
+                                        <div class="bg-white dark:bg-gray-600 p-3 rounded-lg text-center">
+                                            <div class="text-2xl font-bold" id="sentence-count">0</div>
+                                            <div class="text-xs text-gray-500 dark:text-gray-400">Sentences</div>
+                                        </div>
+                                        <div class="bg-white dark:bg-gray-600 p-3 rounded-lg text-center">
+                                            <div class="text-2xl font-bold" id="paragraph-count">0</div>
+                                            <div class="text-xs text-gray-500 dark:text-gray-400">Paragraphs</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="bg-white dark:bg-gray-600 p-4 rounded-lg">
+                                        <h4 class="font-medium mb-2">Reading Time</h4>
+                                        <div class="grid grid-cols-2 gap-2">
+                                            <div class="text-center p-2">
+                                                <div class="text-lg font-bold" id="reading-time-slow">0 min</div>
+                                                <div class="text-xs text-gray-500 dark:text-gray-400">Slow (150 wpm)</div>
+                                            </div>
+                                            <div class="text-center p-2">
+                                                <div class="text-lg font-bold" id="reading-time-average">0 min</div>
+                                                <div class="text-xs text-gray-500 dark:text-gray-400">Average (200 wpm)</div>
+                                            </div>
+                                            <div class="text-center p-2">
+                                                <div class="text-lg font-bold" id="reading-time-fast">0 min</div>
+                                                <div class="text-xs text-gray-500 dark:text-gray-400">Fast (250 wpm)</div>
+                                            </div>
+                                            <div class="text-center p-2">
+                                                <div class="text-lg font-bold" id="reading-time-professional">0 min</div>
+                                                <div class="text-xs text-gray-500 dark:text-gray-400">Professional (300 wpm)</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg">
+                        <h3 class="font-semibold mb-2 flex items-center gap-2">
+                            <i class="fas fa-lightbulb text-blue-600 dark:text-blue-400"></i> Writing Tips
+                        </h3>
+                        <ul class="list-disc pl-5 text-sm space-y-1 text-gray-700 dark:text-gray-300">
+                            <li>Aim for 15-20 words per sentence for readability</li>
+                            <li>Keep paragraphs to 3-5 sentences</li>
+                            <li>Use active voice for clearer writing</li>
+                            <li>Vary sentence length for better flow</li>
+                            <li>Target 300-500 words for standard blog posts</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Reference Finder -->
+                <div id="reference-finder" class="tool-section bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+                    <h2 class="text-2xl font-bold mb-4 text-indigo-700 dark:text-indigo-400 flex items-center gap-2">
+                        <i class="fas fa-link"></i> Reference Finder
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2">
+                            <div class="mb-4">
+                                <label for="reference-topic" class="block text-sm font-medium mb-2">Research Topic</label>
+                                <input type="text" id="reference-topic" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white" placeholder="Enter your research topic or keywords...">
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="reference-type" class="block text-sm font-medium mb-2">Reference Type</label>
+                                <select id="reference-type" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white">
+                                    <option value="all">All Types</option>
+                                    <option value="journal">Journal Articles</option>
+                                    <option value="book">Books</option>
+                                    <option value="conference">Conference Papers</option>
+                                    <option value="thesis">Theses</option>
+                                    <option value="website">Websites</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="reference-year" class="block text-sm font-medium mb-2">Publication Year</label>
+                                <select id="reference-year" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white">
+                                    <option value="any">Any Year</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2020">2020</option>
+                                    <option value="2019">2019</option>
+                                    <option value="2015-2018">2015-2018</option>
+                                    <option value="2010-2014">2010-2014</option>
+                                    <option value="2000-2009">2000-2009</option>
+                                    <option value="before-2000">Before 2000</option>
+                                </select>
+                            </div>
+                            
+                            <button onclick="findReferences()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md flex items-center gap-2">
+                                <i class="fas fa-search"></i> Find References
+                            </button>
+                        </div>
+                        
+                        <div>
+                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                                <h3 class="font-semibold mb-3 flex items-center gap-2">
+                                    <i class="fas fa-info-circle text-indigo-600 dark:text-indigo-400"></i> About This Tool
+                                </h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">
+                                    This tool helps you find academic references for your research topics. It searches open-access repositories and databases to find relevant sources.
+                                </p>
+                                
+                                <div id="reference-loading" class="hidden text-center py-8">
+                                    <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-indigo-600 mb-2"></div>
+                                    <p>Searching for references...</p>
+                                </div>
+                                
+                                <div id="reference-results" class="hidden">
+                                    <div class="flex justify-between items-center mb-3">
+                                        <h4 class="font-medium">Found <span id="reference-count">0</span> references</h4>
+                                        <button onclick="exportReferences()" class="text-xs bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 px-2 py-1 rounded flex items-center gap-1">
+                                            <i class="fas fa-download"></i> Export
+                                        </button>
+                                    </div>
+                                    <div id="reference-list" class="space-y-3 max-h-96 overflow-y-auto"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg">
+                        <h3 class="font-semibold mb-2 flex items-center gap-2">
+                            <i class="fas fa-lightbulb text-blue-600 dark:text-blue-400"></i> Research Tips
+                        </h3>
+                        <ul class="list-disc pl-5 text-sm space-y-1 text-gray-700 dark:text-gray-300">
+                            <li>Use specific keywords for better results</li>
+                            <li>Check the credibility of sources before using them</li>
+                            <li>Look at references in recent papers to find more sources</li>
+                            <li>Combine with citation generator for proper formatting</li>
+                            <li>Save relevant references for future use</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 py-2 mt-10">
+        <div class="container mx-auto px-2 text-center text-gray-600 dark:text-gray-400 text-sm">
+            <p class="mt-2 mb-2">Made with <i class="fas fa-heart text-red-500"></i> for students and researchers</p>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer class="bg-gray-100 dark:bg-gray-800/80 border-t border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- About Column -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">About MyToolbox</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                        An all-in-one platform offering free, easy-to-use tools for your everyday needs.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Tools Column -->
+                <div>
+                    <h3 class="text-lg !text-black font-semibold mb-4">Tools</h3>
+                    <ul class="space-y-2">
+                        <li><a href="../../index.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">All
+                                Tools</a></li>
+                        <li><a href="../../index.html#featured-tools"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Featured
+                                Tools</a></li>
+                        <li><a href="../../index.html#categories"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">New
+                                Tools</a></li>
+                        <li><a href="../../src/sections/homePage/suggest-tool.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Request
+                                a Tool</a></li>
+                    </ul>
+                </div>
+
+                <!-- Resources Column -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Blog</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Tutorials</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">API</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Help
+                                Center</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal Column -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="../../src/sections/homePage/privacy.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Privacy
+                                Policy</a></li>
+                        <li><a href="../../src/sections/homePage/terms.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Terms
+                                of Service</a></li>
+                        <li><a href="../../src/sections/homePage/cookies.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Cookie
+                                Policy</a></li>
+                        <li><a href="../../src/sections/homePage/gdpr.html"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">GDPR</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="border-t border-gray-200 dark:border-gray-700 my-8"></div>
+
+            <!-- Bottom Footer -->
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                    <i class="fas fa-tools text-primary-600 dark:text-primary-400"></i>
+                    <span class="font-medium">My<span
+                            class="text-primary-600 dark:text-primary-400">Toolbox</span></span>
+                </div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">
+                    &copy; <span id="current-year"></span> MyToolbox. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Scroll to Top Button -->
+    <button id="scroll-to-top" class="fixed bottom-6 right-6 bg-indigo-600 hover:bg-indigo-700 text-white p-3 rounded-full shadow-lg hidden transition-opacity duration-300">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Success Notification -->
+    <div id="success-notification" class="fixed bottom-6 left-6 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg hidden flex items-center gap-2 max-w-xs">
+        <svg class="success-checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+            <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+            <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+        </svg>
+        <span id="success-message">Operation completed successfully!</span>
+    </div>
+
+    <!-- Error Notification -->
+    <div id="error-notification" class="fixed bottom-6 left-6 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg hidden flex items-center gap-2 max-w-xs">
+        <i class="fas fa-exclamation-circle text-xl"></i>
+        <span id="error-message">An error occurred. Please try again.</span>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-xl text-center max-w-sm">
+            <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600 mb-4"></div>
+            <h3 class="text-lg font-medium mb-2" id="loading-title">Processing</h3>
+            <p class="text-gray-600 dark:text-gray-400 text-sm" id="loading-message">Please wait while we process your request...</p>
+        </div>
+    </div>
+
+
+
+<script>
+// DOM Elements
+const darkModeToggle = document.getElementById('darkModeIcon');
+const toolSections = document.querySelectorAll('.tool-section');
+const toolButtons = document.querySelectorAll('.tool-btn');
+const scrollToTopBtn = document.getElementById('scroll-to-top');
+const successNotification = document.getElementById('success-notification');
+const errorNotification = document.getElementById('error-notification');
+const loadingOverlay = document.getElementById('loading-overlay');
+const mobileMenuButton = document.getElementById('mobile-menu-button');
+const mobileMenu = document.getElementById('mobile-menu');
+const mobileCategoriesButton = document.getElementById('mobile-categories-button');
+const mobileCategories = document.getElementById('mobile-categories');
+
+// Mobile Menu Toggle
+mobileMenuButton.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+});
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', (e) => {
+    if (!mobileMenu.contains(e.target) && !mobileMenuButton.contains(e.target)) {
+        mobileMenu.classList.add('hidden');
+    }
+});
+// Mobile Categories Toggle
+mobileCategoriesButton.addEventListener('click', () => {
+    mobileCategories.classList.toggle('hidden');
+    mobileCategoriesButton.querySelector('i').classList.toggle('fa-chevron-down');
+    mobileCategoriesButton.querySelector('i').classList.toggle('fa-chevron-up');
+});
+
+// State variables
+let darkMode = localStorage.getItem('darkMode') === 'enabled';
+let toolsUsed = parseInt(localStorage.getItem('toolsUsed')) || 0;
+let tasksCompleted = parseInt(localStorage.getItem('tasksCompleted')) || 0;
+let studyTime = parseInt(localStorage.getItem('studyTime')) || 0;
+let currentTool = 'plagiarism-checker';
+
+// Initialize the app
+document.addEventListener('DOMContentLoaded', function() {
+    // Set initial dark mode state
+    if (darkMode) {
+        document.body.classList.add('dark');
+        darkModeToggle.classList.replace('fa-moon', 'fa-sun');
+    }
+    
+    // Show the first tool by default
+    showTool(currentTool);
+    
+    // Update stats
+    updateStats();
+    
+    // Set up event listeners
+    setupEventListeners();
+    
+    // Initialize tool-specific functionality
+    initTools();
+});
+
+// Event Listeners
+function setupEventListeners() {
+    // Dark mode toggle
+    darkModeToggle.addEventListener('click', toggleDarkMode);
+    
+    // Scroll to top button
+    scrollToTopBtn.addEventListener('click', scrollToTop);
+    window.addEventListener('scroll', toggleScrollToTopButton);
+    
+    // Tool navigation buttons
+    toolButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const toolId = this.getAttribute('onclick').match(/'(.*?)'/)[1];
+            showTool(toolId);
+        });
+    });
+}
+
+// Dark Mode Functionality
+function toggleDarkMode() {
+    darkMode = !darkMode;
+    
+    if (darkMode) {
+        document.body.classList.add('dark');
+        darkModeToggle.classList.replace('fa-moon', 'fa-sun');
+        localStorage.setItem('darkMode', 'enabled');
+    } else {
+        document.body.classList.remove('dark');
+        darkModeToggle.classList.replace('fa-sun', 'fa-moon');
+        localStorage.setItem('darkMode', 'disabled');
+    }
+}
+
+// Tool Navigation
+function showTool(toolId) {
+    // Hide all tool sections
+    toolSections.forEach(section => {
+        section.classList.remove('active');
+    });
+    
+    // Show the selected tool
+    document.getElementById(toolId).classList.add('active');
+    currentTool = toolId;
+    
+    // Update tools used count if this is a new tool
+    if (!localStorage.getItem(`toolUsed_${toolId}`)) {
+        toolsUsed++;
+        localStorage.setItem(`toolUsed_${toolId}`, 'true');
+        localStorage.setItem('toolsUsed', toolsUsed);
+        updateStats();
+    }
+}
+
+// Stats Functions
+function updateStats() {
+    document.getElementById('tools-used-count').textContent = toolsUsed;
+    document.getElementById('tasks-completed-count').textContent = tasksCompleted;
+    
+    // Format study time
+    const hours = Math.floor(studyTime / 60);
+    const minutes = studyTime % 60;
+    document.getElementById('study-time-count').textContent = `${hours}h ${minutes}m`;
+}
+
+// Notification Functions
+function showSuccess(message) {
+    document.getElementById('success-message').textContent = message;
+    successNotification.classList.remove('hidden');
+    
+    setTimeout(() => {
+        successNotification.classList.add('hidden');
+    }, 3000);
+}
+
+function showError(message) {
+    document.getElementById('error-message').textContent = message;
+    errorNotification.classList.remove('hidden');
+    
+    setTimeout(() => {
+        errorNotification.classList.add('hidden');
+    }, 3000);
+}
+
+function showLoading(title = 'Processing', message = 'Please wait while we process your request...') {
+    document.getElementById('loading-title').textContent = title;
+    document.getElementById('loading-message').textContent = message;
+    loadingOverlay.classList.remove('hidden');
+}
+
+function hideLoading() {
+    loadingOverlay.classList.add('hidden');
+}
+
+// Scroll Functions
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+
+function toggleScrollToTopButton() {
+    if (window.pageYOffset > 300) {
+        scrollToTopBtn.classList.remove('hidden');
+    } else {
+        scrollToTopBtn.classList.add('hidden');
+    }
+}
+
+// Welcome Tour Functions
+function showWelcomeTour() {
+    document.getElementById('welcome-tour').classList.remove('hidden');
+}
+
+function hideWelcomeTour() {
+    document.getElementById('welcome-tour').classList.add('hidden');
+}
+
+// Initialize all tool functionalities
+function initTools() {
+    initPlagiarismChecker();
+    initCitationGenerator();
+    initFlashcardCreator();
+    initNotesHighlighter();
+    initQuizGenerator();
+    initDocumentReader();
+    initPomodoroTimer();
+    initLatexRenderer();
+    initWordCounter();
+    initReferenceFinder();
+}
+
+// 1. Plagiarism Checker
+function initPlagiarismChecker() {
+    const checkBtn = document.querySelector('#plagiarism-checker button[onclick="checkPlagiarism()"]');
+    
+    if (checkBtn) {
+        checkBtn.addEventListener('click', checkPlagiarism);
+    }
+}
+
+function checkPlagiarism() {
+    const text = document.getElementById('plagiarism-text').value;
+    
+    if (!text || text.split(/\s+/).length < 50) {
+        showError('Please enter at least 50 words for accurate results');
+        return;
+    }
+    
+    showLoading('Checking for Plagiarism', 'Comparing your text against online sources...');
+    
+    // Simulate API call
+    setTimeout(() => {
+        hideLoading();
+        
+        // Generate random similarity score (for demo)
+        const similarityScore = Math.floor(Math.random() * 30);
+        document.getElementById('similarity-score').textContent = `${similarityScore}%`;
+        
+        // Set message based on score
+        let message = '';
+        if (similarityScore < 10) {
+            message = 'Your text appears to be original. Good job!';
+        } else if (similarityScore < 20) {
+            message = 'Some similarities found. Consider rephrasing a few sections.';
+        } else {
+            message = 'Significant similarities found. Please review and cite sources properly.';
+        }
+        
+        document.getElementById('plagiarism-message').textContent = message;
+        
+        // Show matched sources (simulated)
+        const matchedSources = document.querySelector('#matched-sources ul');
+        matchedSources.innerHTML = '';
+        
+        if (similarityScore > 5) {
+            const sources = [
+                "Wikipedia: Related topic (20% match)",
+                "Academic paper from JSTOR (15% match)",
+                "Blog post on similar subject (10% match)"
+            ].slice(0, Math.min(3, Math.floor(similarityScore / 5)));
+            
+            sources.forEach(source => {
+                const li = document.createElement('li');
+                li.textContent = source;
+                matchedSources.appendChild(li);
+            });
+            
+            document.getElementById('matched-sources').classList.remove('hidden');
+        }
+        
+        document.getElementById('plagiarism-result').classList.remove('hidden');
+        tasksCompleted++;
+        localStorage.setItem('tasksCompleted', tasksCompleted);
+        updateStats();
+        showSuccess('Plagiarism check completed successfully');
+    }, 2000);
+}
+
+// 2. Citation Generator
+function initCitationGenerator() {
+    const generateBtn = document.querySelector('#citation-generator button[onclick="generateCitation()"]');
+    const sourceTypeSelect = document.getElementById('citation-source-type');
+    
+    if (generateBtn) {
+        generateBtn.addEventListener('click', generateCitation);
+    }
+    
+    if (sourceTypeSelect) {
+        sourceTypeSelect.addEventListener('change', updateCitationFields);
+    }
+}
+
+function updateCitationFields() {
+    const sourceType = document.getElementById('citation-source-type').value;
+    const extraFields = document.getElementById('citation-extra-fields');
+    
+    let fieldsHTML = '';
+    
+    switch(sourceType) {
+        case 'website':
+            fieldsHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label for="citation-author" class="block text-sm font-medium mb-1">Author</label>
+                        <input type="text" id="citation-author" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white" placeholder="Author name">
+                    </div>
+                    <div>
+                        <label for="citation-date" class="block text-sm font-medium mb-1">Publication Date</label>
+                        <input type="date" id="citation-date" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white">
+                    </div>
+                    <div>
+                        <label for="citation-website" class="block text-sm font-medium mb-1">Website Name</label>
+                        <input type="text" id="citation-website" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white" placeholder="Website name">
+                    </div>
+                    <div>
+                        <label for="citation-access-date" class="block text-sm font-medium mb-1">Access Date</label>
+                        <input type="date" id="citation-access-date" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white">
+                    </div>
+                </div>
+            `;
+            break;
+        case 'book':
+            fieldsHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label for="citation-author" class="block text-sm font-medium mb-1">Author</label>
+                        <input type="text" id="citation-author" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white" placeholder="Author name">
+                    </div>
+                    <div>
+                        <label for="citation-date" class="block text-sm font-medium mb-1">Publication Date</label>
+                        <input type="date" id="citation-date" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white">
+                    </div>
+                    <div>
+                        <label for="citation-publisher" class="block text-sm font-medium mb-1">Publisher</label>
+                        <input type="text" id="citation-publisher" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white" placeholder="Publisher name">
+                    </div>
+                    <div>
+                        <label for="citation-location" class="block text-sm font-medium mb-1">Location</label>
+                        <input type="text" id="citation-location" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white" placeholder="City, Country">
+                    </div>
+                </div>
+            `;
+            break;
+        // Add cases for other source types...
+    }
+    
+    extraFields.innerHTML = fieldsHTML;
+    extraFields.classList.remove('hidden');
+}
+
+function generateCitation() {
+    const source = document.getElementById('citation-source').value;
+    const style = document.getElementById('citation-type').value;
+    const sourceType = document.getElementById('citation-source-type').value;
+    
+    if (!source) {
+        showError('Please enter a source URL or title');
+        return;
+    }
+    
+    showLoading('Generating Citation', 'Formatting your citation...');
+    
+    // Simulate API call
+    setTimeout(() => {
+        hideLoading();
+        
+        // Generate sample citation based on style and type (for demo)
+        let citationText = '';
+        const author = document.getElementById('citation-author') ? document.getElementById('citation-author').value : 'Smith, J.';
+        const date = document.getElementById('citation-date') ? document.getElementById('citation-date').value : '2023';
+        
+        switch(style) {
+            case 'apa':
+                if (sourceType === 'website') {
+                    citationText = `${author} (${date}). ${source}. Retrieved from ${source}`;
+                } else if (sourceType === 'book') {
+                    citationText = `${author} (${date}). ${source}. Publisher Name.`;
+                }
+                break;
+            case 'mla':
+                if (sourceType === 'website') {
+                    citationText = `${author}. "${source}." Website Name, ${date}, ${source}.`;
+                } else if (sourceType === 'book') {
+                    citationText = `${author}. ${source}. Publisher Name, ${date}.`;
+                }
+                break;
+            case 'chicago':
+                if (sourceType === 'website') {
+                    citationText = `${author}. "${source}." Website Name. Last modified ${date}. ${source}.`;
+                } else if (sourceType === 'book') {
+                    citationText = `${author}. ${source}. Location: Publisher Name, ${date}.`;
+                }
+                break;
+        }
+        
+        document.getElementById('citation-text').textContent = citationText;
+        document.getElementById('citation-style-badge').textContent = style.toUpperCase();
+        document.getElementById('citation-result').classList.remove('hidden');
+        document.getElementById('citation-loading').classList.add('hidden');
+        
+        tasksCompleted++;
+        localStorage.setItem('tasksCompleted', tasksCompleted);
+        updateStats();
+        showSuccess('Citation generated successfully');
+    }, 1500);
+}
+
+function copyCitation() {
+    const citationText = document.getElementById('citation-text').textContent;
+    navigator.clipboard.writeText(citationText)
+        .then(() => showSuccess('Citation copied to clipboard'))
+        .catch(() => showError('Failed to copy citation'));
+}
+
+function downloadCitation() {
+    showSuccess('Citation downloaded (simulated)');
+}
+
+function saveCitation() {
+    showSuccess('Citation saved (simulated)');
+}
+
+// 3. Flashcard Creator
+function initFlashcardCreator() {
+    const addBtn = document.querySelector('#flashcard-creator button[onclick="addFlashcard()"]');
+    const toggleBtn = document.querySelector('#flashcard-creator button[onclick="toggleFlashcardMode()"]');
+    
+    if (addBtn) {
+        addBtn.addEventListener('click', addFlashcard);
+    }
+    
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', toggleFlashcardMode);
+    }
+    
+    // Load saved flashcards
+    loadFlashcards();
+}
+
+let flashcards = [];
+let currentFlashcardIndex = 0;
+let isReviewMode = false;
+
+function addFlashcard() {
+    const term = document.getElementById('flashcard-term').value;
+    const definition = document.getElementById('flashcard-definition').value;
+    
+    if (!term || !definition) {
+        showError('Please enter both term and definition');
+        return;
+    }
+    
+    const flashcard = {
+        term,
+        definition,
+        mastery: 'unrated'
+    };
+    
+    flashcards.push(flashcard);
+    saveFlashcards();
+    updateFlashcardList();
+    
+    // Clear inputs
+    document.getElementById('flashcard-term').value = '';
+    document.getElementById('flashcard-definition').value = '';
+    
+    showSuccess('Flashcard added successfully');
+}
+
+function toggleFlashcardMode() {
+    isReviewMode = !isReviewMode;
+    const toggleBtn = document.getElementById('flashcard-mode-toggle');
+    
+    if (isReviewMode) {
+        toggleBtn.innerHTML = '<i class="fas fa-book-open mr-1"></i> Study Mode';
+        showFlashcardReview();
+    } else {
+        toggleBtn.innerHTML = '<i class="fas fa-plus mr-1"></i> Add Mode';
+        hideFlashcardReview();
+    }
+}
+
+function showFlashcardReview() {
+    if (flashcards.length === 0) {
+        document.getElementById('flashcard-empty').classList.remove('hidden');
+        document.getElementById('flashcard-review').classList.add('hidden');
+        return;
+    }
+    
+    document.getElementById('flashcard-empty').classList.add('hidden');
+    document.getElementById('flashcard-review').classList.remove('hidden');
+    
+    currentFlashcardIndex = 0;
+    displayCurrentFlashcard();
+}
+
+function hideFlashcardReview() {
+    document.getElementById('flashcard-review').classList.add('hidden');
+}
+
+function displayCurrentFlashcard() {
+    if (flashcards.length === 0) return;
+    
+    const flashcard = flashcards[currentFlashcardIndex];
+    document.getElementById('flashcard-review-term').textContent = flashcard.term;
+    document.getElementById('flashcard-review-definition').textContent = flashcard.definition;
+    document.getElementById('current-card-number').textContent = currentFlashcardIndex + 1;
+    document.getElementById('total-cards').textContent = flashcards.length;
+    
+    // Update progress
+    const masteredCount = flashcards.filter(card => card.mastery === 'easy').length;
+    const progress = Math.round((masteredCount / flashcards.length) * 100);
+    document.getElementById('flashcard-progress').textContent = `${progress}%`;
+}
+
+function flipFlashcard() {
+    const flashcardElement = document.querySelector('.flashcard');
+    flashcardElement.classList.toggle('flipped');
+}
+
+function prevFlashcard() {
+    if (currentFlashcardIndex > 0) {
+        currentFlashcardIndex--;
+        displayCurrentFlashcard();
+        document.querySelector('.flashcard').classList.remove('flipped');
+    }
+}
+
+function nextFlashcard() {
+    if (currentFlashcardIndex < flashcards.length - 1) {
+        currentFlashcardIndex++;
+        displayCurrentFlashcard();
+        document.querySelector('.flashcard').classList.remove('flipped');
+    } else {
+        showSuccess('You\'ve completed all flashcards!');
+    }
+}
+
+function markFlashcard(mastery) {
+    if (flashcards.length === 0) return;
+    
+    flashcards[currentFlashcardIndex].mastery = mastery;
+    saveFlashcards();
+    
+    // Move to next card if not last
+    if (currentFlashcardIndex < flashcards.length - 1) {
+        currentFlashcardIndex++;
+        displayCurrentFlashcard();
+        document.querySelector('.flashcard').classList.remove('flipped');
+    } else {
+        showSuccess('You\'ve completed all flashcards!');
+    }
+    
+    // Update progress
+    const masteredCount = flashcards.filter(card => card.mastery === 'easy').length;
+    const progress = Math.round((masteredCount / flashcards.length) * 100);
+    document.getElementById('flashcard-progress').textContent = `${progress}%`;
+}
+
+function updateFlashcardList() {
+    const flashcardList = document.getElementById('flashcard-list');
+    flashcardList.innerHTML = '';
+    
+    flashcards.forEach((flashcard, index) => {
+        const cardElement = document.createElement('div');
+        cardElement.className = 'bg-gray-100 dark:bg-gray-700 p-3 rounded-lg flex justify-between items-center';
+        
+        cardElement.innerHTML = `
+            <div>
+                <div class="font-medium">${flashcard.term}</div>
+                <div class="text-sm text-gray-600 dark:text-gray-400 truncate">${flashcard.definition}</div>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="editFlashcard(${index})" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button onclick="deleteFlashcard(${index})" class="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
+        `;
+        
+        flashcardList.appendChild(cardElement);
+    });
+    
+    document.getElementById('flashcard-count').textContent = flashcards.length;
+}
+
+function editFlashcard(index) {
+    const flashcard = flashcards[index];
+    document.getElementById('flashcard-term').value = flashcard.term;
+    document.getElementById('flashcard-definition').value = flashcard.definition;
+    
+    // Remove the flashcard being edited
+    flashcards.splice(index, 1);
+    updateFlashcardList();
+}
+
+function deleteFlashcard(index) {
+    flashcards.splice(index, 1);
+    saveFlashcards();
+    updateFlashcardList();
+    showSuccess('Flashcard deleted');
+}
+
+function clearFlashcards() {
+    if (flashcards.length === 0 || !confirm('Are you sure you want to delete all flashcards?')) {
+        return;
+    }
+    
+    flashcards = [];
+    saveFlashcards();
+    updateFlashcardList();
+    hideFlashcardReview();
+    document.getElementById('flashcard-empty').classList.remove('hidden');
+    showSuccess('All flashcards cleared');
+}
+
+function saveFlashcards() {
+    const setName = document.getElementById('flashcard-set-name').value || 'My Flashcard Set';
+    const flashcardData = {
+        setName,
+        flashcards
+    };
+    
+    localStorage.setItem('flashcards', JSON.stringify(flashcardData));
+}
+
+function loadFlashcards() {
+    const savedData = localStorage.getItem('flashcards');
+    if (savedData) {
+        const data = JSON.parse(savedData);
+        flashcards = data.flashcards || [];
+        document.getElementById('flashcard-set-name').value = data.setName;
+        updateFlashcardList();
+    }
+}
+
+function exportFlashcards() {
+    if (flashcards.length === 0) {
+        showError('No flashcards to export');
+        return;
+    }
+    
+    const setName = document.getElementById('flashcard-set-name').value || 'My Flashcard Set';
+    const exportData = {
+        setName,
+        flashcards,
+        exportedAt: new Date().toISOString()
+    };
+    
+    const dataStr = JSON.stringify(exportData, null, 2);
+    const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
+    
+    const exportName = setName.replace(/\s+/g, '_') + '_flashcards.json';
+    
+    const linkElement = document.createElement('a');
+    linkElement.setAttribute('href', dataUri);
+    linkElement.setAttribute('download', exportName);
+    linkElement.click();
+    
+    showSuccess('Flashcards exported successfully');
+}
+
+// 4. Notes Highlighter
+function initNotesHighlighter() {
+    // Initialize highlight functionality
+    const textarea = document.getElementById('notes-text');
+    
+    // This is a simplified version - in a real app, you'd need a contenteditable div
+    // and more complex highlighting logic
+    textarea.addEventListener('mouseup', function() {
+        const selectedText = window.getSelection().toString();
+        if (selectedText.length > 0) {
+            // Show highlight buttons or other UI
+        }
+    });
+}
+
+function highlightText(color) {
+    const textarea = document.getElementById('notes-text');
+    const selectedText = window.getSelection().toString();
+    
+    if (!selectedText) {
+        showError('Please select text to highlight');
+        return;
+    }
+    
+    // In a real implementation, you would replace the selected text with a span
+    // with the appropriate highlight class. This is simplified for demo purposes.
+    showSuccess(`Text highlighted in ${color}`);
+}
+
+function removeHighlight() {
+    showSuccess('Highlight removed (simulated)');
+}
+
+function clearHighlights() {
+    showSuccess('All highlights cleared (simulated)');
+}
+
+function addTagToHighlight() {
+    showSuccess('Tag added to highlight (simulated)');
+}
+
+function filterHighlights() {
+    showSuccess('Highlights filtered (simulated)');
+}
+
+function saveHighlightedNotes() {
+    showSuccess('Notes saved (simulated)');
+}
+
+function exportHighlightedNotes() {
+    showSuccess('Notes exported (simulated)');
+}
+
+// 5. Quiz Generator
+function initQuizGenerator() {
+    const generateBtn = document.querySelector('#quiz-generator button[onclick="generateQuiz()"]');
+    
+    if (generateBtn) {
+        generateBtn.addEventListener('click', generateQuiz);
+    }
+}
+
+function generateQuiz() {
+    const topic = document.getElementById('quiz-topic').value;
+    const type = document.getElementById('quiz-type').value;
+    const difficulty = document.getElementById('quiz-difficulty').value;
+    const count = document.getElementById('quiz-count').value;
+    
+    if (!topic) {
+        showError('Please enter a topic or text');
+        return;
+    }
+    
+    showLoading('Generating Quiz', 'Creating questions based on your input...');
+    
+    // Simulate API call
+    setTimeout(() => {
+        hideLoading();
+        
+        // Generate sample questions (for demo)
+        const questionsContainer = document.getElementById('quiz-questions');
+        questionsContainer.innerHTML = '';
+        
+        for (let i = 0; i < count; i++) {
+            const questionElement = document.createElement('div');
+            questionElement.className = 'bg-white dark:bg-gray-600 p-4 rounded-lg';
+            
+            if (type === 'mcq') {
+                questionElement.innerHTML = `
+                    <div class="font-medium mb-2">${i + 1}. Sample multiple choice question about "${topic}"?</div>
+                    <div class="space-y-2 ml-4">
+                        <div class="flex items-center">
+                            <input type="radio" id="q${i}-a" name="q${i}" class="mr-2">
+                            <label for="q${i}-a">Option A</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="radio" id="q${i}-b" name="q${i}" class="mr-2">
+                            <label for="q${i}-b">Option B</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="radio" id="q${i}-c" name="q${i}" class="mr-2">
+                            <label for="q${i}-c">Option C</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="radio" id="q${i}-d" name="q${i}" class="mr-2">
+                            <label for="q${i}-d">Option D</label>
+                        </div>
+                    </div>
+                `;
+            } else if (type === 'truefalse') {
+                questionElement.innerHTML = `
+                    <div class="font-medium mb-2">${i + 1}. True or false: This is a sample statement about "${topic}".</div>
+                    <div class="flex gap-4 ml-4">
+                        <div class="flex items-center">
+                            <input type="radio" id="q${i}-true" name="q${i}" class="mr-2">
+                            <label for="q${i}-true">True</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="radio" id="q${i}-false" name="q${i}" class="mr-2">
+                            <label for="q${i}-false">False</label>
+                        </div>
+                    </div>
+                `;
+            } else if (type === 'shortanswer') {
+                questionElement.innerHTML = `
+                    <div class="font-medium mb-2">${i + 1}. Explain in your own words about "${topic}".</div>
+                    <textarea class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white" rows="2" placeholder="Your answer..."></textarea>
+                `;
+            } else if (type === 'fillblank') {
+                questionElement.innerHTML = `
+                    <div class="font-medium mb-2">${i + 1}. The capital of ${topic} is __________.</div>
+                    <input type="text" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white" placeholder="Fill in the blank">
+                `;
+            }
+            
+            questionsContainer.appendChild(questionElement);
+        }
+        
+        document.getElementById('quiz-results').classList.remove('hidden');
+        document.getElementById('quiz-loading').classList.add('hidden');
+        
+        tasksCompleted++;
+        localStorage.setItem('tasksCompleted', tasksCompleted);
+        updateStats();
+        showSuccess('Quiz generated successfully');
+    }, 2000);
+}
+
+function exportQuiz() {
+    showSuccess('Quiz exported (simulated)');
+}
+
+// 6. Document Reader
+function initDocumentReader() {
+    const uploadInput = document.getElementById('document-upload');
+    
+    if (uploadInput) {
+        uploadInput.addEventListener('change', handleDocumentUpload);
+    }
+}
+
+function handleDocumentUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    showLoading('Uploading Document', 'Processing your file...');
+    
+    // Simulate processing
+    setTimeout(() => {
+        hideLoading();
+        
+        document.getElementById('document-name').textContent = file.name;
+        document.getElementById('document-size').textContent = formatFileSize(file.size);
+        document.getElementById('document-info').classList.remove('hidden');
+        document.getElementById('document-empty').classList.add('hidden');
+        
+        if (file.type === 'application/pdf') {
+            // In a real app, you'd use PDF.js to render the PDF
+            document.getElementById('pdf-viewer-container').classList.remove('hidden');
+            document.getElementById('unsupported-viewer').classList.add('hidden');
+            document.getElementById('text-viewer-container').classList.add('hidden');
+            document.getElementById('document-actions').classList.remove('hidden');
+            
+            // Simulate PDF info
+            document.getElementById('total-pages').textContent = '10';
+        } else if (file.type === 'text/plain') {
+            // Simulate text content display
+            document.getElementById('text-viewer-container').classList.remove('hidden');
+            document.getElementById('pdf-viewer-container').classList.add('hidden');
+            document.getElementById('unsupported-viewer').classList.add('hidden');
+            document.getElementById('document-actions').classList.remove('hidden');
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('text-content').textContent = e.target.result;
+            };
+            reader.readAsText(file);
+        } else {
+            // Unsupported format
+            document.getElementById('unsupported-viewer').classList.remove('hidden');
+            document.getElementById('pdf-viewer-container').classList.add('hidden');
+            document.getElementById('text-viewer-container').classList.add('hidden');
+            document.getElementById('document-actions').classList.add('hidden');
+        }
+        
+        addToRecentDocuments(file);
+    }, 1500);
+}
+
+function formatFileSize(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+}
+
+function addToRecentDocuments(file) {
+    // In a real app, you'd save this to localStorage
+    const recentDocuments = document.getElementById('recent-documents');
+    
+    const docElement = document.createElement('div');
+    docElement.className = 'flex items-center justify-between p-2 hover:bg-gray-100 dark:hover:bg-gray-600 rounded cursor-pointer';
+    docElement.innerHTML = `
+        <div class="flex items-center gap-2">
+            <i class="fas fa-file ${file.type === 'application/pdf' ? 'text-red-500' : 'text-blue-500'}"></i>
+            <span class="text-sm truncate max-w-xs">${file.name}</span>
+        </div>
+        <span class="text-xs text-gray-500 dark:text-gray-400">${formatFileSize(file.size)}</span>
+    `;
+    
+    recentDocuments.insertBefore(docElement, recentDocuments.firstChild);
+    
+    // Remove "No recent documents" message if present
+    const noDocsMessage = recentDocuments.querySelector('.italic');
+    if (noDocsMessage) {
+        noDocsMessage.remove();
+    }
+}
+
+function clearDocument() {
+    document.getElementById('document-upload').value = '';
+    document.getElementById('document-info').classList.add('hidden');
+    document.getElementById('pdf-viewer-container').classList.add('hidden');
+    document.getElementById('text-viewer-container').classList.add('hidden');
+    document.getElementById('unsupported-viewer').classList.add('hidden');
+    document.getElementById('document-empty').classList.remove('hidden');
+    document.getElementById('document-actions').classList.add('hidden');
+}
+
+function prevPage() {
+    const currentPage = parseInt(document.getElementById('current-page').textContent);
+    if (currentPage > 1) {
+        document.getElementById('current-page').textContent = currentPage - 1;
+        // In a real app, you'd render the previous page
+    }
+}
+
+function nextPage() {
+    const currentPage = parseInt(document.getElementById('current-page').textContent);
+    const totalPages = parseInt(document.getElementById('total-pages').textContent);
+    
+    if (currentPage < totalPages) {
+        document.getElementById('current-page').textContent = currentPage + 1;
+        // In a real app, you'd render the next page
+    }
+}
+
+function adjustZoom(amount) {
+    const zoomElement = document.getElementById('zoom-level');
+    let currentZoom = parseInt(zoomElement.textContent);
+    currentZoom = Math.max(50, Math.min(200, currentZoom + amount * 100));
+    zoomElement.textContent = currentZoom + '%';
+    // In a real app, you'd adjust the zoom level of the document
+}
+
+function searchInDocument() {
+    showSuccess('Search function (simulated)');
+}
+
+function printDocument() {
+    showSuccess('Print function (simulated)');
+}
+
+function downloadDocument() {
+    showSuccess('Download function (simulated)');
+}
+
+function extractText() {
+    showSuccess('Text extraction (simulated)');
+}
+
+function summarizeDocument() {
+    showSuccess('Document summarization (simulated)');
+}
+
+// 7. Pomodoro Timer
+function initPomodoroTimer() {
+    // Load saved settings
+    loadTimerSettings();
+    
+    // Set up timer buttons
+    const startBtn = document.getElementById('start-btn');
+    const pauseBtn = document.getElementById('pause-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    
+    if (startBtn) startBtn.addEventListener('click', startTimer);
+    if (pauseBtn) pauseBtn.addEventListener('click', pauseTimer);
+    if (resetBtn) resetBtn.addEventListener('click', resetTimer);
+    
+    // Set up task list
+    loadTasks();
+}
+
+let timer;
+let timerState = 'stopped'; // 'stopped', 'running', 'paused'
+let currentTime = 25 * 60; // 25 minutes in seconds
+let currentMode = 'focus'; // 'focus', 'shortBreak', 'longBreak'
+let sessionsCompleted = 0;
+let totalSessionsCompleted = parseInt(localStorage.getItem('totalSessionsCompleted')) || 0;
+
+function loadTimerSettings() {
+    const savedFocusTime = localStorage.getItem('pomodoroFocusTime');
+    const savedShortBreak = localStorage.getItem('pomodoroShortBreak');
+    const savedLongBreak = localStorage.getItem('pomodoroLongBreak');
+    const savedSessions = localStorage.getItem('pomodoroSessions');
+    
+    if (savedFocusTime) {
+        document.getElementById('pomodoro-time').value = savedFocusTime;
+        currentTime = savedFocusTime * 60;
+        updateTimerDisplay();
+    }
+    
+    if (savedShortBreak) document.getElementById('short-break-time').value = savedShortBreak;
+    if (savedLongBreak) document.getElementById('long-break-time').value = savedLongBreak;
+    if (savedSessions) document.getElementById('pomodoro-sessions').value = savedSessions;
+    
+    // Update stats
+    document.getElementById('total-completed').textContent = totalSessionsCompleted;
+    document.getElementById('completed-today').textContent = localStorage.getItem('sessionsCompletedToday') || '0';
+}
+
+function saveTimerSettings() {
+    const focusTime = document.getElementById('pomodoro-time').value;
+    const shortBreak = document.getElementById('short-break-time').value;
+    const longBreak = document.getElementById('long-break-time').value;
+    const sessions = document.getElementById('pomodoro-sessions').value;
+    
+    localStorage.setItem('pomodoroFocusTime', focusTime);
+    localStorage.setItem('pomodoroShortBreak', shortBreak);
+    localStorage.setItem('pomodoroLongBreak', longBreak);
+    localStorage.setItem('pomodoroSessions', sessions);
+    
+    showSuccess('Timer settings saved');
+}
+
+function startTimer() {
+    if (timerState === 'running') return;
+    
+    if (timerState === 'stopped') {
+        // Starting a new session
+        const focusTime = document.getElementById('pomodoro-time').value;
+        currentTime = focusTime * 60;
+        currentMode = 'focus';
+        document.getElementById('timer-state').textContent = 'Focus Time';
+    }
+    
+    timerState = 'running';
+    document.getElementById('start-btn').classList.add('hidden');
+    document.getElementById('pause-btn').classList.remove('hidden');
+    
+    timer = setInterval(updateTimer, 1000);
+    updateProgressCircle();
+}
+
+function pauseTimer() {
+    timerState = 'paused';
+    clearInterval(timer);
+    document.getElementById('start-btn').classList.remove('hidden');
+    document.getElementById('pause-btn').classList.add('hidden');
+    document.getElementById('timer-state').textContent = 'Paused';
+}
+
+function resetTimer() {
+    timerState = 'stopped';
+    clearInterval(timer);
+    
+    const focusTime = document.getElementById('pomodoro-time').value;
+    currentTime = focusTime * 60;
+    currentMode = 'focus';
+    
+    updateTimerDisplay();
+    updateProgressCircle();
+    
+    document.getElementById('start-btn').classList.remove('hidden');
+    document.getElementById('pause-btn').classList.add('hidden');
+    document.getElementById('timer-state').textContent = 'Ready to Focus';
+}
+
+function updateTimer() {
+    currentTime--;
+    updateTimerDisplay();
+    updateProgressCircle();
+    
+    if (currentTime <= 0) {
+        clearInterval(timer);
+        timerComplete();
+    }
+}
+
+function updateTimerDisplay() {
+    const minutes = Math.floor(currentTime / 60);
+    const seconds = currentTime % 60;
+    document.getElementById('timer-display').textContent = 
+        `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+}
+
+function updateProgressCircle() {
+    let totalTime;
+    
+    switch(currentMode) {
+        case 'focus':
+            totalTime = document.getElementById('pomodoro-time').value * 60;
+            break;
+        case 'shortBreak':
+            totalTime = document.getElementById('short-break-time').value * 60;
+            break;
+        case 'longBreak':
+            totalTime = document.getElementById('long-break-time').value * 60;
+            break;
+    }
+    
+    const progress = 565.48 * (1 - (currentTime / totalTime));
+    document.getElementById('progress-circle').style.strokeDashoffset = progress;
+}
+
+function timerComplete() {
+    // Play sound
+    const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3');
+    audio.play();
+    
+    if (currentMode === 'focus') {
+        sessionsCompleted++;
+        totalSessionsCompleted++;
+        
+        // Update stats
+        document.getElementById('current-session').textContent = `${sessionsCompleted}/${document.getElementById('pomodoro-sessions').value}`;
+        document.getElementById('total-completed').textContent = totalSessionsCompleted;
+        
+        // Update today's count
+        const today = new Date().toDateString();
+        let sessionsToday = parseInt(localStorage.getItem('sessionsCompletedToday') || '0');
+        let lastSessionDate = localStorage.getItem('lastSessionDate');
+        
+        if (lastSessionDate !== today) {
+            sessionsToday = 0;
+            localStorage.setItem('lastSessionDate', today);
+        }
+        
+        sessionsToday++;
+        localStorage.setItem('sessionsCompletedToday', sessionsToday);
+        localStorage.setItem('totalSessionsCompleted', totalSessionsCompleted);
+        document.getElementById('completed-today').textContent = sessionsToday;
+        
+        // Check if it's time for a long break
+        const sessionsBeforeLongBreak = document.getElementById('pomodoro-sessions').value;
+        if (sessionsCompleted >= sessionsBeforeLongBreak) {
+            // Long break
+            currentMode = 'longBreak';
+            const longBreakTime = document.getElementById('long-break-time').value;
+            currentTime = longBreakTime * 60;
+            document.getElementById('timer-state').textContent = 'Long Break';
+            sessionsCompleted = 0;
+        } else {
+            // Short break
+            currentMode = 'shortBreak';
+            const shortBreakTime = document.getElementById('short-break-time').value;
+            currentTime = shortBreakTime * 60;
+            document.getElementById('timer-state').textContent = 'Short Break';
+        }
+    } else {
+        // Break completed, back to focus
+        currentMode = 'focus';
+        const focusTime = document.getElementById('pomodoro-time').value;
+        currentTime = focusTime * 60;
+        document.getElementById('timer-state').textContent = 'Focus Time';
+    }
+    
+    // Auto-start next timer if enabled
+    if (document.getElementById('auto-start').checked) {
+        startTimer();
+    } else {
+        timerState = 'stopped';
+        document.getElementById('start-btn').classList.remove('hidden');
+        document.getElementById('pause-btn').classList.add('hidden');
+    }
+    
+    // Show notification
+    showSuccess(`${currentMode === 'focus' ? 'Focus' : 'Break'} session completed!`);
+}
+
+// Task List Functions
+function loadTasks() {
+    const savedTasks = localStorage.getItem('pomodoroTasks');
+    if (savedTasks) {
+        const tasks = JSON.parse(savedTasks);
+        tasks.forEach(task => {
+            addTaskToDOM(task.text, task.completed);
+        });
+    }
+}
+
+function addTask() {
+    const taskInput = document.getElementById('new-task');
+    const taskText = taskInput.value.trim();
+    
+    if (!taskText) {
+        showError('Please enter a task');
+        return;
+    }
+    
+    addTaskToDOM(taskText, false);
+    saveTasks();
+    
+    taskInput.value = '';
+    showSuccess('Task added');
+}
+
+function addTaskToDOM(text, completed) {
+    const taskList = document.getElementById('task-list');
+    
+    const taskElement = document.createElement('div');
+    taskElement.className = `flex items-center justify-between p-2 ${completed ? 'bg-green-50 dark:bg-green-900/20' : 'bg-white dark:bg-gray-600'} rounded`;
+    
+    taskElement.innerHTML = `
+        <div class="flex items-center gap-2">
+            <input type="checkbox" ${completed ? 'checked' : ''} onchange="toggleTaskCompletion(this)" class="rounded text-indigo-600 focus:ring-indigo-500 dark:bg-gray-700">
+            <span class="${completed ? 'line-through text-gray-500 dark:text-gray-400' : ''}">${text}</span>
+        </div>
+        <button onclick="removeTask(this)" class="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300">
+            <i class="fas fa-trash-alt"></i>
+        </button>
+    `;
+    
+    taskList.appendChild(taskElement);
+}
+
+function toggleTaskCompletion(checkbox) {
+    const taskElement = checkbox.closest('div');
+    const textElement = taskElement.querySelector('span');
+    
+    if (checkbox.checked) {
+        taskElement.classList.add('bg-green-50', 'dark:bg-green-900/20');
+        textElement.classList.add('line-through', 'text-gray-500', 'dark:text-gray-400');
+    } else {
+        taskElement.classList.remove('bg-green-50', 'dark:bg-green-900/20');
+        textElement.classList.remove('line-through', 'text-gray-500', 'dark:text-gray-400');
+    }
+    
+    saveTasks();
+}
+
+function removeTask(button) {
+    const taskElement = button.closest('div');
+    taskElement.remove();
+    saveTasks();
+    showSuccess('Task removed');
+}
+
+function saveTasks() {
+    const taskElements = document.getElementById('task-list').children;
+    const tasks = [];
+    
+    for (let element of taskElements) {
+        const text = element.querySelector('span').textContent;
+        const completed = element.querySelector('input').checked;
+        tasks.push({ text, completed });
+    }
+    
+    localStorage.setItem('pomodoroTasks', JSON.stringify(tasks));
+}
+
+// 8. LaTeX Renderer
+function initLatexRenderer() {
+    const renderBtn = document.querySelector('#latex-renderer button[onclick="renderLatex()"]');
+    
+    if (renderBtn) {
+        renderBtn.addEventListener('click', renderLatex);
+    }
+    
+    // Load KaTeX if not already loaded
+    if (typeof katex === 'undefined') {
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js';
+        script.onload = function() {
+            console.log('KaTeX loaded successfully');
+        };
+        document.head.appendChild(script);
+    }
+}
+
+function renderLatex() {
+    const latexInput = document.getElementById('latex-input').value;
+    
+    if (!latexInput) {
+        showError('Please enter LaTeX code');
+        return;
+    }
+    
+    try {
+        // In a real implementation, you'd use KaTeX to render the LaTeX
+        // This is simplified for demo purposes
+        const outputDiv = document.getElementById('latex-output');
+        outputDiv.innerHTML = '<div class="text-center p-4">Rendered LaTeX output would appear here</div>';
+        
+        document.getElementById('latex-error').classList.add('hidden');
+        
+        // Add to history
+        addToLatexHistory(latexInput);
+        
+        showSuccess('LaTeX rendered successfully');
+    } catch (error) {
+        document.getElementById('latex-error-message').textContent = error.message;
+        document.getElementById('latex-error').classList.remove('hidden');
+        showError('LaTeX rendering error');
+    }
+}
+
+function insertLatexSymbol(symbol) {
+    const textarea = document.getElementById('latex-input');
+    const startPos = textarea.selectionStart;
+    const endPos = textarea.selectionEnd;
+    const currentValue = textarea.value;
+    
+    textarea.value = currentValue.substring(0, startPos) + symbol + currentValue.substring(endPos);
+    textarea.focus();
+    textarea.selectionStart = textarea.selectionEnd = startPos + symbol.length;
+}
+
+function clearLatex() {
+    document.getElementById('latex-input').value = '';
+    document.getElementById('latex-output').innerHTML = '<p class="text-gray-500 dark:text-gray-400 italic">Your rendered formula will appear here</p>';
+    document.getElementById('latex-error').classList.add('hidden');
+}
+
+function copyLatex() {
+    const latexInput = document.getElementById('latex-input').value;
+    
+    if (!latexInput) {
+        showError('No LaTeX code to copy');
+        return;
+    }
+    
+    navigator.clipboard.writeText(latexInput)
+        .then(() => showSuccess('LaTeX code copied to clipboard'))
+        .catch(() => showError('Failed to copy LaTeX code'));
+}
+
+function loadLatexExample(type) {
+    let example = '';
+    
+    switch(type) {
+        case 'quadratic':
+            example = 'x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}';
+            break;
+        case 'integral':
+            example = '\\int_{a}^{b} f(x) \\, dx = F(b) - F(a)';
+            break;
+        case 'matrix':
+            example = '\\begin{pmatrix}\n  1 & 2 \\\\\n  3 & 4\n\\end{pmatrix}';
+            break;
+        case 'limit':
+            example = '\\lim_{x \\to \\infty} \\frac{1}{x} = 0';
+            break;
+    }
+    
+    document.getElementById('latex-input').value = example;
+}
+
+function addToLatexHistory(latexCode) {
+    const historyContainer = document.getElementById('latex-history');
+    
+    // Remove "No recent formulas" message if present
+    const noHistoryMessage = historyContainer.querySelector('.italic');
+    if (noHistoryMessage) {
+        noHistoryMessage.remove();
+    }
+    
+    // Create history item
+    const historyItem = document.createElement('div');
+    historyItem.className = 'p-2 border border-gray-200 dark:border-gray-700 rounded hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer';
+    historyItem.textContent = latexCode.substring(0, 50) + (latexCode.length > 50 ? '...' : '');
+    historyItem.title = latexCode;
+    historyItem.onclick = function() {
+        document.getElementById('latex-input').value = latexCode;
+    };
+    
+    // Add to top of history
+    historyContainer.insertBefore(historyItem, historyContainer.firstChild);
+    
+    // Limit history to 10 items
+    if (historyContainer.children.length > 10) {
+        historyContainer.removeChild(historyContainer.lastChild);
+    }
+}
+
+// 9. Word Counter
+function initWordCounter() {
+    const countBtn = document.querySelector('#word-counter button[onclick="countWords()"]');
+    
+    if (countBtn) {
+        countBtn.addEventListener('click', countWords);
+    }
+}
+
+function countWords() {
+    const text = document.getElementById('word-counter-text').value;
+    
+    if (!text) {
+        showError('Please enter some text to analyze');
+        return;
+    }
+    
+    // Count words (simplified)
+    const wordCount = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+    
+    // Count characters
+    const characterCount = text.length;
+    
+    // Count sentences (simplified)
+    const sentenceCount = text.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
+    
+    // Count paragraphs
+    const paragraphCount = text.split(/\n+/).filter(p => p.trim().length > 0).length;
+    
+    // Update display
+    document.getElementById('word-count').textContent = wordCount;
+    document.getElementById('character-count').textContent = characterCount;
+    document.getElementById('sentence-count').textContent = sentenceCount;
+    document.getElementById('paragraph-count').textContent = paragraphCount;
+    
+    // Calculate reading times
+    document.getElementById('reading-time-slow').textContent = Math.ceil(wordCount / 150) + ' min';
+    document.getElementById('reading-time-average').textContent = Math.ceil(wordCount / 200) + ' min';
+    document.getElementById('reading-time-fast').textContent = Math.ceil(wordCount / 250) + ' min';
+    document.getElementById('reading-time-professional').textContent = Math.ceil(wordCount / 300) + ' min';
+    
+    tasksCompleted++;
+    localStorage.setItem('tasksCompleted', tasksCompleted);
+    updateStats();
+    showSuccess('Text analyzed successfully');
+}
+
+// 10. Reference Finder
+function initReferenceFinder() {
+    const findBtn = document.querySelector('#reference-finder button[onclick="findReferences()"]');
+    
+    if (findBtn) {
+        findBtn.addEventListener('click', findReferences);
+    }
+}
+
+function findReferences() {
+    const topic = document.getElementById('reference-topic').value;
+    const type = document.getElementById('reference-type').value;
+    const year = document.getElementById('reference-year').value;
+    
+    if (!topic) {
+        showError('Please enter a research topic');
+        return;
+    }
+    
+    showLoading('Finding References', 'Searching academic databases...');
+    
+    // Simulate API call
+    setTimeout(() => {
+        hideLoading();
+        
+        // Generate sample references (for demo)
+        const referencesContainer = document.getElementById('reference-list');
+        referencesContainer.innerHTML = '';
+        
+        const referenceCount = Math.floor(Math.random() * 5) + 3; // 3-7 references
+        
+        for (let i = 0; i < referenceCount; i++) {
+            const referenceElement = document.createElement('div');
+            referenceElement.className = 'reference-card bg-white dark:bg-gray-600 p-3 rounded-lg';
+            
+            let referenceText = '';
+            let author = 'Smith, J.' + (i > 0 ? ' et al.' : '');
+            let title = `Study on ${topic}`;
+            let journal = 'Journal of Academic Studies';
+            let year = Math.floor(Math.random() * 10) + 2013; // 2013-2023
+            
+            if (type === 'journal' || type === 'all') {
+                referenceText = `${author} (${year}). "${title}." ${journal}, ${Math.floor(Math.random() * 50) + 1}(${Math.floor(Math.random() * 10) + 1}), ${Math.floor(Math.random() * 100) + 1}-${Math.floor(Math.random() * 100) + 150}.`;
+            } else if (type === 'book') {
+                referenceText = `${author} (${year}). ${title}. Publisher Name.`;
+            } else if (type === 'website') {
+                referenceText = `${author} (${year}). "${title}." Retrieved from https://example.com/${topic.replace(/\s+/g, '-').toLowerCase()}`;
+            }
+            
+            referenceElement.innerHTML = `
+                <div class="text-sm mb-1">${referenceText}</div>
+                <div class="flex justify-between items-center">
+                    <span class="text-xs bg-indigo-100 dark:bg-indigo-800 text-indigo-800 dark:text-indigo-200 px-2 py-1 rounded">${type === 'all' ? 'Journal' : type.charAt(0).toUpperCase() + type.slice(1)}</span>
+                    <button onclick="copyReference(this)" class="text-xs bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-500 px-2 py-1 rounded flex items-center gap-1">
+                        <i class="far fa-copy"></i> Copy
+                    </button>
+                </div>
+            `;
+            
+            referencesContainer.appendChild(referenceElement);
+        }
+        
+        document.getElementById('reference-count').textContent = referenceCount;
+        document.getElementById('reference-results').classList.remove('hidden');
+        document.getElementById('reference-loading').classList.add('hidden');
+        
+        tasksCompleted++;
+        localStorage.setItem('tasksCompleted', tasksCompleted);
+        updateStats();
+        showSuccess(`${referenceCount} references found`);
+    }, 2500);
+}
+
+function copyReference(button) {
+    const referenceText = button.closest('.reference-card').querySelector('div').textContent;
+    navigator.clipboard.writeText(referenceText)
+        .then(() => showSuccess('Reference copied to clipboard'))
+        .catch(() => showError('Failed to copy reference'));
+}
+
+function exportReferences() {
+    showSuccess('References exported (simulated)');
+}
+</script>
+<script>
+// Dark Mode Toggle
+function toggleDarkMode() {
+    document.documentElement.classList.toggle('dark');
+    localStorage.setItem('darkMode', document.documentElement.classList.contains('dark'));
+}
+function loadDarkModePreference() {
+    if (localStorage.getItem('darkMode') === 'true') {
+        document.documentElement.classList.add('dark');
+    }
+}
+loadDarkModePreference();
+
+// Word Counter example functionality
+const wordCounterInput = document.getElementById('notes-text') || null;
+if (wordCounterInput) {
+    wordCounterInput.addEventListener('input', function() {
+        const words = this.value.trim().length > 0 ? this.value.trim().split(/\s+/).length : 0;
+        console.log("Word count:", words);
+    });
+}
+
+// Placeholder: Other tool functionalities will be implemented here.
+</script>
+
+</body>
+</html>
