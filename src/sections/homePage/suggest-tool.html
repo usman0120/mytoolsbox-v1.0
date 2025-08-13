@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Suggest a Tool | MyToolbox</title>
     <meta name="description" content="Suggest new tools or features for MyToolbox - we value your input!">
+        <script src="https://cdn.tailwindcss.com"></script>
+
     <link href="../../../dist/style.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,72 +14,83 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="font-sans bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
-    <!-- Reuse header from index.html -->
-<header class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
-    <div class="container mx-auto px-4 py-3 flex items-center justify-between">
-        <!-- Logo -->
-        <div class="flex items-center space-x-2">
-            <i class="fas fa-tools text-2xl text-primary-600 dark:text-primary-400"></i>
-            <a href="#" class="text-xl font-bold text-gray-800 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                My<span class="text-primary-600 dark:text-primary-400">Toolbox</span>
-            </a>
-        </div>
-        
-        <!-- Desktop Navigation -->
-        <nav class="hidden md:flex items-center space-x-8">
-            <a href="../../../index.html" class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</a>
-            
-            <div class="relative group">
-                <button class="flex items-center font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                    Categories <i class="fas fa-chevron-down ml-1 text-xs"></i>
-                </button>
-                <div class="absolute left-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">File Tools</a>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Image Tools</a>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Media Tools</a>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Resume Tools</a>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Calculators</a>
-                </div>
+   <!-- Header -->
+    <header
+        class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-tools text-2xl text-primary-600 dark:text-primary-400"></i>
+                <a href="#"
+                    class="text-xl font-bold text-gray-800 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                    My<span class="text-primary-600 dark:text-primary-400">Toolbox</span>
+                </a>
             </div>
-            
-            <a href="#" class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">About</a>
-            <a href="#" class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Contact</a>
-        </nav>
-        
-        <!-- Mobile Menu Button -->
-        <button id="mobile-menu-button" class="md:hidden text-gray-600 dark:text-gray-300">
-            <i class="fas fa-bars text-xl"></i>
-        </button>
-        
-        <!-- Dark Mode Toggle -->
-        <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
-            <i class="fas fa-moon dark:hidden text-yellow-500"></i>
-        </button>
-    </div>
-    
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
-        <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
-            <a href="../../../index.html" class="py-2 font-medium">Home</a>
-            
-            <div class="relative">
-                <button id="mobile-categories-button" class="w-full flex justify-between items-center py-2 font-medium">
-                    Categories <i class="fas fa-chevron-down"></i>
-                </button>
-                <div id="mobile-categories" class="hidden pl-4 mt-1 space-y-2">
-                    <a href="#" class="block py-1">File Tools</a>
-                    <a href="#" class="block py-1">Image Tools</a>
-                    <a href="#" class="block py-1">Media Tools</a>
-                    <a href="#" class="block py-1">Resume Tools</a>
-                    <a href="#" class="block py-1">Calculators</a>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="../../../index.html"
+                    class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</a>
+
+                <div class="relative group">
+                    <button
+                        class="flex items-center font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                        Categories <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                    </button>
+                    <div
+                        class="absolute left-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                    <a href="../file-tools/document-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">File Tools</a>
+                    <a href="../image-tools/image-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Image Tools</a>
+                    <a href="../media-tools/media-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Media Tools</a>
+                    <a href="../study-tools/study-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Study Tools</a>
+                    <a href="../calculator-tools/calculators.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Calculators</a>
+                    <a href="../ai-tools/ai-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">AI-Powered Tools</a>
+                    <a href="../design-tools/design-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Design Tools</a>
+                    <a href="../time-tools/time-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Productivity & Time Tools</a>
+                    <a href="../writing-tools/writing-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Writing Tools</a>
+                    <a href="../../../tools/misc-tools/misc-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">More Useful Tools</a>
+                    </div>
                 </div>
-            </div>
-            
-            <a href="#" class="py-2 font-medium">About</a>
-            <a href="#" class="py-2 font-medium">Contact</a>
+
+                <a href="about.html"
+                    class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">About</a>
+                <a href="contact.html"
+                    class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Contact</a>
+            </nav>
+
+
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden text-gray-600 dark:text-gray-300">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
         </div>
-    </div>
-</header>    
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu"
+            class="hidden md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+            <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
+                <a href="../../../index.html" class="py-2 font-medium">Home</a>
+
+                <div class="relative">
+                    <button id="mobile-categories-button"
+                        class="w-full flex justify-between items-center py-2 font-medium">
+                        Categories <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div id="mobile-categories" class="hidden pl-4 mt-1 space-y-2">
+                        <a href="../../../index.html" class="block py-1">File Tools</a>
+                    <a href="../../../tools/image-tools/image-tools.html" class="block py-1">Image Tools</a>
+                    <a href="../../../tools/media-tools/mediaTools.html" class="block py-1">Media Tools</a>
+                    <a href="../../../tools/design-tools/design-tools.html" class="block py-1">Design Tools</a>
+                    <a href="../../../tools/calculator-tools/calculators.html" class="block py-1">Calculators</a>
+                    </div>
+                </div>
+
+                <a href="../../../src/sections/homePage/about.html" class="py-2 font-medium">About</a>
+                <a href="../../../src/sections/homePage/contact.html" class="py-2 font-medium">Contact</a>
+            </div>
+        </div>
+    </header>    
     <main class="py-12">
         <div class="container mx-auto px-4 max-w-4xl">
             <!-- Page Header -->
@@ -98,7 +111,7 @@
                     
                     <div>
                         <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email Address</label>
-                        <input type="email" id="email" name="email" class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700/50" placeholder="Optional (for follow-up)" required>
+                        <input type="email" id="email" name="email" class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700/50" placeholder="Optional (for follow-up)">
                     </div>
                     
                     <div>
@@ -269,6 +282,97 @@
         </div>
     </div>
 </footer> 
-    <script src="src/sections/homePage/suggest-tool.js"></script>
+<script>
+    // Form Submission Handling
+document.getElementById('suggestion-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // In a real implementation, you would send this data to your backend
+    // For now, we'll just show the success message
+    const formData = new FormData(this);
+    const suggestion = Object.fromEntries(formData.entries());
+    console.log('Tool suggestion submitted:', suggestion);
+    
+    // Show success message
+    document.getElementById('success-message').classList.remove('hidden');
+    this.reset();
+    
+    // Scroll to success message
+    document.getElementById('success-message').scrollIntoView({
+        behavior: 'smooth'
+    });
+    
+    // Hide success message after 8 seconds
+    setTimeout(() => {
+        document.getElementById('success-message').classList.add('hidden');
+    }, 8000);
+});
+
+// FAQ Accordion Functionality
+document.querySelectorAll('.faq-toggle').forEach(button => {
+    button.addEventListener('click', () => {
+        const content = button.nextElementSibling;
+        const icon = button.querySelector('i');
+        
+        // Toggle content visibility
+        content.classList.toggle('hidden');
+        
+        // Rotate icon
+        icon.classList.toggle('fa-chevron-down');
+        icon.classList.toggle('fa-chevron-up');
+        
+        // Close other FAQs
+        document.querySelectorAll('.faq-toggle').forEach(otherButton => {
+            if (otherButton !== button) {
+                otherButton.nextElementSibling.classList.add('hidden');
+                otherButton.querySelector('i').classList.add('fa-chevron-down');
+                otherButton.querySelector('i').classList.remove('fa-chevron-up');
+            }
+        });
+    });
+});
+
+
+    
+//     // Mobile menu toggle
+//     const mobileMenuButton = document.getElementById('mobile-menu-button');
+//     if (mobileMenuButton) {
+//         mobileMenuButton.addEventListener('click', toggleMobileMenu);
+//     }
+
+
+// function toggleTheme() {
+//     const html = document.documentElement;
+//     html.classList.toggle('dark');
+//     localStorage.setItem('darkMode', html.classList.contains('dark'));
+// }
+
+// function toggleMobileMenu() {
+//     document.getElementById('mobile-menu').classList.toggle('hidden');
+// }
+
+const mobileMenuButton = document.getElementById('mobile-menu-button');
+const mobileMenu = document.getElementById('mobile-menu');
+const mobileCategoriesButton = document.getElementById('mobile-categories-button');
+const mobileCategories = document.getElementById('mobile-categories');
+
+// Mobile Menu Toggle
+mobileMenuButton.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+});
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', (e) => {
+    if (!mobileMenu.contains(e.target) && !mobileMenuButton.contains(e.target)) {
+        mobileMenu.classList.add('hidden');
+    }
+});
+// Mobile Categories Toggle
+mobileCategoriesButton.addEventListener('click', () => {
+    mobileCategories.classList.toggle('hidden');
+    mobileCategoriesButton.querySelector('i').classList.toggle('fa-chevron-down');
+    mobileCategoriesButton.querySelector('i').classList.toggle('fa-chevron-up');
+});
+</script>
 </body>
 </html>

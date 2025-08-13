@@ -12,73 +12,72 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="font-sans bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
-    <!-- Header (copy from homepage) -->
-        <header class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
-    <div class="container mx-auto px-4 py-3 flex items-center justify-between">
-        <!-- Logo -->
-        <div class="flex items-center space-x-2">
-            <i class="fas fa-tools text-2xl text-primary-600 dark:text-primary-400"></i>
-            <a href="#" class="text-xl font-bold text-gray-800 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                My<span class="text-primary-600 dark:text-primary-400">Toolbox</span>
-            </a>
-        </div>
-        
-        <!-- Desktop Navigation -->
-        <nav class="hidden md:flex items-center space-x-8">
-            <a href="../../../index.html" class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</a>
-            
-            <div class="relative group">
-                <button class="flex items-center font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                    Categories <i class="fas fa-chevron-down ml-1 text-xs"></i>
-                </button>
-                <div class="absolute left-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">File Tools</a>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Image Tools</a>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Media Tools</a>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Resume Tools</a>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Calculators</a>
-                </div>
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-tools text-2xl text-primary-600 dark:text-primary-400"></i>
+                <a href="#" class="text-xl font-bold text-gray-800 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                    My<span class="text-primary-600 dark:text-primary-400">Toolbox</span>
+                </a>
             </div>
             
-            <a href="src/sections/homePage/about.html" class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">About</a>
-            <a href="#" class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Contact</a>
-        </nav>
-        
-        
-        
-        <!-- Dark Mode Toggle -->
-       <button id="theme-toggle" class="p-2 ml-24 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
-    <i class="fas fa-moon block text-yellow-500"></i> 
-</button>
-<!-- Mobile Menu Button -->
-        <button id="mobile-menu-button" class="md:hidden text-gray-600 dark:text-gray-300">
-            <i class="fas fa-bars text-xl"></i>
-        </button>
-    </div>
-    
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
-        <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
-            <a href="#" class="py-2 font-medium">Home</a>
-            
-            <div class="relative">
-                <button id="mobile-categories-button" class="w-full flex justify-between items-center py-2 font-medium">
-                    Categories <i class="fas fa-chevron-down"></i>
-                </button>
-                <div id="mobile-categories" class="hidden pl-4 mt-1 space-y-2">
-                    <a href="#" class="block py-1">File Tools</a>
-                    <a href="#" class="block py-1">Image Tools</a>
-                    <a href="#" class="block py-1">Media Tools</a>
-                    <a href="#" class="block py-1">Resume Tools</a>
-                    <a href="#" class="block py-1">Calculators</a>
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="../../../index.html" class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</a>
+                
+                <div class="relative group">
+                    <button class="flex items-center font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                        Categories <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                    </button>
+                    <div class="absolute left-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                        <a href="../../../tools/file-tools/document-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">File Tools</a>
+                        <a href="../../../tools/image-tools/image-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Image Tools</a>
+                        <a href="../../../tools/media-tools/mediaTools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Media Tools</a>
+                        <a href="../../../tools/writing-tools/writing-tools.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Writing Tools</a>
+                        <a href="../../../tools/calculator-tools/calculators.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Calculators</a>
+                    </div>
                 </div>
-            </div>
+                
+                <a href="about.html" class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">About</a>
+                <a href="contact.html" class="font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Contact</a>
+            </nav>
             
-            <a href="src/sections/homePage/about.html" class="py-2 font-medium">About</a>
-            <a href="#" class="py-2 font-medium">Contact</a>
+            <!-- Dark Mode Toggle -->
+            <button id="theme-toggle" class="p-2 ml-24 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                <i class="fas fa-moon block text-yellow-500"></i> 
+            </button>
+            
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden text-gray-600 dark:text-gray-300">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
         </div>
-    </div>
-</header>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+            <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
+                <a href="#" class="py-2 font-medium">Home</a>
+                
+                <div class="relative">
+                    <button id="mobile-categories-button" class="w-full flex justify-between items-center py-2 font-medium">
+                        Categories <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div id="mobile-categories" class="hidden pl-4 mt-1 space-y-2">
+                        <a href="#" class="block py-1">File Tools</a>
+                        <a href="#" class="block py-1">Image Tools</a>
+                        <a href="#" class="block py-1">Media Tools</a>
+                        <a href="#" class="block py-1">Resume Tools</a>
+                        <a href="#" class="block py-1">Calculators</a>
+                    </div>
+                </div>
+                
+                <a href="src/sections/homePage/about.html" class="py-2 font-medium">About</a>
+                <a href="#" class="py-2 font-medium">Contact</a>
+            </div>
+        </div>
+    </header>
     
     <main class="py-12">
         <div class="container mx-auto px-4 max-w-4xl">
@@ -187,78 +186,78 @@
         </div>
     </main>
     
-    <!-- Footer (copy from homepage) -->
-        <footer class="bg-gray-100 dark:bg-gray-800/80 border-t border-gray-200 dark:border-gray-700">
-    <div class="container mx-auto px-4 py-12">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <!-- About Column -->
-            <div>
-                <h3 class="text-lg font-semibold mb-4">About MyToolbox</h3>
-                <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">
-                    An all-in-one platform offering free, easy-to-use tools for your everyday needs.
-                </p>
-                <div class="flex space-x-4">
-                    <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
-                        <i class="fab fa-github"></i>
-                    </a>
-                    <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
-                        <i class="fab fa-discord"></i>
-                    </a>
+    <!-- Footer -->
+    <footer class="bg-gray-100 dark:bg-gray-800/80 border-t border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- About Column -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">About MyToolbox</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                        An all-in-one platform offering free, easy-to-use tools for your everyday needs.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Tools Column -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Tools</h3>
+                    <ul class="space-y-2">
+                        <li><a href="../../../index.html" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">All Tools</a></li>
+                        <li><a href="../../../index.html#featured-tools" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Featured Tools</a></li>
+                        <li><a href="../../../index.html#catagories" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">New Tools</a></li>
+                        <li><a href="../../../src/sections/homePage/suggest-tool.html" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Request a Tool</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Resources Column -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Blog</a></li>
+                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Tutorials</a></li>
+                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">API</a></li>
+                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Help Center</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Legal Column -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="privacy.html" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Terms of Service</a></li>
+                        <li><a href="cookies.html" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Cookie Policy</a></li>
+                        <li><a href="gdpr.html" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">GDPR</a></li>
+                    </ul>
                 </div>
             </div>
             
-            <!-- Tools Column -->
-            <div>
-                <h3 class="text-lg font-semibold mb-4">Tools</h3>
-                <ul class="space-y-2">
-                    <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">All Tools</a></li>
-                    <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Featured Tools</a></li>
-                    <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">New Tools</a></li>
-                    <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Request a Tool</a></li>
-                </ul>
-            </div>
+            <!-- Divider -->
+            <div class="border-t border-gray-200 dark:border-gray-700 my-8"></div>
             
-            <!-- Resources Column -->
-            <div>
-                <h3 class="text-lg font-semibold mb-4">Resources</h3>
-                <ul class="space-y-2">
-                    <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Blog</a></li>
-                    <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Tutorials</a></li>
-                    <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">API</a></li>
-                    <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Help Center</a></li>
-                </ul>
-            </div>
-            
-            <!-- Legal Column -->
-            <div>
-                <h3 class="text-lg font-semibold mb-4">Legal</h3>
-                <ul class="space-y-2">
-                    <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Privacy Policy</a></li>
-                    <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Terms of Service</a></li>
-                    <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">Cookie Policy</a></li>
-                    <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm">GDPR</a></li>
-                </ul>
+            <!-- Bottom Footer -->
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                    <i class="fas fa-tools text-primary-600 dark:text-primary-400"></i>
+                    <span class="font-medium">My<span class="text-primary-600 dark:text-primary-400">Toolbox</span></span>
+                </div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">
+                    &copy; <span id="current-year"></span> MyToolbox. All rights reserved.
+                </div>
             </div>
         </div>
-        
-        <!-- Divider -->
-        <div class="border-t border-gray-200 dark:border-gray-700 my-8"></div>
-        
-        <!-- Bottom Footer -->
-        <div class="flex flex-col md:flex-row justify-between items-center">
-            <div class="flex items-center space-x-2 mb-4 md:mb-0">
-                <i class="fas fa-tools text-primary-600 dark:text-primary-400"></i>
-                <span class="font-medium">My<span class="text-primary-600 dark:text-primary-400">Toolbox</span></span>
-            </div>
-            <div class="text-sm text-gray-500 dark:text-gray-400">
-                &copy; <span id="current-year"></span> MyToolbox. All rights reserved.
-            </div>
-        </div>
-    </div>
-</footer>
+    </footer>
     
     <script src="../../../src/js/main.js"></script>
     <script>
