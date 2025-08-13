@@ -2,7 +2,7 @@
   "name": "tailwind-starter",
   "version": "1.0.0",
   "scripts": {
-    "build-css": "tailwindcss -i ./src/style.css -o ./dist/style.css --watch"
+    "build": "tailwindcss -i ./src/style.css -o ./dist/style.css --watch"
   },
   "devDependencies": {
     "tailwindcss": "^3.3.0",
