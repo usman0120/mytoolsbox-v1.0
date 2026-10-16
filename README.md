@@ -1,8 +1,3 @@
-Got it ✅
-Here’s your **complete README.md** content in markdown format, ready for you to place in your folder.
-I’ve included project details, folder structure, usage instructions, contribution guidelines, license, and a copyright section.
-
----
 # Project Details
 # 📦 Toolbox Web
 
@@ -62,7 +57,7 @@ TOOLBOXWEB/
 ## 🚀 Installation & Usage
 
 1. **Clone the repository**
-   git clone https://github.com/your-username/toolboxweb.git
+   git clone https://github.com/usman0120/MyTolBox.git
    cd toolboxweb
 
 2. **Install dependencies**
@@ -106,4 +101,4 @@ No part of this repository, including files, code, and design, may be reproduced
 
 ## 📧 Contact
 
-For inquiries or suggestions: **(mailto:akbarali69048@gmail.com)**
+For inquiries or suggestions: usman-portfolio-silk.vercel.app/contact
